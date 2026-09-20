@@ -1,0 +1,2047 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso - LaIAmusical</title>
+
+    <!-- Font Awesome (iconos: globo, chevron, etc.) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- ============================================================
+         SISTEMA DE IDIOMAS / LANGUAGE SYSTEM - Embedded i18n
+         Sincronizado con index.html via localStorage 'selectedLanguage'
+    ============================================================ -->
+    <script>
+        const loginTranslations = {
+            es: {
+                // Página
+                "login.titulo_pagina": "Acceso - LaIAmusical",
+                "login.header_titulo": "LaIAmusical",
+                "login.header_subtitulo": "Descubre Storycards",
+                // Vista Login
+                "login.iniciar_sesion": "Iniciar Sesión",
+                "login.usuario_email": "Usuario o Email",
+                "login.contrasena": "Contraseña",
+                "login.ph_usuario": "Ej: musico123",
+                "login.ph_pass": "******",
+                "login.olvide_contrasena": "¿Olvidaste tu contraseña?",
+                "login.entrar": "Entrar",
+                "login.no_tienes_cuenta": "¿No tienes cuenta?",
+                "login.registrate_gratis": "Regístrate gratis",
+                "login.continuar_con": "O continúa con",
+                "login.google_btn": "Google",
+                // Vista Registro
+                "login.crear_cuenta": "Crear Cuenta Nueva",
+                "login.nombre_usuario": "Nombre de Usuario",
+                "login.correo_electronico": "Correo Electrónico",
+                "login.ph_usuario_reg": "Mínimo 3 caracteres",
+                "login.ph_email": "nombre@ejemplo.com",
+                "login.ph_pass_reg": "Mínimo 6 caracteres",
+                "login.confirmar_contrasena": "Confirmar Contraseña",
+                "login.registrarme": "Registrarme",
+                "login.ya_tienes_cuenta": "¿Ya tienes cuenta?",
+                "login.inicia_sesion": "Inicia sesión",
+                // Vista Recuperar
+                "login.recuperar_contrasena": "Recuperar Contraseña",
+                "login.recovery_desc": "Te enviaremos un enlace para restablecer tu acceso.",
+                "login.enviar_enlace": "Enviar Enlace",
+                "login.volver_inicio": "Volver al inicio",
+                // Vista Verificación
+                "login.verifica_correo": "Verifica tu Correo",
+                "login.verification_desc": "Hemos enviado un enlace de verificación a tu correo electrónico. Haz clic en el enlace para activar tu cuenta y poder acceder. Si no encuentras el enlace de verificación, revisa tu bandeja de spam.",
+                "login.reenviar_email": "Reenviar Email de Verificación",
+                "login.ya_verifique": "Ya Verifiqué mi Email",
+                // Selección de servidor
+                "login.bienvenido": "¡Bienvenido,",
+                "login.elige_servidor": "Cambiar de servidor:",
+                "login.servidor_1": "Servidor LaIAmusical (Español)",
+                "login.servidor_1_status": "🟢 Disponible",
+                "login.servidor_1_switch": "Cambiar a Servidor LaIAmusical (Español)",
+                "login.servidor_2": "Servidor LaIAmusical (Inglés)",
+                "login.servidor_2_status": "🟢 Disponible",
+                "login.servidor_2_switch": "Cambiar a Servidor LaIAmusical (Inglés)",
+                "login.servidor_privado": "Servidor privado",
+                "login.servidor_privado_status": "🔒 Requiere código de acceso",
+                "login.servidor_actual": "Estás en:",
+                "login.cerrar_sesion": "Cerrar Sesión",
+                // Modal servidor privado
+                "login.modal_servidor_privado": "🔒 Servidor Privado",
+                "login.modal_requiere_codigo": "Este servidor requiere un código de acceso especial.",
+                "login.codigo_acceso": "Código de Acceso",
+                "login.ph_codigo": "Ingresa el código",
+                "login.cancelar": "Cancelar",
+                "login.verificar": "Verificar",
+                // Contenido protegido
+                "login.vas_a_acceder": "Vas a acceder al contenido exclusivo de LaIAmusical.",
+                "login.acceder": "Acceder",
+                // Mensajes de error / éxito JS
+                "login.msg_rellena_campos": "Rellena todos los campos",
+                "login.msg_error_login": "Error al iniciar sesión.",
+                "login.msg_contrasena_incorrecta": "Contraseña incorrecta.",
+                "login.msg_usuario_no_encontrado": "Usuario no encontrado.",
+                "login.msg_demasiados_intentos": "Demasiados intentos. Espera unos minutos.",
+                "login.msg_passwords_no_coinciden": "Las contraseñas no coinciden",
+                "login.msg_password_corta": "La contraseña debe tener al menos 6 caracteres",
+                "login.msg_usuario_corto": "El usuario debe tener al menos 3 caracteres",
+                "login.msg_usuario_ocupado": "Ese nombre de usuario ya está ocupado",
+                "login.msg_error_registro": "Error en el registro.",
+                "login.msg_email_registrado": "El correo ya está registrado.",
+                "login.msg_error_google": "Error al iniciar sesión con Google. Inténtalo de nuevo.",
+                "login.msg_correo_enviado": "Correo enviado. Revisa tu bandeja de entrada.",
+                "login.msg_error_correo": "Error. Verifica el correo.",
+                "login.msg_email_reenviado": "Email de verificación reenviado. Revisa tu bandeja de entrada.",
+                "login.msg_error_reenviar": "Error al reenviar el email. Inténtalo de nuevo.",
+                "login.msg_email_verificado": "¡Email verificado exitosamente! Redirigiendo...",
+                "login.msg_email_no_verificado": "El email aún no ha sido verificado. Haz clic en el enlace del email o solicita uno nuevo.",
+                "login.msg_error_verificar": "Error al verificar el email. Inténtalo de nuevo.",
+                "login.msg_codigo_incorrecto": "❌ Código incorrecto. Inténtalo de nuevo.",
+                "login.musico": "Músico",
+                "login.invitacion_msg": "🎉 ¡Has sido invitado a unirte a La IA Musical! Regístrate para comenzar tu aventura musical.",
+                "login.invitacion_procesada": "¡Invitación procesada! Tanto tú como tu invitador habéis recibido 50★ cada uno! 🌟✨",
+                "login.invite_reward_desc": "Un amigo aceptó tu invitación - +50★",
+                "login.welcome_bonus_desc": "Bonus de bienvenida por invitación - +50★",
+                // Contadores de usuarios
+                "login.usuarios_online": "En línea",
+                "login.usuarios_registrados": "Registrados"
+            },
+            en: {
+                // Page
+                "login.titulo_pagina": "Access - The Musical AI",
+                "login.header_titulo": "The Musical AI",
+                "login.header_subtitulo": "Discover Storycards",
+                // Login view
+                "login.iniciar_sesion": "Sign In",
+                "login.usuario_email": "Username or Email",
+                "login.contrasena": "Password",
+                "login.ph_usuario": "Ex: musician123",
+                "login.ph_pass": "******",
+                "login.olvide_contrasena": "Forgot your password?",
+                "login.entrar": "Enter",
+                "login.no_tienes_cuenta": "Don't have an account?",
+                "login.registrate_gratis": "Register for free",
+                "login.continuar_con": "Or continue with",
+                "login.google_btn": "Google",
+                // Register view
+                "login.crear_cuenta": "Create New Account",
+                "login.nombre_usuario": "Username",
+                "login.correo_electronico": "Email Address",
+                "login.ph_usuario_reg": "Minimum 3 characters",
+                "login.ph_email": "name@example.com",
+                "login.ph_pass_reg": "Minimum 6 characters",
+                "login.confirmar_contrasena": "Confirm Password",
+                "login.registrarme": "Register",
+                "login.ya_tienes_cuenta": "Already have an account?",
+                "login.inicia_sesion": "Sign in",
+                // Recovery view
+                "login.recuperar_contrasena": "Recover Password",
+                "login.recovery_desc": "We will send you a link to reset your access.",
+                "login.enviar_enlace": "Send Link",
+                "login.volver_inicio": "Back to start",
+                // Verification view
+                "login.verifica_correo": "Verify your Email",
+                "login.verification_desc": "We have sent a verification link to your email address. Click the link to activate your account and access. If you can't find the verification link, check your spam folder.",
+                "login.reenviar_email": "Resend Verification Email",
+                "login.ya_verifique": "I Already Verified my Email",
+                // Server selection
+                "login.bienvenido": "Welcome,",
+                "login.elige_servidor": "Change server:",
+                "login.servidor_1": "LaIAmusical Server (Spanish)",
+                "login.servidor_1_status": "🟢 Available",
+                "login.servidor_1_switch": "Switch to LaIAmusical Server (Spanish)",
+                "login.servidor_2": "LaIAmusical Server (English)",
+                "login.servidor_2_status": "🟢 Available",
+                "login.servidor_2_switch": "Switch to LaIAmusical Server (English)",
+                "login.servidor_privado": "Private server",
+                "login.servidor_privado_status": "🔒 Requires access code",
+                "login.servidor_actual": "You are in:",
+                "login.cerrar_sesion": "Sign Out",
+                // Private server modal
+                "login.modal_servidor_privado": "🔒 Private Server",
+                "login.modal_requiere_codigo": "This server requires a special access code.",
+                "login.codigo_acceso": "Access Code",
+                "login.ph_codigo": "Enter the code",
+                "login.cancelar": "Cancel",
+                "login.verificar": "Verify",
+                // Protected content
+                "login.vas_a_acceder": "You are about to access LaIAmusical's exclusive content.",
+                "login.acceder": "Access",
+                // Error / success messages
+                "login.msg_rellena_campos": "Fill in all fields",
+                "login.msg_error_login": "Error signing in.",
+                "login.msg_contrasena_incorrecta": "Incorrect password.",
+                "login.msg_usuario_no_encontrado": "User not found.",
+                "login.msg_demasiados_intentos": "Too many attempts. Wait a few minutes.",
+                "login.msg_passwords_no_coinciden": "Passwords do not match",
+                "login.msg_password_corta": "Password must be at least 6 characters",
+                "login.msg_usuario_corto": "Username must be at least 3 characters",
+                "login.msg_usuario_ocupado": "That username is already taken",
+                "login.msg_error_registro": "Registration error.",
+                "login.msg_email_registrado": "Email is already registered.",
+                "login.msg_error_google": "Error signing in with Google. Please try again.",
+                "login.msg_correo_enviado": "Email sent. Check your inbox.",
+                "login.msg_error_correo": "Error. Verify the email.",
+                "login.msg_email_reenviado": "Verification email resent. Check your inbox.",
+                "login.msg_error_reenviar": "Error resending email. Please try again.",
+                "login.msg_email_verificado": "Email verified successfully! Redirecting...",
+                "login.msg_email_no_verificado": "Email has not been verified yet. Click the email link or request a new one.",
+                "login.msg_error_verificar": "Error verifying email. Please try again.",
+                "login.msg_codigo_incorrecto": "❌ Incorrect code. Please try again.",
+                "login.musico": "Musician",
+                "login.invitacion_msg": "🎉 You have been invited to join La IA Musical! Register to begin your musical adventure.",
+                "login.invitacion_procesada": "Invitation processed! Both you and your inviter received 50★ each! 🌟✨",
+                "login.invite_reward_desc": "A friend accepted your invitation - +50★",
+                "login.welcome_bonus_desc": "Welcome bonus for invitation - +50★",
+                // User counters
+                "login.usuarios_online": "Online",
+                "login.usuarios_registrados": "Registered"
+            }
+        };
+
+        function lGetCurrentLanguage() {
+            return localStorage.getItem('selectedLanguage') || 'es';
+        }
+
+        function lt(key, lang) {
+            const l = lang || lGetCurrentLanguage();
+            return (loginTranslations[l] && loginTranslations[l][key])
+                || (loginTranslations['es'] && loginTranslations['es'][key])
+                || key;
+        }
+
+        function lSetLanguage(lang) {
+            localStorage.setItem('selectedLanguage', lang);
+            document.documentElement.lang = lang;
+
+            // Actualizar todos los elementos con data-i18n
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                const val = lt(key, lang);
+                if (val) el.innerHTML = val;
+            });
+
+            // Actualizar placeholders
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                const val = lt(key, lang);
+                if (val) el.placeholder = val;
+            });
+
+            // Actualizar el título de la página
+            document.title = lt('login.titulo_pagina', lang);
+
+            // Sincronizar la interfaz del selector de idioma (etiqueta + opción activa)
+            lUpdateLanguageSelectorUI(lang);
+
+            // Sincronizar qué botón de servidor se muestra según el idioma
+            lUpdateServerButtonsVisibility(lang);
+
+            // Sincronizar el texto del badge de "servidor actual"
+            lUpdateCurrentServerBadge(lang);
+        }
+
+        // --- VISIBILIDAD DE BOTONES DE SERVIDOR SEGÚN IDIOMA ---
+        // Si el idioma activo es Español, se oculta el servidor Español (server1)
+        // y se muestra el botón para cambiar al servidor Inglés (server2).
+        // Si el idioma activo es Inglés, se oculta el servidor Inglés (server2)
+        // y se muestra el botón para cambiar al servidor Español (server1).
+        function lUpdateServerButtonsVisibility(lang) {
+            const btnServer1 = document.getElementById('serverBtn1'); // Servidor Español
+            const btnServer2 = document.getElementById('serverBtn2'); // Servidor Inglés
+            if (!btnServer1 || !btnServer2) return;
+
+            if (lang === 'es') {
+                btnServer1.style.display = 'none';
+                btnServer2.style.display = '';
+            } else {
+                btnServer2.style.display = 'none';
+                btnServer1.style.display = '';
+            }
+        }
+
+        // --- BADGE DEL SERVIDOR ACTUAL (parpadeante) ---
+        // Muestra siempre en qué servidor está el usuario, traducido al idioma activo.
+        function lUpdateCurrentServerBadge(lang) {
+            const nameEl = document.getElementById('currentServerName');
+            if (!nameEl) return;
+            const serverId = localStorage.getItem('currentServerId');
+            const nameMap = {
+                'server1': 'login.servidor_1',
+                'server2': 'login.servidor_2',
+                'server3': 'login.servidor_privado'
+            };
+            nameEl.textContent = serverId && nameMap[serverId] ? lt(nameMap[serverId], lang) : '—';
+        }
+        window.lUpdateCurrentServerBadge = lUpdateCurrentServerBadge;
+
+        // --- SELECTOR DE IDIOMA / LANGUAGE SELECTOR (UI) ---
+        function lUpdateLanguageSelectorUI(lang) {
+            const selectedLanguageLabel = document.getElementById('selectedLanguageLabel');
+            const dropdown = document.getElementById('languageDropdown');
+            const options = dropdown ? dropdown.querySelectorAll('.language-option') : null;
+
+            if (selectedLanguageLabel) {
+                selectedLanguageLabel.textContent = lang === 'en' ? 'EN' : 'ES';
+            }
+
+            if (options) {
+                options.forEach(option => {
+                    option.classList.toggle('active', option.dataset.lang === lang);
+                });
+            }
+        }
+
+        function toggleLanguageDropdown() {
+            const dropdown = document.getElementById('languageDropdown');
+            const toggle = document.getElementById('languageToggle');
+            if (!dropdown || !toggle) return;
+
+            const isOpen = dropdown.classList.toggle('open');
+            toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        }
+        window.toggleLanguageDropdown = toggleLanguageDropdown;
+
+        function selectLanguage(lang) {
+            lSetLanguage(lang);
+
+            const dropdown = document.getElementById('languageDropdown');
+            const toggle = document.getElementById('languageToggle');
+            if (dropdown) dropdown.classList.remove('open');
+            if (toggle) toggle.setAttribute('aria-expanded', 'false');
+        }
+        window.selectLanguage = selectLanguage;
+
+        // Cerrar el desplegable al hacer clic fuera de él
+        document.addEventListener('click', function (e) {
+            const languageSelector = document.getElementById('languageSelector');
+            const languageDropdown = document.getElementById('languageDropdown');
+            const languageToggle = document.getElementById('languageToggle');
+            if (languageDropdown && languageToggle && languageSelector && !languageSelector.contains(e.target)) {
+                languageDropdown.classList.remove('open');
+                languageToggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        // Aplicar idioma al cargar
+        document.addEventListener('DOMContentLoaded', function () {
+            lSetLanguage(lGetCurrentLanguage());
+        });
+
+        // Escuchar cambios desde otras páginas (index.html, perfil.html, etc.)
+        window.addEventListener('storage', function (e) {
+            if (e.key === 'selectedLanguage' && e.newValue) {
+                lSetLanguage(e.newValue);
+            }
+        });
+    </script>
+
+    <style>
+        /* --- ESTILOS GENERALES Y RESET --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a202c 0%, #2c7a7b 100%);
+            background-image: url('images/fondo.png');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            padding: 20px;
+        }
+
+        /* --- CABECERA --- */
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .title {
+            font-size: 3rem;
+            font-weight: 800;
+            text-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .main-container {
+            background-color: rgba(31, 41, 55, 0.95);
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+            width: 100%;
+            max-width: 450px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        #authContainer {
+            border-top: 4px solid #48bb78;
+        }
+
+        h2 {
+            color: #48bb78;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        /* --- FORMULARIO --- */
+        .form-group { margin-bottom: 1.25rem; }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #cbd5e0;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 0.375rem;
+            border: 1px solid #4a5568;
+            background-color: #2d3748;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #48bb78;
+            box-shadow: 0 0 0 3px rgba(72, 187, 120, 0.2);
+        }
+
+        /* Botón principal */
+        .primary-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #48bb78;
+            color: white;
+            border: none;
+            border-radius: 0.375rem;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
+        }
+
+        .primary-btn:hover {
+            background-color: #38a169;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+
+        /* --- DIVISOR "O continúa con" --- */
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: #718096;
+            font-size: 0.85rem;
+            margin: 1.25rem 0;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #4a5568;
+        }
+
+        .divider span {
+            padding: 0 0.75rem;
+        }
+
+        /* --- BOTÓN DE GOOGLE --- */
+        .google-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.65rem;
+            padding: 0.7rem;
+            background-color: #ffffff;
+            color: #1f2937;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
+        }
+
+        .google-btn:hover {
+            background-color: #f3f4f6;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+
+        .google-btn:active {
+            transform: translateY(0);
+        }
+
+        .google-icon {
+            flex-shrink: 0;
+            display: block;
+        }
+
+        .google-btn[disabled] {
+            opacity: 0.6;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* --- OVERLAY DE CARGA INICIAL ---
+             Evita que el usuario vea el formulario de login "en blanco" mientras
+             se comprueba si ya existe una sesión de Google pendiente (getRedirectResult).
+             Esto evita que el usuario pulse el botón de Google varias veces seguidas,
+             que era la causa principal de que la autenticación en móviles fallara
+             y hubiera que intentarlo varias veces. */
+        .auth-loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #1a202c 0%, #2c7a7b 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            z-index: 9999;
+            transition: opacity 0.25s ease;
+        }
+
+        .auth-loading-overlay.hidden-overlay {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .auth-loading-spinner {
+            width: 46px;
+            height: 46px;
+            border: 4px solid rgba(255,255,255,0.25);
+            border-top-color: #48bb78;
+            border-radius: 50%;
+            animation: authSpin 0.8s linear infinite;
+        }
+
+        .auth-loading-text {
+            color: #cbd5e0;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-align: center;
+            padding: 0 1.5rem;
+        }
+
+        @keyframes authSpin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* --- ENLACES Y TEXTOS --- */
+        .switch-text {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: #a0aec0;
+        }
+
+        .switch-text button {
+            background: none;
+            border: none;
+            color: #63b3ed;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        .forgot-pass {
+            text-align: right;
+            margin-top: -10px;
+            margin-bottom: 15px;
+        }
+
+        .forgot-pass button {
+            background: none; border: none; color: #a0aec0; cursor: pointer; font-size: 0.8rem;
+        }
+        .forgot-pass button:hover { color: #fff; }
+
+        /* --- MENSAJES --- */
+        .msg-box {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 0.9rem;
+            display: none;
+        }
+        .error { background-color: rgba(245, 101, 101, 0.2); color: #fc8181; border: 1px solid #c53030; }
+        .success { background-color: rgba(72, 187, 120, 0.2); color: #68d391; border: 1px solid #2f855a; }
+
+        /* --- UTILIDADES --- */
+        .hidden { display: none !important; }
+
+        /* --- DASHBOARD / CONTENIDO PROTEGIDO --- */
+        .dashboard-title {
+            font-size: 2.2rem; color: #fff; margin-bottom: 20px; text-align: center;
+        }
+
+        .dashboard-text {
+            font-size: 1.3rem; margin-bottom: 40px; text-align: center; color: #e2e8f0; font-weight: 300;
+        }
+
+        .btn-acceder {
+            font-size: 1.2rem;
+            padding: 15px 50px;
+            width: auto;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(72, 187, 120, 0.4);
+        }
+
+        .logout-btn {
+            background-color: transparent;
+            border: 2px solid #e53e3e;
+            color: #e53e3e;
+            margin-top: 25px;
+            width: auto;
+            padding: 8px 25px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        .logout-btn:hover { background-color: #e53e3e; color: white; opacity: 1; }
+
+        /* --- SELECCIÓN DE SERVIDOR / DASHBOARD (VISTA UNIFICADA) --- */
+        #serverSelection {
+            text-align: center;
+            max-width: 550px;
+        }
+
+        .server-selection-title {
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .server-selection-subtitle {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #e2e8f0;
+            font-weight: 300;
+        }
+
+        /* --- ORDEN NUEVO: texto + Acceder + Cerrar sesión arriba, servidores abajo --- */
+        #serverSelection .dashboard-text {
+            margin-bottom: 25px;
+        }
+        #serverSelection .server-change-title {
+            margin-top: 35px;
+            margin-bottom: 20px;
+        }
+
+        /* --- BADGE PARPADEANTE DEL SERVIDOR ACTUAL --- */
+        .current-server-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(72, 187, 120, 0.12);
+            border: 2px solid #48bb78;
+            color: #fff;
+            border-radius: 999px;
+            padding: 10px 22px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            width: auto;
+            margin: 0 auto 25px auto;
+            cursor: default;
+            opacity: 1 !important;
+            animation: currentServerGlow 1.8s ease-in-out infinite;
+        }
+
+        .current-server-dot {
+            width: 10px;
+            height: 10px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background-color: #48bb78;
+            animation: currentServerDotPulse 1.8s ease-in-out infinite;
+        }
+
+        @keyframes currentServerGlow {
+            0%, 100% { box-shadow: 0 0 4px rgba(72, 187, 120, 0.25); border-color: #48bb78; }
+            50% { box-shadow: 0 0 16px rgba(72, 187, 120, 0.9); border-color: #9ae6b4; }
+        }
+
+        @keyframes currentServerDotPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(72, 187, 120, 0.7); opacity: 1; }
+            50% { box-shadow: 0 0 0 6px rgba(72, 187, 120, 0); opacity: 0.6; }
+        }
+
+        .server-btn {
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+        }
+
+        .server-btn.server-1 { background-color: #48bb78; color: white; }
+        .server-btn.server-1:hover { background-color: #38a169; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(72, 187, 120, 0.4); }
+
+        .server-btn.server-2 { background-color: #4299e1; color: white; }
+        .server-btn.server-2:hover { background-color: #3182ce; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(66, 153, 225, 0.4); }
+
+        .server-btn.server-3 { background-color: #ed8936; color: white; }
+        .server-btn.server-3:hover { background-color: #dd6b20; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(237, 137, 54, 0.4); }
+
+        .server-btn:disabled,
+        .server-btn.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            background-color: #4a5568 !important;
+            color: #a0aec0 !important;
+        }
+
+        .server-btn:disabled:hover,
+        .server-btn.disabled:hover {
+            transform: none;
+            box-shadow: none;
+            background-color: #4a5568 !important;
+        }
+
+        .server-status {
+            display: block;
+            font-size: 0.75rem;
+            margin-top: 5px;
+            font-weight: 400;
+            opacity: 0.8;
+        }
+
+        .back-to-auth {
+            background-color: transparent;
+            border: 2px solid #a0aec0;
+            color: #a0aec0;
+            margin-top: 20px;
+            width: auto;
+            padding: 8px 20px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        .back-to-auth:hover {
+            background-color: #a0aec0;
+            color: #1a202c;
+            opacity: 1;
+        }
+
+        /* --- MODAL SERVIDOR PRIVADO --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: rgba(31, 41, 55, 0.98);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 400px;
+            border-top: 4px solid #ed8936;
+        }
+
+        .modal-title {
+            color: #ed8936;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .modal-text {
+            color: #cbd5e0;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 0.375rem;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal-btn-primary { background-color: #ed8936; color: white; }
+        .modal-btn-primary:hover { background-color: #dd6b20; }
+
+        .modal-btn-secondary {
+            background-color: transparent;
+            border: 2px solid #a0aec0;
+            color: #a0aec0;
+        }
+        .modal-btn-secondary:hover { background-color: #a0aec0; color: #1a202c; }
+
+        /* --- SELECTOR DE IDIOMA / LANGUAGE SELECTOR --- */
+        .language-selector {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 80;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .language-selector-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.45rem 0.85rem;
+            border-radius: 9999px;
+            border: 1px solid transparent;
+            background: rgba(20, 184, 166, 0.12);
+            color: #e2e8f0;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.25s ease;
+        }
+
+        .language-selector-toggle:hover {
+            background: rgba(20, 184, 166, 0.2);
+            border-color: rgba(20, 184, 166, 0.3);
+        }
+
+        .language-dropdown {
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            right: 0;
+            min-width: 170px;
+            background: rgba(15, 23, 42, 0.96);
+            border: 1px solid rgba(20, 184, 166, 0.2);
+            border-radius: 14px;
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+            padding: 0.35rem;
+            display: none;
+            z-index: 80;
+        }
+
+        .language-dropdown.open {
+            display: block;
+        }
+
+        .language-option {
+            width: 100%;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+            padding: 0.7rem 0.75rem;
+            border-radius: 10px;
+            background: transparent;
+            border: none;
+            color: #e2e8f0;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .language-option:hover {
+            background: rgba(20, 184, 166, 0.12);
+        }
+
+        .language-option.active {
+            background: rgba(20, 184, 166, 0.22);
+            color: #14b8a6;
+            font-weight: 700;
+        }
+
+        @media (max-width: 480px) {
+            .language-selector {
+                top: 0.75rem;
+                right: 0.75rem;
+            }
+        }
+
+        /* --- CONTADORES DE USUARIOS / USER STATS BADGES --- */
+        .stats-badges {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 80;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+            max-width: calc(100vw - 2rem);
+        }
+
+        .stat-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.4rem 0.75rem;
+            border-radius: 9999px;
+            background: rgba(15, 23, 42, 0.75);
+            border: 1px solid rgba(72, 187, 120, 0.35);
+            color: #e2e8f0;
+            font-size: 0.8rem;
+            font-weight: 600;
+            white-space: nowrap;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-badge .stat-value {
+            color: #48bb78;
+            font-weight: 800;
+        }
+
+        .stat-badge .stat-label {
+            opacity: 0.85;
+            font-weight: 500;
+        }
+
+        .stat-dot {
+            width: 8px;
+            height: 8px;
+            min-width: 8px;
+            border-radius: 50%;
+            background: #48bb78;
+            box-shadow: 0 0 0 rgba(72, 187, 120, 0.6);
+            animation: statDotPulse 1.8s infinite;
+        }
+
+        @keyframes statDotPulse {
+            0% { box-shadow: 0 0 0 0 rgba(72, 187, 120, 0.6); }
+            70% { box-shadow: 0 0 0 6px rgba(72, 187, 120, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(72, 187, 120, 0); }
+        }
+
+        .stat-badge-registered {
+            border-color: rgba(66, 153, 225, 0.35);
+        }
+
+        .stat-badge-registered .stat-value {
+            color: #63b3ed;
+        }
+
+        .stat-badge-registered i {
+            color: #63b3ed;
+        }
+
+        /* Evita que los marcadores queden recortados o solapados en móvil */
+        @media (max-width: 480px) {
+            .stats-badges {
+                top: 0.6rem;
+                left: 0.6rem;
+                gap: 0.4rem;
+                max-width: calc(100vw - 1.2rem);
+            }
+
+            .stat-badge {
+                font-size: 0.7rem;
+                padding: 0.32rem 0.55rem;
+                gap: 0.3rem;
+            }
+
+            .stat-dot { width: 6px; height: 6px; min-width: 6px; }
+        }
+
+        @media (max-width: 360px) {
+            .stat-badge .stat-label { display: none; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- ===== OVERLAY DE CARGA INICIAL =====
+         Se muestra mientras se comprueba si venimos de una redirección de Google
+         (getRedirectResult) y se oculta en cuanto la comprobación termina.
+         Impide taps duplicados en el botón de Google en móviles. -->
+    <div id="authLoadingOverlay" class="auth-loading-overlay">
+        <div class="auth-loading-spinner"></div>
+        <p id="authLoadingText" class="auth-loading-text">Cargando...</p>
+    </div>
+
+    <!-- Audio invisible con autoplay -->
+    <audio id="autoplayAudio" loop>
+        <source src="audio/cine_yosoytupadre2.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var audio = document.getElementById('autoplayAudio');
+            audio.play().catch(function(error) {
+                console.log('Autoplay bloqueado, intentando método alternativo...');
+                try {
+                    var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    var audioSource = audioContext.createMediaElementSource(audio);
+                    audioSource.connect(audioContext.destination);
+                    audio.play().then(function() {
+                        console.log('Audio reproducido mediante Web Audio API');
+                    }).catch(function(e) {
+                        console.log('Web Audio API también bloqueado:', e);
+                    });
+                } catch(e) {
+                    console.log('Web Audio API no disponible:', e);
+                }
+            });
+            document.addEventListener('click', function() {
+                audio.play().catch(function(e) {
+                    console.log('Error al reproducir después de clic:', e);
+                });
+            }, { once: true });
+        });
+    </script>
+
+    <!-- Selector de Idioma / Language Selector -->
+    <div class="language-selector" id="languageSelector">
+        <button type="button" class="language-selector-toggle" id="languageToggle" onclick="toggleLanguageDropdown()" aria-haspopup="true" aria-expanded="false" title="Seleccionar idioma">
+            <i class="fas fa-globe"></i>
+            <span id="selectedLanguageLabel">ES</span>
+            <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i>
+        </button>
+        <div class="language-dropdown" id="languageDropdown" aria-label="Idiomas">
+            <button type="button" class="language-option" data-lang="es" onclick="selectLanguage('es')">
+                <span>🇪🇸 Español</span>
+                <span>ES</span>
+            </button>
+            <button type="button" class="language-option" data-lang="en" onclick="selectLanguage('en')">
+                <span>🇬🇧 English</span>
+                <span>EN</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Contadores de Usuarios / User Stats Badges -->
+    <div class="stats-badges" id="statsBadges">
+        <div class="stat-badge stat-badge-online" id="onlineUsersBadge" title="Usuarios conectados ahora">
+            <span class="stat-dot"></span>
+            <span class="stat-value" id="onlineUsersCount">—</span>
+            <span class="stat-label" data-i18n="login.usuarios_online">En línea</span>
+        </div>
+        <div class="stat-badge stat-badge-registered" id="registeredUsersBadge" title="Usuarios registrados">
+            <i class="fas fa-user-check" style="font-size: 0.75rem;"></i>
+            <span class="stat-value" id="registeredUsersCount">—</span>
+            <span class="stat-label" data-i18n="login.usuarios_registrados">Registrados</span>
+        </div>
+    </div>
+
+    <!-- CABECERA -->
+    <div class="header">
+        <h1 class="title" data-i18n="login.header_titulo">LaIAmusical</h1>
+        <p class="subtitle" data-i18n="login.header_subtitulo">Descubre Storycards</p>
+    </div>
+
+    <!-- ===== CONTENEDOR DE AUTENTICACIÓN ===== -->
+    <div id="authContainer" class="main-container">
+
+        <!-- VISTA: INICIAR SESIÓN -->
+        <div id="loginView">
+            <h2 data-i18n="login.iniciar_sesion">Iniciar Sesión</h2>
+            <div id="loginMsg" class="msg-box error"></div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label data-i18n="login.usuario_email">Usuario o Email</label>
+                    <input type="text" id="loginInput" required
+                           data-i18n-placeholder="login.ph_usuario"
+                           placeholder="Ej: musico123">
+                </div>
+                <div class="form-group">
+                    <label data-i18n="login.contrasena">Contraseña</label>
+                    <input type="password" id="loginPass" required
+                           data-i18n-placeholder="login.ph_pass"
+                           placeholder="******">
+                </div>
+
+                <div class="forgot-pass">
+                    <button type="button" onclick="switchView('recovery')"
+                            data-i18n="login.olvide_contrasena">
+                        ¿Olvidaste tu contraseña?
+                    </button>
+                </div>
+
+                <button type="submit" class="primary-btn" data-i18n="login.entrar">Entrar</button>
+            </form>
+
+            <div class="divider"><span data-i18n="login.continuar_con">O continúa con</span></div>
+
+            <button type="button" id="googleLoginBtn" class="google-btn" onclick="signInWithGoogle()">
+                <svg class="google-icon" width="20" height="20" viewBox="0 0 48 48">
+                    <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12
+                        c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24
+                        c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
+                    <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039
+                        l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/>
+                    <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36
+                        c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/>
+                    <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571
+                        c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24
+                        C44,22.659,43.862,21.35,43.611,20.083z"/>
+                </svg>
+                <span data-i18n="login.google_btn">Google</span>
+            </button>
+
+            <div class="switch-text">
+                <span data-i18n="login.no_tienes_cuenta">¿No tienes cuenta?</span>
+                <button onclick="switchView('register')" data-i18n="login.registrate_gratis">Regístrate gratis</button>
+            </div>
+        </div>
+
+        <!-- VISTA: REGISTRO -->
+        <div id="registerView" class="hidden">
+            <h2 data-i18n="login.crear_cuenta">Crear Cuenta Nueva</h2>
+            <div id="registerMsg" class="msg-box error"></div>
+
+            <form id="registerForm">
+                <div class="form-group">
+                    <label data-i18n="login.nombre_usuario">Nombre de Usuario</label>
+                    <input type="text" id="regUser" required
+                           data-i18n-placeholder="login.ph_usuario_reg"
+                           placeholder="Mínimo 3 caracteres">
+                </div>
+                <div class="form-group">
+                    <label data-i18n="login.correo_electronico">Correo Electrónico</label>
+                    <input type="email" id="regEmail" required
+                           data-i18n-placeholder="login.ph_email"
+                           placeholder="nombre@ejemplo.com">
+                </div>
+                <div class="form-group">
+                    <label data-i18n="login.contrasena">Contraseña</label>
+                    <input type="password" id="regPass" required
+                           data-i18n-placeholder="login.ph_pass_reg"
+                           placeholder="Mínimo 6 caracteres">
+                </div>
+                <div class="form-group">
+                    <label data-i18n="login.confirmar_contrasena">Confirmar Contraseña</label>
+                    <input type="password" id="regPassConf" required
+                           data-i18n-placeholder="login.ph_pass"
+                           placeholder="******">
+                </div>
+
+                <button type="submit" class="primary-btn" data-i18n="login.registrarme">Registrarme</button>
+            </form>
+
+            <div class="divider"><span data-i18n="login.continuar_con">O continúa con</span></div>
+
+            <button type="button" id="googleRegisterBtn" class="google-btn" onclick="signInWithGoogle()">
+                <svg class="google-icon" width="20" height="20" viewBox="0 0 48 48">
+                    <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12
+                        c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24
+                        c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
+                    <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039
+                        l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/>
+                    <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36
+                        c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/>
+                    <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571
+                        c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24
+                        C44,22.659,43.862,21.35,43.611,20.083z"/>
+                </svg>
+                <span data-i18n="login.google_btn">Google</span>
+            </button>
+
+            <div class="switch-text">
+                <span data-i18n="login.ya_tienes_cuenta">¿Ya tienes cuenta?</span>
+                <button onclick="switchView('login')" data-i18n="login.inicia_sesion">Inicia sesión</button>
+            </div>
+        </div>
+
+        <!-- VISTA: RECUPERAR CONTRASEÑA -->
+        <div id="recoveryView" class="hidden">
+            <h2 data-i18n="login.recuperar_contrasena">Recuperar Contraseña</h2>
+            <p style="color:#a0aec0; margin-bottom:15px; text-align:center; font-size:0.9rem;"
+               data-i18n="login.recovery_desc">
+                Te enviaremos un enlace para restablecer tu acceso.
+            </p>
+            <div id="recoveryMsg" class="msg-box"></div>
+
+            <form id="recoveryForm">
+                <div class="form-group">
+                    <label data-i18n="login.correo_electronico">Correo Electrónico</label>
+                    <input type="email" id="recEmail" required
+                           data-i18n-placeholder="login.ph_email"
+                           placeholder="nombre@ejemplo.com">
+                </div>
+                <button type="submit" class="primary-btn" data-i18n="login.enviar_enlace">Enviar Enlace</button>
+            </form>
+
+            <div class="switch-text">
+                <button onclick="switchView('login')" data-i18n="login.volver_inicio">Volver al inicio</button>
+            </div>
+        </div>
+
+        <!-- VISTA: VERIFICACIÓN DE EMAIL -->
+        <div id="verificationView" class="hidden">
+            <h2 data-i18n="login.verifica_correo">Verifica tu Correo</h2>
+            <p style="color:#a0aec0; margin-bottom:15px; text-align:center; font-size:0.9rem;"
+               data-i18n="login.verification_desc">
+                Hemos enviado un enlace de verificación a tu correo electrónico. Haz clic en el enlace para activar tu cuenta y poder acceder. Si no encuentras el enlace de verificación, revisa tu bandeja de spam.
+            </p>
+            <div id="verificationMsg" class="msg-box"></div>
+
+            <div style="text-align: center; margin-bottom: 20px;">
+                <button onclick="resendVerificationEmail()" class="primary-btn" style="margin-bottom: 10px;"
+                        data-i18n="login.reenviar_email">
+                    Reenviar Email de Verificación
+                </button>
+                <button onclick="checkEmailVerification()" class="primary-btn back-to-auth"
+                        data-i18n="login.ya_verifique">
+                    Ya Verifiqué mi Email
+                </button>
+            </div>
+        </div>
+
+    </div><!-- fin #authContainer -->
+
+    <!-- ===== SERVIDOR Y ACCESO (VISTA UNIFICADA) ===== -->
+    <div id="serverSelection" class="main-container hidden">
+        <h2 class="server-selection-title">
+            <span data-i18n="login.bienvenido">¡Bienvenido,</span>
+            <span id="serverDisplayUsername" style="color:#48bb78;">Usuario</span>!
+        </h2>
+
+        <!-- Badge parpadeante indicando el servidor actual -->
+        <div style="text-align: center;">
+            <button type="button" class="current-server-badge" disabled>
+                <span class="current-server-dot"></span>
+                <span data-i18n="login.servidor_actual">Estás en:</span>
+                <span id="currentServerName">—</span>
+            </button>
+        </div>
+
+        <p class="dashboard-text" data-i18n="login.vas_a_acceder">
+            Vas a acceder al contenido exclusivo de LaIAmusical.
+        </p>
+
+        <div style="text-align: center;">
+            <button onclick="window.location.href='index.html'"
+                    class="primary-btn btn-acceder"
+                    data-i18n="login.acceder">
+                Acceder
+            </button>
+        </div>
+
+        <div style="text-align: center;">
+            <button id="btnLogoutFromServer" class="primary-btn logout-btn"
+                    data-i18n="login.cerrar_sesion">
+                Cerrar Sesión
+            </button>
+        </div>
+
+        <p class="server-selection-subtitle server-change-title" data-i18n="login.elige_servidor">
+            Cambiar de servidor:
+        </p>
+
+        <div style="text-align: center;">
+            <button id="serverBtn1" onclick="selectServer('server1')" class="primary-btn server-btn server-1">
+                <span data-i18n="login.servidor_1_switch">Cambiar a Servidor LaIAmusical (Español)</span>
+                <span class="server-status" data-i18n="login.servidor_1_status">🟢 Disponible</span>
+            </button>
+
+            <button id="serverBtn2" onclick="selectServer('server2')" class="primary-btn server-btn server-2">
+                <span data-i18n="login.servidor_2_switch">Cambiar a Servidor LaIAmusical (Inglés)</span>
+                <span class="server-status" data-i18n="login.servidor_2_status">🟢 Disponible</span>
+            </button>
+
+            <button onclick="showPrivateServerModal()" class="primary-btn server-btn server-3">
+                <span data-i18n="login.servidor_privado">Servidor privado</span>
+                <span class="server-status" data-i18n="login.servidor_privado_status">🔒 Requiere código de acceso</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ===== MODAL SERVIDOR PRIVADO ===== -->
+    <div id="privateServerModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3 class="modal-title" data-i18n="login.modal_servidor_privado">🔒 Servidor Privado</h3>
+            <p class="modal-text" data-i18n="login.modal_requiere_codigo">
+                Este servidor requiere un código de acceso especial.
+            </p>
+
+            <div id="privateServerMsg" class="msg-box error"></div>
+
+            <form id="privateServerForm">
+                <div class="form-group">
+                    <label data-i18n="login.codigo_acceso">Código de Acceso</label>
+                    <input type="text" id="privateServerCode" required
+                           data-i18n-placeholder="login.ph_codigo"
+                           placeholder="Ingresa el código">
+                </div>
+
+                <div class="modal-buttons">
+                    <button type="button" onclick="closePrivateServerModal()"
+                            class="modal-btn modal-btn-secondary"
+                            data-i18n="login.cancelar">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="modal-btn modal-btn-primary"
+                            data-i18n="login.verificar">
+                        Verificar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== FIREBASE + LÓGICA DE NEGOCIO ===== -->
+    <script type="module">
+        // --- 1. CONFIGURACIÓN FIREBASE - CORREGIDA PARA GOOGLE AUTH ---
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import {
+            getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+            onAuthStateChanged, sendPasswordResetEmail, sendEmailVerification,
+            signOut, reload, GoogleAuthProvider, signInWithRedirect, getRedirectResult,
+            signInWithPopup, signInWithCredential, browserLocalPersistence, setPersistence,
+            browserSessionPersistence
+        } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+        import {
+            getFirestore, collection, doc, setDoc, query, where, getDocs, getDoc,
+            onSnapshot, serverTimestamp, deleteDoc
+        } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDW3Yv0AQAVlf3zTuxlqNq6dkZ6kQtpysM",
+            authDomain: "laiamusical-4fba7.firebaseapp.com",
+            projectId: "laiamusical-4fba7",
+            storageBucket: "laiamusical-4fba7.firebasestorage.app",
+            messagingSenderId: "49783369602",
+            appId: "1:49783369602:web:91e287c094a8f2403d699b",
+            measurementId: "G-WC2JT6DRF4"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const googleProvider = new GoogleAuthProvider();
+        googleProvider.setCustomParameters({ prompt: 'select_account' });
+        // FIX: usamos browserLocalPersistence (localStorage) como opción principal.
+        // indexedDBLocalPersistence puede fallar de forma silenciosa en ciertos
+        // WebViews/Android (p.ej. optimizaciones agresivas de batería/almacenamiento
+        // de MIUI en dispositivos Xiaomi/Redmi), lo que provocaba que el login
+        // funcionara la primera vez y dejara de funcionar en intentos posteriores.
+        async function ensurePersistence() {
+            try {
+                await setPersistence(auth, browserLocalPersistence);
+            } catch (e1) {
+                console.warn("browserLocalPersistence no disponible, probando browserSessionPersistence:", e1);
+                try {
+                    await setPersistence(auth, browserSessionPersistence);
+                } catch (e2) {
+                    console.warn("No se pudo fijar ninguna persistencia:", e2);
+                }
+            }
+        }
+        const persistenceReady = ensurePersistence();
+
+        // ===== CONTADORES: USUARIOS EN LÍNEA Y USUARIOS REGISTRADOS =====
+        // Requiere que las reglas de seguridad de Firestore permitan:
+        //  - Lectura y escritura pública en la colección "presence" (heartbeats de sesión)
+        //  - Lectura (count) de la colección "users"
+        // Si las reglas no lo permiten, los marcadores mostrarán "—" sin romper la página.
+        const ONLINE_THRESHOLD_MS = 90 * 1000;   // sin heartbeat en 90s => se considera desconectado
+        const HEARTBEAT_INTERVAL_MS = 30 * 1000; // frecuencia de heartbeat
+
+        function getPresenceSessionId() {
+            let sid = sessionStorage.getItem('presenceSessionId');
+            if (!sid) {
+                sid = 'sess_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
+                sessionStorage.setItem('presenceSessionId', sid);
+            }
+            return sid;
+        }
+
+        async function sendPresenceHeartbeat() {
+            try {
+                const sid = getPresenceSessionId();
+                await setDoc(doc(db, "presence", sid), {
+                    lastSeen: serverTimestamp(),
+                    uid: auth.currentUser ? auth.currentUser.uid : null
+                }, { merge: true });
+            } catch (e) {
+                console.warn("No se pudo actualizar la presencia:", e);
+            }
+        }
+
+        function listenOnlineUsersCount() {
+            const el = document.getElementById('onlineUsersCount');
+            try {
+                const presenceRef = collection(db, "presence");
+                onSnapshot(presenceRef, (snap) => {
+                    const now = Date.now();
+                    let count = 0;
+                    snap.forEach(docSnap => {
+                        const data = docSnap.data();
+                        const lastSeenMs = data.lastSeen && data.lastSeen.toMillis ? data.lastSeen.toMillis() : 0;
+                        if (now - lastSeenMs < ONLINE_THRESHOLD_MS) count++;
+                    });
+                    if (el) el.textContent = count > 0 ? count : 1;
+                }, (error) => {
+                    console.warn("No se pudo escuchar la colección de presencia:", error);
+                    if (el) el.textContent = '—';
+                });
+            } catch (e) {
+                console.warn("Error iniciando el contador de usuarios en línea:", e);
+                if (el) el.textContent = '—';
+            }
+        }
+
+        async function loadRegisteredUsersCount() {
+            // Nota: el SDK modular de Firestore usado en este proyecto (9.6.1) no
+            // incluye getCountFromServer (llegó en versiones posteriores), así que
+            // contamos los documentos de la colección "users" directamente.
+            const el = document.getElementById('registeredUsersCount');
+            try {
+                const usersSnap = await getDocs(collection(db, "users"));
+                if (el) el.textContent = usersSnap.size;
+            } catch (e) {
+                console.warn("No se pudo obtener el número de usuarios registrados:", e);
+                if (el) el.textContent = '—';
+            }
+        }
+
+        sendPresenceHeartbeat();
+        setInterval(sendPresenceHeartbeat, HEARTBEAT_INTERVAL_MS);
+        listenOnlineUsersCount();
+        loadRegisteredUsersCount();
+
+        window.addEventListener('beforeunload', () => {
+            try {
+                deleteDoc(doc(db, "presence", getPresenceSessionId())).catch(() => {});
+            } catch (e) { /* best effort */ }
+        });
+
+        // --- CÓDIGO PARA SERVIDOR PRIVADO (SHA-256 + sal encriptado) ---
+        const PRIVATE_SERVER_SALT = "laiamusical_2026";
+        const PRIVATE_SERVER_HASH = "1bb7b5aca2bfa74241dffe31a8da8ff3d92620e42548e9f0cdadba52126a878d";
+
+        async function hashInputCode(str) {
+            const salted = PRIVATE_SERVER_SALT + str;
+            const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(salted));
+            return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+        }
+
+        // --- SISTEMA DE INVITACIONES ---
+        let currentInviteId = null;
+
+        function handleInviteRegistration() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const inviteId = urlParams.get('invite');
+            if (inviteId) {
+                localStorage.setItem('pendingInviteId', inviteId);
+                currentInviteId = inviteId;
+                showInvitationMessage();
+            }
+        }
+
+        function showInvitationMessage() {
+            const authContainer = document.getElementById('authContainer');
+            const inviteMessage = document.createElement('div');
+            inviteMessage.id = 'inviteMessage';
+            inviteMessage.className = 'msg-box success';
+            inviteMessage.style.display = 'block';
+            inviteMessage.innerHTML = lt('login.invitacion_msg');
+            authContainer.insertBefore(inviteMessage, authContainer.firstChild);
+            setTimeout(() => { switchView('register'); }, 1000);
+        }
+
+        async function completeInviteProcess() {
+            const pendingInviteId = localStorage.getItem('pendingInviteId');
+            if (pendingInviteId) {
+                try {
+                    await processInviteReward(pendingInviteId);
+                    localStorage.removeItem('pendingInviteId');
+                    showMessage('registerMsg', lt('login.invitacion_procesada'), 'success');
+                } catch (error) {
+                    console.error("Error procesando invitación:", error);
+                }
+            }
+        }
+
+        async function processInviteReward(inviteId) {
+            try {
+                const inviteDocRef = doc(db, 'invitations', inviteId);
+                const inviteDoc = await getDoc(inviteDocRef);
+
+                if (inviteDoc.exists() && !inviteDoc.data().rewardClaimed) {
+                    const inviteData = inviteDoc.data();
+                    const inviterId = inviteData.inviterId;
+
+                    await setDoc(inviteDocRef, {
+                        ...inviteData,
+                        status: 'completed',
+                        rewardClaimed: true,
+                        completedAt: new Date().toISOString(),
+                        invitedUserId: auth.currentUser.uid
+                    });
+
+                    const inviterRef = doc(db, 'users', inviterId);
+                    const inviterDoc = await getDoc(inviterRef);
+
+                    if (inviterDoc.exists()) {
+                        const inviterData = inviterDoc.data();
+                        await setDoc(inviterRef, {
+                            ...inviterData,
+                            userStars: (inviterData.userStars || 0) + 50,
+                            activityLog: [
+                                ...(inviterData.activityLog || []),
+                                {
+                                    type: 'invite_reward',
+                                    description: lt('login.invite_reward_desc'),
+                                    timestamp: new Date().toISOString(),
+                                    inviteId: inviteId
+                                }
+                            ]
+                        });
+                    }
+                    console.log(`Recompensa de invitación procesada: ${inviteId}`);
+                }
+            } catch (error) {
+                console.error("Error procesando recompensa de invitación:", error);
+            }
+        }
+
+        // --- SISTEMA DE SELECCIÓN DE SERVIDOR ---
+        window.selectServer = (serverId) => {
+            const serverNames = {
+                'server1': lt('login.servidor_1'),
+                'server2': lt('login.servidor_2'),
+                'server3': lt('login.servidor_privado')
+            };
+            localStorage.setItem('currentServer', serverNames[serverId]);
+            localStorage.setItem('currentServerId', serverId);
+            lUpdateCurrentServerBadge(lGetCurrentLanguage());
+        };
+
+        window.showPrivateServerModal = () => {
+            document.getElementById('privateServerModal').classList.remove('hidden');
+            document.getElementById('privateServerCode').value = '';
+            document.getElementById('privateServerMsg').style.display = 'none';
+        };
+
+        window.closePrivateServerModal = () => {
+            document.getElementById('privateServerModal').classList.add('hidden');
+        };
+
+        document.getElementById('privateServerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const code = document.getElementById('privateServerCode').value.trim();
+            const inputHash = await hashInputCode(code);
+            if (inputHash === PRIVATE_SERVER_HASH) {
+                closePrivateServerModal();
+                selectServer('server3');
+            } else {
+                showMessage('privateServerMsg', lt('login.msg_codigo_incorrecto'), 'error');
+            }
+        });
+
+        function showServerSelection() {
+            document.getElementById('authContainer').classList.add('hidden');
+            document.getElementById('serverSelection').classList.remove('hidden');
+
+            // Si el usuario no tiene aún un servidor asignado, se le asigna
+            // automáticamente el que corresponde al idioma activo.
+            if (!localStorage.getItem('currentServerId')) {
+                const defaultId = lGetCurrentLanguage() === 'es' ? 'server1' : 'server2';
+                selectServer(defaultId);
+            } else {
+                lUpdateCurrentServerBadge(lGetCurrentLanguage());
+            }
+        }
+
+        function showAuthContainer() {
+            document.getElementById('authContainer').classList.remove('hidden');
+            document.getElementById('serverSelection').classList.add('hidden');
+        }
+
+        // --- 2. GESTIÓN DE UI (Vistas) ---
+        window.switchView = (viewName) => {
+            const views = ['loginView', 'registerView', 'recoveryView', 'verificationView'];
+            const msgs = ['loginMsg', 'registerMsg', 'recoveryMsg', 'verificationMsg'];
+            views.forEach(v => document.getElementById(v).classList.add('hidden'));
+            msgs.forEach(m => {
+                const el = document.getElementById(m);
+                el.style.display = 'none';
+                el.className = 'msg-box';
+            });
+            document.getElementById(viewName + 'View').classList.remove('hidden');
+        };
+
+        const showMessage = (elementId, msg, type = 'error') => {
+            const el = document.getElementById(elementId);
+            el.textContent = msg;
+            el.className = `msg-box ${type}`;
+            el.style.display = 'block';
+        };
+
+        // --- FUNCIONES DE VERIFICACIÓN DE EMAIL ---
+        window.resendVerificationEmail = async () => {
+            try {
+                await sendEmailVerification(auth.currentUser);
+                showMessage('verificationMsg', lt('login.msg_email_reenviado'), 'success');
+            } catch (error) {
+                console.error('Error reenviando email:', error);
+                showMessage('verificationMsg', lt('login.msg_error_reenviar'));
+            }
+        };
+
+        window.checkEmailVerification = async () => {
+            try {
+                await reload(auth.currentUser);
+                if (auth.currentUser.emailVerified) {
+                    showMessage('verificationMsg', lt('login.msg_email_verificado'), 'success');
+                    try {
+                        const docSnap = await getDoc(doc(db, "users", auth.currentUser.uid));
+                        const username = docSnap.exists()
+                            ? docSnap.data().username.toUpperCase()
+                            : auth.currentUser.email;
+                        document.getElementById('serverDisplayUsername').textContent = username;
+                    } catch (e) {
+                        const fallback = lt('login.musico');
+                        document.getElementById('serverDisplayUsername').textContent = fallback;
+                    }
+                    setTimeout(() => { showServerSelection(); }, 1500);
+                } else {
+                    showMessage('verificationMsg', lt('login.msg_email_no_verificado'));
+                }
+            } catch (error) {
+                console.error('Error verificando email:', error);
+                showMessage('verificationMsg', lt('login.msg_error_verificar'));
+            }
+        };
+
+        // INICIO DE SESIÓN / REGISTRO CON GOOGLE - VERSIÓN CORREGIDA
+        // Usa popup en escritorio (más fiable) y fallback a redirect en móviles/WebView.
+        async function ensureUserDocExists(user) {
+            if (!user || !user.uid) return;
+            const userDocRef = doc(db, "users", user.uid);
+            const userDocSnap = await getDoc(userDocRef);
+            if (!userDocSnap.exists()) {
+                const pendingInviteId = localStorage.getItem('pendingInviteId');
+                const welcomeBonus = pendingInviteId ? 50 : 0;
+                let baseUsername = (user.displayName || user.email.split('@')[0])
+                    .toLowerCase()
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+                    .replace(/[^a-z0-9]/g, '');
+                if (baseUsername.length < 3) {
+                    baseUsername = 'musico' + Math.floor(1000 + Math.random() * 9000);
+                }
+                await setDoc(userDocRef, {
+                    username: baseUsername,
+                    email: (user.email || '').toLowerCase(),
+                    createdAt: new Date(),
+                    userStars: welcomeBonus,
+                    userDiamonds: 0,
+                    userCoins: 0,
+                    votesRemaining: 5,
+                    provider: user.providerData?.[0]?.providerId || 'google',
+                    emailVerified: true,
+                    activityLog: welcomeBonus > 0 ? [{
+                        type: 'welcome_bonus',
+                        description: lt('login.welcome_bonus_desc'),
+                        timestamp: new Date().toISOString()
+                    }] : []
+                });
+                await completeInviteProcess();
+            }
+        }
+
+        // --- DETECCIÓN APP MEDIAN ---
+        function isMedianApp(){
+            try{
+                const ua = (navigator.userAgent||'').toLowerCase();
+                return ua.indexOf('median')>=0 || ua.indexOf('gonative')>=0 || typeof median !== 'undefined';
+            }catch(e){ return false; }
+        }
+
+        // --- CONTROL DEL OVERLAY DE CARGA / BOTONES DE GOOGLE ---
+        let googleAuthInProgress = false;
+
+        function hideAuthLoadingOverlay(){
+            const overlay = document.getElementById('authLoadingOverlay');
+            if (overlay) overlay.classList.add('hidden-overlay');
+        }
+
+        function setAuthLoadingText(text){
+            const el = document.getElementById('authLoadingText');
+            if (el) el.textContent = text;
+        }
+
+        function setGoogleButtonsDisabled(disabled){
+            document.querySelectorAll('.google-btn').forEach(btn => {
+                btn.disabled = disabled;
+            });
+        }
+
+        function medianGoogleCallback(response){
+            console.log("[Median] Google callback", response);
+            if(!response || response.error){
+                const err = response && response.error ? response.error : 'Error desconocido nativo';
+                showMessage('loginMsg', 'Error Google nativo: '+err);
+                showMessage('registerMsg', 'Error Google nativo: '+err);
+                return;
+            }
+            let idToken = response.idToken || response.id_token || response.idToken || response.authToken || response.token || null;
+            let accessToken = response.accessToken || response.access_token || null;
+            if(response.userDetails && response.userDetails.idToken) idToken = response.userDetails.idToken;
+            if(!idToken && !accessToken){
+                showMessage('loginMsg','No se recibio token nativo, intentando web...');
+                fallbackWebGoogleLogin();
+                return;
+            }
+            try{
+                // Usamos compat credential builder disponible globalmente tras import modular? Usamos función modular
+                // Para modular SDK, importamos GoogleAuthProvider ya disponible como clase
+                const credential = GoogleAuthProvider.credential(idToken, accessToken);
+                setPersistence(auth, browserLocalPersistence).then(()=>{
+                    return signInWithCredential(auth, credential);
+                }).then(async (result)=>{
+                    if(result && result.user){
+                        await ensureUserDocExists(result.user);
+                        console.log("[Median] Firebase OK", result.user.uid);
+                    }
+                }).catch((e)=>{
+                    console.error("[Median] signInWithCredential error", e);
+                    let m = 'Error Firebase: '+(e.message||e.code);
+                    if(e.code==='auth/account-exists-with-different-credential'){
+                        m='Este correo ya existe con contrasena. Inicia sesion con email y contrasena para vincular.';
+                    }
+                    showMessage('loginMsg', m);
+                    showMessage('registerMsg', m);
+                });
+            }catch(e){
+                console.error(e);
+                showMessage('loginMsg','Error procesando credencial: '+e.message);
+            }
+        }
+        window.medianGoogleCallback = medianGoogleCallback;
+
+        async function fallbackWebGoogleLogin(){
+            try{
+                const result = await signInWithPopup(auth, googleProvider);
+                if(result && result.user){ await ensureUserDocExists(result.user); }
+            }catch(popupError){
+                if(['auth/popup-blocked','auth/popup-closed-by-user','auth/cancelled-popup-request','auth/operation-not-supported-in-this-environment','auth/popup-window-closed'].includes(popupError.code)){
+                    await signInWithRedirect(auth, googleProvider);
+                }else{
+                    throw popupError;
+                }
+            }
+        }
+
+        window.signInWithGoogle = async () => {
+            // FIX MÓVIL: evita que taps repetidos mientras ya hay un intento en curso
+            // lancen varias redirecciones/popups solapados (esto era lo que dejaba
+            // el flujo de Firebase en un estado inconsistente en móviles).
+            if (googleAuthInProgress) return;
+            googleAuthInProgress = true;
+            setGoogleButtonsDisabled(true);
+
+            const loginMsgEl = document.getElementById('loginMsg');
+            const registerMsgEl = document.getElementById('registerMsg');
+            if(loginMsgEl) loginMsgEl.style.display='none';
+            if(registerMsgEl) registerMsgEl.style.display='none';
+
+            // 1. Si estamos en app Median, usar login NATIVO
+            if(isMedianApp() && typeof median !== 'undefined' && median.socialLogin && median.socialLogin.google){
+                console.log("[Auth] Median detectada, usando login nativo");
+                try{
+                    median.socialLogin.google.login({ 'callback': medianGoogleCallback });
+                }catch(e){
+                    try{ median.socialLogin.google.login({ 'callback': 'medianGoogleCallback' }); }catch(e2){ console.error(e2); await fallbackWebGoogleLogin(); }
+                }finally{
+                    googleAuthInProgress = false;
+                    setGoogleButtonsDisabled(false);
+                }
+                return;
+            }
+
+            // 2. Todas las demás plataformas (escritorio Y móvil): usamos
+            // signInWithPopup() como método PRINCIPAL, tal y como recomienda
+            // la documentación oficial de Firebase.
+            // signInWithRedirect() depende de que el navegador permita acceso a
+            // almacenamiento de "terceros" entre nuestro dominio y el dominio de
+            // autenticación (*.firebaseapp.com) durante el viaje de ida y vuelta a
+            // Google. Muchos navegadores móviles (Chrome/WebView en Android,
+            // incluido MIUI de Xiaomi/Redmi) bloquean o limitan ese acceso de forma
+            // inconsistente: a veces hay una excepción de almacenamiento residual
+            // que permite que funcione una vez, pero deja de funcionar después.
+            // signInWithPopup() evita ese problema por completo.
+            // Ref: https://firebase.google.com/docs/auth/web/redirect-best-practices
+            //
+            // IMPORTANTE: no hacemos ningún "await" antes de esta llamada para no
+            // perder el "gesto de usuario" (user activation) del clic/tap, que es
+            // lo que permite que el navegador NO bloquee la ventana emergente.
+            try{
+                const result = await signInWithPopup(auth, googleProvider);
+                if(result && result.user){ await ensureUserDocExists(result.user); }
+            }catch(popupError){
+                console.warn("Popup de Google fallo, probando signInWithRedirect como respaldo:", popupError.code);
+                const fallbackCodes = ['auth/popup-blocked','auth/popup-closed-by-user','auth/cancelled-popup-request','auth/operation-not-supported-in-this-environment','auth/popup-window-closed'];
+                if(popupError.code==='auth/account-exists-with-different-credential'){
+                    showMessage('loginMsg','Este correo ya esta registrado con contrasena. Inicia sesion con email.');
+                    showMessage('registerMsg','Este correo ya esta registrado. Usa otro o inicia sesion.');
+                    googleAuthInProgress = false;
+                    setGoogleButtonsDisabled(false);
+                    return;
+                }
+                if(fallbackCodes.includes(popupError.code)){
+                    try{
+                        document.getElementById('authLoadingOverlay')?.classList.remove('hidden-overlay');
+                        setAuthLoadingText(lt('login.iniciar_sesion') || 'Conectando con Google...');
+                        await signInWithRedirect(auth, googleProvider);
+                        return; // El navegador navega fuera de la página: no reactivamos los botones.
+                    }
+                    catch(re){
+                        console.error(re);
+                        hideAuthLoadingOverlay();
+                        showMessage('loginMsg', lt('login.msg_error_google'));
+                        showMessage('registerMsg', lt('login.msg_error_google'));
+                    }
+                }else{
+                    console.error(popupError); showMessage('loginMsg', lt('login.msg_error_google')); showMessage('registerMsg', lt('login.msg_error_google'));
+                }
+            }
+            googleAuthInProgress = false;
+            setGoogleButtonsDisabled(false);
+        };
+
+        // --- CAPTURAR EL RESULTADO DEL LOGIN CON GOOGLE TRAS LA REDIRECCIÓN ---
+        // (Solo se usa cuando signInWithPopup no está disponible y se recurrió al
+        // respaldo signInWithRedirect. Esperamos a que la persistencia esté fijada
+        // antes de comprobar el resultado.)
+        (async function checkGoogleRedirectResult(){
+            try {
+                await persistenceReady;
+                const result = await getRedirectResult(auth);
+                if (result && result.user) {
+                    console.log("Login Google por redirect exitoso:", result.user.email);
+                    await ensureUserDocExists(result.user);
+                }
+            } catch (error) {
+                console.error("Error en la redireccion de Google:", error.code, error.message);
+                if (error.code !== 'auth/redirect-cancelled-by-user') {
+                    showMessage('loginMsg', lt('login.msg_error_google'));
+                    showMessage('registerMsg', lt('login.msg_error_google'));
+                }
+            } finally {
+                googleAuthInProgress = false;
+                setGoogleButtonsDisabled(false);
+                // El overlay se oculta desde onAuthStateChanged una vez se sabe qué
+                // vista mostrar (login, verificación o selección de servidor), para
+                // no generar parpadeos entre pantallas.
+            }
+        })();
+
+        
+        // --- 3. FUNCIONES AUXILIARES ---
+        async function getEmailFromIdentifier(identifier) {
+            const lowerId = identifier.trim().toLowerCase();
+            const usersRef = collection(db, "users");
+            const qUser = query(usersRef, where("username", "==", lowerId));
+            const snapUser = await getDocs(qUser);
+            if (!snapUser.empty) return snapUser.docs[0].data().email;
+            const qEmail = query(usersRef, where("email", "==", lowerId));
+            const snapEmail = await getDocs(qEmail);
+            if (!snapEmail.empty) return snapEmail.docs[0].data().email;
+            return null;
+        }
+
+        // --- 4. MANEJADORES DE EVENTOS ---
+
+        // LOGIN
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const input = document.getElementById('loginInput').value;
+            const pass = document.getElementById('loginPass').value;
+            if (!input || !pass) return showMessage('loginMsg', lt('login.msg_rellena_campos'));
+            try {
+                let email = input;
+                if (!input.includes('@')) {
+                    const foundEmail = await getEmailFromIdentifier(input);
+                    if (!foundEmail) throw { code: 'custom/user-not-found' };
+                    email = foundEmail;
+                }
+                await signInWithEmailAndPassword(auth, email, pass);
+            } catch (error) {
+                console.error(error);
+                let msg = lt('login.msg_error_login');
+                if (error.code === 'auth/wrong-password') msg = lt('login.msg_contrasena_incorrecta');
+                if (error.code === 'auth/user-not-found' || error.code === 'custom/user-not-found') msg = lt('login.msg_usuario_no_encontrado');
+                if (error.code === 'auth/too-many-requests') msg = lt('login.msg_demasiados_intentos');
+                showMessage('loginMsg', msg);
+            }
+        });
+
+        // REGISTRO
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const user = document.getElementById('regUser').value.trim().toLowerCase();
+            const email = document.getElementById('regEmail').value.trim().toLowerCase();
+            const pass = document.getElementById('regPass').value;
+            const passConf = document.getElementById('regPassConf').value;
+            if (pass !== passConf) return showMessage('registerMsg', lt('login.msg_passwords_no_coinciden'));
+            if (pass.length < 6) return showMessage('registerMsg', lt('login.msg_password_corta'));
+            if (user.length < 3) return showMessage('registerMsg', lt('login.msg_usuario_corto'));
+            try {
+                const exists = await getEmailFromIdentifier(user);
+                if (exists) return showMessage('registerMsg', lt('login.msg_usuario_ocupado'));
+                const cred = await createUserWithEmailAndPassword(auth, email, pass);
+
+                await sendEmailVerification(cred.user);
+
+                const pendingInviteId = localStorage.getItem('pendingInviteId');
+                const welcomeBonus = pendingInviteId ? 50 : 0;
+
+                await setDoc(doc(db, "users", cred.user.uid), {
+                    username: user,
+                    email: email,
+                    createdAt: new Date(),
+                    userStars: welcomeBonus,
+                    userDiamonds: 0,
+                    userCoins: 0,
+                    votesRemaining: 5,
+                    activityLog: welcomeBonus > 0 ? [{
+                        type: 'welcome_bonus',
+                        description: lt('login.welcome_bonus_desc'),
+                        timestamp: new Date().toISOString()
+                    }] : []
+                });
+
+                await completeInviteProcess();
+                switchView('verification');
+            } catch (error) {
+                console.error(error);
+                let msg = lt('login.msg_error_registro');
+                if (error.code === 'auth/email-already-in-use') msg = lt('login.msg_email_registrado');
+                showMessage('registerMsg', msg);
+            }
+        });
+
+        // RECUPERACIÓN
+        document.getElementById('recoveryForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('recEmail').value.trim();
+            try {
+                await sendPasswordResetEmail(auth, email);
+                showMessage('recoveryMsg', lt('login.msg_correo_enviado'), 'success');
+            } catch (error) {
+                showMessage('recoveryMsg', lt('login.msg_error_correo'));
+            }
+        });
+
+        // LOGOUT
+        document.getElementById('btnLogoutFromServer').addEventListener('click', () => {
+            localStorage.removeItem('currentServer');
+            localStorage.removeItem('currentServerId');
+            signOut(auth);
+        });
+
+        // --- 5. GESTIÓN DE SESIÓN - CORREGIDA ---
+        onAuthStateChanged(auth, async (user) => {
+            try {
+                if (user) {
+                    // FIX: Google ya verifica el email. Solo exigir verificacion si es password provider
+                    const isPasswordProvider = user.providerData.some(p => p.providerId === 'password');
+                    const isGoogleProvider = user.providerData.some(p => p.providerId === 'google.com');
+
+                    if (!user.emailVerified && isPasswordProvider && !isGoogleProvider) {
+                        showAuthContainer();
+                        switchView('verification');
+                        return;
+                    }
+
+                    try {
+                        // Asegurar que el documento existe incluso si getRedirectResult devolvio null
+                        await ensureUserDocExists(user);
+
+                        const docSnap = await getDoc(doc(db, "users", user.uid));
+                        let username = user.email;
+                        if (docSnap.exists() && docSnap.data().username) {
+                            username = docSnap.data().username.toUpperCase();
+                        } else if (user.displayName) {
+                            username = user.displayName.toUpperCase();
+                        }
+                        const sdn = document.getElementById('serverDisplayUsername');
+                        if (sdn) sdn.textContent = username;
+                    } catch (e) {
+                        console.warn("Error leyendo doc usuario, usando fallback:", e);
+                        const fallbackName = (user.displayName || user.email || lt('login.musico')).toUpperCase();
+                        const sdn = document.getElementById('serverDisplayUsername');
+                        if (sdn) sdn.textContent = fallbackName;
+                    }
+
+                    showServerSelection();
+                } else {
+                    localStorage.removeItem('currentServer');
+                    localStorage.removeItem('currentServerId');
+                    showAuthContainer();
+                    switchView('login');
+                }
+            } finally {
+                // FIX MÓVIL: independientemente de la vista a la que se acabe de
+                // llegar, en cuanto onAuthStateChanged resuelve por primera vez ya
+                // sabemos con certeza si hay o no sesión iniciada, así que es seguro
+                // ocultar el overlay de carga inicial y dejar que el usuario interactúe.
+                hideAuthLoadingOverlay();
+                googleAuthInProgress = false;
+                setGoogleButtonsDisabled(false);
+            }
+        });
+
+        
+        // --- 6. INICIALIZACIÓN ---
+        window.addEventListener('load', () => {
+            handleInviteRegistration();
+        });
+
+        // Timeout de seguridad: si por cualquier motivo onAuthStateChanged tardara
+        // demasiado en resolver (p.ej. sin conexión), no dejamos al usuario atrapado
+        // detrás del overlay de carga.
+        setTimeout(() => {
+            hideAuthLoadingOverlay();
+            googleAuthInProgress = false;
+            setGoogleButtonsDisabled(false);
+        }, 8000);
+    </script>
+</body>
+</html>

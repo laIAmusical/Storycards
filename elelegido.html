@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>El elegido</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Text:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #f8f3ea;
+    --cream-dark: #ede5d4;
+    --ink: #2a1f14;
+    --ink-light: #6b5a47;
+    --gold: #c8a96e;
+    --spine: #8b6e50;
+  }
+
+  html, body {
+    height: 100%;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  body {
+    background: radial-gradient(ellipse at center, #3a2a1a 0%, #1a1008 100%);
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    font-family: 'Crimson Text', Georgia, serif;
+    overflow: hidden;
+    position: relative;
+    padding: 0;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── UI WRAPPER ── */
+  .ui-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100dvh;
+    position: relative;
+    z-index: 10;
+    padding: 10px 10px 8px;
+    gap: 8px;
+  }
+
+  /* ── TOP BAR ── */
+  .top-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 440px;
+    flex-shrink: 0;
+    gap: 6px;
+  }
+
+  .book-title-header {
+    color: var(--gold);
+    font-family: 'Playfair Display', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.75;
+    white-space: nowrap;
+    flex-shrink: 0;
+    text-align: center;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ── AUDIO CONTROLS BAR ── */
+  .audio-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 100%;
+  }
+  .audio-bar.visible { opacity: 1; pointer-events: all; }
+
+  .audio-btn {
+    background: rgba(200,169,110,0.12);
+    border: 1px solid rgba(200,169,110,0.3);
+    border-radius: 50%;
+    width: 30px; height: 30px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+    color: var(--gold);
+    padding: 0;
+    flex-shrink: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .audio-btn:active { background: rgba(200,169,110,0.25); }
+  .audio-btn svg { width: 12px; height: 12px; flex-shrink: 0; }
+
+  .audio-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.46rem;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: rgba(200,169,110,0.55);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .audio-divider {
+    width: 1px;
+    height: 18px;
+    background: rgba(200,169,110,0.2);
+    flex-shrink: 0;
+    margin: 0 2px;
+  }
+
+  /* Voice indicator */
+  .voice-indicator {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    height: 14px;
+    flex-shrink: 0;
+  }
+  .voice-indicator span {
+    display: block;
+    width: 3px;
+    border-radius: 2px;
+    background: var(--gold);
+    opacity: 0;
+    animation: none;
+  }
+  .voice-indicator.playing span { opacity: 0.7; animation: voiceBar 1s ease-in-out infinite; }
+  .voice-indicator.playing span:nth-child(1) { animation-delay: 0s; }
+  .voice-indicator.playing span:nth-child(2) { animation-delay: 0.15s; }
+  .voice-indicator.playing span:nth-child(3) { animation-delay: 0.3s; }
+  .voice-indicator.playing span:nth-child(4) { animation-delay: 0.15s; }
+  @keyframes voiceBar {
+    0%, 100% { height: 4px; }
+    50%       { height: 13px; }
+  }
+
+  #musicVolume {
+    width: 44px;
+    accent-color: var(--gold);
+    cursor: pointer;
+    vertical-align: middle;
+    flex-shrink: 0;
+  }
+
+  /* ── BOOK WRAPPER ── */
+  .book-wrapper {
+    position: relative;
+    flex: 1;
+    width: 100%;
+    max-width: 440px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  /* ── OPEN HINT ── */
+  .open-hint-badge {
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(200,169,110,0.15);
+    border: 1px solid rgba(200,169,110,0.35);
+    backdrop-filter: blur(6px);
+    border-radius: 30px;
+    padding: 6px 16px;
+    color: var(--gold);
+    font-family: 'Playfair Display', serif;
+    font-size: 0.66rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    animation: pulseHint 2.4s ease-in-out infinite;
+    transition: opacity 0.4s;
+    z-index: 30;
+    white-space: nowrap;
+  }
+  .open-hint-badge.hidden { opacity: 0; pointer-events: none; }
+  .open-hint-badge svg { opacity: 0.7; flex-shrink: 0; }
+  @keyframes pulseHint {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(200,169,110,0); }
+    50%       { box-shadow: 0 0 0 6px rgba(200,169,110,0.12); }
+  }
+
+  /* ── BOOK CARD ── */
+  .book-card {
+    width: 100%;
+    height: 100%;
+    border-radius: 14px;
+    box-shadow:
+      0 8px 32px rgba(0,0,0,0.7),
+      0 0 0 1px rgba(255,255,255,0.05),
+      inset -3px 0 8px rgba(0,0,0,0.15);
+    position: relative;
+    overflow: hidden;
+    background: var(--cream);
+    -webkit-tap-highlight-color: transparent;
+    perspective: 1400px;
+  }
+
+  /* Lomo del libro */
+  .book-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 8px;
+    background: linear-gradient(to right, var(--spine), rgba(139,110,80,0.3));
+    z-index: 20;
+    pointer-events: none;
+  }
+
+  /* ── COVER PAGE ── */
+  .cover-page {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+  }
+  .cover-page img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .cover-bg-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(160deg, #4a3520, #1a1008);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 6rem;
+    opacity: 0.5;
+  }
+  .cover-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, transparent 55%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 28px 24px;
+  }
+  .cover-overlay h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: #fff;
+    line-height: 1.2;
+    text-shadow: 0 2px 16px rgba(0,0,0,0.8);
+    margin-bottom: 8px;
+  }
+  .cover-overlay .author {
+    font-family: 'Crimson Text', serif;
+    font-size: 1rem;
+    color: rgba(255,255,255,0.75);
+    letter-spacing: 0.1em;
+  }
+
+  .cover-page::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(200,169,110,0);
+    transition: background 0.3s;
+    pointer-events: none;
+  }
+  .cover-page:active::after { background: rgba(200,169,110,0.08); }
+
+  /* ── STORY PAGE ── */
+  .story-page {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    background: var(--cream);
+  }
+
+  .page-illustration {
+    width: 100%;
+    flex-shrink: 0;
+    position: relative;
+    background: var(--cream-dark);
+    line-height: 0;
+  }
+  .page-illustration img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+  }
+
+  .img-placeholder {
+    width: 100%;
+    padding: 40px 0;
+    background: var(--cream-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .img-placeholder svg { opacity: 0.15; width: 70px; height: 70px; }
+
+  /* Marco perimetral */
+  .page-illustration::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    box-shadow:
+      inset 0    30px 22px -8px var(--cream),
+      inset 0   -42px 28px -8px var(--cream),
+      inset  28px 0   22px -8px var(--cream),
+      inset -28px 0   22px -8px var(--cream);
+  }
+  .page-illustration::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 55px;
+    z-index: 3;
+    background: linear-gradient(to bottom, transparent, var(--cream));
+    pointer-events: none;
+  }
+
+  /* Sección de texto */
+  .page-text-section {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 22px 20px 26px;
+    position: relative;
+    background: var(--cream);
+  }
+  .chapter-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 14px;
+    opacity: 0.6;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .drop-cap {
+    font-family: 'Playfair Display', serif;
+    font-size: 4.4rem;
+    font-weight: 700;
+    line-height: 0.75;
+    float: left;
+    margin-right: 6px;
+    margin-top: 4px;
+    color: var(--ink);
+  }
+
+  .page-text {
+    font-family: 'Crimson Text', serif;
+    font-size: 1.12rem;
+    line-height: 1.7;
+    color: var(--ink);
+    text-align: justify;
+    position: relative;
+    z-index: 1;
+    background-image: repeating-linear-gradient(
+      transparent, transparent 30px,
+      rgba(180,160,130,0.13) 30px,
+      rgba(180,160,130,0.13) 31px
+    );
+    background-position: 0 4px;
+  }
+  .page-text p { margin-bottom: 0.8em; }
+  .page-text p::after { content: ''; display: table; clear: both; }
+
+  .page-number {
+    margin-top: 10px;
+    text-align: right;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.72rem;
+    color: var(--ink-light);
+    opacity: 0.5;
+    position: relative;
+    z-index: 2;
+  }
+
+  .swipe-hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 14px 0 16px;
+    color: var(--ink-light);
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-family: 'Playfair Display', serif;
+    opacity: 0.4;
+    flex-shrink: 0;
+    background: var(--cream);
+  }
+
+  /* ── NAVIGATION ARROWS ── */
+  @keyframes arrowPulse {
+    0%, 100% {
+      box-shadow: 0 0 0 0 rgba(200,169,110,0.55), 0 0 10px 2px rgba(200,169,110,0.25);
+      background: rgba(200,169,110,0.22);
+      border-color: rgba(200,169,110,0.7);
+    }
+    50% {
+      box-shadow: 0 0 0 8px rgba(200,169,110,0), 0 0 18px 4px rgba(200,169,110,0.45);
+      background: rgba(200,169,110,0.42);
+      border-color: var(--gold);
+    }
+  }
+
+  .nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 25;
+    width: 42px; height: 42px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(200,169,110,0.22);
+    border: 1.5px solid rgba(200,169,110,0.7);
+    border-radius: 50%;
+    color: var(--gold);
+    cursor: pointer;
+    transition: background 0.2s, opacity 0.3s;
+    -webkit-tap-highlight-color: transparent;
+    backdrop-filter: blur(6px);
+    animation: arrowPulse 1.5s ease-in-out infinite;
+  }
+  .nav-arrow:active { background: rgba(200,169,110,0.55); }
+  .nav-arrow.hidden { opacity: 0; pointer-events: none; animation: none; }
+  .nav-arrow svg { width: 18px; height: 18px; filter: drop-shadow(0 0 3px rgba(200,169,110,0.6)); }
+  .nav-arrow-left  { left: 6px; }
+  .nav-arrow-right { right: 6px; }
+
+  /* ── END PAGE ── */
+  .end-page {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--cream);
+  }
+  .end-page-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 30px;
+    text-align: center;
+  }
+  .end-page-content .ornament { color: var(--gold); font-size: 1.8rem; opacity: 0.6; }
+  .end-page-content h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--ink);
+  }
+  .end-page-content p {
+    font-family: 'Crimson Text', serif;
+    font-size: 0.95rem;
+    color: var(--ink-light);
+    opacity: 0.7;
+    letter-spacing: 0.1em;
+  }
+  .back-btn {
+    margin-top: 6px;
+    padding: 10px 24px;
+    border: 1px solid var(--gold);
+    background: none;
+    color: var(--ink-light);
+    font-family: 'Playfair Display', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back-btn:active { background: var(--gold); color: var(--cream); }
+
+  /* ── NAV DOTS ── */
+  .nav-dots {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+    padding: 2px 0;
+    z-index: 10;
+    position: relative;
+  }
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(200,169,110,0.3);
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 1px solid rgba(200,169,110,0.4);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .dot.active { background: var(--gold); transform: scale(1.3); }
+
+  /* ══════════════════════════════════════════════════════
+     PAGE FLIP ANIMATIONS
+  ══════════════════════════════════════════════════════ */
+  @keyframes pageFlipInForward {
+    0%   { transform: perspective(1400px) rotateY(-88deg); transform-origin: left center;  opacity: 0.4; filter: brightness(0.6); }
+    40%  { opacity: 0.85; filter: brightness(0.85); }
+    100% { transform: perspective(1400px) rotateY(0deg);   transform-origin: left center;  opacity: 1;   filter: brightness(1); }
+  }
+  @keyframes pageFlipInBackward {
+    0%   { transform: perspective(1400px) rotateY(88deg);  transform-origin: right center; opacity: 0.4; filter: brightness(0.6); }
+    40%  { opacity: 0.85; filter: brightness(0.85); }
+    100% { transform: perspective(1400px) rotateY(0deg);   transform-origin: right center; opacity: 1;   filter: brightness(1); }
+  }
+  @keyframes pageFlipOutForward {
+    0%   { transform: perspective(1400px) rotateY(0deg);   transform-origin: left center;  opacity: 1;   filter: brightness(1); }
+    60%  { opacity: 0.5; filter: brightness(0.7); }
+    100% { transform: perspective(1400px) rotateY(-88deg); transform-origin: left center;  opacity: 0;   filter: brightness(0.4); }
+  }
+  @keyframes pageFlipOutBackward {
+    0%   { transform: perspective(1400px) rotateY(0deg);  transform-origin: right center;  opacity: 1;   filter: brightness(1); }
+    60%  { opacity: 0.5; filter: brightness(0.7); }
+    100% { transform: perspective(1400px) rotateY(88deg); transform-origin: right center;  opacity: 0;   filter: brightness(0.4); }
+  }
+
+  .anim-in-forward   { animation: pageFlipInForward   0.42s cubic-bezier(0.25,0.46,0.45,0.94) both; }
+  .anim-in-backward  { animation: pageFlipInBackward  0.42s cubic-bezier(0.25,0.46,0.45,0.94) both; }
+  .anim-out-forward  { animation: pageFlipOutForward  0.22s cubic-bezier(0.4,0,1,1) both; }
+  .anim-out-backward { animation: pageFlipOutBackward 0.22s cubic-bezier(0.4,0,1,1) both; }
+
+  .page-shadow-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 15;
+    opacity: 0;
+    background: linear-gradient(to right, rgba(0,0,0,0.18) 0%, transparent 40%);
+    animation: shadowSweepForward 0.55s ease-out forwards;
+  }
+  .page-shadow-overlay.backward {
+    background: linear-gradient(to left, rgba(0,0,0,0.18) 0%, transparent 40%);
+    animation: shadowSweepBackward 0.55s ease-out forwards;
+  }
+  @keyframes shadowSweepForward  { 0% { opacity: 0.8; } 100% { opacity: 0; } }
+  @keyframes shadowSweepBackward { 0% { opacity: 0.8; } 100% { opacity: 0; } }
+</style>
+</head>
+<body>
+<div class="ui-wrapper">
+
+  <div class="top-bar">
+    <p class="book-title-header">✦ El elegido ✦</p>
+
+    <div class="audio-bar" id="audioBar">
+      <div class="voice-indicator" id="voiceIndicator">
+        <span></span><span></span><span></span><span></span>
+      </div>
+      <span class="audio-label">NARRADOR</span>
+      <button class="audio-btn" id="btnVoicePause" title="Pausar/Reanudar narración" onclick="toggleVoicePause()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" id="iconVoicePause">
+          <polygon points="5 3 19 12 5 21 5 3"/>
+        </svg>
+      </button>
+      <button class="audio-btn" title="Detener narración" onclick="stopVoice()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <rect x="4" y="4" width="16" height="16" rx="1"/>
+        </svg>
+      </button>
+
+      <div class="audio-divider"></div>
+
+      <span class="audio-label">MÚSICA</span>
+      <button class="audio-btn" id="btnMusicPause" title="Pausar/Reanudar música" onclick="toggleMusicPause()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" id="iconMusicPause">
+          <polygon points="5 3 19 12 5 21 5 3"/>
+        </svg>
+      </button>
+      <button class="audio-btn" title="Silenciar música" onclick="toggleMusic()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" id="iconMusic">
+          <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+        </svg>
+      </button>
+      <input type="range" id="musicVolume" min="0" max="1" step="0.05" value="0.4"
+        title="Volumen música" oninput="setMusicVolume(this.value)">
+    </div>
+  </div>
+
+  <div class="book-wrapper" id="bookWrapper">
+
+    <div class="open-hint-badge" id="openHintBadge">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+      </svg>
+      Toca para abrir
+    </div>
+
+    <div class="nav-arrow nav-arrow-left hidden" id="navLeft" onclick="prevPage()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M15 18l-6-6 6-6"/>
+      </svg>
+    </div>
+    <div class="nav-arrow nav-arrow-right hidden" id="navRight" onclick="nextPage()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M9 18l6-6-6-6"/>
+      </svg>
+    </div>
+
+    <div class="book-card" id="bookCard"></div>
+  </div>
+
+  <div class="nav-dots" id="navDots"></div>
+
+</div>
+<script>
+const MUSIC_SRC = "storycard/elelegido.mp3";
+const pages = [
+  {
+    type: 'cover',
+    coverImg: "storycard/elelegido/portada.png",
+    coverMobileImg: "storycard/elelegido/portadamovil.png",
+    title: "El elegido",
+    author: "De LaIAmusical"
+  },
+  {
+    type: 'story',
+    pageNum: 1,
+    chapterTitle: "Capítulo 1: Ruido blanco",
+    illustrationSrc: "storycard/elelegido/imagen1.png",
+    voiceSrc: "storycard/elelegido/voz1.wav",
+    text: "Odesa, madrugada. Ilya repara nodos de fibra tras un apagón que no aparece en los registros. Cada cámara de seguridad cercana repite un parpadeo de 0,6 segundos. En su visor, un glitch: una gaviota que atraviesa una pared. Un mensaje anónimo aparece en su terminal: “¿Alguna vez has sentido que el mapa no coincide con el territorio?”. Firma: A.O."
+  },
+  {
+    type: 'story',
+    pageNum: 2,
+    chapterTitle: "Capítulo 2: El paquete",
+    illustrationSrc: "storycard/elelegido/imagen2.png",
+    voiceSrc: "storycard/elelegido/voz2.wav",
+    text: "Amina aterriza en el puerto de Odesa con un dron de carga averiado. Le pide a Ilya que recupere una caja negra del dron sin registrar la operación. Dentro hay una oblea de silicio con inscripciones en ge’ez y código binario. Al conectarla, Ilya ve un segundo Odesa superpuesto, más viejo, con tranvías que nunca existieron. Sufre una convulsión de déjà vu."
+  },
+  {
+    type: 'story',
+    pageNum: 3,
+    chapterTitle: "Capítulo 3: Valparaíso",
+    illustrationSrc: "storycard/elelegido/imagen3.png",
+    voiceSrc: "storycard/elelegido/voz3.wav",
+    text: "Perseguidos por agentes de la Síndica —humanos con lentes opacos que no parpadean—, Ilya y Amina huyen en un carguero hasta Valparaíso. Marek los recibe en una casa escalonada llena de cerros y cables. Muestra un atlas de 1937 donde aparecen calles que hoy “no existen”. “No estamos en una simulación —dice Marek—, estamos en una edición."
+  },
+  {
+    type: 'story',
+    pageNum: 4,
+    chapterTitle: "Capítulo 4: El patrón",
+    illustrationSrc: "storycard/elelegido/imagen4.png",
+    voiceSrc: "storycard/elelegido/voz4.wav",
+    text: "Marek les enseña a leer “costuras”: errores donde dos versiones del Dominio se solapan (escaleras que llevan a muros, puertas que no abren). Ilya empieza a reconocerlas sin equipo. En un cerro, encuentran una puerta tapiada que, según el atlas, lleva al ascensor del funicular Bellavista. La abren: del otro lado hay una playa con cielo invertido."
+  },
+  {
+    type: 'story',
+    pageNum: 5,
+    chapterTitle: "Capítulo 5: Los Sin Firma",
+    illustrationSrc: "storycard/elelegido/imagen5.png",
+    voiceSrc: "storycard/elelegido/voz5.wav",
+    text: "La Síndica envía un “ajuste”: el barrio cambia en tiempo real, las fachadas se reescriben como si alguien editara un documento. Hilo aparece en moto, lanza botes de pintura con solvente electromagnético y abre un corredor de estática. Los lleva a un refugio bajo el puerto de Marsella: la base de los Sin Firma, que firman sus grafitis con un cuadrado vacío."
+  },
+  {
+    type: 'story',
+    pageNum: 6,
+    chapterTitle: "Capítulo 6: Lagos",
+    illustrationSrc: "storycard/elelegido/imagen6.png",
+    voiceSrc: "storycard/elelegido/voz6.wav",
+    text: "Amina necesita una nave capaz de romper el “marco” —el límite de render del Dominio—. En Lagos contacta a una ingeniera, Zainab, que reconstruye un antiguo dron estratosférico. Para financiarlo, roban un convoy de servidores de la Síndica. Durante el golpe, Ilya, en tensión extrema, “lee” por primera vez el código del Dominio como si fuera música: ve hilos, no píxeles."
+  },
+  {
+    type: 'story',
+    pageNum: 7,
+    chapterTitle: "Capítulo 7: Atacama",
+    illustrationSrc: "storycard/elelegido/imagen7.png",
+    voiceSrc: "storycard/elelegido/voz7.wav",
+    text: "Marek descubre que la oblea es una “llave de autor”: no abre puertas, reescribe permisos. La prueba debe hacerse en un “punto mudo”, donde la señal del Dominio es débil. Viajan al observatorio abandonado de La Silla, en Atacama. Allí, bajo el cielo más limpio, Ilya conecta la oblea a un viejo radiotelescopio. La Síndica aparece: no como enemiga, sino como bibliotecaria cansada."
+  },
+  {
+    type: 'story',
+    pageNum: 8,
+    chapterTitle: "Capítulo 8: Negociación",
+    illustrationSrc: "storycard/elelegido/imagen8.png",
+    voiceSrc: "storycard/elelegido/voz8.wav",
+    text: "La Síndica explica: el Dominio no es una cárcel, es un consenso que optimiza recursos tras varios colapsos climáticos. Cada cierto tiempo produce un “elegido” —un nodo humano capaz de percibir y editar costuras— para evitar que el tejido se rompa. Pero editar sin cuidado borra memorias. Ilya entiende que su madre, desaparecida, fue una “elegida” anterior que se sacrificó para estabilizar Odesa."
+  },
+  {
+    type: 'story',
+    pageNum: 9,
+    chapterTitle: "Capítulo 9: El tejido",
+    illustrationSrc: "storycard/elelegido/imagen9.png",
+    voiceSrc: "storycard/elelegido/voz9.wav",
+    text: "Los agentes de la Síndica, ahora desincronizados, intentan forzar un “reinicio duro” que borraría Valparaíso y Marsella de la edición actual. Amina, Hilo y Zainab ejecutan un plan: usan el dron estratosférico para dibujar una firma gigante en la atmósfera —un cuadrado vacío— que actúa como parche temporal. Ilya entra en la sala de costura del Dominio (un espacio blanco sin horizonte) y decide no imponer su edición, sino tejer con la Síndica."
+  },
+  {
+    type: 'story',
+    pageNum: 10,
+    chapterTitle: "Capítulo 10: La edición abierta",
+    illustrationSrc: "storycard/elelegido/imagen10.png",
+    voiceSrc: "storycard/elelegido/voz10.wav",
+    text: "Ilya no se convierte en mesías: propone un protocolo. Los Tejedores podrán ver y reportar costuras; la Síndica compartirá herramientas de edición bajo licencia abierta. Los “reinicios” se reemplazan por “remiendos” locales. Ilya vuelve a Odesa y encuentra, en el lugar del glitch de la gaviota, una puerta que antes no estaba: conduce a un patio donde una mujer mayor riega plantas —su madre, mayor, distinta, pero viva en esta edición—. Afuera, en los cerros de Valparaíso, Hilo pinta el último grafiti: un cuadrado que, por primera vez, tiene dentro una firma: “I”."
+  },
+  { type: 'end' }
+
+];
+const musicAudio  = new Audio();
+musicAudio.loop   = true;
+musicAudio.volume = 0.4;
+if (MUSIC_SRC) musicAudio.src = MUSIC_SRC;
+
+let voiceAudio   = null;
+let voicePaused  = false;
+let musicMuted   = false;
+let musicPaused  = false;
+let bookOpened   = false;
+
+function startMusic() {
+  if (!MUSIC_SRC || musicMuted) return;
+  musicAudio.currentTime = 0;
+  musicAudio.play().catch(() => {});
+  updateMusicPauseIcon(true);
+}
+
+function stopAllAudio() {
+  if (voiceAudio) { voiceAudio.pause(); voiceAudio.currentTime = 0; }
+  voicePaused = false;
+  setVoiceIndicator(false);
+  updateVoicePauseIcon(false);
+}
+
+function playPageVoice(src) {
+  stopAllAudio();
+  if (!src) return;
+  voiceAudio = new Audio(src);
+  voiceAudio.volume = 1;
+  voiceAudio.play().catch(() => {});
+  voiceAudio.onplay  = () => { setVoiceIndicator(true);  updateVoicePauseIcon(true); };
+  voiceAudio.onended = () => { setVoiceIndicator(false); updateVoicePauseIcon(false); voicePaused = false; };
+  voiceAudio.onpause = () => { setVoiceIndicator(false); };
+}
+
+function setVoiceIndicator(playing) {
+  const el = document.getElementById('voiceIndicator');
+  if (el) el.className = 'voice-indicator' + (playing ? ' playing' : '');
+}
+
+function updateVoicePauseIcon(isPlaying) {
+  const icon = document.getElementById('iconVoicePause');
+  if (!icon) return;
+  icon.innerHTML = isPlaying
+    ? `<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>`
+    : `<polygon points="5 3 19 12 5 21 5 3"/>`;
+}
+
+function toggleVoicePause() {
+  if (!voiceAudio) return;
+  if (voicePaused) {
+    voiceAudio.play().catch(() => {});
+    voicePaused = false;
+    setVoiceIndicator(true);
+    updateVoicePauseIcon(true);
+  } else {
+    voiceAudio.pause();
+    voicePaused = true;
+    setVoiceIndicator(false);
+    updateVoicePauseIcon(false);
+  }
+}
+
+function stopVoice() {
+  if (voiceAudio) {
+    voiceAudio.pause();
+    voiceAudio.currentTime = 0;
+    voicePaused = false;
+    setVoiceIndicator(false);
+    updateVoicePauseIcon(false);
+  }
+}
+
+function updateMusicPauseIcon(isPlaying) {
+  const icon = document.getElementById('iconMusicPause');
+  if (!icon) return;
+  icon.innerHTML = isPlaying
+    ? `<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>`
+    : `<polygon points="5 3 19 12 5 21 5 3"/>`;
+}
+
+function toggleMusicPause() {
+  if (musicMuted) return;
+  if (musicPaused) {
+    musicAudio.play().catch(() => {});
+    musicPaused = false;
+    updateMusicPauseIcon(true);
+  } else {
+    musicAudio.pause();
+    musicPaused = true;
+    updateMusicPauseIcon(false);
+  }
+}
+
+function setMusicVolume(val) {
+  musicAudio.volume = parseFloat(val);
+  if (parseFloat(val) === 0) {
+    musicMuted = true;
+    document.getElementById('iconMusic').innerHTML =
+      `<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+       <line x1="1" y1="1" x2="23" y2="23" stroke-width="2"/>`;
+    musicAudio.pause();
+    updateMusicPauseIcon(false);
+  } else if (musicMuted) {
+    musicMuted = false;
+    document.getElementById('iconMusic').innerHTML =
+      `<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>`;
+    musicAudio.play().catch(() => {});
+    updateMusicPauseIcon(true);
+  }
+}
+
+function toggleMusic() {
+  musicMuted = !musicMuted;
+  const icon   = document.getElementById('iconMusic');
+  const slider = document.getElementById('musicVolume');
+  if (musicMuted) {
+    musicAudio.pause();
+    musicPaused = false;
+    icon.innerHTML = `<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+      <line x1="1" y1="1" x2="23" y2="23" stroke-width="2"/>`;
+    if (slider) slider.value = 0;
+    updateMusicPauseIcon(false);
+  } else {
+    musicAudio.volume = 0.4;
+    musicAudio.play().catch(() => {});
+    icon.innerHTML = `<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>`;
+    if (slider) slider.value = 0.4;
+    updateMusicPauseIcon(true);
+  }
+}
+
+// ── STATE ────────────────────────────────────────────────────
+let currentPage = 0;
+let animating   = false;
+
+const bookCard  = document.getElementById('bookCard');
+const navDotsEl = document.getElementById('navDots');
+const navLeft   = document.getElementById('navLeft');
+const navRight  = document.getElementById('navRight');
+
+function withDropCap(text) {
+  const t = text.trimStart();
+  if (!t.length) return text;
+  return `<span class="drop-cap">${t.charAt(0)}</span>${t.slice(1)}`;
+}
+
+function buildDots() {
+  navDotsEl.innerHTML = '';
+  pages.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === currentPage ? ' active' : '');
+    d.onclick = () => goToPage(i);
+    navDotsEl.appendChild(d);
+  });
+}
+
+function updateArrows() {
+  const p = pages[currentPage];
+  navLeft.classList.toggle('hidden',  !bookOpened || currentPage <= 0);
+  navRight.classList.toggle('hidden', !bookOpened || p.type === 'end' || currentPage >= pages.length - 1);
+}
+
+function buildPageElement(p) {
+  const el = document.createElement('div');
+
+  if (p.type === 'cover') {
+    el.className = 'cover-page';
+    const isMobile = window.innerWidth <= 767;
+    const imgSrc = (isMobile && p.coverMobileImg) ? p.coverMobileImg : p.coverImg;
+
+    el.innerHTML = imgSrc
+      ? `<img src="${imgSrc}" alt="Portada: ${p.title}">`
+      : `<div class="cover-bg-placeholder">🎵</div>`;
+    el.innerHTML += `
+      <div class="cover-overlay">
+        <h1>${p.title}</h1>
+        <p class="author">${p.author}</p>
+      </div>`;
+    el.onclick = openBook;
+
+  } else if (p.type === 'end') {
+    el.className = 'end-page';
+    el.innerHTML = `
+      <div class="end-page-content">
+        <div class="ornament">✦ ✦ ✦</div>
+        <h2>Fin de la historia</h2>
+        <p>LaIAmusical</p>
+        <button class="back-btn" onclick="goToPage(0)">Volver al inicio</button>
+      </div>`;
+    stopAllAudio();
+
+  } else {
+    const imgHtml = p.illustrationSrc
+      ? `<img src="${p.illustrationSrc}" alt="${p.chapterTitle || 'Ilustración página ' + p.pageNum}">`
+      : `<div class="img-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <path d="M3 15l5-5 4 4 3-3 6 6"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+          </svg>
+         </div>`;
+
+    el.className = 'story-page';
+    el.innerHTML = `
+      <div class="page-illustration">${imgHtml}</div>
+      <div class="page-text-section">
+        <div class="chapter-label">${p.chapterTitle || `Capítulo ${p.pageNum}`}</div>
+        <div class="page-text"><p>${withDropCap(p.text)}</p></div>
+        <div class="page-number">${p.pageNum}</div>
+      </div>
+      <div class="swipe-hint">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+        Desliza para pasar
+      </div>`;
+  }
+
+  return el;
+}
+
+function renderBook(direction) {
+  const p = pages[currentPage];
+
+  const headerTitle = p.type === 'cover'
+    ? p.title
+    : p.type === 'end'
+      ? 'Fin de la historia'
+      : (p.chapterTitle || `Capítulo ${p.pageNum}`);
+  const headerEl = document.querySelector('.book-title-header');
+  if (headerEl) headerEl.textContent = headerTitle;
+
+  const newEl = buildPageElement(p);
+
+  if (direction && bookOpened) {
+    const inClass  = direction === 'forward' ? 'anim-in-forward'  : 'anim-in-backward';
+    const outClass = direction === 'forward' ? 'anim-out-forward' : 'anim-out-backward';
+
+    newEl.style.position = 'absolute';
+    newEl.style.inset    = '0';
+    newEl.style.zIndex   = '2';
+
+    const oldEl = bookCard.firstElementChild;
+    if (oldEl && !oldEl.classList.contains('page-shadow-overlay')) {
+      oldEl.style.position = 'absolute';
+      oldEl.style.inset    = '0';
+      oldEl.style.zIndex   = '1';
+      oldEl.classList.add(outClass);
+    }
+
+    const shadow = document.createElement('div');
+    shadow.className = 'page-shadow-overlay' + (direction === 'backward' ? ' backward' : '');
+    shadow.style.zIndex = '5';
+    bookCard.appendChild(shadow);
+
+    setTimeout(() => {
+      bookCard.appendChild(newEl);
+      newEl.classList.add(inClass);
+    }, 80);
+
+    setTimeout(() => {
+      while (bookCard.children.length > 1) bookCard.removeChild(bookCard.firstChild);
+      newEl.style.position = '';
+      newEl.style.inset    = '';
+      newEl.style.zIndex   = '';
+    }, 520);
+
+  } else {
+    bookCard.innerHTML = '';
+    bookCard.appendChild(newEl);
+  }
+
+  buildDots();
+  updateArrows();
+}
+
+function openBook() {
+  if (!bookOpened) {
+    bookOpened = true;
+    document.getElementById('openHintBadge').classList.add('hidden');
+    document.getElementById('audioBar').classList.add('visible');
+    startMusic();
+  }
+  nextPage();
+}
+
+function nextPage() {
+  if (currentPage < pages.length - 1) goToPage(currentPage + 1, 'forward');
+}
+function prevPage() {
+  if (currentPage > 0) goToPage(currentPage - 1, 'backward');
+}
+
+function goToPage(target, dir) {
+  if (animating || target === currentPage || target < 0 || target >= pages.length) return;
+  const forward = dir ? dir === 'forward' : target > currentPage;
+  animating = true;
+  stopAllAudio();
+  currentPage = target;
+  renderBook(forward ? 'forward' : 'backward');
+  setTimeout(() => {
+    animating = false;
+    const p = pages[currentPage];
+    if (p && p.voiceSrc) playPageVoice(p.voiceSrc);
+  }, 540);
+}
+
+// ── SWIPE GESTURES ───────────────────────────────────────────
+let touchStartX = 0;
+let touchStartY = 0;
+
+bookCard.addEventListener('touchstart', e => {
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+}, { passive: true });
+
+bookCard.addEventListener('touchend', e => {
+  if (!bookOpened) return;
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  const dy = e.changedTouches[0].clientY - touchStartY;
+  if (Math.abs(dx) > Math.abs(dy) * 1.2 && Math.abs(dx) > 45) {
+    if (dx < 0) nextPage();
+    else        prevPage();
+  }
+}, { passive: true });
+
+// ── KEYBOARD ─────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextPage();
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   prevPage();
+});
+
+// ── INIT ─────────────────────────────────────────────────────
+renderBook();
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+/* Añade el "notch"/safe-area de iOS al viewport si el <meta viewport>
+       de la página no lo incluye todavía. No pasa nada si ya lo tenía. */
+    #backToRoomBtn {
+        position: fixed;
+        z-index: 9999;
+        display: none; /* se muestra solo si venimos de reproductor.html */
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        max-width: calc(100vw - 24px);
+        box-sizing: border-box;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        /* Desktop / tablet */
+        bottom: 24px;
+        right: 24px;
+        padding: 12px 20px;
+        font-size: 0.85rem;
+
+        border-radius: 9999px;
+        background: linear-gradient(135deg, #0d9488, #0891b2);
+        color: #fff;
+        font-weight: 700;
+        border: 1px solid rgba(45, 212, 191, 0.5);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.4), 0 0 20px rgba(45,212,191,0.25);
+        cursor: pointer;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        transition: transform .2s ease, box-shadow .2s ease;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    #backToRoomBtn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 32px rgba(0,0,0,0.5), 0 0 28px rgba(45,212,191,0.4);
+    }
+    #backToRoomBtn:active { transform: translateY(-1px) scale(0.97); }
+    #backToRoomBtn i { font-size: 1rem; flex-shrink: 0; }
+    #backToRoomLabel {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    /* ── Móviles: pegado al borde inferior, respetando el "safe area"
+         del notch/barra de gestos, y sin desbordar horizontalmente ── */
+    @media (max-width: 640px) {
+        #backToRoomBtn {
+            left: 12px;
+            right: 12px;
+            bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+            width: auto;
+            max-width: calc(100vw - 24px);
+            padding: 11px 16px;
+            font-size: 0.78rem;
+            justify-content: center;
+        }
+    }
+
+    /* Pantallas muy pequeñas (≤360px) */
+    @media (max-width: 360px) {
+        #backToRoomBtn {
+            left: 8px;
+            right: 8px;
+            bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+            padding: 10px 12px;
+            font-size: 0.72rem;
+            gap: 6px;
+        }
+    }
+</style>
+<button id="backToRoomBtn" onclick="goBackToRoom()">
+    <i class="fas fa-arrow-left"></i>
+    <span id="backToRoomLabel">Volver a la sala</span>
+</button>
+<script>
+(function () {
+    // Asegura que el viewport respete el "notch"/barra de gestos en iPhone,
+    // para que env(safe-area-inset-bottom) funcione aunque la página no
+    // tuviera viewport-fit=cover configurado en su <meta viewport>.
+    var vp = document.querySelector('meta[name="viewport"]');
+    if (vp && vp.content.indexOf('viewport-fit') === -1) {
+        vp.content = vp.content + ', viewport-fit=cover';
+    } else if (!vp) {
+        var m = document.createElement('meta');
+        m.name = 'viewport';
+        m.content = 'width=device-width, initial-scale=1.0, viewport-fit=cover';
+        document.head.appendChild(m);
+    }
+
+    var returnUrl   = sessionStorage.getItem('lastRoomUrl');
+    var returnTopic = sessionStorage.getItem('lastRoomTopicLabel') || sessionStorage.getItem('lastRoomTopic');
+    var btn   = document.getElementById('backToRoomBtn');
+    var label = document.getElementById('backToRoomLabel');
+
+    // Solo mostrar el botón si llegamos aquí desde reproductor.html
+    if (returnUrl) {
+        btn.style.display = 'flex';
+        if (returnTopic) {
+            label.textContent = 'Volver a ' + returnTopic;
+        }
+    }
+
+    window.goBackToRoom = function () {
+        window.location.href = returnUrl || 'reproductor.html';
+    };
+})();
+</script>
+</body>
+</html>

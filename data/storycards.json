@@ -1,5 +1,25 @@
 [
   {
+    "id": 1793563993090,
+    "titulo": "Especial Semanal: Los Secretos de CINE",
+    "tematica": "CINE",
+    "tipo": "automatica-ia",
+    "descripcion": "Generado con narración de voz masculina automatizada.",
+    "imagen": "storycard/assets/images/default_cover.jpg",
+    "audioVoz": "storycard/assets/audio/voz/story_1793563993089_voz.mp3",
+    "musicaFondo": "storycard/assets/audio/musica/cine_ambient_1793563993089.mp3"
+  },
+  {
+    "id": 1793563993091,
+    "titulo": "Desafío Sonoro de CINE",
+    "tematica": "CINE",
+    "tipo": "automatica-ia",
+    "descripcion": "Experiencia interactiva con audio neuronal y música ambiental.",
+    "imagen": "storycard/assets/images/default_cover.jpg",
+    "audioVoz": "storycard/assets/audio/voz/story_1793563993089_voz.mp3",
+    "musicaFondo": "storycard/assets/audio/musica/cine_ambient_1793563993089.mp3"
+  },
+  {
     "id": 1,
     "titulo": "Tarjeta Base Inicial",
     "tematica": "CINE",

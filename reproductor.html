@@ -1553,33 +1553,33 @@ function applyLang() {
 synopsis: "Un hidalgo idealista decide convertirse en caballero andante para impartir justicia en un mundo que ya no cree en héroes. Acompañado por su práctico escudero, su desbordante imaginación le llevará a enfrentarse a formidables enemigos que solo él puede ver.", storyPage: "elseñordeloslocosysabios.html",
 lyrics: "La mayor locura es ver el mundo solo como es, y no como debería ser.",
 quiz: [
-    { 
-        q: "¿Cuál es la principal diferencia entre la visión de Don Quijote y la de Blas frente a los molinos?", 
-        a: ["Don Quijote ve gigantes y Blas ve dragones.", "Don Quijote ve gigantes y Blas ve máquinas movidas por el viento.", "Ambos ven gigantes, pero Blas tiene miedo de pelear.", "Blas cree que son castillos y Don Quijote que son ejércitos."], 
-        correct: 1 
+    {
+        q: "¿Qué provocó que Alonso Quijano perdiera el juicio según el Capítulo 1?",
+        a: ["Un golpe en la cabeza en una batalla", "El consumo excesivo de libros de caballerías", "Una fiebre muy alta que duró semanas", "La pérdida de toda su hacienda"],
+        correct: 1
     },
-    { 
-        q: "¿Qué importante lección aprende Blas en la venta sobre los tipos de risa?", 
-        a: ["Que la risa siempre es buena para la salud.", "Que no hay que reírse nunca de los caballeros.", "Que hay una risa que hiere como daga y otra que cura como bálsamo.", "Que la risa de los arrieros es la única verdadera."], 
-        correct: 2 
+    {
+        q: "¿Qué le prometió Don Quijote a Sancho Panza para convencerlo de ser su escudero?",
+        a: ["Una gran fortuna en oro", "El gobierno de una ínsula", "Un caballo nuevo y armadura", "Tierras fértiles en La Mancha"],
+        correct: 1
     },
-    { 
-        q: "¿Cómo demuestra Sancho su sabiduría durante su gobierno en la ínsula Barataria?", 
-        a: ["Ganando una batalla contra un ejército invasor.", "Resolviendo juicios con gran sentido común y justicia.", "Escribiendo un nuevo código de leyes para los duques.", "Cocinando grandes banquetes para todo el pueblo."], 
-        correct: 1 
+    {
+        q: "¿Qué transformó Don Quijote en su mente al llegar a la primera venta?",
+        a: ["Un castillo imponente", "Una posada de ladrones", "Un templo sagrado", "Un palacio real"],
+        correct: 0
     },
-    { 
-        q: "¿Qué descubre Blas sobre el 'vuelo' en el caballo de madera Clavileño?", 
-        a: ["Que el caballo realmente voló hasta el reino de Candaya.", "Que se puede viajar con la imaginación aunque no te muevas del suelo.", "Que el caballo era un invento mecánico de los duques.", "Que Sancho tenía miedo a las alturas."], 
-        correct: 1 
+    {
+        q: "Según Sancho Panza, ¿qué eran en realidad los supuestos gigantes a los que se enfrentó su amo?",
+        a: ["Torres de vigilancia", "Árboles gigantescos", "Molinos de viento", "Bandidos del camino"],
+        correct: 2
     },
-    { 
-        q: "Al final de la historia, ¿cuál es la reflexión de Blas sobre la verdadera sabiduría?", 
-        a: ["Que todos los molinos son en realidad gigantes disfrazados.", "Que consiste en saber cuándo luchar contra los molinos y cuándo dejarlos girar.", "Que nunca debió haber dejado su rebaño de cabras.", "Que los libros de caballerías tenían razón después de todo."], 
-        correct: 1 
+    {
+        q: "¿Cómo explicó Don Quijote su derrota ante el molino tras ser lanzado por los aires?",
+        a: ["Dijo que Rocinante se había asustado", "Culpó a un encantador de cambiar los gigantes por molinos", "Afirmó que su espada estaba rota", "Dijo que la batalla era una prueba divina"],
+        correct: 1
     }
-],
-},
+]
+        },
 { id: 23, title: "El largo regreso a Ítaca", originalTitle: "Ítaca no es llegar, es aprender a partir de nuevo.", author: "", year: 2026, category: "ÉPICA", topic: "Literatura", totalStars: 0, cover: "./imagenportada/lit_regresoitaca.png", audio: "./audio/lit_regresoitaca.mp3",
 synopsis: "Una joven timonel emprende un viaje por mares cambiantes y puertos hostiles para encontrar a su hermano desaparecido, reuniendo a una tripulación improbable a bordo de una frágil embarcación. Entre deudas, tormentas y rutas inciertas, la travesía se convierte en una prueba de ingenio, lealtad y resistencia frente a un mundo que nunca deja de moverse.", storyPage: "largoregresoaitaca.html",
 lyrics: "Nausícaa de Ítaca empeña la dote de su madre para comprar la barca Melissa y buscar a su hermano desaparecido, Telemo. Con una tripulación improvisada —el carpintero Elpenor, la negociante Melanto y el poeta Lirco— navega por puertos de contratos, astilleros de vidrio y ciudades sin fuego, siguiendo enfilaciones y pistas sobre su paradero mientras la deuda y el plazo de la higuera apremian.",
@@ -3597,7 +3597,7 @@ const songsI18n = {
             const lista = await respuesta.json();
             if (!Array.isArray(lista)) throw new Error('Formato de storycards.json no válido');
 
-            robotStorycards = lista.map(c => {
+            robotStorycards = lista.filter(c => c && c.storyPage).map(c => {
                 // Evita choques con los ids de las storycards fijas (p. ej. el id 1 de ejemplo)
                 const idReal = songs.some(s => s.id === c.id) ? (1e13 + Number(c.id)) : c.id;
                 const tematica = tematicaCanonica(c.tematica);
@@ -3616,6 +3616,7 @@ const songsI18n = {
                     cover: c.imagen || './images/usuarios.png',
                     synopsis: c.descripcion || '',
                     quiz: [],
+                    storyPage: c.storyPage,          // página HTML creada por el robot (libro interactivo)
                     audioVoz: c.audioVoz || '',
                     musicaFondo: c.musicaFondo || '',
                     creadaEn: obtenerFechaCreacionIA(c)
@@ -3832,7 +3833,7 @@ const songsI18n = {
                     <i class="fas fa-play text-white text-3xl bg-teal-600/80 backdrop-blur-sm p-4 rounded-full hover:bg-teal-500 transition shadow-xl"></i>
                 </button>
         ` : `
-                <button ${song.esIA ? `data-ia-play="${song.id}" onclick="cargarYReproducerStorycard(${JSON.stringify(song.id)})"` : `onclick="openStoryPage(${JSON.stringify(song.id)})"`} class="absolute inset-0 flex flex-col items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100 transition duration-300 gap-2">
+                <button ${(song.esIA && !song.storyPage) ? `data-ia-play="${song.id}" onclick="cargarYReproducerStorycard(${JSON.stringify(song.id)})"` : `onclick="openStoryPage(${JSON.stringify(song.id)})"`} class="absolute inset-0 flex flex-col items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100 transition duration-300 gap-2">
                     <i class="fas fa-play text-white text-3xl bg-teal-600/80 backdrop-blur-sm p-4 rounded-full hover:bg-teal-500 transition shadow-xl"></i>
                 </button>
         `}

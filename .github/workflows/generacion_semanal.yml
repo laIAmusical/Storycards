@@ -1,4 +1,4 @@
-name: Automatización Semanal Storycards y Multimedia
+name: Automatización Semanal Storycards
 
 on:
   schedule:
@@ -21,21 +21,22 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Crear 2 storycards completas (HTML, imágenes, voz y música)
+      - name: Escribir 2 historias épicas con Gemini y crear las storycards
         env:
-          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          NUM_CAPITULOS: 5          # capítulos por historia (3 a 8)
+          PALABRAS_CAPITULO: 170    # palabras aproximadas por capítulo
         run: node scripts/generador_semanal.js
 
       - name: Guardar y sincronizar cambios automáticamente en GitHub
         run: |
           git config user.name "Bot Automático de Storycards"
           git config user.email "bot@users.noreply.github.com"
-          git add data/storycards.json storycard/
-          git add -- 'ia*.html'
+          git add -A
           if git diff --cached --quiet; then
             echo "No hay cambios que guardar."
             exit 0
           fi
-          git commit -m "🤖 Generación automática de 2 Storycards completas (HTML, imágenes, voz y música)"
+          git commit -m "🤖 Nuevas storycards épicas generadas con Gemini"
           git pull --rebase origin "${GITHUB_REF_NAME}"
           git push

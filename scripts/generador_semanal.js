@@ -1,29 +1,81 @@
 /**
  * Robot semanal de Storycards (GitHub Actions)
  * ------------------------------------------------------------------
- * Cada ejecución crea 2 storycards COMPLETAS y autónomas:
- *   - <slug>.html                      → libro interactivo (mismo diseño que el Creador de Cartas)
- *   - storycard/<slug>/portada.*       → portada (IA con Pollinations o ilustración SVG de respaldo)
- *   - storycard/<slug>/portadamovil.*  → portada vertical 9:16
- *   - storycard/<slug>/imagenN.*       → ilustración de cada capítulo
- *   - storycard/<slug>/vozN.mp3        → narración de cada capítulo (ElevenLabs)
- *   - storycard/<slug>/musica.wav      → música ambiental generada por el propio robot
+ * Cada ejecución escribe 2 historias ÉPICAS originales con Gemini y las
+ * convierte en storycards completas:
+ *   - <slug>.html                    → libro interactivo (diseño del Creador de Cartas)
+ *   - storycard/<slug>/portada.*     → portada (IA con Pollinations o SVG de respaldo)
+ *   - storycard/<slug>/portadamovil.*→ portada vertical 9:16
+ *   - storycard/<slug>/imagenN.*     → ilustración de cada capítulo
  *   y las registra en data/storycards.json para que reproductor.html las muestre.
  *
- * Requisitos: Node 18+ (usa fetch nativo) y NINGUNA dependencia npm.
- * Secreto opcional: ELEVENLABS_API_KEY (GitHub → Settings → Secrets → Actions).
+ * La VOZ y la MÚSICA ya NO las crea el robot: se suben a mano. El robot deja
+ * la página preparada con las rutas exactas y las lista en data/audios_pendientes.md.
+ *
+ * Requisitos: Node 18+ (fetch nativo), sin dependencias npm.
+ * Secreto obligatorio: GEMINI_API_KEY (GitHub → Settings → Secrets → Actions).
  */
 const fs = require('fs');
 const path = require('path');
 
 // ───────────────────────── CONFIGURACIÓN ─────────────────────────
 const RAIZ = path.join(__dirname, '..');
-const NUM_CAPITULOS = parseInt(process.env.NUM_CAPITULOS || '3', 10);
-const ELEVEN_KEY = process.env.ELEVENLABS_API_KEY || '';
-const ELEVEN_VOICE = process.env.ELEVENLABS_VOICE_ID || 'aYbngTsp5kp0sibI3Z0T'; // voz masculina
+const GEMINI_KEY = process.env.GEMINI_API_KEY || '';
+const GEMINI_MODEL = process.env.GEMINI_MODEL || '';            // opcional: fuerza un modelo
+const NUM_CAPITULOS = Math.max(3, Math.min(8, parseInt(process.env.NUM_CAPITULOS || '5', 10)));
+const PALABRAS_CAPITULO = Math.max(80, Math.min(400, parseInt(process.env.PALABRAS_CAPITULO || '170', 10)));
 const POLLINATIONS_KEY = process.env.POLLINATIONS_API_KEY || '';
 const AUTOR = 'LaIAmusical';
+// Rutas donde SUBES a mano la voz y la música:
+const RUTA_VOZ = 'storycard/assets/audio/voz';        // <slug>-cap1.mp3, <slug>-cap2.mp3, ...
+const RUTA_MUSICA = 'storycard/assets/audio/musica';  // <slug>.mp3
 const PLANTILLA = JSON.parse(fs.readFileSync(path.join(__dirname, 'plantilla_story.json'), 'utf8'));
+
+// Salas (temáticas) que el robot sabe escribir. "nombre" = nombre exacto de la sala en el reproductor.
+const TEMAS = [
+    {
+        nombre: 'Literatura', alias: ['LITERATURA', 'LIBROS', 'LIBRO', 'NOVELA'],
+        formato: 'una novela épica condensada, con prosa literaria cuidada, voz de narrador y personajes profundos',
+        estilo: 'epic fantasy book illustration, oil painting, dramatic light',
+        semillas: ['un viaje iniciático a través de un imperio en ruinas', 'una dinastía marcada por una profecía que todos malinterpretan', 'una bibliotecaria que descubre que un libro prohibido reescribe el destino', 'una guerra entre dos reinos que termina por un secreto de familia', 'un navegante que persigue una isla que solo aparece una noche cada siglo']
+    },
+    {
+        nombre: 'Cine', alias: ['CINE', 'PELICULA', 'PELICULAS', 'FILM'],
+        formato: 'el argumento de una superproducción cinematográfica narrado escena a escena, con ritmo de cine, imágenes potentes y un clímax espectacular',
+        estilo: 'cinematic film still, epic widescreen, dramatic lighting, movie poster aesthetic',
+        semillas: ['un atraco imposible durante la caída de un imperio', 'un piloto atrapado en una misión que cambia la historia de su país', 'una expedición a una ciudad sumergida que guarda un arma olvidada', 'un detective en una ciudad que se hunde bajo la lluvia eterna', 'una carrera a contrarreloj para salvar una ciudad de un colapso']
+    },
+    {
+        nombre: 'Animación', alias: ['ANIMACION', 'ANIMACIÓN', 'ANIMADA', 'DIBUJOS'],
+        formato: 'una película animada épica y emotiva para todos los públicos, con humor, ternura, criaturas fantásticas y un mensaje que conmueve',
+        estilo: 'colorful animated feature film concept art, lush painterly, whimsical, warm light',
+        semillas: ['un zorro mensajero que debe devolver la luz a un bosque dormido', 'una niña y un dragón de papel que cruzan el mar de las nubes', 'un robot jardinero que protege la última semilla de un mundo gris', 'una ciudad de juguetes que despierta cuando cae la noche', 'un pequeño faro vivo que guía a las ballenas a casa']
+    },
+    {
+        nombre: 'Series', alias: ['SERIES', 'SERIE', 'TV'],
+        formato: 'la temporada de una gran serie dramática: cada capítulo es un episodio con su propio gancho, giros, varios personajes con arcos propios y un cliffhanger final',
+        estilo: 'prestige tv series key art, moody cinematic lighting, ensemble cast silhouette, dramatic',
+        semillas: ['una familia de contrabandistas en una frontera en guerra', 'un equipo de científicos aislados en una estación polar que descubre algo bajo el hielo', 'una ciudad gobernada por tres casas rivales y un traidor entre ellas', 'una médica forense que investiga muertes imposibles en un pueblo minero', 'una tripulación de una nave de carga que hereda un mapa de una civilización perdida']
+    },
+    {
+        nombre: 'Ópera y conciertos', alias: ['OPERA', 'ÓPERA', 'CONCIERTOS', 'CONCIERTO', 'OPERA Y CONCIERTOS', 'ÓPERA Y CONCIERTOS', 'MUSICA'],
+        formato: 'una ópera o un gran concierto narrados como relato: estructura en actos, arias y coros descritos con emoción, orquesta, pasiones desbordadas y un final trágico o sublime',
+        estilo: 'grand opera house, baroque dramatic painting, golden light, orchestra, chiaroscuro',
+        semillas: ['una soprano condenada a cantar la última aria de un reino que se derrumba', 'un violinista que hace un pacto para tocar una sinfonía que nadie debe oír completa', 'un director de orquesta que descubre que su partitura predice una tragedia', 'dos casas rivales de ópera enfrentadas la noche del estreno de una obra maldita', 'un concierto en una catedral que se convierte en el último acto de un reino']
+    },
+    {
+        nombre: 'Teatro y musicales', alias: ['TEATRO', 'MUSICALES', 'MUSICAL', 'TEATRO Y MUSICALES'],
+        formato: 'una obra de teatro o un musical narrados en actos, con diálogos memorables, números musicales descritos con vida, escenografía y emoción de patio de butacas',
+        estilo: 'theatre stage production, spotlight, red velvet curtains, dramatic stage design, painterly',
+        semillas: ['una compañía ambulante que representa una obra que empieza a hacerse realidad', 'un teatro abandonado cuyos fantasmas piden un último estreno', 'un joven apuntador que descubre que el guion de la obra es una carta de amor del siglo pasado', 'un musical sobre una revolución que se canta desde un balcón', 'una actriz que debe elegir entre el papel de su vida y la verdad']
+    },
+    {
+        nombre: 'Documentales y usuarios', alias: ['DOCUMENTALES', 'DOCUMENTAL', 'EXTRA Y DOCUMENTALES', 'DOCUMENTALES Y USUARIOS'],
+        formato: 'un documental narrado de tono épico sobre un asunto FICTICIO (personajes, lugares y hechos inventados, sin relación con personas ni sucesos reales), con voz de narrador, entrevistas imaginadas y un descubrimiento final',
+        estilo: 'epic nature and expedition documentary photography, dramatic landscape, golden hour, cinematic',
+        semillas: ['la expedición imaginaria a una cordillera donde el eco responde con voces antiguas', 'el último guardián de un archivo submarino de mapas perdidos', 'la historia de un río ficticio que cambió de curso y con él, el destino de tres pueblos', 'una orquesta de ballenas y el científico que tardó veinte años en comprenderla', 'el inventor de una ciudad flotante que nunca llegó a verla terminada']
+    }
+];
 
 // ───────────────────────── UTILIDADES ─────────────────────────
 const dormir = ms => new Promise(r => setTimeout(r, ms));
@@ -77,87 +129,161 @@ async function fetchConTimeout(url, opciones = {}, ms = 60000) {
     finally { clearTimeout(timer); }
 }
 
-// ───────────────────────── 1. ESTADÍSTICAS → TEMÁTICA ─────────────────────────
-function elegirTematicaGanadora() {
-    const rutaRanking = path.join(RAIZ, 'data/ranking_semanal.json');
-    let datos = [];
-    try { if (fs.existsSync(rutaRanking)) datos = JSON.parse(fs.readFileSync(rutaRanking, 'utf8')); }
-    catch (e) { console.warn('ranking_semanal.json ilegible, uso CINE:', e.message); }
-    const puntos = {};
-    datos.forEach(u => {
-        const cat = (u.tematicaFavorita || 'CINE').toString().toUpperCase();
-        puntos[cat] = (puntos[cat] || 0) + (u.puntuacion || 1);
-    });
-    return Object.keys(puntos).reduce((a, b) => (puntos[a] > puntos[b] ? a : b), 'CINE');
+// ───────────────────────── 1. ELEGIR TEMÁTICAS ─────────────────────────
+const sinAcentos = t => (t || '').toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase().trim();
+
+function temaPorNombre(texto) {
+    const n = sinAcentos(texto);
+    if (!n) return null;
+    return TEMAS.find(t => sinAcentos(t.nombre) === n || t.alias.some(a => sinAcentos(a) === n)) || null;
 }
 
-// ───────────────────────── 2. HISTORIA (texto) ─────────────────────────
-async function pedirTextoIA(prompt) {
-    for (let intento = 1; intento <= 3; intento++) {
-        try {
-            let url = 'https://text.pollinations.ai/' + encodeURIComponent(prompt.slice(0, 1800)) +
-                '?model=openai&seed=' + Math.floor(Math.random() * 999999);
-            if (POLLINATIONS_KEY) url += '&key=' + encodeURIComponent(POLLINATIONS_KEY);
-            const res = await fetchConTimeout(url, {}, 90000);
-            if (!res.ok) throw new Error('HTTP ' + res.status);
-            const txt = (await res.text()).replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
-            if (txt.length > 50) return txt;
-        } catch (e) { console.warn(`  Texto IA, intento ${intento} falló: ${e.message}`); }
-        await dormir(2500 * intento);
-    }
-    return null;
+function leerJson(ruta, defecto) {
+    try { if (fs.existsSync(ruta)) return JSON.parse(fs.readFileSync(ruta, 'utf8')); }
+    catch (e) { console.warn(`${path.basename(ruta)} ilegible:`, e.message); }
+    return defecto;
 }
+
+/** Tarjeta 1 = temática ganadora del ranking (si el robot la domina); tarjeta 2 = la sala con la historia más antigua. */
+function elegirTematicas(historial) {
+    const ranking = leerJson(path.join(RAIZ, 'data/ranking_semanal.json'), []);
+    const puntos = {};
+    ranking.forEach(u => {
+        const tema = temaPorNombre(u.tematicaFavorita);
+        if (tema) puntos[tema.nombre] = (puntos[tema.nombre] || 0) + (u.puntuacion || 1);
+    });
+    const ganadora = Object.keys(puntos).sort((a, b) => puntos[b] - puntos[a])[0];
+
+    const ultima = {};
+    historial.forEach(c => {
+        const t = temaPorNombre(c.tematica);
+        const f = Date.parse(c.fechaCreacion || '') || Number(c.id) || 0;
+        if (t) ultima[t.nombre] = Math.max(ultima[t.nombre] || 0, f);
+    });
+    // la sala sin historias, o con la más antigua, va primero
+    const rotacion = [...TEMAS].sort((a, b) => ((ultima[a.nombre] || 0) - (ultima[b.nombre] || 0)) || (hashTexto(a.nombre + Date.now()) % 3) - 1);
+
+    const primera = TEMAS.find(t => t.nombre === ganadora) || rotacion[0];
+    const segunda = rotacion.find(t => t.nombre !== primera.nombre);
+    console.log(`> Temática ganadora del ranking: ${ganadora || '(sin datos válidos)'}`);
+    return [primera, segunda];
+}
+
+// ───────────────────────── 2. HISTORIA ÉPICA CON GEMINI ─────────────────────────
+const MODELOS_PREFERIDOS = ['gemini-2.5-flash', 'gemini-flash-latest', 'gemini-2.5-flash-lite', 'gemini-flash-lite-latest', 'gemini-2.5-pro'];
+let modelosGemini = null;
+
+async function listarModelosGemini() {
+    if (GEMINI_MODEL) return [GEMINI_MODEL];
+    if (modelosGemini) return modelosGemini;
+    try {
+        const res = await fetchConTimeout('https://generativelanguage.googleapis.com/v1beta/models?pageSize=1000',
+            { headers: { 'x-goog-api-key': GEMINI_KEY } }, 30000);
+        const datos = await res.json();
+        if (!res.ok) throw new Error(datos.error?.message || `HTTP ${res.status}`);
+        const disponibles = (datos.models || [])
+            .filter(m => (m.supportedGenerationMethods || []).includes('generateContent'))
+            .map(m => String(m.name || '').replace(/^models\//, ''))
+            .filter(n => n.includes('gemini') && !/(tts|embedding|image|live|audio|vision|robotics|computer)/.test(n));
+        modelosGemini = [
+            ...MODELOS_PREFERIDOS.filter(m => disponibles.includes(m)),
+            ...disponibles.filter(m => !MODELOS_PREFERIDOS.includes(m) && /flash/.test(m))
+        ].slice(0, 5);
+        if (!modelosGemini.length) throw new Error('la clave no ve ningún modelo Gemini compatible');
+    } catch (e) {
+        console.warn(`  No pude listar modelos (${e.message}); uso la lista por defecto.`);
+        modelosGemini = MODELOS_PREFERIDOS.slice(0, 3);
+    }
+    return modelosGemini;
+}
+
+async function pedirGemini(prompt) {
+    const modelos = await listarModelosGemini();
+    let ultimoError = null;
+    for (const modelo of modelos) {
+        try {
+            const res = await fetchConTimeout(
+                `https://generativelanguage.googleapis.com/v1beta/models/${modelo}:generateContent`,
+                {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'x-goog-api-key': GEMINI_KEY },
+                    body: JSON.stringify({
+                        contents: [{ role: 'user', parts: [{ text: prompt }] }],
+                        generationConfig: { temperature: 1.0, maxOutputTokens: 16384, responseMimeType: 'application/json' }
+                    })
+                }, 180000);
+            const datos = await res.json();
+            if (!res.ok) throw new Error(datos.error?.message || `HTTP ${res.status}`);
+            const texto = (datos.candidates?.[0]?.content?.parts || []).map(p => p.text || '').join('').trim();
+            if (!texto) throw new Error(`respuesta sin texto (${datos.candidates?.[0]?.finishReason || 'sin motivo'})`);
+            console.log(`  (modelo usado: ${modelo})`);
+            return texto;
+        } catch (e) {
+            ultimoError = e;
+            console.warn(`  Gemini ${modelo} falló: ${e.message}`);
+            if (/API key|PERMISSION_DENIED|UNAUTHENTICATED|403|401/i.test(e.message)) break; // clave mala: no insistir
+        }
+    }
+    throw ultimoError || new Error('Gemini no respondió');
+}
+
 function parseJsonSuelto(raw) {
     if (!raw) return null;
-    try { return JSON.parse(raw); } catch (e) { /* sigue */ }
-    const a = raw.indexOf('{'), b = raw.lastIndexOf('}');
-    if (a >= 0 && b > a) { try { return JSON.parse(raw.slice(a, b + 1)); } catch (e) { /* sigue */ } }
+    const t = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
+    try { return JSON.parse(t); } catch (e) { /* sigue */ }
+    const a = t.indexOf('{'), b = t.lastIndexOf('}');
+    if (a >= 0 && b > a) { try { return JSON.parse(t.slice(a, b + 1)); } catch (e) { /* sigue */ } }
     return null;
 }
 
-function historiaRespaldo(tematica, titulo, n) {
-    const t = tematica.toLowerCase();
-    const aperturas = [
-        `Todo empezó una noche cualquiera, cuando el mundo de ${t} dejó de ser solo una afición y se convirtió en un enigma.`,
-        `Nadie esperaba que la semana trajera un misterio nuevo al universo de ${t}, pero allí estaba, esperando a quien se atreviera a buscarlo.`
-    ];
-    return {
-        sinopsis: `Una aventura breve en el universo de ${t}: ${titulo}. Pistas, giros y una decisión que lo cambia todo.`,
-        capitulos: [
-            { titulo: 'El comienzo', texto: `${aperturas[n % 2]} Una pista diminuta, casi invisible, apuntaba hacia un lugar que nadie había mirado con atención.\n\nSiguiendo ese rastro, la protagonista entendió que cada detalle importaba y que la historia apenas estaba despertando.` },
-            { titulo: 'La pista oculta', texto: `Entre luces, sombras y voces lejanas, apareció la primera respuesta, aunque trajo consigo dos preguntas más.\n\nNada era lo que parecía, y cada paso exigía confiar en la intuición más que en las pruebas.` },
-            { titulo: 'La decisión', texto: `Al final solo quedaba una elección: seguir adelante o volver a la calma de siempre.\n\nElla sonrió, respiró hondo y avanzó. Algunas historias solo se entienden cuando se tiene el valor de terminarlas.` },
-            { titulo: 'El eco', texto: `Mucho tiempo después, el eco de aquella aventura seguía resonando en el universo de ${t}, invitando a otros a escribir la siguiente página.` }
-        ]
-    };
+function validarHistoria(j) {
+    if (!j || typeof j !== 'object') return 'no es un JSON';
+    const titulo = stripWrappingQuotes(String(j.titulo || ''));
+    if (titulo.length < 4 || titulo.length > 90) return 'título inválido';
+    if (!Array.isArray(j.capitulos) || j.capitulos.length < NUM_CAPITULOS) return `faltan capítulos (${(j.capitulos || []).length}/${NUM_CAPITULOS})`;
+    const minimo = Math.round(PALABRAS_CAPITULO * 0.45);
+    for (let i = 0; i < NUM_CAPITULOS; i++) {
+        const t = String(j.capitulos[i]?.texto || '');
+        if (t.split(/\s+/).length < minimo) return `el capítulo ${i + 1} es demasiado corto`;
+    }
+    return null;
 }
 
-async function generarHistoria(tematica, titulo, enfoque, n) {
-    console.log(`  ✍️  Escribiendo la historia "${titulo}"...`);
-    const prompt = `Escribe una historia corta original en español sobre ${tematica} con el título "${titulo}" (${enfoque}). ` +
-        `Responde SOLO con JSON válido, sin markdown, con esta forma exacta: ` +
-        `{"sinopsis":"una frase de 25 palabras","capitulos":[{"titulo":"título breve","texto":"2 párrafos de unas 60 palabras en total"}]} ` +
-        `con exactamente ${NUM_CAPITULOS} capítulos. Sin escribir el título dentro del texto.`;
-    const raw = await pedirTextoIA(prompt);
-    const json = parseJsonSuelto(raw);
-    const respaldo = historiaRespaldo(tematica, titulo, n);
-    let caps = [];
-    if (json && Array.isArray(json.capitulos)) {
-        caps = json.capitulos
-            .filter(c => c && typeof c.texto === 'string' && c.texto.trim().length > 60)
-            .map(c => ({ titulo: String(c.titulo || ''), texto: c.texto }));
+async function escribirHistoria(tema, usados) {
+    const semilla = tema.semillas[Math.floor(Math.random() * tema.semillas.length)];
+    const prompt = [
+        `Eres un autor galardonado de historias épicas. Escribe en ESPAÑOL una historia ORIGINAL para la sala «${tema.nombre}» de una biblioteca de storycards.`,
+        `Formato: ${tema.formato}.`,
+        `Punto de partida (puedes reinventarlo): ${semilla}.`,
+        '',
+        'REGLAS:',
+        '- TÍTULO: un título propio y memorable, con un NOMBRE PROPIO inventado (de personaje, lugar, reino, nave, obra…) ligado a la trama, p. ej. «La Corona de Elara Voss» o «El Último Faro de Calderón». Máximo 8 palabras. Prohibidos títulos genéricos («Historia épica», «Especial semanal», «Aventura de…») y títulos de obras existentes.',
+        '- Todo es 100 % original: sin personajes, marcas, mundos ni obras protegidas, y sin personas reales ni sucesos reales.',
+        `- Exactamente ${NUM_CAPITULOS} capítulos de unas ${PALABRAS_CAPITULO} palabras cada uno (3 o 4 párrafos separados por una línea en blanco).`,
+        '- Estructura épica: presentación del mundo y la herida del protagonista, escalada de conflicto, un giro central que cambia las reglas, un sacrificio o decisión difícil y un final con eco emocional.',
+        '- Escribe con imágenes sensoriales, diálogo puntual y estilo propio; evita clichés y frases de relleno.',
+        '- Nada de violencia gráfica ni contenido sexual: apto para todos los públicos.',
+        usados.length ? `- Títulos ya usados (NO repetir ni imitar): ${usados.slice(0, 20).join(' | ')}.` : '',
+        '',
+        'Responde SOLO con JSON válido, sin markdown, con esta forma exacta:',
+        '{"titulo":"…","sinopsis":"2 frases atractivas, máx. 45 palabras, sin destripar el final","portada_en":"visual description in English of the cover art, no text, no letters","capitulos":[{"titulo":"título breve del capítulo","texto":"…","escena_en":"visual description in English of this chapter\'s key scene, no text, no letters"}]}'
+    ].filter(Boolean).join('\n');
+
+    let motivo = '';
+    for (let intento = 1; intento <= 3; intento++) {
+        try {
+            const raw = await pedirGemini(prompt);
+            const json = parseJsonSuelto(raw);
+            motivo = validarHistoria(json);
+            if (!motivo) return json;
+            console.warn(`  Intento ${intento}: respuesta descartada (${motivo}).`);
+        } catch (e) {
+            motivo = e.message;
+            if (/API key|PERMISSION_DENIED|UNAUTHENTICATED/i.test(e.message)) throw e;
+        }
+        await dormir(3000 * intento);
     }
-    if (caps.length < NUM_CAPITULOS) {
-        console.log(`  ⚠️  La IA de texto no respondió bien (${caps.length}/${NUM_CAPITULOS}); completo con texto de respaldo.`);
-        for (let i = caps.length; i < NUM_CAPITULOS; i++) caps.push(respaldo.capitulos[i % respaldo.capitulos.length]);
-    }
-    return {
-        sinopsis: (json && typeof json.sinopsis === 'string' && json.sinopsis.length > 20) ? json.sinopsis.trim() : respaldo.sinopsis,
-        capitulos: caps.slice(0, NUM_CAPITULOS).map((c, i) => ({
-            titulo: tituloCorto(c.titulo, i),
-            texto: limpiarTextoCapitulo(c.texto)
-        }))
-    };
+    throw new Error(`Gemini no devolvió una historia válida (${motivo})`);
 }
 
 // ───────────────────────── 3. IMÁGENES ─────────────────────────
@@ -235,59 +361,6 @@ async function crearImagen({ carpeta, nombre, prompt, tematica, ancho, alto, sem
     return `${rel}.svg`;
 }
 
-// ───────────────────────── 4. VOZ (ElevenLabs) ─────────────────────────
-async function crearVoz(texto, rutaRel) {
-    if (!ELEVEN_KEY) return false;
-    try {
-        const res = await fetchConTimeout(
-            `https://api.elevenlabs.io/v1/text-to-speech/${ELEVEN_VOICE}?output_format=mp3_44100_128`,
-            {
-                method: 'POST',
-                headers: { Accept: 'audio/mpeg', 'Content-Type': 'application/json', 'xi-api-key': ELEVEN_KEY },
-                body: JSON.stringify({ text: texto, model_id: 'eleven_multilingual_v2', voice_settings: { stability: 0.5, similarity_boost: 0.75 } })
-            }, 90000);
-        if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
-        const buf = Buffer.from(await res.arrayBuffer());
-        if (buf.length < 2000) throw new Error('audio vacío');
-        fs.writeFileSync(path.join(RAIZ, rutaRel), buf);
-        return true;
-    } catch (e) {
-        console.warn(`  ⚠️ Voz no generada (${e.message}). La página funcionará sin narración en ese capítulo.`);
-        return false;
-    }
-}
-
-// ───────────────────────── 5. MÚSICA AMBIENTAL (WAV generado) ─────────────────────────
-function crearMusicaWav(rutaRel, tematica) {
-    const sr = 22050, seg = 28, n = sr * seg;
-    const h = hashTexto(tematica);
-    const raices = [110.0, 123.47, 130.81, 146.83, 98.0, 116.54];
-    const raiz = raices[h % raices.length];
-    const menor = [1, 6 / 5, 3 / 2, 2, 12 / 5];
-    const mayor = [1, 5 / 4, 3 / 2, 2, 5 / 2];
-    const acorde = (h >> 3) % 2 ? menor : mayor;
-    const datos = Buffer.alloc(n * 2);
-    for (let i = 0; i < n; i++) {
-        const t = i / sr;
-        let v = 0;
-        acorde.forEach((r, k) => {
-            const f = raiz * r;
-            const lento = 0.55 + 0.45 * Math.sin(2 * Math.PI * (0.05 + k * 0.013) * t + k);
-            v += Math.sin(2 * Math.PI * f * t) * lento * (0.9 / (k + 1));
-            v += Math.sin(2 * Math.PI * f * 2.003 * t) * lento * 0.12;
-        });
-        const entrada = Math.min(1, t / 3), salida = Math.min(1, (seg - t) / 3);
-        v *= 0.16 * Math.min(entrada, salida);
-        datos.writeInt16LE(Math.max(-32767, Math.min(32767, Math.round(v * 32767))), i * 2);
-    }
-    const cab = Buffer.alloc(44);
-    cab.write('RIFF', 0); cab.writeUInt32LE(36 + datos.length, 4); cab.write('WAVE', 8);
-    cab.write('fmt ', 12); cab.writeUInt32LE(16, 16); cab.writeUInt16LE(1, 20); cab.writeUInt16LE(1, 22);
-    cab.writeUInt32LE(sr, 24); cab.writeUInt32LE(sr * 2, 28); cab.writeUInt16LE(2, 32); cab.writeUInt16LE(16, 34);
-    cab.write('data', 36); cab.writeUInt32LE(datos.length, 40);
-    fs.writeFileSync(path.join(RAIZ, rutaRel), Buffer.concat([cab, datos]));
-}
-
 // ───────────────────────── 6. HTML DE LA STORYCARD ─────────────────────────
 function aplicarI18n(str) {
     const t = PLANTILLA.STORY_I18N.es;
@@ -331,86 +404,111 @@ function generarHtmlStory({ titulo, autor, coverImg, coverMobileImg, musica, cap
 }
 
 // ───────────────────────── 7. PIPELINE POR TARJETA ─────────────────────────
-async function crearStorycardCompleta({ tematica, titulo, enfoque, indice, idBase, marcaFecha }) {
-    const slug = `ia${slugify(tematica)}${marcaFecha}${indice}`;
-    console.log(`\n📖 Storycard ${indice}: "${titulo}"  (slug: ${slug})`);
-    asegurarCarpeta(path.join(RAIZ, 'storycard', slug));
+function slugUnico(titulo) {
+    const base = slugify(titulo) || 'historia';
+    let slug = base, n = 1;
+    while (fs.existsSync(path.join(RAIZ, `${slug}.html`)) || fs.existsSync(path.join(RAIZ, 'storycard', slug))) {
+        n++; slug = `${base}ia${n}`;
+    }
+    return slug;
+}
 
-    const historia = await generarHistoria(tematica, titulo, enfoque, indice);
+async function crearStorycardCompleta({ tema, usados, idBase, indice }) {
+    console.log(`\n📖 Storycard ${indice} · sala «${tema.nombre}»`);
+    console.log('  ✍️  Gemini está escribiendo la historia épica...');
+    const hist = await escribirHistoria(tema, usados);
+    const titulo = stripWrappingQuotes(String(hist.titulo)).replace(/\s+/g, ' ');
+    const slug = slugUnico(titulo);
+    console.log(`  🏷️  Título: "${titulo}"  (slug: ${slug})`);
+    asegurarCarpeta(path.join(RAIZ, 'storycard', slug));
+    asegurarCarpeta(path.join(RAIZ, RUTA_VOZ));
+    asegurarCarpeta(path.join(RAIZ, RUTA_MUSICA));
+
     const semilla = hashTexto(slug);
-    const estilo = `storybook illustration, ${tematica.toLowerCase()} theme, soft cinematic lighting, harmonious palette, no text`;
+    const estilo = `${tema.estilo}, no text, no letters, no watermark`;
 
     console.log('  🖼️  Creando portadas...');
-    const portada = await crearImagen({ carpeta: slug, nombre: 'portada', prompt: `Book cover, ${titulo}, ${estilo}`, tematica, ancho: 768, alto: 768, semilla, usarIA: true });
-    const portadaMovil = await crearImagen({ carpeta: slug, nombre: 'portadamovil', prompt: `Vertical book cover, ${titulo}, ${estilo}`, tematica, ancho: 576, alto: 1024, semilla: semilla + 7, usarIA: true });
+    const promptPortada = `${hist.portada_en || titulo}. ${estilo}`;
+    const portada = await crearImagen({ carpeta: slug, nombre: 'portada', prompt: promptPortada, tematica: tema.nombre, ancho: 768, alto: 768, semilla, usarIA: true });
+    const portadaMovil = await crearImagen({ carpeta: slug, nombre: 'portadamovil', prompt: `Vertical poster. ${promptPortada}`, tematica: tema.nombre, ancho: 576, alto: 1024, semilla: semilla + 7, usarIA: true });
 
     const capitulos = [];
-    for (let i = 0; i < historia.capitulos.length; i++) {
-        const c = historia.capitulos[i];
-        console.log(`  📑 Capítulo ${i + 1}: ilustración y voz...`);
+    const audiosPendientes = [];
+    for (let i = 0; i < NUM_CAPITULOS; i++) {
+        const c = hist.capitulos[i];
+        console.log(`  📑 Capítulo ${i + 1}: ilustración...`);
         const ilustracion = await crearImagen({
-            carpeta: slug, nombre: `imagen${i + 1}`, tematica, ancho: 768, alto: 512, semilla: semilla + 100 + i,
-            prompt: `${c.titulo}. ${c.texto.slice(0, 160)}. ${estilo}`, usarIA: true
+            carpeta: slug, nombre: `imagen${i + 1}`, tematica: tema.nombre, ancho: 768, alto: 512, semilla: semilla + 100 + i,
+            prompt: `${c.escena_en || c.titulo}. ${estilo}`, usarIA: true
         });
-        const vozRel = `storycard/${slug}/voz${i + 1}.mp3`;
-        const hayVoz = await crearVoz(c.texto, vozRel);
-        capitulos.push({ ...c, ilustracion, voz: hayVoz ? vozRel : '' });
+        const voz = `${RUTA_VOZ}/${slug}-cap${i + 1}.mp3`;   // lo subes tú; la página ya apunta aquí
+        audiosPendientes.push(voz);
+        capitulos.push({ titulo: tituloCorto(c.titulo, i), texto: limpiarTextoCapitulo(c.texto), ilustracion, voz });
     }
+    const musica = `${RUTA_MUSICA}/${slug}.mp3`;               // lo subes tú
+    audiosPendientes.push(musica);
 
-    const musicaRel = `storycard/${slug}/musica.wav`;
-    crearMusicaWav(musicaRel, tematica);
-
-    const html = generarHtmlStory({ titulo, autor: AUTOR, coverImg: portada, coverMobileImg: portadaMovil, musica: musicaRel, capitulos });
+    const html = generarHtmlStory({ titulo, autor: AUTOR, coverImg: portada, coverMobileImg: portadaMovil, musica, capitulos });
     fs.writeFileSync(path.join(RAIZ, `${slug}.html`), html);
     console.log(`  ✅ Archivo creado: ${slug}.html`);
 
     return {
-        id: idBase + indice,
-        titulo,
-        tematica,
-        tipo: 'automatica-ia',
-        descripcion: historia.sinopsis,
-        imagen: portada,
-        slug,
-        storyPage: `${slug}.html`,
-        audioVoz: capitulos.find(c => c.voz) ? capitulos.find(c => c.voz).voz : '',
-        musicaFondo: musicaRel,
-        fechaCreacion: new Date().toISOString()
+        tarjeta: {
+            id: idBase + indice,
+            titulo,
+            tematica: tema.nombre,
+            tipo: 'automatica-ia',
+            descripcion: String(hist.sinopsis || '').trim(),
+            imagen: portada,
+            slug,
+            storyPage: `${slug}.html`,
+            audioVoz: capitulos[0].voz,
+            musicaFondo: musica,
+            fechaCreacion: new Date().toISOString()
+        },
+        audiosPendientes
     };
 }
 
 async function ejecutarPipelineInteligente() {
-    console.log('1. Analizando estadísticas y ranking semanal...');
-    const tematica = elegirTematicaGanadora();
-    console.log(`> Predicción de IA: la temática ganadora es '${tematica}'.`);
-    if (!ELEVEN_KEY) console.warn('⚠️  Falta el secreto ELEVENLABS_API_KEY: las storycards se crearán SIN narración de voz.');
+    if (!GEMINI_KEY) {
+        console.error('❌ Falta el secreto GEMINI_API_KEY. Créalo en GitHub: Settings → Secrets and variables → Actions → New repository secret.');
+        process.exit(1);
+    }
+    const rutaJson = path.join(RAIZ, 'data/storycards.json');
+    asegurarCarpeta(path.dirname(rutaJson));
+    const actual = leerJson(rutaJson, []);
+    const usados = actual.map(c => c.titulo).filter(Boolean);
 
-    const ahora = new Date();
-    const marcaFecha = ahora.toISOString().slice(0, 16).replace(/[-:T]/g, ''); // aaaammddhhmm
+    console.log('1. Eligiendo temáticas...');
+    const temas = elegirTematicas(actual);
+    console.log(`> Salas de esta semana: ${temas.map(t => t.nombre).join(' + ')}`);
+
     const idBase = Date.now();
-
-    const plan = [
-        { titulo: `Especial Semanal: Los Secretos de ${tematica}`, enfoque: 'un misterio con pistas y un giro final' },
-        { titulo: `Desafío Sonoro de ${tematica}`, enfoque: 'una aventura de ritmo rápido donde el sonido y la música guían al protagonista' }
-    ];
-
-    const nuevas = [];
-    for (let i = 0; i < plan.length; i++) {
+    const nuevas = [], pendientes = [];
+    for (let i = 0; i < temas.length; i++) {
         try {
-            nuevas.push(await crearStorycardCompleta({ tematica, ...plan[i], indice: i + 1, idBase, marcaFecha }));
+            const r = await crearStorycardCompleta({ tema: temas[i], usados: [...usados, ...nuevas.map(n => n.titulo)], idBase, indice: i + 1 });
+            nuevas.push(r.tarjeta);
+            pendientes.push({ titulo: r.tarjeta.titulo, archivos: r.audiosPendientes });
         } catch (e) {
-            console.error(`❌ Falló la storycard ${i + 1}:`, e);
+            console.error(`❌ Falló la storycard ${i + 1}: ${e.message}`);
+            if (/API key|PERMISSION_DENIED|UNAUTHENTICATED/i.test(e.message)) break;
         }
     }
     if (!nuevas.length) { console.error('No se pudo crear ninguna storycard.'); process.exit(1); }
 
-    const rutaJson = path.join(RAIZ, 'data/storycards.json');
-    asegurarCarpeta(path.dirname(rutaJson));
-    let actual = [];
-    try { if (fs.existsSync(rutaJson)) actual = JSON.parse(fs.readFileSync(rutaJson, 'utf8')); }
-    catch (e) { console.warn('storycards.json ilegible, lo reinicio:', e.message); }
     fs.writeFileSync(rutaJson, JSON.stringify([...nuevas, ...actual], null, 2));
-    console.log(`\n🎉 Pipeline completado: ${nuevas.length} storycard(s) nuevas.`);
+
+    // Lista de audios que debes subir a mano
+    const rutaPend = path.join(RAIZ, 'data/audios_pendientes.md');
+    const previo = fs.existsSync(rutaPend) ? fs.readFileSync(rutaPend, 'utf8') : '# Audios pendientes de subir\n\nSube cada archivo a su ruta exacta (voz y música). La storycard funciona sin ellos, pero sin sonido.\n';
+    const fecha = new Date().toISOString().slice(0, 10);
+    const bloque = pendientes.map(p => `\n## ${p.titulo} (${fecha})\n${p.archivos.map(a => `- [ ] \`${a}\``).join('\n')}\n`).join('');
+    fs.writeFileSync(rutaPend, previo + bloque);
+
+    console.log('\n🎉 Pipeline completado. Estas son las storycards nuevas y los audios que debes subir:');
+    pendientes.forEach(p => { console.log(`\n  «${p.titulo}»`); p.archivos.forEach(a => console.log(`    - ${a}`)); });
 }
 
-ejecutarPipelineInteligente();
+ejecutarPipelineInteligente().catch(e => { console.error('❌ Error inesperado:', e); process.exit(1); });

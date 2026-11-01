@@ -3,30 +3,39 @@ name: Automatización Semanal Storycards y Multimedia
 on:
   schedule:
     - cron: '0 0 * * 1' # Todos los lunes a las 00:00 UTC
-  workflow_dispatch:     # Permite ejecutarlo manualmente desde la pestaña Actions
+  workflow_dispatch:     # Permite la ejecución manual desde la pestaña Actions
 
 jobs:
   generar-contenido:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
-      contents: write # Permite que el robot haga commit y push de los nuevos audios y archivos
+      contents: write # Permite al bot hacer commit y push automático de los cambios
 
     steps:
       - name: Clonar repositorio
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Configurar Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
 
-      - name: Ejecutar script de generación con TTS
+      - name: Crear 2 storycards completas (HTML, imágenes, voz y música)
+        env:
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
         run: node scripts/generador_semanal.js
 
       - name: Guardar y sincronizar cambios automáticamente en GitHub
         run: |
-          git config --global user.name "Bot Automático de Storycards"
-          git config --global user.email "bot@users.noreply.github.com"
-          git add data/storycards.json storycard/assets/audio/
-          git commit -m "🤖 Generación automática de Storycards con audio neuronal masculino y música"
+          git config user.name "Bot Automático de Storycards"
+          git config user.email "bot@users.noreply.github.com"
+          git add data/storycards.json storycard/
+          git add -- 'ia*.html'
+          if git diff --cached --quiet; then
+            echo "No hay cambios que guardar."
+            exit 0
+          fi
+          git commit -m "🤖 Generación automática de 2 Storycards completas (HTML, imágenes, voz y música)"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
           git push

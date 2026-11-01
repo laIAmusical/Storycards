@@ -1,1 +1,11 @@
-
+[
+  {
+    "id": 1,
+    "titulo": "Tarjeta Base Inicial",
+    "tematica": "CINE",
+    "descripcion": "Tarjeta de ejemplo previa.",
+    "imagen": "storycard/assets/images/default_cover.jpg",
+    "audioVoz": "storycard/assets/audio/voz/default.mp3",
+    "musicaFondo": "storycard/assets/audio/musica/cine_ambient.mp3"
+  }
+]

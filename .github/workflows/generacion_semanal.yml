@@ -24,8 +24,8 @@ jobs:
       - name: Escribir 2 historias épicas con Gemini y crear las storycards
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          NUM_CAPITULOS: 5          # capítulos por historia (3 a 8)
-          PALABRAS_CAPITULO: 170    # palabras aproximadas por capítulo
+          NUM_CAPITULOS: 10          # capítulos por historia (10)
+          PALABRAS_CAPITULO: 250    # palabras aproximadas por capítulo
         run: node scripts/generador_semanal.js
 
       - name: Guardar y sincronizar cambios automáticamente en GitHub

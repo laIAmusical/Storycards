@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Ejecutar script de generación de tarjetas, voz y música
+      - name: Ejecutar script de generación con TTS
         run: node scripts/generador_semanal.js
 
       - name: Guardar y sincronizar cambios automáticamente en GitHub
@@ -28,5 +28,5 @@ jobs:
           git config --global user.name "Bot Automático de Storycards"
           git config --global user.email "bot@users.noreply.github.com"
           git add data/storycards.json storycard/assets/audio/
-          git commit -m "🤖 Generación automática de 2 Storycards, voz y música ambiental"
+          git commit -m "🤖 Generación automática de Storycards con audio neuronal masculino y música"
           git push

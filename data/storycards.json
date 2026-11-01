@@ -1,31 +1,5 @@
 [
   {
-    "id": 1793568094839,
-    "titulo": "Especial Semanal: Los Secretos de CINE",
-    "tematica": "CINE",
-    "tipo": "automatica-ia",
-    "descripcion": "Una aventura breve en el universo de cine: Especial Semanal: Los Secretos de CINE. Pistas, giros y una decisión que lo cambia todo.",
-    "imagen": "storycard/iacine2026110121211/portada.svg",
-    "slug": "iacine2026110121211",
-    "storyPage": "iacine2026110121211.html",
-    "audioVoz": "",
-    "musicaFondo": "storycard/iacine2026110121211/musica.wav",
-    "fechaCreacion": "2026-11-01T21:22:34.403Z"
-  },
-  {
-    "id": 1793568094840,
-    "titulo": "Desafío Sonoro de CINE",
-    "tematica": "CINE",
-    "tipo": "automatica-ia",
-    "descripcion": "Una aventura breve en el universo de cine: Desafío Sonoro de CINE. Pistas, giros y una decisión que lo cambia todo.",
-    "imagen": "storycard/iacine2026110121212/portada.svg",
-    "slug": "iacine2026110121212",
-    "storyPage": "iacine2026110121212.html",
-    "audioVoz": "",
-    "musicaFondo": "storycard/iacine2026110121212/musica.wav",
-    "fechaCreacion": "2026-11-01T21:23:42.641Z"
-  },
-  {
     "id": 1793563993090,
     "titulo": "Especial Semanal: Los Secretos de CINE",
     "tematica": "CINE",

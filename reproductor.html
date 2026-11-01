@@ -3888,7 +3888,7 @@ const songsI18n = {
 
         // Storycards generadas por el robot, según la sala (temática) actual
         const _salaNorm = normalizarTexto(currentTopic);
-        filteredSongs = filteredSongs.concat(robotStorycards.filter(s => normalizarTexto(s.topic) === _salaNorm));
+        filteredSongs = filteredSongs.concat(robotStorycards.filter(s => normalizarTexto(s.topic) === _salaNorm || (_salaNorm === 'extra y documentales' && normalizarTexto(s.topic).startsWith('documentales'))));
 
         filteredSongs.sort((a, b) => (b.totalStars || 0) - (a.totalStars || 0));
 

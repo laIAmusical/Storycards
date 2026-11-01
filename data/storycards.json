@@ -1,5 +1,31 @@
 [
-   {
+  {
+    "id": 1793575600704,
+    "titulo": "El Reloj de Cobre de Vaelen",
+    "tematica": "Cine",
+    "tipo": "automatica-ia",
+    "descripcion": "En una metrópolis ahogada por una lluvia perpetua, un detective privado investiga un robo imposible que amenaza con disolver la memoria misma de la civilización.",
+    "imagen": "storycard/elrelojdecobredevaelen/portada.svg",
+    "slug": "elrelojdecobredevaelen",
+    "storyPage": "elrelojdecobredevaelen.html",
+    "audioVoz": "storycard/assets/audio/voz/elrelojdecobredevaelen-cap1.mp3",
+    "musicaFondo": "storycard/assets/audio/musica/elrelojdecobredevaelen.mp3",
+    "fechaCreacion": "2026-11-01T23:27:29.522Z"
+  },
+  {
+    "id": 1793575600705,
+    "titulo": "El Crepúsculo de los Códices de Alistair",
+    "tematica": "Literatura",
+    "tipo": "automatica-ia",
+    "descripcion": "Atrapado por una profecía milenaria que prometía gloria eterna a su estirpe, un erudito descubre que las estrellas no dictan salvación, sino el olvido. Su última decisión desafiará los cimientos mismos de su imperio.",
+    "imagen": "storycard/elcrepusculodeloscodicesdealistair/portada.svg",
+    "slug": "elcrepusculodeloscodicesdealistair",
+    "storyPage": "elcrepusculodeloscodicesdealistair.html",
+    "audioVoz": "storycard/assets/audio/voz/elcrepusculodeloscodicesdealistair-cap1.mp3",
+    "musicaFondo": "storycard/assets/audio/musica/elcrepusculodeloscodicesdealistair.mp3",
+    "fechaCreacion": "2026-11-01T23:28:12.345Z"
+  },
+  {
     "id": 1,
     "titulo": "Tarjeta Base Inicial",
     "tematica": "CINE",

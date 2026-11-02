@@ -4,7 +4,7 @@
  * Cada ejecución escribe 2 historias ÉPICAS originales con Gemini y las
  * convierte en storycards completas:
  *   - <slug>.html                    → libro interactivo
- *   - images/<slug>_16_9.*           → imagen de presentación en formato 16:9 (raíz de imágenes)
+ *   - imagenportada/<slug>_16_9.*    → imagen de presentación en formato 16:9
  *   - storycard/<slug>/portada.*     → portada cuadrada 1:1
  *   - storycard/<slug>/portadamovil.*→ portada vertical 9:16
  *   - storycard/<slug>/imagenN.*     → ilustración de cada capítulo
@@ -304,7 +304,6 @@ function matices(tematica) {
     return [h, (h + 60) % 360, (h + 200) % 360];
 }
 
-const fx = n => Math.round(n * 10) / 10;
 const ESCENAS = ['ciudad', 'mar', 'bosque', 'desierto', 'montana', 'espacio', 'escenario', 'castillo'];
 const REGLAS_ESCENA = [
     ['ciudad', /city|street|rain|neon|metropol|urban|detective|skyscraper|ciudad|calle|lluvia|rascacielos/g],
@@ -316,17 +315,6 @@ const REGLAS_ESCENA = [
     ['escenario', /stage|theat|opera|concert|curtain|orchestra|spotlight|violin|piano|escenario|teatro|telon|orquesta|concierto|aria|musical/g],
     ['castillo', /castle|kingdom|throne|palace|crown|\bking|queen|knight|dragon|castillo|reino|trono|palacio|corona|\brey|reina|caballero|dinast/g]
 ];
-
-function elegirEscena(tematica, pistas, semilla) {
-    const t = (pistas || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-    let mejor = null, max = 0;
-    REGLAS_ESCENA.forEach(([nombre, re]) => {
-        const n = (t.match(re) || []).length;
-        if (n > max) { max = n; mejor = nombre; }
-    });
-    if (mejor) return mejor;
-    return ESCENAS[semilla % ESCENAS.length];
-}
 
 function crearSvg(tematica, semilla, ancho, alto, pistas = '') {
     const rnd = mulberry32(semilla);
@@ -385,7 +373,6 @@ async function imagenPollinations(prompt, ancho, alto, semilla) {
     } catch (e) { return null; }
 }
 
-/** Guarda la imagen en la ruta destino indicada */
 async function crearImagenEnRuta({ rutaRelativa, prompt, tematica, ancho, alto, semilla, pistas }) {
     const rutaAbsoluta = path.join(RAIZ, rutaRelativa);
     asegurarCarpeta(path.dirname(rutaAbsoluta));
@@ -486,7 +473,8 @@ async function crearStorycardCompleta({ tema, usados, idBase, indice }) {
     const slug = slugUnico(titulo);
     console.log(`  🏷️  Título: "${titulo}"  (slug: ${slug})`);
 
-    asegurarCarpeta(path.join(RAIZ, 'images'));
+    // Aseguramos la carpeta de destino para la presentación 16:9 -> imagenportada/
+    asegurarCarpeta(path.join(RAIZ, 'imagenportada'));
     asegurarCarpeta(path.join(RAIZ, 'storycard', slug));
 
     const semilla = hashTexto(slug);
@@ -494,11 +482,11 @@ async function crearStorycardCompleta({ tema, usados, idBase, indice }) {
     const promptPortada = `${hist.portada_en || titulo}. ${estilo}`;
     const pistasPortada = `${hist.portada_en || ''} ${titulo} ${hist.sinopsis || ''}`;
 
-    console.log('  🖼️  Creando las 3 imágenes de presentación (16:9, 1:1, 9:16)...');
+    console.log('  🖼️  Creando las 3 imágenes de presentación (16:9 en imagenportada, 1:1, 9:16)...');
     
-    // 1. Imagen 16:9 -> alojada en images/
+    // 1. Imagen 16:9 -> alojada en imagenportada/
     const r169 = await crearImagenEnRuta({
-        rutaRelativa: `images/${slug}_16_9`,
+        rutaRelativa: `imagenportada/${slug}_16_9`,
         prompt: promptPortada, tematica: tema.nombre, ancho: 1280, alto: 720, semilla, pistas: pistasPortada
     });
 
@@ -550,7 +538,7 @@ async function crearStorycardCompleta({ tema, usados, idBase, indice }) {
             tematica: tema.nombre,
             tipo: 'automatica-ia',
             descripcion: String(hist.sinopsis || '').trim(),
-            imagen: r169.ruta,               // Presentación 16:9 en imágenes
+            imagen: r169.ruta,               // Presentación 16:9 apuntando a imagenportada/
             portada: rPortada.ruta,          // Portada 1:1
             portadaMovil: rMovil.ruta,       // Portada 9:16
             slug,

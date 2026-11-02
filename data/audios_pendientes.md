@@ -31,3 +31,9 @@ Sube cada archivo a su ruta exacta (voz y música). La storycard funciona sin el
 
 ## El Eco Eterno del Monte Vaelthor (2026-11-02)
 - [ ] `elecoeternodelmontevaelthor.mp3`
+
+## El Desplome de Caelum-Vorna (2026-11-02)
+- [ ] `eldesplomedecaelumvorna.mp3`
+
+## El Rumbo Imposible de la Nao Ithilien (2026-11-02)
+- [ ] `elrumboimposibledelanaoithilien.mp3`

@@ -1,5 +1,37 @@
 [
   {
+    "id": 1793638883599,
+    "titulo": "El Desplome de Caelum-Vorna",
+    "fraseInspiracion": "Incluso cuando el cielo cae, la voluntad sostiene los cimientos del mañana.",
+    "tematica": "Cine",
+    "tipo": "automatica-ia",
+    "descripcion": "Suspendida entre nubes de plasma, la metrópoli flotante de Caelum-Vorna sufre un fallo catastrófico en su núcleo gravitatorio. Una ingeniera intrépida y su escuadrón descenderán al abismo mecánico antes de que millones de vidas se estrellen en el océano.",
+    "imagen": "imagenportada/eldesplomedecaelumvorna_16_9.svg",
+    "portada": "storycard/eldesplomedecaelumvorna/portada.svg",
+    "portadaMovil": "storycard/eldesplomedecaelumvorna/portadamovil.svg",
+    "slug": "eldesplomedecaelumvorna",
+    "storyPage": "eldesplomedecaelumvorna.html",
+    "audioVoz": "storycard/eldesplomedecaelumvorna/voz1.wav",
+    "musicaFondo": "eldesplomedecaelumvorna.mp3",
+    "fechaCreacion": "2026-11-02T17:07:37.338Z"
+  },
+  {
+    "id": 1793638883600,
+    "titulo": "El Rumbo Imposible de la Nao Ithilien",
+    "fraseInspiracion": "Los mapas mienten; solo la memoria de las mareas conduce al hogar ausente.",
+    "tematica": "Literatura",
+    "tipo": "automatica-ia",
+    "descripcion": "Tras décadas de navegar persiguiendo un fantasma geográfico, un capitán consumido por la sal y el tiempo halla el meridiano exacto. Allí, la memoria del mundo se cristaliza en tierra firme por una sola noche.",
+    "imagen": "imagenportada/elrumboimposibledelanaoithilien_16_9.svg",
+    "portada": "storycard/elrumboimposibledelanaoithilien/portada.svg",
+    "portadaMovil": "storycard/elrumboimposibledelanaoithilien/portadamovil.svg",
+    "slug": "elrumboimposibledelanaoithilien",
+    "storyPage": "elrumboimposibledelanaoithilien.html",
+    "audioVoz": "storycard/elrumboimposibledelanaoithilien/voz1.wav",
+    "musicaFondo": "elrumboimposibledelanaoithilien.mp3",
+    "fechaCreacion": "2026-11-02T17:12:33.110Z"
+  },
+  {
     "id": 1793631591890,
     "titulo": "El ocaso estelar de la nave Aldebarán",
     "fraseInspiracion": "Cuando el cielo arde, solo el sacrificio traza el camino hacia la libertad.",

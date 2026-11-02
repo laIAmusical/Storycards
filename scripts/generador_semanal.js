@@ -113,7 +113,7 @@ function limpiarTextoCapitulo(text) {
 }
 function tituloCorto(raw, i) {
     const fallback = 'Capítulo ' + (i + 1);
-    let t = stripWrappingQuotes((raw || '').replace(/\r/g, '').replace(/^#{1,6}\s+/, '').replace(/^\*{1,3}|\*{1,3}$/g, '').trim());
+    let t = stripWrappingQuotes((raw || '').replace(/\r/g, '').replace(/^#{1,6}\s+/, '').replace(/\*{1,3}|\*{1,3}$/g, '').trim());
     if (!t || t.length > 90) return fallback;
     if (!/^Cap[íi]tulo\s+\d+/i.test(t)) t = fallback + ' — ' + t;
     return t;
@@ -377,20 +377,23 @@ async function crearImagenEnRuta({ rutaRelativa, prompt, tematica, ancho, alto, 
 }
 
 // ───────────────────────── 4. VOZ (PIPER) ─────────────────────────
-function textoParaNarrar(titulo, texto) {
-    const t = (titulo || '').replace(/\s*[—–-]\s*/g, '. ').replace(/\.+\s*$/, '.');
-    const cuerpo = texto.replace(/\r/g, '').split(/\n+/).map(l => l.trim()).filter(Boolean).join('\n');
-    return `${t}\n${cuerpo}\n`;
+function textoParaNarrar(titulo, texto, indiceCapitulo) {
+    const numCap = indiceCapitulo !== undefined ? `Capítulo ${indiceCapitulo}. ` : '';
+    const tClean = (titulo || '').replace(/^Cap[íi]tulo\s+\d+\s*[:.\-–—]*\s*/i, '').trim();
+    const cuerpo = texto.replace(/\r/g, '').split(/\n+/).map(l => l.trim()).filter(Boolean).join(' ');
+    
+    // Inserta una pausa clara entre el título y el contenido completo del capítulo
+    return `${numCap}${tClean}. ... ${cuerpo}`;
 }
 
-function crearVoz(titulo, texto, rutaRel) {
+function crearVoz(titulo, texto, rutaRel, indiceCapitulo) {
     if (!PIPER_BIN || !PIPER_MODEL || !fs.existsSync(PIPER_BIN) || !fs.existsSync(PIPER_MODEL)) return false;
     const wav = path.join(RAIZ, rutaRel.replace(/\.wav$/, '.tmp.wav'));
     const finalWav = path.join(RAIZ, rutaRel);
     try {
         const env = { ...process.env, LD_LIBRARY_PATH: `${path.dirname(PIPER_BIN)}:${process.env.LD_LIBRARY_PATH || ''}` };
         const p = spawnSync(PIPER_BIN, ['-m', PIPER_MODEL, '-f', wav, '--length_scale', '1.08', '--sentence_silence', '0.5', '-q'],
-            { input: textoParaNarrar(titulo, texto), cwd: path.dirname(PIPER_BIN), env, timeout: 180000, encoding: 'utf8' });
+            { input: textoParaNarrar(titulo, texto, indiceCapitulo), cwd: path.dirname(PIPER_BIN), env, timeout: 180000, encoding: 'utf8' });
         if (p.status !== 0 || !fs.existsSync(wav)) throw new Error(`Piper error`);
         fs.renameSync(wav, finalWav);
         return true;
@@ -463,7 +466,6 @@ async function crearStorycardCompleta({ tema, usados, idBase, indice }) {
     console.log(`  🏷️  Título: "${titulo}"  (slug: ${slug})`);
     if (fraseInspiracion) console.log(`  ✨ Frase: "${fraseInspiracion}"`);
 
-    // Aseguramos la carpeta de destino para la presentación 16:9 -> imagenportada/
     asegurarCarpeta(path.join(RAIZ, 'imagenportada'));
     asegurarCarpeta(path.join(RAIZ, 'storycard', slug));
 
@@ -474,19 +476,16 @@ async function crearStorycardCompleta({ tema, usados, idBase, indice }) {
 
     console.log('  🖼️  Creando las 3 imágenes de presentación (16:9 en imagenportada, 1:1, 9:16)...');
     
-    // 1. Imagen 16:9 -> alojada en imagenportada/
     const r169 = await crearImagenEnRuta({
         rutaRelativa: `imagenportada/${slug}_16_9`,
         prompt: promptPortada, tematica: tema.nombre, ancho: 1280, alto: 720, semilla, pistas: pistasPortada
     });
 
-    // 2. Imagen 1:1 (portada) -> alojada en storycard/<slug>/portada
     const rPortada = await crearImagenEnRuta({
         rutaRelativa: `storycard/${slug}/portada`,
         prompt: promptPortada, tematica: tema.nombre, ancho: 768, alto: 768, semilla, pistas: pistasPortada
     });
 
-    // 3. Imagen 9:16 (portadamovil) -> alojada en storycard/<slug>/portadamovil
     const rMovil = await crearImagenEnRuta({
         rutaRelativa: `storycard/${slug}/portadamovil`,
         prompt: promptPortada, tematica: tema.nombre, ancho: 576, alto: 1024, semilla: semilla + 7, pistas: pistasPortada
@@ -507,9 +506,8 @@ async function crearStorycardCompleta({ tema, usados, idBase, indice }) {
             prompt: `${c.escena_en || c.titulo}. ${estilo}`, pistas: `${c.escena_en || ''} ${c.titulo || ''} ${textoCap.slice(0, 300)}`
         });
         
-        // Asignación explícita del formato .wav para la voz
         const voz = `storycard/${slug}/voz${i + 1}.wav`;
-        if (crearVoz(tituloCap, textoCap, voz)) vocesOk++; else audiosPendientes.push(voz);
+        if (crearVoz(tituloCap, textoCap, voz, i + 1)) vocesOk++; else audiosPendientes.push(voz);
         capitulos.push({ titulo: tituloCap, texto: textoCap, ilustracion: rIlu.ruta, voz });
     }
 
@@ -526,13 +524,13 @@ async function crearStorycardCompleta({ tema, usados, idBase, indice }) {
         tarjeta: {
             id: idBase + indice,
             titulo,
-            fraseInspiracion,                // Campo añadido para la frase de inspiración
+            fraseInspiracion,
             tematica: tema.nombre,
             tipo: 'automatica-ia',
             descripcion: String(hist.sinopsis || '').trim(),
-            imagen: r169.ruta,               // Presentación 16:9 apuntando a imagenportada/
-            portada: rPortada.ruta,          // Portada 1:1
-            portadaMovil: rMovil.ruta,       // Portada 9:16
+            imagen: r169.ruta,
+            portada: rPortada.ruta,
+            portadaMovil: rMovil.ruta,
             slug,
             storyPage: `${slug}.html`,
             audioVoz: capitulos[0].voz,

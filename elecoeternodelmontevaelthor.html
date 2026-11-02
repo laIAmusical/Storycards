@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>El Eco Eterno del Monte Vaelthor</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Text:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #f8f3ea;
+    --cream-dark: #ede5d4;
+    --ink: #2a1f14;
+    --ink-light: #6b5a47;
+    --gold: #c8a96e;
+    --spine: #8b6e50;
+  }
+
+  html, body {
+    height: 100%;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  body {
+    background: radial-gradient(ellipse at center, #3a2a1a 0%, #1a1008 100%);
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    font-family: 'Crimson Text', Georgia, serif;
+    overflow: hidden;
+    position: relative;
+    padding: 0;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── UI WRAPPER ── */
+  .ui-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100dvh;
+    position: relative;
+    z-index: 10;
+    padding: 10px 10px 8px;
+    gap: 8px;
+  }
+
+  /* ── TOP BAR ── */
+  .top-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 440px;
+    flex-shrink: 0;
+    gap: 6px;
+  }
+
+  .book-title-header {
+    color: var(--gold);
+    font-family: 'Playfair Display', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.75;
+    white-space: nowrap;
+    flex-shrink: 0;
+    text-align: center;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ── AUDIO CONTROLS BAR ── */
+  .audio-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 100%;
+  }
+  .audio-bar.visible { opacity: 1; pointer-events: all; }
+
+  .audio-btn {
+    background: rgba(200,169,110,0.12);
+    border: 1px solid rgba(200,169,110,0.3);
+    border-radius: 50%;
+    width: 30px; height: 30px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+    color: var(--gold);
+    padding: 0;
+    flex-shrink: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .audio-btn:active { background: rgba(200,169,110,0.25); }
+  .audio-btn svg { width: 12px; height: 12px; flex-shrink: 0; }
+
+  .audio-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.46rem;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: rgba(200,169,110,0.55);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .audio-divider {
+    width: 1px;
+    height: 18px;
+    background: rgba(200,169,110,0.2);
+    flex-shrink: 0;
+    margin: 0 2px;
+  }
+
+  /* Voice indicator */
+  .voice-indicator {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    height: 14px;
+    flex-shrink: 0;
+  }
+  .voice-indicator span {
+    display: block;
+    width: 3px;
+    border-radius: 2px;
+    background: var(--gold);
+    opacity: 0;
+    animation: none;
+  }
+  .voice-indicator.playing span { opacity: 0.7; animation: voiceBar 1s ease-in-out infinite; }
+  .voice-indicator.playing span:nth-child(1) { animation-delay: 0s; }
+  .voice-indicator.playing span:nth-child(2) { animation-delay: 0.15s; }
+  .voice-indicator.playing span:nth-child(3) { animation-delay: 0.3s; }
+  .voice-indicator.playing span:nth-child(4) { animation-delay: 0.15s; }
+  @keyframes voiceBar {
+    0%, 100% { height: 4px; }
+    50%       { height: 13px; }
+  }
+
+  #musicVolume {
+    width: 44px;
+    accent-color: var(--gold);
+    cursor: pointer;
+    vertical-align: middle;
+    flex-shrink: 0;
+  }
+
+  /* ── BOOK WRAPPER ── */
+  .book-wrapper {
+    position: relative;
+    flex: 1;
+    width: 100%;
+    max-width: 440px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  /* ── OPEN HINT ── */
+  .open-hint-badge {
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(200,169,110,0.15);
+    border: 1px solid rgba(200,169,110,0.35);
+    backdrop-filter: blur(6px);
+    border-radius: 30px;
+    padding: 6px 16px;
+    color: var(--gold);
+    font-family: 'Playfair Display', serif;
+    font-size: 0.66rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    animation: pulseHint 2.4s ease-in-out infinite;
+    transition: opacity 0.4s;
+    z-index: 30;
+    white-space: nowrap;
+  }
+  .open-hint-badge.hidden { opacity: 0; pointer-events: none; }
+  .open-hint-badge svg { opacity: 0.7; flex-shrink: 0; }
+  @keyframes pulseHint {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(200,169,110,0); }
+    50%       { box-shadow: 0 0 0 6px rgba(200,169,110,0.12); }
+  }
+
+  /* ── BOOK CARD ── */
+  .book-card {
+    width: 100%;
+    height: 100%;
+    border-radius: 14px;
+    box-shadow:
+      0 8px 32px rgba(0,0,0,0.7),
+      0 0 0 1px rgba(255,255,255,0.05),
+      inset -3px 0 8px rgba(0,0,0,0.15);
+    position: relative;
+    overflow: hidden;
+    background: var(--cream);
+    -webkit-tap-highlight-color: transparent;
+    perspective: 1400px;
+  }
+
+  /* Lomo del libro */
+  .book-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 8px;
+    background: linear-gradient(to right, var(--spine), rgba(139,110,80,0.3));
+    z-index: 20;
+    pointer-events: none;
+  }
+
+  /* ── COVER PAGE ── */
+  .cover-page {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+  }
+  .cover-page img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    display: block;
+  }
+  .cover-bg-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(160deg, #4a3520, #1a1008);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 6rem;
+    opacity: 0.5;
+  }
+  .cover-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, transparent 55%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 28px 24px;
+  }
+  .cover-overlay h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: #fff;
+    line-height: 1.2;
+    text-shadow: 0 2px 16px rgba(0,0,0,0.8);
+    margin-bottom: 8px;
+  }
+  .cover-overlay .author {
+    font-family: 'Crimson Text', serif;
+    font-size: 1rem;
+    color: rgba(255,255,255,0.75);
+    letter-spacing: 0.1em;
+  }
+
+  .cover-page::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(200,169,110,0);
+    transition: background 0.3s;
+    pointer-events: none;
+  }
+  .cover-page:active::after { background: rgba(200,169,110,0.08); }
+
+  /* ── STORY PAGE ── */
+  .story-page {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    background: var(--cream);
+  }
+
+  .page-illustration {
+    width: 100%;
+    flex-shrink: 0;
+    position: relative;
+    background: var(--cream-dark);
+    line-height: 0;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+  }
+  .page-illustration img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  .img-placeholder {
+    width: 100%;
+    padding: 40px 0;
+    background: var(--cream-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .img-placeholder svg { opacity: 0.15; width: 70px; height: 70px; }
+
+  /* Marco perimetral */
+  .page-illustration::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    box-shadow:
+      inset 0    30px 22px -8px var(--cream),
+      inset 0   -42px 28px -8px var(--cream),
+      inset  28px 0   22px -8px var(--cream),
+      inset -28px 0   22px -8px var(--cream);
+  }
+  .page-illustration::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 55px;
+    z-index: 3;
+    background: linear-gradient(to bottom, transparent, var(--cream));
+    pointer-events: none;
+  }
+
+  /* Sección de texto */
+  .page-text-section {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 22px 20px 26px;
+    position: relative;
+    background: var(--cream);
+  }
+  .chapter-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 14px;
+    opacity: 0.6;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .drop-cap {
+    font-family: 'Playfair Display', serif;
+    font-size: 4.4rem;
+    font-weight: 700;
+    line-height: 0.75;
+    float: left;
+    margin-right: 6px;
+    margin-top: 4px;
+    color: var(--ink);
+  }
+
+  .page-text {
+    font-family: 'Crimson Text', serif;
+    font-size: 1.12rem;
+    line-height: 1.7;
+    color: var(--ink);
+    text-align: justify;
+    position: relative;
+    z-index: 1;
+    background-image: repeating-linear-gradient(
+      transparent, transparent 30px,
+      rgba(180,160,130,0.13) 30px,
+      rgba(180,160,130,0.13) 31px
+    );
+    background-position: 0 4px;
+  }
+  .page-text p { margin-bottom: 0.8em; }
+  .page-text p::after { content: ''; display: table; clear: both; }
+
+  .page-number {
+    margin-top: 10px;
+    text-align: right;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.72rem;
+    color: var(--ink-light);
+    opacity: 0.5;
+    position: relative;
+    z-index: 2;
+  }
+
+  .swipe-hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 14px 0 16px;
+    color: var(--ink-light);
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-family: 'Playfair Display', serif;
+    opacity: 0.4;
+    flex-shrink: 0;
+    background: var(--cream);
+  }
+
+  /* ── NAVIGATION ARROWS ── */
+  @keyframes arrowPulse {
+    0%, 100% {
+      box-shadow: 0 0 0 0 rgba(200,169,110,0.55), 0 0 10px 2px rgba(200,169,110,0.25);
+      background: rgba(200,169,110,0.22);
+      border-color: rgba(200,169,110,0.7);
+    }
+    50% {
+      box-shadow: 0 0 0 8px rgba(200,169,110,0), 0 0 18px 4px rgba(200,169,110,0.45);
+      background: rgba(200,169,110,0.42);
+      border-color: var(--gold);
+    }
+  }
+
+  .nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 25;
+    width: 42px; height: 42px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(200,169,110,0.22);
+    border: 1.5px solid rgba(200,169,110,0.7);
+    border-radius: 50%;
+    color: var(--gold);
+    cursor: pointer;
+    transition: background 0.2s, opacity 0.3s;
+    -webkit-tap-highlight-color: transparent;
+    backdrop-filter: blur(6px);
+    animation: arrowPulse 1.5s ease-in-out infinite;
+  }
+  .nav-arrow:active { background: rgba(200,169,110,0.55); }
+  .nav-arrow.hidden { opacity: 0; pointer-events: none; animation: none; }
+  .nav-arrow svg { width: 18px; height: 18px; filter: drop-shadow(0 0 3px rgba(200,169,110,0.6)); }
+  .nav-arrow-left  { left: 6px; }
+  .nav-arrow-right { right: 6px; }
+
+  /* ── END PAGE ── */
+  .end-page {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--cream);
+  }
+  .end-page-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 30px;
+    text-align: center;
+  }
+  .end-page-content .ornament { color: var(--gold); font-size: 1.8rem; opacity: 0.6; }
+  .end-page-content h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--ink);
+  }
+  .end-page-content p {
+    font-family: 'Crimson Text', serif;
+    font-size: 0.95rem;
+    color: var(--ink-light);
+    opacity: 0.7;
+    letter-spacing: 0.1em;
+  }
+  .back-btn {
+    margin-top: 6px;
+    padding: 10px 24px;
+    border: 1px solid var(--gold);
+    background: none;
+    color: var(--ink-light);
+    font-family: 'Playfair Display', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back-btn:active { background: var(--gold); color: var(--cream); }
+
+  /* ── NAV DOTS ── */
+  .nav-dots {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+    padding: 2px 0;
+    z-index: 10;
+    position: relative;
+  }
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(200,169,110,0.3);
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 1px solid rgba(200,169,110,0.4);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .dot.active { background: var(--gold); transform: scale(1.3); }
+
+  /* ══════════════════════════════════════════════════════
+     PAGE FLIP ANIMATIONS
+  ══════════════════════════════════════════════════════ */
+  @keyframes pageFlipInForward {
+    0%   { transform: perspective(1400px) rotateY(-88deg); transform-origin: left center;  opacity: 0.4; filter: brightness(0.6); }
+    40%  { opacity: 0.85; filter: brightness(0.85); }
+    100% { transform: perspective(1400px) rotateY(0deg);   transform-origin: left center;  opacity: 1;   filter: brightness(1); }
+  }
+  @keyframes pageFlipInBackward {
+    0%   { transform: perspective(1400px) rotateY(88deg);  transform-origin: right center; opacity: 0.4; filter: brightness(0.6); }
+    40%  { opacity: 0.85; filter: brightness(0.85); }
+    100% { transform: perspective(1400px) rotateY(0deg);   transform-origin: right center; opacity: 1;   filter: brightness(1); }
+  }
+  @keyframes pageFlipOutForward {
+    0%   { transform: perspective(1400px) rotateY(0deg);   transform-origin: left center;  opacity: 1;   filter: brightness(1); }
+    60%  { opacity: 0.5; filter: brightness(0.7); }
+    100% { transform: perspective(1400px) rotateY(-88deg); transform-origin: left center;  opacity: 0;   filter: brightness(0.4); }
+  }
+  @keyframes pageFlipOutBackward {
+    0%   { transform: perspective(1400px) rotateY(0deg);  transform-origin: right center;  opacity: 1;   filter: brightness(1); }
+    60%  { opacity: 0.5; filter: brightness(0.7); }
+    100% { transform: perspective(1400px) rotateY(88deg); transform-origin: right center;  opacity: 0;   filter: brightness(0.4); }
+  }
+
+  .anim-in-forward   { animation: pageFlipInForward   0.42s cubic-bezier(0.25,0.46,0.45,0.94) both; }
+  .anim-in-backward  { animation: pageFlipInBackward  0.42s cubic-bezier(0.25,0.46,0.45,0.94) both; }
+  .anim-out-forward  { animation: pageFlipOutForward  0.22s cubic-bezier(0.4,0,1,1) both; }
+  .anim-out-backward { animation: pageFlipOutBackward 0.22s cubic-bezier(0.4,0,1,1) both; }
+
+  .page-shadow-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 15;
+    opacity: 0;
+    background: linear-gradient(to right, rgba(0,0,0,0.18) 0%, transparent 40%);
+    animation: shadowSweepForward 0.55s ease-out forwards;
+  }
+  .page-shadow-overlay.backward {
+    background: linear-gradient(to left, rgba(0,0,0,0.18) 0%, transparent 40%);
+    animation: shadowSweepBackward 0.55s ease-out forwards;
+  }
+</style>
+</head>
+<body>
+<div class="ui-wrapper">
+
+  <div class="top-bar">
+    <p class="book-title-header">✦ El Eco Eterno del Monte Vaelthor ✦</p>
+
+    <div class="audio-bar" id="audioBar">
+      <div class="voice-indicator" id="voiceIndicator">
+        <span></span><span></span><span></span><span></span>
+      </div>
+      <span class="audio-label">NARRADOR</span>
+      <button class="audio-btn" id="btnVoicePause" title="Pausar/Reanudar narración" onclick="toggleVoicePause()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" id="iconVoicePause">
+          <polygon points="5 3 19 12 5 21 5 3"/>
+        </svg>
+      </button>
+      <button class="audio-btn" title="Detener narración" onclick="stopVoice()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <rect x="4" y="4" width="16" height="16" rx="1"/>
+        </svg>
+      </button>
+
+      <div class="audio-divider"></div>
+
+      <span class="audio-label">MÚSICA</span>
+      <button class="audio-btn" id="btnMusicPause" title="Pausar/Reanudar música" onclick="toggleMusicPause()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" id="iconMusicPause">
+          <polygon points="5 3 19 12 5 21 5 3"/>
+        </svg>
+      </button>
+      <button class="audio-btn" title="Silenciar música" onclick="toggleMusic()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" id="iconMusic">
+          <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+        </svg>
+      </button>
+      <input type="range" id="musicVolume" min="0" max="1" step="0.05" value="0.4"
+        title="Volumen música" oninput="setMusicVolume(this.value)">
+    </div>
+  </div>
+
+  <div class="book-wrapper" id="bookWrapper">
+
+    <div class="open-hint-badge" id="openHintBadge">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+      </svg>
+      Toca para abrir
+    </div>
+
+    <div class="nav-arrow nav-arrow-left hidden" id="navLeft" onclick="prevPage()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M15 18l-6-6 6-6"/>
+      </svg>
+    </div>
+    <div class="nav-arrow nav-arrow-right hidden" id="navRight" onclick="nextPage()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M9 18l6-6-6-6"/>
+      </svg>
+    </div>
+
+    <div class="book-card" id="bookCard"></div>
+  </div>
+
+  <div class="nav-dots" id="navDots"></div>
+
+</div>
+<script>
+const MUSIC_SRC = "elecoeternodelmontevaelthor.mp3";
+const pages = [
+  {
+    type: 'cover',
+    coverImg: "storycard/elecoeternodelmontevaelthor/portada.svg",
+    coverMobileImg: "storycard/elecoeternodelmontevaelthor/portadamovil.svg",
+    title: "El Eco Eterno del Monte Vaelthor",
+    author: "De LaIAmusical"
+  },
+  {
+    type: 'story',
+    pageNum: 1,
+    chapterTitle: "Capítulo 1 — La Llamada del Abismo",
+    illustrationSrc: "storycard/elecoeternodelmontevaelthor/imagen1.svg",
+    voiceSrc: "storycard/elecoeternodelmontevaelthor/voz1.wav",
+    text: "El viento aúlla en las laderas más bajas del Monte Vaelthor con una furia que parece desafiar a los propios dioses. Desde el comienzo de los tiempos, los pueblos de los valles inferiores han hablado de este lugar con una mezcla de reverencia y pavor absoluto. No se trata meramente de una cordillera imponente cuyas cumbres se pierden en el manto perpetuo de las nubes grises, sino de una anomalía geológica y espiritual que ha cautivado a los eruditos más audaces de nuestra era. Nuestra expedición, bautizada como el Proyecto Vaelthor, nació de la obsesión por descifrar un misterio que la ciencia moderna había descartado como mera superstición popular: las voces en el viento. Durante siglos, los escasos viajeros que se atrevieron a ascender más allá de la línea de los árboles informaron haber escuchado murmullos ininteligibles que emergían de las paredes de roca desnuda. Al principio, la comunidad académica desestimó estos relatos, atribuyéndolos al cansancio extremo, la hipoxia de la altitud o simples ilusiones auditivas provocadas por el silbido del cierzo entre las gargantas de piedra. Sin embargo, los registros sonoros obtenidos por expediciones furtivas en la última década demostraron algo aterradoramente distinto. Las ondas captadas no poseían la física errática del eco natural; respondían con patrones complejos, casi lingüísticos, que desafiaban toda lógica acústica conocida. Así fue como reunimos a un equipo multidisciplinario de físicos, lingüistas, alpinistas de élite y historiadores, todos dispuestos a arriesgarlo todo para desentrañar el secreto mejor guardado de estas cumbres heladas. Preparados con el equipo de sonificación más avanzado del mundo, comenzamos nuestra marcha hacia el corazón mismo del enigma, sabiendo que una vez que cruzaríamos la frontera del silencio, ya no habría marcha atrás."
+  },
+  {
+    type: 'story',
+    pageNum: 2,
+    chapterTitle: "Capítulo 2 — El Primer Testimonio",
+    illustrationSrc: "storycard/elecoeternodelmontevaelthor/imagen2.svg",
+    voiceSrc: "storycard/elecoeternodelmontevaelthor/voz2.wav",
+    text: "Para comprender la magnitud de lo que enfrentamos en el Vaelthor, es imperativo escuchar a quienes dedicaron su vida a estudiar sus laderas antes de que nuestra expedición pusiera un pie en la nieve. El doctor Alistair Vance, reconocido bioacústico y veterano de tres intentos fallidos de escalada, aceptó concedernos una entrevista exclusiva desde su retiro en las tierras bajas, lejos ya del frío que casi le cuesta la vida. Con la mirada fija en un punto indeterminado del pasado, Vance nos relató su encuentro inicial con el fenómeno en el año de la gran nevada. 'Recuerdo perfectamente la primera vez que escuché el eco', nos dice con voz temblorosa, mientras las imágenes de archivo de su vieja bitácora parpadean en nuestra pantalla. 'No fue un grito, ni un rebote de mi propia voz contra los acantilados. Fue una respuesta articulada, nítida, pronunciada en un idioma que ningún filólogo en la tierra ha podido clasificar jamás. Grité mi propio nombre hacia el abismo, y el monte me devolvió una frase completa sobre mi infancia, un secreto que jamás había compartido con nadie'. Las palabras de Vance resuenan con una fuerza inquietante, respaldadas por los análisis espectrográficos que su equipo logró rescatar antes de que sus instrumentos sufrieran una falla magnética total. Según los gráficos, la frecuencia de la respuesta no correspondía a la de una onda reflejada, sino a una fuente activa emanada desde el interior mismo de la roca sólida. Los críticos, por supuesto, han sugerido que se trataba de interferencias de radio o alucinaciones colectivas inducidas por el frío extremo, pero el doctor Vance rechaza categóricamente tales explicaciones con una firmeza implacable. 'La montaña no te devuelve tu voz', insiste en la entrevista con un brillo de obsesión en los ojos. 'La montaña te quita la voz, la procesa en su fragua milenaria, y luego te devuelve algo que ya existía mucho antes de que nacieras'. Este testimonio se convirtió en la brújula moral y científica de nuestra propia travesía, recordándonos que no estábamos escalando meras rocas, sino un archivo vivo de memorias olvidadas."
+  },
+  {
+    type: 'story',
+    pageNum: 3,
+    chapterTitle: "Capítulo 3 — La Frontera del Hielo",
+    illustrationSrc: "storycard/elecoeternodelmontevaelthor/imagen3.svg",
+    voiceSrc: "storycard/elecoeternodelmontevaelthor/voz3.wav",
+    text: "A medida que ascendíamos más allá de los cuatro mil metros de altura, el paisaje comenzó a transformarse en un escenario de pesadilla blanca y geométrica. Las paredes de granito negro se alzaban como colosos centinelas, flanqueando un sendero cada vez más estrecho y traicionero donde un solo paso en falso significaría una caída sin retorno hacia el abismo brumoso. En esta etapa crítica de la expedición, el peso del equipo técnico se convirtió en una carga casi insoportable para nuestros hombros fatigados, pero la tensión psicológica era aún más pesada que las mochilas llenas de sensores y baterías. Fue en el campamento base avanzado, instalado precariamente al amparo de un saliente rocoso conocido como la Garganta del Gigante, donde registramos nuestra primera anomalía instrumental directa. La ingeniera en telecomunicaciones, la doctora Maya Lin, instaló la matriz de micrófonos parabólicos orientados hacia la pared vertical más alta del circo glaciar. A las tres de la madrugada, cuando el termómetro marcaba veinticinco grados bajo cero y el viento había cesado por completo, los monitores cobraron vida de manera espontánea. No hubo necesidad de emitir ningún sonido previo para provocar el fenómeno; el equipo captó una transmisión constante de baja frecuencia que parecía latir al unísono con el ritmo cardíaco de los miembros de la tripulación. 'Es como si la montaña estuviera respirando a través de nosotros', nos confiesa Maya en un fragmento de audio grabado en su diario de campo aquella misma noche. En las frecuencias más altas del espectro capturado, logramos aislar algo que heló la sangre de los presentes: un murmullo colectivo, formado por cientos de voces superpuestas que pronunciaban palabras en un dialecto arcaico, casi idéntico al protoindoeuropeo, pero con inflexiones completamente ajenas a nuestra evolución lingüística. La expedición ya no era una simple toma de datos geológicos; nos habíamos convertido en testigos auditivos de un misterio ancestral que reclamaba nuestra atención."
+  },
+  {
+    type: 'story',
+    pageNum: 4,
+    chapterTitle: "Capítulo 4 — El Coro de los Olvidados",
+    illustrationSrc: "storycard/elecoeternodelmontevaelthor/imagen4.svg",
+    voiceSrc: "storycard/elecoeternodelmontevaelthor/voz4.wav",
+    text: "El quinto día de marcha nos condujo al corazón geográfico de la cordillera, un valle suspendido entre cumbres que los mapas antiguos denominaban el Anfiteatro del Tiempo. Aquí, la física acústica convencional colapsa por completo, creando una zona donde el sonido parece desacelerarse, flotando en el aire denso como volutas de humo pesado. Decidimos realizar un experimento controlado bajo la supervisión estricta de la doctora Lin y el resto del comité científico. Utilizando un emisor direccional de alta potencia, proyectamos una serie de tonos puros y secuencias numéricas básicas hacia las paredes circundantes, esperando medir el tiempo de retardo del eco. Lo que obtuvimos superó con creces cualquier hipótesis matemática formulada en los laboratorios de la universidad. La montaña no devolvió las secuencias numéricas; en su lugar, respondió con un coro polifónico masivo que parecía interpretado por miles de voces invisibles. Las ondas sonoras golpeaban nuestros cuerpos con una fuerza física real, haciendo vibrar los dientes y el pecho de cada uno de los expedicionarios. En la grabación de ese momento crítico, que hoy forma parte de los archivos documentales del proyecto, se puede escuchar claramente el desconcierto y el miedo en nuestras propias voces. '¡Apaguen los emisores, córtenlos ya!', grita alguien en medio del caos acústico. Pero la máquina ya no respondía a los controles manuales; el sistema había entrado en un bucle de retroalimentación directa con la estructura cristalina de la montaña. Analizando las grabaciones a posteriori con la ayuda de supercomputadoras, descubrimos que el coro no era una simple repetición estocástica. Las voces cantaban relatos detallados sobre eventos históricos que jamás ocurrieron en nuestros libros, crónicas de civilizaciones perdidas que habitaron el Vaelthor cuando los continentes tenían otra forma. El eco no era un reflejo del presente; era un espejo retrovisor del tiempo absoluto."
+  },
+  {
+    type: 'story',
+    pageNum: 5,
+    chapterTitle: "Capítulo 5 — Voces del Pasado Lejano",
+    illustrationSrc: "storycard/elecoeternodelmontevaelthor/imagen5.svg",
+    voiceSrc: "storycard/elecoeternodelmontevaelthor/voz5.wav",
+    text: "Para profundizar en el análisis de los archivos sonoros rescatados del Anfiteatro del Tiempo, convocamos a la doctora Elena Rostova, una de las lingüistas históricas más prestigiosas del mundo y colaboradora externa del proyecto. Desde su despacho en la universidad, conectado mediante una frágil línea satelital con nuestro campamento de altura, Rostova nos ofreció una perspectiva revolucionaria sobre la naturaleza de las grabaciones. 'Lo que ustedes han capturado no son meros sonidos residuales', explicó la doctora con una mezcla de asombro y reverencia en su tono pausado. 'Hemos logrado aislar fragmentos de conversaciones individuales dentro del coro masivo. Y al someterlos a un análisis fonético comparativo con las lenguas muertas más antiguas de la humanidad, hemos encontrado coincidencias estructurales asombrosas'. Según Rostova, algunas de las voces que responden desde las paredes del Vaelthor utilizan formas gramaticales que sugieren un origen prehumano, o al menos perteneciente a una rama de homínidos extinta de la que la ciencia oficial jamás había hallado rastro fósil. En uno de los audios más claros, que reproducimos con frecuencia en nuestros seminarios, se escucha con nitidez la voz de una mujer que narra la erupción de un supervolcán y la llegada de un largo invierno que coincide geológicamente con el Pleistoceno tardío. 'La montaña ha estado grabando la historia de este planeta como un disco de vinilo milenario', afirma Rostova en la entrevista. 'Cada grito, cada susurro, cada tragedia y cada canto de los seres que habitaron estas tierras ha quedado impreso en la estructura molecular de la roca mediante un proceso de piezoelectricidad natural que aún no alcanzamos a comprender del todo'. Esta revelación transformó radicalmente el propósito de nuestra expedición: ya no éramos exploradores buscando un fenómeno curioso; nos habíamos convertido en los guardianes temporales de una memoria planetaria a punto de perderse en el olvido."
+  },
+  {
+    type: 'story',
+    pageNum: 6,
+    chapterTitle: "Capítulo 6 — La Grieta de las Confesiones",
+    illustrationSrc: "storycard/elecoeternodelmontevaelthor/imagen6.svg",
+    voiceSrc: "storycard/elecoeternodelmontevaelthor/voz6.wav",
+    text: "A medida que nos acercábamos a la cumbre principal del Vaelthor, el terreno se volvió casi vertical y la atmósfera comenzó a pesar sobre nuestros pulmones con una densidad extraña, casi asfixiante. Fue entonces cuando descubrimos la Grieta de las Confesiones, una fisura titánica que hendía la roca madre desde la cima hasta las profundidades invisibles de la base. Esta formación no figuraba en ninguna cartografía militar ni en los mapas topográficos satelitales más modernos, como si el relieve mismo de la montaña se hubiera desplazado para revelarnos un acceso secreto. Al asomarnos al borde de la grieta, el sonido del viento cesó por completo, reemplazado por un silencio tan denso y absoluto que resultaba físicamente doloroso de soportar. En ese preciso instante, experimentamos el fenómeno más perturbador de toda la travesía: la montaña comenzó a hablar sin que nadie emitiera sonido alguno. Las voces no venían de afuera; resonaban directamente en el interior de nuestras mentes, como pensamientos ajenos que se infiltraban en nuestra conciencia con una claridad cristalina. Nuestro camarógrafo principal, un hombre estoico y curtido en mil coberturas de guerra llamado Mateo Silva, sufrió una crisis de pánico en el borde mismo del abismo. En una entrevista posterior, Mateo nos confesó con lágrimas en los ojos lo que experimentó en ese momento de extrema vulnerabilidad. 'Escuché la voz de mi difunto padre llamándome por mi mote de infancia', relató con voz quebrada. 'No era un recuerdo nostálgico; la voz salía de la roca, reprochándome decisiones que tomé años después de su muerte, cosas que nadie más en este mundo podía saber'. Este nivel de intrusión psicológica demostró que el Vaelthor no era solo un repositorio pasivo de historia acústica, sino una entidad activa y consciente que interactuaba directamente con la psique de aquellos que osaban desafiar su soledad milenaria."
+  },
+  {
+    type: 'story',
+    pageNum: 7,
+    chapterTitle: "Capítulo 7 — El Testimonio del Superviviente",
+    illustrationSrc: "storycard/elecoeternodelmontevaelthor/imagen7.svg",
+    voiceSrc: "storycard/elecoeternodelmontevaelthor/voz7.wav",
+    text: "Para entender el impacto psicológico a largo plazo de la exposición prolongada al Vaelthor, rastreamos al único superviviente de una expedición comercial perdida en estas mismas laderas hace exactamente treinta años: el alpinista noruego Erik Thorsen. Encontrarlo no fue tarea fácil, ya que vive completamente aislado en una cabaña en los fiordos del norte, negándose a hablar con la prensa durante décadas. Logramos convencerlo para una entrevista telefónica tras mencionarle las coordenadas exactas de la Grieta de las Confesiones. Al otro lado de la línea, la respiración de Erik era pesada, interrumpida por el silbato constante de unos pulmones dañados por el hielo. 'Ustedes no entienden lo que hay allá arriba', nos dijo con tono grave y urgente. 'No es solo eco. Es un archivo de almas atrapadas en la piedra. Mis compañeros de aquella expedición no murieron por las avalanchas ni por el frío; murieron porque la montaña les devolvió tanto su pasado que ya no pudieron soportar vivir en el presente'. Thorsen nos reveló que, durante su descenso en solitario tras la desaparición del resto del equipo, las voces del Vaelthor lo persiguieron durante semanas, recitándole cada uno de sus arrepentimientos, sus miedos más profundos y los secretos más oscuros que guardaba en su corazón. 'La montaña te desuella el alma con palabras', sentenció con una crudeza que nos dejó helados en nuestra tienda de campaña. Sus palabras arrojan una luz sombría sobre los riesgos reales de nuestra misión. Comprendimos entonces que el verdadero peligro del Monte Vaelthor no residía en las ventiscas ni en las grietas ocultas bajo la nieve, sino en la posibilidad real de perder nuestra propia identidad al quedar atrapados en el espejo implacable de la memoria mineral."
+  },
+  {
+    type: 'story',
+    pageNum: 8,
+    chapterTitle: "Capítulo 8 — La Frecuencia Primigenia",
+    illustrationSrc: "storycard/elecoeternodelmontevaelthor/imagen8.svg",
+    voiceSrc: "storycard/elecoeternodelmontevaelthor/voz8.wav",
+    text: "En la víspera del intento de cumbre final, instalamos nuestro equipo de medición más sofisticado directamente sobre el labio superior de la Grieta de las Confesiones. El objetivo era capturar la llamada Frecuencia Primigenia, el tono base que, según los cálculos teóricos de la doctora Lin, sustentaba toda la arquitectura acústica del macizo montañoso. Con la ayuda de un generador autónomo y una antena de alta ganancia, dejamos los equipos grabando en modo continuo durante toda la noche, mientras el resto del equipo intentaba descansar en las tiendas azotadas por ráfagas intermitentes de nieve polvo. A la mañana siguiente, al revisar las tarjetas de memoria del sistema central, nos enfrentamos a un descubrimiento que desafiaba todos los paradigmas de la física contemporánea. La señal registrada no era una onda senoidal simple ni un espectro complejo de voz humana; era una secuencia matemática perfecta, una suerte de código binario natural impreso en las vibraciones de la corteza terrestre. Al traducir este código a patrones visuales mediante un software de modelado tridimensional, las pantallas de nuestros ordenadores dibujaron una estructura geométrica compleja que se asemejaba a una gigantesca red neuronal cristalina incrustada en las profundidades del manto terrestre. 'Esto no es un accidente geológico', exclamó la doctora Lin en el registro de video de esa mañana, con los ojos abiertos de par en par por la incredulidad. 'La montaña entera funciona como un procesador analógico gigantesco, un ordenador biológico y mineral construido a una escala planetaria que ha estado almacenando información desde antes de que aparecieran los primeros vertebrados en los océanos'. La magnitud de esta revelación nos abrumó por completo, convirtiendo nuestra modesta expedición científica en el umbral hacia el secreto más grande jamás descubierto sobre la historia de nuestro mundo."
+  },
+  {
+    type: 'story',
+    pageNum: 9,
+    chapterTitle: "Capítulo 9 — El Ascenso a la Cúspide",
+    illustrationSrc: "storycard/elecoeternodelmontevaelthor/imagen9.svg",
+    voiceSrc: "storycard/elecoeternodelmontevaelthor/voz9.wav",
+    text: "El octavo día amaneció con un cielo de un azul cobalto tan intenso que dolía a la vista, aunque el termómetro marcaba treinta y dos grados bajo cero y un viento cortante soplaba desde el norte. Eramos solo tres los que quedábamos en condiciones físicas de completar el tramo final hacia la cumbre absoluta del Monte Vaelthor: Mateo Silva, la doctora Maya Lin y yo mismo. Atados a la misma cuerda de seguridad, dimos cada paso con una precisión milimétrica, conscientes de que cualquier error en esta arista helada significaría el final de nuestro viaje. A medida que nos elevábamos por encima de los seis mil metros, el aire se tornó tan escaso que cada bocanada parecía fuego líquido quemando nuestros pulmones. Sin embargo, el fenómeno acústico alcanzó una intensidad sin precedentes; ya no necesitábamos equipos electrónicos para escuchar las voces. Flotaban libremente en el aire congelado, un murmullo constante y armonioso que parecía guiar nuestros pasos con una suavidad desconcertante. Al coronar finalmente la cima, el panorama que se abrió ante nuestros ojos cortó lo poco que nos quedaba de respiración. Frente a nosotros, la cumbre no terminaba en un pico nevado tradicional, sino en una meseta circular perfectamente lisa, compuesta por un mineral negro y traslúcido que brillaba con reflejos iridiscentes bajo el sol de la alta montaña. En el centro exacto de esta meseta se alzaba una estructura natural imponente: un monolito de piedra pura que actuaba como el epicentro de todas las ondas sonoras que habíamos perseguido durante semanas. Al acercarnos al monolito, pudimos escuchar con total claridad la voz de la propia tierra, un canto profundo y eterno que resonaba no solo en nuestros oídos, sino en cada célula de nuestros cuerpos fatigados."
+  },
+  {
+    type: 'story',
+    pageNum: 10,
+    chapterTitle: "Capítulo 10 — El Descubrimiento Definitivo",
+    illustrationSrc: "storycard/elecoeternodelmontevaelthor/imagen10.svg",
+    voiceSrc: "storycard/elecoeternodelmontevaelthor/voz10.wav",
+    text: "Frente al monolito central de la meseta cimera, con el equipo de grabación transmitiendo en directo hacia nuestro campamento base y de allí vía satélite a los principales centros de investigación del mundo, realizamos el descubrimiento definitivo que cerró el círculo de nuestra épica travesía. Al tocar la superficie lisa y fría del monolito con la palma de la mano desnuda, protegida apenas por un guante fino de seda térmica, el eco dejó de ser un murmullo distante para convertirse en una claridad absoluta. La montaña no guardaba voces humanas del pasado; guardaba la memoria de todas las conciencias que este planeta había albergado y albergaría jamás, un archivo universal impreso en la resonancia de la piedra viva. Comprendimos entonces que el Vaelthor no era una anomalía aislada, sino el primer nodo descubierto de una red global de memoria que conecta las grandes cordilleras de la Tierra en una sinfonía silenciosa y eterna. Las voces que escuchamos no eran fantasmas ni alucinaciones, sino los ecos futuros y pasados de la propia humanidad, resonando en un bucle temporal donde el principio y el fin se funden en un solo instante. Al mirar hacia abajo, hacia el valle donde la expedición había comenzado semanas atrás, supe que el mundo ya no volvería a ser el mismo para nosotros. Habíamos abierto la puerta a una nueva dimensión del conocimiento, demostrando que la historia de nuestro mundo no está escrita en libros de papel, sino esculpida en la memoria inmortal de la piedra. Y mientras el viento del Vaelthor mecía nuestra bandera en la cumbre más alta, el eco eterno continuó cantando su melodía milimétrica, recordándonos que nunca estamos solos en la inmensidad del cosmos."
+  },
+  { type: 'end' }
+
+];
+const musicAudio  = new Audio();
+musicAudio.loop   = true;
+musicAudio.volume = 0.4;
+if (MUSIC_SRC) musicAudio.src = MUSIC_SRC;
+
+let voiceAudio   = null;
+let voicePaused  = false;
+let musicMuted   = false;
+let musicPaused  = false;
+let bookOpened   = false;
+
+function startMusic() {
+  if (!MUSIC_SRC || musicMuted) return;
+  musicAudio.currentTime = 0;
+  musicAudio.play().catch(() => {});
+  updateMusicPauseIcon(true);
+}
+
+function stopAllAudio() {
+  if (voiceAudio) { voiceAudio.pause(); voiceAudio.currentTime = 0; }
+  voicePaused = false;
+  setVoiceIndicator(false);
+  updateVoicePauseIcon(false);
+}
+
+function playPageVoice(src) {
+  stopAllAudio();
+  if (!src) return;
+  voiceAudio = new Audio(src);
+  voiceAudio.volume = 1;
+  voiceAudio.play().catch(() => {});
+  voiceAudio.onplay  = () => { setVoiceIndicator(true);  updateVoicePauseIcon(true); };
+  voiceAudio.onended = () => { setVoiceIndicator(false); updateVoicePauseIcon(false); voicePaused = false; };
+  voiceAudio.onpause = () => { setVoiceIndicator(false); };
+}
+
+function setVoiceIndicator(playing) {
+  const el = document.getElementById('voiceIndicator');
+  if (el) el.className = 'voice-indicator' + (playing ? ' playing' : '');
+}
+
+function updateVoicePauseIcon(isPlaying) {
+  const icon = document.getElementById('iconVoicePause');
+  if (!icon) return;
+  icon.innerHTML = isPlaying
+    ? `<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>`
+    : `<polygon points="5 3 19 12 5 21 5 3"/>`;
+}
+
+function toggleVoicePause() {
+  if (!voiceAudio) return;
+  if (voicePaused) {
+    voiceAudio.play().catch(() => {});
+    voicePaused = false;
+    setVoiceIndicator(true);
+    updateVoicePauseIcon(true);
+  } else {
+    voiceAudio.pause();
+    voicePaused = true;
+    setVoiceIndicator(false);
+    updateVoicePauseIcon(false);
+  }
+}
+
+function stopVoice() {
+  if (voiceAudio) {
+    voiceAudio.pause();
+    voiceAudio.currentTime = 0;
+    voicePaused = false;
+    setVoiceIndicator(false);
+    updateVoicePauseIcon(false);
+  }
+}
+
+function updateMusicPauseIcon(isPlaying) {
+  const icon = document.getElementById('iconMusicPause');
+  if (!icon) return;
+  icon.innerHTML = isPlaying
+    ? `<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>`
+    : `<polygon points="5 3 19 12 5 21 5 3"/>`;
+}
+
+function toggleMusicPause() {
+  if (musicMuted) return;
+  if (musicPaused) {
+    musicAudio.play().catch(() => {});
+    musicPaused = false;
+    updateMusicPauseIcon(true);
+  } else {
+    musicAudio.pause();
+    musicPaused = true;
+    updateMusicPauseIcon(false);
+  }
+}
+
+function setMusicVolume(val) {
+  musicAudio.volume = parseFloat(val);
+  if (parseFloat(val) === 0) {
+    musicMuted = true;
+    document.getElementById('iconMusic').innerHTML =
+      `<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+       <line x1="1" y1="1" x2="23" y2="23" stroke-width="2"/>`;
+    musicAudio.pause();
+    updateMusicPauseIcon(false);
+  } else if (musicMuted) {
+    musicMuted = false;
+    document.getElementById('iconMusic').innerHTML =
+      `<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>`;
+    musicAudio.play().catch(() => {});
+    updateMusicPauseIcon(true);
+  }
+}
+
+function toggleMusic() {
+  musicMuted = !musicMuted;
+  const icon   = document.getElementById('iconMusic');
+  const slider = document.getElementById('musicVolume');
+  if (musicMuted) {
+    musicAudio.pause();
+    musicPaused = false;
+    icon.innerHTML = `<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+      <line x1="1" y1="1" x2="23" y2="23" stroke-width="2"/>`;
+    if (slider) slider.value = 0;
+    updateMusicPauseIcon(false);
+  } else {
+    musicAudio.volume = 0.4;
+    musicAudio.play().catch(() => {});
+    icon.innerHTML = `<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>`;
+    if (slider) slider.value = 0.4;
+    updateMusicPauseIcon(true);
+  }
+}
+
+// ── STATE ────────────────────────────────────────────────────
+let currentPage = 0;
+let animating   = false;
+
+const bookCard  = document.getElementById('bookCard');
+const navDotsEl = document.getElementById('navDots');
+const navLeft   = document.getElementById('navLeft');
+const navRight  = document.getElementById('navRight');
+
+function withDropCap(text) {
+  const t = text.trimStart();
+  if (!t.length) return text;
+  return `<span class="drop-cap">${t.charAt(0)}</span>${t.slice(1)}`;
+}
+
+function buildDots() {
+  navDotsEl.innerHTML = '';
+  pages.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === currentPage ? ' active' : '');
+    d.onclick = () => goToPage(i);
+    navDotsEl.appendChild(d);
+  });
+}
+
+function updateArrows() {
+  const p = pages[currentPage];
+  navLeft.classList.toggle('hidden',  !bookOpened || currentPage <= 0);
+  navRight.classList.toggle('hidden', !bookOpened || p.type === 'end' || currentPage >= pages.length - 1);
+}
+
+function buildPageElement(p) {
+  const el = document.createElement('div');
+
+  if (p.type === 'cover') {
+    el.className = 'cover-page';
+    const isMobile = window.innerWidth <= 767;
+    const imgSrc = (isMobile && p.coverMobileImg) ? p.coverMobileImg : p.coverImg;
+
+    el.innerHTML = imgSrc
+      ? `<img src="${imgSrc}" alt="Portada: ${p.title}">`
+      : `<div class="cover-bg-placeholder">🎵</div>`;
+    el.innerHTML += `
+      <div class="cover-overlay">
+        <h1>${p.title}</h1>
+        <p class="author">${p.author}</p>
+      </div>`;
+    el.onclick = openBook;
+
+  } else if (p.type === 'end') {
+    el.className = 'end-page';
+    el.innerHTML = `
+      <div class="end-page-content">
+        <div class="ornament">✦ ✦ ✦</div>
+        <h2>Fin de la historia</h2>
+        <p>LaIAmusical</p>
+        <button class="back-btn" onclick="goToPage(0)">Volver al inicio</button>
+      </div>`;
+    stopAllAudio();
+
+  } else {
+    const imgHtml = p.illustrationSrc
+      ? `<img src="${p.illustrationSrc}" alt="${p.chapterTitle || 'Ilustración página ' + p.pageNum}">`
+      : `<div class="img-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <path d="M3 15l5-5 4 4 3-3 6 6"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+          </svg>
+         </div>`;
+
+    el.className = 'story-page';
+    el.innerHTML = `
+      <div class="page-illustration">${imgHtml}</div>
+      <div class="page-text-section">
+        <div class="chapter-label">${p.chapterTitle || `Capítulo ${p.pageNum}`}</div>
+        <div class="page-text"><p>${withDropCap(p.text)}</p></div>
+        <div class="page-number">${p.pageNum}</div>
+      </div>
+      <div class="swipe-hint">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+        Desliza para pasar
+      </div>`;
+  }
+
+  return el;
+}
+
+function renderBook(direction) {
+  const p = pages[currentPage];
+
+  const headerTitle = p.type === 'cover'
+    ? p.title
+    : p.type === 'end'
+      ? 'Fin de la historia'
+      : (p.chapterTitle || `Capítulo ${p.pageNum}`);
+  const headerEl = document.querySelector('.book-title-header');
+  if (headerEl) headerEl.textContent = headerTitle;
+
+  const newEl = buildPageElement(p);
+
+  if (direction && bookOpened) {
+    const inClass  = direction === 'forward' ? 'anim-in-forward'  : 'anim-in-backward';
+    const outClass = direction === 'forward' ? 'anim-out-forward' : 'anim-out-backward';
+
+    newEl.style.position = 'absolute';
+    newEl.style.inset    = '0';
+    newEl.style.zIndex   = '2';
+
+    const oldEl = bookCard.firstElementChild;
+    if (oldEl && !oldEl.classList.contains('page-shadow-overlay')) {
+      oldEl.style.position = 'absolute';
+      oldEl.style.inset    = '0';
+      oldEl.style.zIndex   = '1';
+      oldEl.classList.add(outClass);
+    }
+
+    const shadow = document.createElement('div');
+    shadow.className = 'page-shadow-overlay' + (direction === 'backward' ? ' backward' : '');
+    shadow.style.zIndex = '5';
+    bookCard.appendChild(shadow);
+
+    setTimeout(() => {
+      bookCard.appendChild(newEl);
+      newEl.classList.add(inClass);
+    }, 80);
+
+    setTimeout(() => {
+      while (bookCard.children.length > 1) bookCard.removeChild(bookCard.firstChild);
+      newEl.style.position = '';
+      newEl.style.inset    = '';
+      newEl.style.zIndex   = '';
+    }, 520);
+
+  } else {
+    bookCard.innerHTML = '';
+    bookCard.appendChild(newEl);
+  }
+
+  buildDots();
+  updateArrows();
+}
+
+function openBook() {
+  if (!bookOpened) {
+    bookOpened = true;
+    document.getElementById('openHintBadge').classList.add('hidden');
+    document.getElementById('audioBar').classList.add('visible');
+    startMusic();
+  }
+  nextPage();
+}
+
+function nextPage() {
+  if (currentPage < pages.length - 1) goToPage(currentPage + 1, 'forward');
+}
+function prevPage() {
+  if (currentPage > 0) goToPage(currentPage - 1, 'backward');
+}
+
+function goToPage(target, dir) {
+  if (animating || target === currentPage || target < 0 || target >= pages.length) return;
+  const forward = dir ? dir === 'forward' : target > currentPage;
+  animating = true;
+  stopAllAudio();
+  currentPage = target;
+  renderBook(forward ? 'forward' : 'backward');
+  setTimeout(() => {
+    animating = false;
+    const p = pages[currentPage];
+    if (p && p.voiceSrc) playPageVoice(p.voiceSrc);
+  }, 540);
+}
+
+// ── SWIPE GESTURES ───────────────────────────────────────────
+let touchStartX = 0;
+let touchStartY = 0;
+
+bookCard.addEventListener('touchstart', e => {
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+}, { passive: true });
+
+bookCard.addEventListener('touchend', e => {
+  if (!bookOpened) return;
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  const dy = e.changedTouches[0].clientY - touchStartY;
+  if (Math.abs(dx) > Math.abs(dy) * 1.2 && Math.abs(dx) > 45) {
+    if (dx < 0) nextPage();
+    else        prevPage();
+  }
+}, { passive: true });
+
+// ── KEYBOARD ─────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextPage();
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   prevPage();
+});
+
+// ── INIT ─────────────────────────────────────────────────────
+renderBook();
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+/* Añade el "notch"/safe-area de iOS al viewport si el <meta viewport>
+       de la página no lo incluye todavía. No pasa nada si ya lo tenía. */
+    #backToRoomBtn {
+        position: fixed;
+        z-index: 9999;
+        display: none; /* se muestra solo si venimos de reproductor.html */
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        max-width: calc(100vw - 24px);
+        box-sizing: border-box;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        /* Desktop / tablet */
+        bottom: 24px;
+        right: 24px;
+        padding: 12px 20px;
+        font-size: 0.85rem;
+
+        border-radius: 9999px;
+        background: linear-gradient(135deg, #0d9488, #0891b2);
+        color: #fff;
+        font-weight: 700;
+        border: 1px solid rgba(45, 212, 191, 0.5);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.4), 0 0 20px rgba(45,212,191,0.25);
+        cursor: pointer;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        transition: transform .2s ease, box-shadow .2s ease;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    #backToRoomBtn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 32px rgba(0,0,0,0.5), 0 0 28px rgba(45,212,191,0.4);
+    }
+    #backToRoomBtn:active { transform: translateY(-1px) scale(0.97); }
+    #backToRoomBtn i { font-size: 1rem; flex-shrink: 0; }
+    #backToRoomLabel {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    /* ── Móviles: pegado al borde inferior, respetando el "safe area"
+         del notch/barra de gestos, y sin desbordar horizontalmente ── */
+    @media (max-width: 640px) {
+        #backToRoomBtn {
+            left: 12px;
+            right: 12px;
+            bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+            width: auto;
+            max-width: calc(100vw - 24px);
+            padding: 11px 16px;
+            font-size: 0.78rem;
+            justify-content: center;
+        }
+    }
+
+    /* Pantallas muy pequeñas (≤360px) */
+    @media (max-width: 360px) {
+        #backToRoomBtn {
+            left: 8px;
+            right: 8px;
+            bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+            padding: 10px 12px;
+            font-size: 0.72rem;
+            gap: 6px;
+        }
+    }
+</style>
+<button id="backToRoomBtn" onclick="goBackToRoom()">
+    <i class="fas fa-arrow-left"></i>
+    <span id="backToRoomLabel">Volver a la sala</span>
+</button>
+<script>
+(function () {
+    // Asegura que el viewport respete el "notch"/barra de gestos en iPhone,
+    // para que env(safe-area-inset-bottom) funcione aunque la página no
+    // tuviera viewport-fit=cover configurado en su <meta viewport>.
+    var vp = document.querySelector('meta[name="viewport"]');
+    if (vp && vp.content.indexOf('viewport-fit') === -1) {
+        vp.content = vp.content + ', viewport-fit=cover';
+    } else if (!vp) {
+        var m = document.createElement('meta');
+        m.name = 'viewport';
+        m.content = 'width=device-width, initial-scale=1.0, viewport-fit=cover';
+        document.head.appendChild(m);
+    }
+
+    var returnUrl   = sessionStorage.getItem('lastRoomUrl');
+    var returnTopic = sessionStorage.getItem('lastRoomTopicLabel') || sessionStorage.getItem('lastRoomTopic');
+    var btn   = document.getElementById('backToRoomBtn');
+    var label = document.getElementById('backToRoomLabel');
+
+    // Solo mostrar el botón si llegamos aquí desde reproductor.html
+    if (returnUrl) {
+        btn.style.display = 'flex';
+        if (returnTopic) {
+            label.textContent = 'Volver a ' + returnTopic;
+        }
+    }
+
+    window.goBackToRoom = function () {
+        window.location.href = returnUrl || 'reproductor.html';
+    };
+})();
+</script>
+</body>
+</html>

@@ -25,3 +25,9 @@ Sube cada archivo a su ruta exacta (voz y música). La storycard funciona sin el
 - [ ] `storycard/eldespertaroscurodeselenevoris/voz9.mp3`
 - [ ] `storycard/eldespertaroscurodeselenevoris/voz10.mp3`
 - [ ] `eldespertaroscurodeselenevoris.mp3`
+
+## El ocaso estelar de la nave Aldebarán (2026-11-02)
+- [ ] `elocasoestelardelanavealdebaran.mp3`
+
+## El Eco Eterno del Monte Vaelthor (2026-11-02)
+- [ ] `elecoeternodelmontevaelthor.mp3`

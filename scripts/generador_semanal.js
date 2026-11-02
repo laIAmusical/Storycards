@@ -292,7 +292,7 @@ async function escribirHistoria(tema, usados) {
     throw new Error(`Gemini no devolvió una historia válida (${motivo})`);
 }
 
-// ───────────────────────── 3. GENERACIÓN DE IMÁGENES (16:9, 1:1, 9:16) ─────────────────────────
+// ───────────────────────── 3. GENERACIÓN DE IMÁGENES (16:9, 1:1, 9:16) - PRIORIDAD CLOUDFLARE ─────────────────────────
 const PALETAS = {
     CINE: [350, 20, 270], SERIES: [200, 280, 320], ANIME: [320, 190, 50], ANIMACION: [45, 170, 300],
     LITERATURA: [30, 20, 200], VIDEOJUEGOS: [150, 260, 330], RELIGION: [45, 30, 210]
@@ -322,28 +322,49 @@ function detectarImagen(buf) {
 }
 
 async function imagenCloudflare(prompt) {
-    if (!CF_ACCOUNT_ID || !CF_API_TOKEN) return null;
+    if (!CF_ACCOUNT_ID || !CF_API_TOKEN) {
+        console.log('  ⚠️ Cloudflare no configurado (faltan Account ID o Token).');
+        return null;
+    }
     for (let intento = 1; intento <= 3; intento++) {
         try {
+            console.log(`  ☁️ Intentando generar imagen con Cloudflare FLUX (Intento ${intento}/3)...`);
             const res = await fetchConTimeout(
                 `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/ai/run/@cf/black-forest-labs/flux-1-schnell`,
-                { method: 'POST', headers: { Authorization: `Bearer ${CF_API_TOKEN}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ prompt: prompt.slice(0, 1900), steps: 6 }) }, 90000);
+                { 
+                    method: 'POST', 
+                    headers: { 
+                        'Authorization': `Bearer ${CF_API_TOKEN}`, 
+                        'Content-Type': 'application/json' 
+                    }, 
+                    body: JSON.stringify({ prompt: prompt.slice(0, 1900), steps: 6 }) 
+                }, 90000);
+            
             const tipo = res.headers.get('content-type') || '';
             let buf;
-            if (tipo.startsWith('image/')) buf = Buffer.from(await res.arrayBuffer());
-            else {
+            if (tipo.startsWith('image/')) {
+                buf = Buffer.from(await res.arrayBuffer());
+            } else {
                 const datos = await res.json().catch(() => ({}));
-                if (!res.ok || datos.success === false) throw new Error(`HTTP ${res.status}`);
+                if (!res.ok || datos.success === false) {
+                    throw new Error(`HTTP ${res.status} - ${JSON.stringify(datos.errors || datos.error || 'Error desconocido')}`);
+                }
                 const b64 = datos.result?.image || datos.image;
-                if (!b64) throw new Error('respuesta sin imagen');
+                if (!b64) throw new Error('Respuesta de Cloudflare sin datos de imagen');
                 buf = Buffer.from(b64, 'base64');
             }
+            
             const ext = detectarImagen(buf);
-            if (!ext || buf.length < 5000) throw new Error('imagen no válida');
+            if (!ext || buf.length < 5000) throw new Error('El buffer recibido no corresponde a una imagen válida');
+            console.log('  ✅ Imagen generada con éxito mediante Cloudflare FLUX.');
             return { buf, ext };
         } catch (e) {
-            if (/401|403/i.test(e.message)) return null;
-            await dormir(2500 * intento);
+            console.warn(`  ⚠️ Falló Cloudflare (intento ${intento}): ${e.message}`);
+            if (/401|403/i.test(e.message)) {
+                console.error('  ❌ Error de autenticación con Cloudflare (Token o Account ID inválidos).');
+                return null;
+            }
+            await dormir(3000 * intento);
         }
     }
     return null;
@@ -352,25 +373,41 @@ async function imagenCloudflare(prompt) {
 async function imagenPollinations(prompt, ancho, alto, semilla) {
     if (!POLLINATIONS_KEY) return null;
     try {
+        console.log('  🌸 Respaldando con Pollinations AI...');
         const url = 'https://gen.pollinations.ai/image/' + encodeURIComponent(prompt.slice(0, 1500)) +
             `?model=flux&width=${ancho}&height=${alto}&seed=${semilla}&nologo=true&key=${encodeURIComponent(POLLINATIONS_KEY)}`;
         const res = await fetchConTimeout(url, {}, 90000);
         const buf = Buffer.from(await res.arrayBuffer());
         const ext = detectarImagen(buf);
         if (!res.ok || !ext || buf.length < 5000) throw new Error(`HTTP ${res.status}`);
+        console.log('  ✅ Imagen generada con éxito mediante Pollinations.');
         return { buf, ext };
-    } catch (e) { return null; }
+    } catch (e) { 
+        console.warn(`  ⚠️ Falló Pollinations: ${e.message}`);
+        return null; 
+    }
 }
 
 async function crearImagenEnRuta({ rutaRelativa, prompt, tematica, ancho, alto, semilla, pistas }) {
     const rutaAbsoluta = path.join(RAIZ, rutaRelativa);
     asegurarCarpeta(path.dirname(rutaAbsoluta));
-    const ia = (await imagenCloudflare(prompt)) || (await imagenPollinations(prompt, ancho, alto, semilla));
+    
+    // PRIORIDAD 1: Cloudflare AI (Flux)
+    let ia = await imagenCloudflare(prompt);
+    
+    // PRIORIDAD 2: Pollinations AI (si Cloudflare no está disponible o falla)
+    if (!ia) {
+        ia = await imagenPollinations(prompt, ancho, alto, semilla);
+    }
+
     if (ia) {
         const rutaFinal = `${rutaRelativa}.${ia.ext}`;
         fs.writeFileSync(path.join(RAIZ, rutaFinal), ia.buf);
         return { ruta: rutaFinal, ia: true };
     }
+
+    // RESPALDO FINAL: SVG geométrico si todo lo demás falla
+    console.log('  ⚠️ Usando SVG geométrico de respaldo.');
     const rutaFinal = `${rutaRelativa}.svg`;
     fs.writeFileSync(path.join(RAIZ, rutaFinal), crearSvg(tematica, semilla, ancho, alto, pistas));
     return { ruta: rutaFinal, ia: false };

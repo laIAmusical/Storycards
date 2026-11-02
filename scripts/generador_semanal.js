@@ -52,7 +52,7 @@ const TEMAS = [
         nombre: 'Series', alias: ['SERIES', 'SERIE', 'TV'],
         formato: 'la temporada de una gran serie dramática: cada capítulo es un episodio con su propio gancho, giros, varios personajes con arcos propios y un cliffhanger final',
         estilo: 'prestige tv series key art, moody cinematic lighting, ensemble cast silhouette, dramatic',
-        semillas: ['una familia de contrabandistas en una frontera en guerra', 'un equipo de científicos aislados en una estación polar que descubre algo bajo el hielo', 'una ciudad gobernada por tres casas rivales y un traidor entre ellas', 'una médica forense que investiga muertes imposibles en un pueblo minero', 'una tripulación de una nave de carga que hereda un mapa de una civilización perdida']
+        semillas: ['una familia de contrabandistas en una frontera en guerra', 'un equipo de científicos aislados en una estación polar que descubre algo bajo el hielo', 'una ciudad gobernada por tres casas rivales y un traidor entre ellas', 'una médica forense que investiga muertes impossibles en un pueblo minero', 'una tripulación de una nave de carga que hereda un mapa de una civilización perdida']
     },
     {
         nombre: 'Ópera y conciertos', alias: ['OPERA', 'ÓPERA', 'CONCIERTOS', 'CONCIERTO', 'OPERA Y CONCIERTOS', 'ÓPERA Y CONCIERTOS', 'MUSICA'],
@@ -304,18 +304,6 @@ function matices(tematica) {
     return [h, (h + 60) % 360, (h + 200) % 360];
 }
 
-const ESCENAS = ['ciudad', 'mar', 'bosque', 'desierto', 'montana', 'espacio', 'escenario', 'castillo'];
-const REGLAS_ESCENA = [
-    ['ciudad', /city|street|rain|neon|metropol|urban|detective|skyscraper|ciudad|calle|lluvia|rascacielos/g],
-    ['mar', /\bsea\b|ocean|ship|harbo|\bport\b|lighthouse|island|boat|wave|barco|faro|isla|oceano|puerto|nav[eio]|marin/g],
-    ['bosque', /forest|woods|\btree|jungle|garden|bosque|selva|arbol|jardin|firefl/g],
-    ['desierto', /desert|dune|sand|oasis|caravan|desierto|duna|arena|sahara/g],
-    ['montana', /mountain|\bpeak|snow|\bice\b|glacier|cliff|aurora|montan|nieve|hielo|cumbre|polar|expedici/g],
-    ['espacio', /space|planet|galax|cosmic|orbit|nebula|astronaut|espacio|planeta|galaxia|cosmos|nebulosa|estelar/g],
-    ['escenario', /stage|theat|opera|concert|curtain|orchestra|spotlight|violin|piano|escenario|teatro|telon|orquesta|concierto|aria|musical/g],
-    ['castillo', /castle|kingdom|throne|palace|crown|\bking|queen|knight|dragon|castillo|reino|trono|palacio|corona|\brey|reina|caballero|dinast/g]
-];
-
 function crearSvg(tematica, semilla, ancho, alto, pistas = '') {
     const rnd = mulberry32(semilla);
     const W = ancho, H = alto;
@@ -396,20 +384,19 @@ function textoParaNarrar(titulo, texto) {
 
 function crearVoz(titulo, texto, rutaRel) {
     if (!PIPER_BIN || !PIPER_MODEL || !fs.existsSync(PIPER_BIN) || !fs.existsSync(PIPER_MODEL)) return false;
-    const wav = path.join(RAIZ, rutaRel.replace(/\.mp3$/, '.tmp.wav'));
-    const mp3 = path.join(RAIZ, rutaRel);
+    const wav = path.join(RAIZ, rutaRel.replace(/\.wav$/, '.tmp.wav'));
+    const finalWav = path.join(RAIZ, rutaRel);
     try {
         const env = { ...process.env, LD_LIBRARY_PATH: `${path.dirname(PIPER_BIN)}:${process.env.LD_LIBRARY_PATH || ''}` };
         const p = spawnSync(PIPER_BIN, ['-m', PIPER_MODEL, '-f', wav, '--length_scale', '1.08', '--sentence_silence', '0.5', '-q'],
             { input: textoParaNarrar(titulo, texto), cwd: path.dirname(PIPER_BIN), env, timeout: 180000, encoding: 'utf8' });
         if (p.status !== 0 || !fs.existsSync(wav)) throw new Error(`Piper error`);
-        const f = spawnSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', wav, '-ac', '1', '-codec:a', 'libmp3lame', '-b:a', '64k', mp3], { timeout: 120000, encoding: 'utf8' });
-        if (f.status !== 0 || !fs.existsSync(mp3)) throw new Error(`ffmpeg error`);
+        fs.renameSync(wav, finalWav);
         return true;
     } catch (e) {
         return false;
     } finally {
-        try { fs.unlinkSync(wav); } catch (e) {}
+        try { if (fs.existsSync(wav)) fs.unlinkSync(wav); } catch (e) {}
     }
 }
 
@@ -517,7 +504,8 @@ async function crearStorycardCompleta({ tema, usados, idBase, indice }) {
             prompt: `${c.escena_en || c.titulo}. ${estilo}`, pistas: `${c.escena_en || ''} ${c.titulo || ''} ${textoCap.slice(0, 300)}`
         });
         
-        const voz = `storycard/${slug}/voz${i + 1}.mp3`;
+        // Asignación explícita del formato .wav para la voz
+        const voz = `storycard/${slug}/voz${i + 1}.wav`;
         if (crearVoz(tituloCap, textoCap, voz)) vocesOk++; else audiosPendientes.push(voz);
         capitulos.push({ titulo: tituloCap, texto: textoCap, ilustracion: rIlu.ruta, voz });
     }

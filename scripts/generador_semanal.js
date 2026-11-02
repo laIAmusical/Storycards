@@ -381,8 +381,6 @@ function textoParaNarrar(titulo, texto, indiceCapitulo) {
     const numCap = indiceCapitulo !== undefined ? `Capítulo ${indiceCapitulo}. ` : '';
     const tClean = (titulo || '').replace(/^Cap[íi]tulo\s+\d+\s*[:.\-–—]*\s*/i, '').trim();
     const cuerpo = texto.replace(/\r/g, '').split(/\n+/).map(l => l.trim()).filter(Boolean).join(' ');
-    
-    // Inserta una pausa clara entre el título y el contenido completo del capítulo
     return `${numCap}${tClean}. ... ${cuerpo}`;
 }
 
@@ -412,8 +410,8 @@ function aplicarI18n(str) {
     return out;
 }
 
-function generarHtmlStory({ titulo, autor, coverImg, coverMobileImg, musica, capitulos }) {
-    let paginas = `  {\n    type: 'cover',\n    coverImg: ${safeJson(coverImg)},\n    coverMobileImg: ${safeJson(coverMobileImg)},\n    title: ${safeJson(titulo)},\n    author: ${safeJson('De ' + autor)}\n  },\n`;
+function generarHtmlStory({ titulo, fraseInspiracion, autor, coverImg, coverMobileImg, musica, capitulos }) {
+    let paginas = `  {\n    type: 'cover',\n    coverImg: ${safeJson(coverImg)},\n    coverMobileImg: ${safeJson(coverMobileImg)},\n    title: ${safeJson(titulo)},\n    fraseInspiracion: ${safeJson(fraseInspiracion || '')},\n    author: ${safeJson('De ' + autor)}\n  },\n`;
     capitulos.forEach((c, i) => {
         paginas += `  {\n    type: 'story',\n    pageNum: ${i + 1},\n    chapterTitle: ${safeJson(c.titulo)},\n    illustrationSrc: ${safeJson(c.ilustracion)},\n    voiceSrc: ${safeJson(c.voz || '')},\n    text: ${safeJson(c.texto)}\n  },\n`;
     });
@@ -515,7 +513,7 @@ async function crearStorycardCompleta({ tema, usados, idBase, indice }) {
     audiosPendientes.push(musica);
 
     const html = generarHtmlStory({
-        titulo, autor: AUTOR, coverImg: rPortada.ruta, coverMobileImg: rMovil.ruta, musica, capitulos
+        titulo, fraseInspiracion, autor: AUTOR, coverImg: rPortada.ruta, coverMobileImg: rMovil.ruta, musica, capitulos
     });
     fs.writeFileSync(path.join(RAIZ, `${slug}.html`), html);
     console.log(`  ✅ Archivo creado: ${slug}.html`);

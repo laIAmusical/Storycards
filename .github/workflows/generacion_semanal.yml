@@ -22,7 +22,6 @@ jobs:
           node-version: '20'
 
       # Voz del narrador: Piper corre dentro del propio runner (gratis, sin claves y sin límites).
-      # Si la descarga falla, el robot sigue y crea las storycards sin voz.
       - name: Instalar voz del narrador (Piper + voz masculina en español)
         continue-on-error: true
         run: |
@@ -37,13 +36,14 @@ jobs:
           echo "PIPER_BIN=$RUNNER_TEMP/piper-voz/piper/piper" >> "$GITHUB_ENV"
           echo "PIPER_MODEL=$RUNNER_TEMP/piper-voz/voz.onnx" >> "$GITHUB_ENV"
 
-      - name: Escribir 2 historias épicas con Gemini y crear las storycards
+      - name: Escribir historias épicas con Gemini y crear las storycards
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}   # imágenes FLUX gratis
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          NUM_CAPITULOS: 10          # capítulos por historia (10)
-          PALABRAS_CAPITULO: 250    # palabras aproximadas por capítulo
+          POLLINATIONS_API_KEY: ${{ secrets.POLLINATIONS_API_KEY }}
+          NUM_CAPITULOS: 10
+          PALABRAS_CAPITULO: 250
         run: node scripts/generador_semanal.js
 
       - name: Guardar y sincronizar cambios automáticamente en GitHub
@@ -55,6 +55,6 @@ jobs:
             echo "No hay cambios que guardar."
             exit 0
           fi
-          git commit -m "🤖 Nuevas storycards épicas (historia, imágenes 16:9 en imagenportada, 1:1, 9:16 y voz)"
+          git commit -m "🤖 Nuevas storycards épicas con Cloudflare FLUX (historia, imágenes y voz)"
           git pull --rebase origin "${GITHUB_REF_NAME}"
           git push

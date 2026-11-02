@@ -55,6 +55,6 @@ jobs:
             echo "No hay cambios que guardar."
             exit 0
           fi
-          git commit -m "🤖 Nuevas storycards épicas (historia, imágenes y voz)"
+          git commit -m "🤖 Nuevas storycards épicas (historia, imágenes 16:9, 1:1, 9:16 y voz)"
           git pull --rebase origin "${GITHUB_REF_NAME}"
           git push

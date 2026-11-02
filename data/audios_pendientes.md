@@ -37,3 +37,9 @@ Sube cada archivo a su ruta exacta (voz y música). La storycard funciona sin el
 
 ## El Rumbo Imposible de la Nao Ithilien (2026-11-02)
 - [ ] `elrumboimposibledelanaoithilien.mp3`
+
+## El Latido Faltante de la Ciudad de Aethelgard (2026-11-02)
+- [ ] `ellatidofaltantedelaciudaddeaethelgard.mp3`
+
+## La Sinfonía Prohibida de Elowen Vane (2026-11-02)
+- [ ] `lasinfoniaprohibidadeelowenvane.mp3`

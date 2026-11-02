@@ -1,5 +1,37 @@
 [
   {
+    "id": 1793642490924,
+    "titulo": "El Latido Faltante de la Ciudad de Aethelgard",
+    "fraseInspiracion": "Cuando el tiempo se detiene, solo el pulso de la memoria puede reiniciar el mundo.",
+    "tematica": "Cine",
+    "tipo": "automatica-ia",
+    "descripcion": "En una metrópolis suspendida en el cielo que está perdiendo su gravedad, un ingeniero renegado debe descender al corazón mecánico del mundo para reiniciar el generador antes de que millones caigan al vacío eterno.",
+    "imagen": "imagenportada/ellatidofaltantedelaciudaddeaethelgard_16_9.svg",
+    "portada": "storycard/ellatidofaltantedelaciudaddeaethelgard/portada.svg",
+    "portadaMovil": "storycard/ellatidofaltantedelaciudaddeaethelgard/portadamovil.svg",
+    "slug": "ellatidofaltantedelaciudaddeaethelgard",
+    "storyPage": "ellatidofaltantedelaciudaddeaethelgard.html",
+    "audioVoz": "storycard/ellatidofaltantedelaciudaddeaethelgard/voz1.wav",
+    "musicaFondo": "ellatidofaltantedelaciudaddeaethelgard.mp3",
+    "fechaCreacion": "2026-11-02T18:06:32.859Z"
+  },
+  {
+    "id": 1793642490925,
+    "titulo": "La Sinfonía Prohibida de Elowen Vane",
+    "fraseInspiracion": "Tocar la nota final significa entregar el alma al silencio eterno de la noche.",
+    "tematica": "Ópera y conciertos",
+    "tipo": "automatica-ia",
+    "descripcion": "Un virtuoso violinista acepta interpretar una partitura maldita en la gran ópera de la ciudad. Cada movimiento desata pasiones desbordadas que conducen inevitablemente hacia un sublime y trágico desenlace.",
+    "imagen": "imagenportada/lasinfoniaprohibidadeelowenvane_16_9.svg",
+    "portada": "storycard/lasinfoniaprohibidadeelowenvane/portada.svg",
+    "portadaMovil": "storycard/lasinfoniaprohibidadeelowenvane/portadamovil.svg",
+    "slug": "lasinfoniaprohibidadeelowenvane",
+    "storyPage": "lasinfoniaprohibidadeelowenvane.html",
+    "audioVoz": "storycard/lasinfoniaprohibidadeelowenvane/voz1.wav",
+    "musicaFondo": "lasinfoniaprohibidadeelowenvane.mp3",
+    "fechaCreacion": "2026-11-02T18:11:50.204Z"
+  },
+  {
     "id": 1793638883599,
     "titulo": "El Desplome de Caelum-Vorna",
     "fraseInspiracion": "Incluso cuando el cielo cae, la voluntad sostiene los cimientos del mañana.",

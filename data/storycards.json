@@ -48,22 +48,6 @@
     "fechaCreacion": "2026-11-02T15:04:09.252Z"
   },
   {
-    "id": 1793631591891,
-    "titulo": "El Eco Eterno del Monte Vaelthor",
-    "fraseInspiracion": "Donde las montañas recuerdan las palabras que los hombres olvidaron.",
-    "tematica": "Documentales y usuarios",
-    "tipo": "automatica-ia",
-    "descripcion": "Una expedición científica desafía las alturas prohibidas del Vaelthor en busca de respuestas acústicas. Lo que descubren en las cumbres cambiará para siempre nuestra comprensión del tiempo y la memoria.",
-    "imagen": "imagenportada/elecoeternodelmontevaelthor_16_9.svg",
-    "portada": "storycard/elecoeternodelmontevaelthor/portada.svg",
-    "portadaMovil": "storycard/elecoeternodelmontevaelthor/portadamovil.svg",
-    "slug": "elecoeternodelmontevaelthor",
-    "storyPage": "elecoeternodelmontevaelthor.html",
-    "audioVoz": "storycard/elecoeternodelmontevaelthor/voz1.wav",
-    "musicaFondo": "elecoeternodelmontevaelthor.mp3",
-    "fechaCreacion": "2026-11-02T15:09:12.083Z"
-  },
-  {
     "id": 1793621100896,
     "titulo": "La Última Travesía de Valen-Kael",
     "tematica": "Cine",

@@ -1,5 +1,35 @@
 [
   {
+    "id": 1793621100896,
+    "titulo": "La Última Travesía de Valen-Kael",
+    "tematica": "Cine",
+    "tipo": "automatica-ia",
+    "descripcion": "El capitán Darek Vance emprende una misión suicida en los cielos tóxicos de Valen-Kael para destruir una superarma imperial. Al descubrir una conspiración que cambiará el destino de su patria, deberá desafiar a sus superiores para salvar al mundo.",
+    "imagen": "images/laultimatravesiadevalenkael_16_9.jpg",
+    "portada": "storycard/laultimatravesiadevalenkael/portada.jpg",
+    "portadaMovil": "storycard/laultimatravesiadevalenkael/portadamovil.jpg",
+    "slug": "laultimatravesiadevalenkael",
+    "storyPage": "laultimatravesiadevalenkael.html",
+    "audioVoz": "storycard/laultimatravesiadevalenkael/voz1.mp3",
+    "musicaFondo": "laultimatravesiadevalenkael.mp3",
+    "fechaCreacion": "2026-11-02T12:10:11.150Z"
+  },
+  {
+    "id": 1793621100897,
+    "titulo": "El Despertar Oscuro de Selene-Voris",
+    "tematica": "Series",
+    "tipo": "automatica-ia",
+    "descripcion": "En las profundidades de la Antártida, una expedición científica desentierra un enigma biomecánico milenario que altera la cordura humana. Cuando la entidad despierta, la supervivencia personal se transforma en una batalla por el destino del planeta.",
+    "imagen": "images/eldespertaroscurodeselenevoris_16_9.jpg",
+    "portada": "storycard/eldespertaroscurodeselenevoris/portada.jpg",
+    "portadaMovil": "storycard/eldespertaroscurodeselenevoris/portadamovil.jpg",
+    "slug": "eldespertaroscurodeselenevoris",
+    "storyPage": "eldespertaroscurodeselenevoris.html",
+    "audioVoz": "storycard/eldespertaroscurodeselenevoris/voz1.mp3",
+    "musicaFondo": "eldespertaroscurodeselenevoris.mp3",
+    "fechaCreacion": "2026-11-02T12:20:14.034Z"
+  },
+  {
     "id": 1793614999970,
     "titulo": "El Vuelo Final de Nebra-Val",
     "tematica": "Cine",

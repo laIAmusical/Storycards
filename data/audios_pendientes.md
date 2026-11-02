@@ -17,3 +17,25 @@ Sube cada archivo a su ruta exacta (voz y música). La storycard funciona sin el
 - [ ] `storycard/assets/audio/voz/elcrepusculodeloscodicesdealistair-cap4.mp3`
 - [ ] `storycard/assets/audio/voz/elcrepusculodeloscodicesdealistair-cap5.mp3`
 - [ ] `storycard/assets/audio/musica/elcrepusculodeloscodicesdealistair.mp3`
+
+## El Vuelo Final de Nebra-Val (2026-11-02)
+- [ ] `storycard/elvuelofinaldenebraval/voz1.mp3`
+- [ ] `storycard/elvuelofinaldenebraval/voz2.mp3`
+- [ ] `storycard/elvuelofinaldenebraval/voz3.mp3`
+- [ ] `storycard/elvuelofinaldenebraval/voz4.mp3`
+- [ ] `storycard/elvuelofinaldenebraval/voz5.mp3`
+- [ ] `storycard/elvuelofinaldenebraval/voz6.mp3`
+- [ ] `storycard/elvuelofinaldenebraval/voz7.mp3`
+- [ ] `storycard/elvuelofinaldenebraval/voz8.mp3`
+- [ ] `elvuelofinaldenebraval.mp3`
+
+## La Última Partitura de Yvaine Thorne (2026-11-02)
+- [ ] `storycard/laultimapartituradeyvainethorne/voz1.mp3`
+- [ ] `storycard/laultimapartituradeyvainethorne/voz2.mp3`
+- [ ] `storycard/laultimapartituradeyvainethorne/voz3.mp3`
+- [ ] `storycard/laultimapartituradeyvainethorne/voz4.mp3`
+- [ ] `storycard/laultimapartituradeyvainethorne/voz5.mp3`
+- [ ] `storycard/laultimapartituradeyvainethorne/voz6.mp3`
+- [ ] `storycard/laultimapartituradeyvainethorne/voz7.mp3`
+- [ ] `storycard/laultimapartituradeyvainethorne/voz8.mp3`
+- [ ] `laultimapartituradeyvainethorne.mp3`

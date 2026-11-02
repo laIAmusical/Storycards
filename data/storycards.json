@@ -1,5 +1,31 @@
 [
   {
+    "id": 1793614999970,
+    "titulo": "El Vuelo Final de Nebra-Val",
+    "tematica": "Cine",
+    "tipo": "automatica-ia",
+    "descripcion": "Cuando el piloto repudiado Silas Vane descubre que su última misión transporta un arma para exterminar las ciudades flotantes, desafía al imperio. Atrapado en su propia nave teledirigida, cambiará el destino del cielo para siempre.",
+    "imagen": "storycard/elvuelofinaldenebraval/portada.jpg",
+    "slug": "elvuelofinaldenebraval",
+    "storyPage": "elvuelofinaldenebraval.html",
+    "audioVoz": "storycard/elvuelofinaldenebraval/voz1.mp3",
+    "musicaFondo": "elvuelofinaldenebraval.mp3",
+    "fechaCreacion": "2026-11-02T10:24:57.421Z"
+  },
+  {
+    "id": 1793614999971,
+    "titulo": "La Última Partitura de Yvaine Thorne",
+    "tematica": "Teatro y musicales",
+    "tipo": "automatica-ia",
+    "descripcion": "Un joven apuntador descubre que el guion del musical más esperado del siglo es, en realidad, una desgarradora carta de amor oculta. Entre bambalinas y notas olvidadas, deberá decidir si arriesga su empleo para revelar la verdad sobre el escenario.",
+    "imagen": "storycard/laultimapartituradeyvainethorne/portada.jpg",
+    "slug": "laultimapartituradeyvainethorne",
+    "storyPage": "laultimapartituradeyvainethorne.html",
+    "audioVoz": "storycard/laultimapartituradeyvainethorne/voz1.mp3",
+    "musicaFondo": "laultimapartituradeyvainethorne.mp3",
+    "fechaCreacion": "2026-11-02T10:26:54.428Z"
+  },
+  {
     "id": 1793575600704,
     "titulo": "El Reloj de Cobre de Vaelen",
     "tematica": "Cine",

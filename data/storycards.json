@@ -13,19 +13,6 @@
     "fechaCreacion": "2026-11-02T10:24:57.421Z"
   },
   {
-    "id": 1793614999971,
-    "titulo": "La Última Partitura de Yvaine Thorne",
-    "tematica": "Teatro y musicales",
-    "tipo": "automatica-ia",
-    "descripcion": "Un joven apuntador descubre que el guion del musical más esperado del siglo es, en realidad, una desgarradora carta de amor oculta. Entre bambalinas y notas olvidadas, deberá decidir si arriesga su empleo para revelar la verdad sobre el escenario.",
-    "imagen": "storycard/laultimapartituradeyvainethorne/portada.jpg",
-    "slug": "laultimapartituradeyvainethorne",
-    "storyPage": "laultimapartituradeyvainethorne.html",
-    "audioVoz": "storycard/laultimapartituradeyvainethorne/voz1.mp3",
-    "musicaFondo": "laultimapartituradeyvainethorne.mp3",
-    "fechaCreacion": "2026-11-02T10:26:54.428Z"
-  },
-  {
     "id": 1,
     "titulo": "Tarjeta Base Inicial",
     "tematica": "CINE",

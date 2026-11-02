@@ -4,7 +4,7 @@
  * Cada ejecución escribe 2 historias ÉPICAS originales con Gemini y las
  * convierte en storycards completas:
  *   - <slug>.html                    → libro interactivo
- *   - imagenportada/<slug>_16_9.*    → imagen de presentación en formato 16:9
+ *   - imagenportada/<slug>_16_9.*    → imagen de presentación panorámica 16:9
  *   - storycard/<slug>/portada.*     → portada cuadrada 1:1
  *   - storycard/<slug>/portadamovil.*→ portada vertical 9:16
  *   - storycard/<slug>/imagenN.*     → ilustración de cada capítulo
@@ -268,11 +268,12 @@ async function escribirHistoria(tema, usados) {
         '',
         'REGLAS:',
         '- TÍTULO: un título propio y memorable, con un NOMBRE PROPIO inventado (de personaje, lugar, reino, nave, obra…) ligado a la trama. Máximo 8 palabras.',
+        '- FRASE DE INSPIRACIÓN: Una frase poética, inspiradora o enigmática que defina el tema de la historia (máx. 12 palabras).',
         `- Exactamente ${NUM_CAPITULOS} capítulos de unas ${PALABRAS_CAPITULO} palabras cada uno.`,
         usados.length ? `- Títulos ya usados (NO repetir ni imitar): ${usados.slice(0, 20).join(' | ')}.` : '',
         '',
         'Responde SOLO con JSON válido con esta forma exacta:',
-        '{"titulo":"…","sinopsis":"2 frases atractivas, máx. 45 palabras","portada_en":"visual description in English of the cover art, no text, no letters","capitulos":[{"titulo":"título breve","texto":"…","escena_en":"visual description in English of this chapter\'s key scene"}]}'
+        '{"titulo":"…","fraseInspiracion":"…","sinopsis":"2 frases atractivas, máx. 45 palabras","portada_en":"visual description in English of the cover art, no text, no letters","capitulos":[{"titulo":"título breve","texto":"…","escena_en":"visual description in English of this chapter\'s key scene"}]}'
     ].filter(Boolean).join('\n');
 
     let motivo = '';
@@ -457,8 +458,10 @@ async function crearStorycardCompleta({ tema, usados, idBase, indice }) {
     console.log('  ✍️  Gemini está escribiendo la historia épica...');
     const hist = await escribirHistoria(tema, usados);
     const titulo = stripWrappingQuotes(String(hist.titulo)).replace(/\s+/g, ' ');
+    const fraseInspiracion = stripWrappingQuotes(String(hist.fraseInspiracion || '')).trim();
     const slug = slugUnico(titulo);
     console.log(`  🏷️  Título: "${titulo}"  (slug: ${slug})`);
+    if (fraseInspiracion) console.log(`  ✨ Frase: "${fraseInspiracion}"`);
 
     // Aseguramos la carpeta de destino para la presentación 16:9 -> imagenportada/
     asegurarCarpeta(path.join(RAIZ, 'imagenportada'));
@@ -523,6 +526,7 @@ async function crearStorycardCompleta({ tema, usados, idBase, indice }) {
         tarjeta: {
             id: idBase + indice,
             titulo,
+            fraseInspiracion,                // Campo añadido para la frase de inspiración
             tematica: tema.nombre,
             tipo: 'automatica-ia',
             descripcion: String(hist.sinopsis || '').trim(),

@@ -13,6 +13,7 @@
 const fs = require('fs');
 const path = require('path');
 const { spawnSync } = require('child_process');
+const os = require('os');
 
 // ───────────────────────── CONFIGURACIÓN ─────────────────────────
 const RAIZ = path.join(__dirname, '..');
@@ -305,13 +306,188 @@ function matices(tematica) {
     return [h, (h + 60) % 360, (h + 200) % 360];
 }
 
+// ---- Escenas SVG animadas ----
+const fx = n => Math.round(n * 10) / 10;
+
+const ESCENAS = ['ciudad', 'mar', 'bosque', 'desierto', 'montana', 'espacio', 'escenario', 'castillo'];
+const REGLAS_ESCENA = [
+    ['ciudad', /city|street|rain|neon|metropol|urban|detective|skyscraper|ciudad|calle|lluvia|rascacielos/g],
+    ['mar', /\bsea\b|ocean|ship|harbo|\bport\b|lighthouse|island|boat|wave|barco|faro|isla|oceano|puerto|nav[eio]|marin/g],
+    ['bosque', /forest|woods|\btree|jungle|garden|bosque|selva|arbol|jardin|firefl/g],
+    ['desierto', /desert|dune|sand|oasis|caravan|desierto|duna|arena|sahara/g],
+    ['montana', /mountain|\bpeak|snow|\bice\b|glacier|cliff|aurora|montan|nieve|hielo|cumbre|polar|expedici/g],
+    ['espacio', /space|planet|galax|cosmic|orbit|nebula|astronaut|espacio|planeta|galaxia|cosmos|nebulosa|estelar/g],
+    ['escenario', /stage|theat|opera|concert|curtain|orchestra|spotlight|violin|piano|escenario|teatro|telon|orquesta|concierto|aria|musical/g],
+    ['castillo', /castle|kingdom|throne|palace|crown|\bking|queen|knight|dragon|castillo|reino|trono|palacio|corona|\brey|reina|caballero|dinast/g]
+];
+
+function elegirEscena(tematica, pistas, semilla) {
+    const t = (pistas || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    let mejor = null, max = 0;
+    REGLAS_ESCENA.forEach(([nombre, re]) => {
+        const n = (t.match(re) || []).length;
+        if (n > max) { max = n; mejor = nombre; }
+    });
+    if (mejor) return mejor;
+    const tem = sinAcentos(tematica);
+    if (/OPERA|TEATRO/.test(tem)) return 'escenario';
+    if (/CINE/.test(tem)) return ['ciudad', 'mar', 'desierto', 'espacio'][semilla % 4];
+    if (/LITERATURA/.test(tem)) return ['castillo', 'bosque', 'mar', 'montana'][semilla % 4];
+    if (/DOCUMENTAL/.test(tem)) return ['montana', 'desierto', 'mar', 'bosque'][semilla % 4];
+    return ESCENAS[semilla % ESCENAS.length];
+}
+
+function svgEstrellas(rnd, W, H, n, yMax) {
+    let s = '';
+    for (let i = 0; i < n; i++) {
+        s += `<circle cx="${fx(rnd() * W)}" cy="${fx(rnd() * H * yMax)}" r="${fx(0.6 + rnd() * 1.7)}" fill="#fff"><animate attributeName="opacity" values="0.1;1;0.1" dur="${fx(2 + rnd() * 4)}s" begin="-${fx(rnd() * 5)}s" repeatCount="indefinite"/></circle>`;
+    }
+    return s;
+}
+/** Capa de relieve (picos o colinas suaves) que llega hasta el borde inferior. */
+function svgCapa(rnd, W, H, yBase, amp, fill, pasos, picos) {
+    const pts = [];
+    for (let i = 0; i <= pasos; i++) pts.push([fx(i * W / pasos), fx(yBase - rnd() * amp)]);
+    let d;
+    if (picos) {
+        d = `M0,${H} L${pts.map(p => p.join(',')).join(' L')} L${W},${H} Z`;
+    } else {
+        d = `M0,${H} L0,${pts[0][1]}`;
+        for (let i = 1; i < pts.length; i++) {
+            const [x0, y0] = pts[i - 1], [x1, y1] = pts[i];
+            d += ` Q${fx((x0 + x1) / 2)},${fx(Math.min(y0, y1) - amp * 0.35)} ${x1},${y1}`;
+        }
+        d += ` L${W},${H} Z`;
+    }
+    return `<path d="${d}" fill="${fill}"/>`;
+}
+function svgNubes(rnd, W, H, n, color, yMax, opac) {
+    let s = '';
+    for (let i = 0; i < n; i++) {
+        const cx = rnd() * W, cy = H * (0.05 + rnd() * yMax), rx = W * (0.1 + rnd() * 0.18), ry = rx * 0.28;
+        const mov = fx(W * (0.05 + rnd() * 0.12));
+        s += `<g opacity="${opac}"><ellipse cx="${fx(cx)}" cy="${fx(cy)}" rx="${fx(rx)}" ry="${fx(ry)}" fill="${color}"/><ellipse cx="${fx(cx + rx * 0.5)}" cy="${fx(cy - ry * 0.5)}" rx="${fx(rx * 0.6)}" ry="${fx(ry * 0.9)}" fill="${color}"/><animateTransform attributeName="transform" type="translate" values="-${mov} 0;${mov} 0;-${mov} 0" dur="${fx(25 + rnd() * 25)}s" repeatCount="indefinite"/></g>`;
+    }
+    return s;
+}
+function svgLuciernagas(rnd, W, H, n, color, yMin) {
+    let s = '';
+    for (let i = 0; i < n; i++) {
+        const x = fx(rnd() * W), y = fx(H * (yMin + rnd() * (0.95 - yMin))), dx = fx((rnd() - 0.5) * 60), dy = fx((rnd() - 0.5) * 60);
+        s += `<circle cx="${x}" cy="${y}" r="${fx(1.5 + rnd() * 2.5)}" fill="${color}"><animateTransform attributeName="transform" type="translate" values="0 0;${dx} ${dy};0 0" dur="${fx(5 + rnd() * 6)}s" begin="-${fx(rnd() * 6)}s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;0" dur="${fx(2 + rnd() * 3)}s" begin="-${fx(rnd() * 3)}s" repeatCount="indefinite"/></circle>`;
+    }
+    return s;
+}
+
+/** Ilustración SVG animada de respaldo: 8 escenas, siempre funciona (sin red ni librerías). */
 function crearSvg(tematica, semilla, ancho, alto, pistas = '') {
     const rnd = mulberry32(semilla);
     const W = ancho, H = alto;
     const base = matices(tematica);
     const hue = base[Math.floor(rnd() * 3)];
+    const escena = elegirEscena(tematica, pistas, semilla);
     const hsl = (h, s, l) => `hsl(${Math.round(((h % 360) + 360) % 360)},${s}%,${l}%)`;
-    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"><rect width="${W}" height="${H}" fill="${hsl(hue, 50, 15)}"/><circle cx="${W/2}" cy="${H/2}" r="${Math.min(W,H)*0.3}" fill="${hsl(hue+40, 70, 50)}" opacity="0.5"/></svg>`;
+    const grad = (id, stops, vertical = true) => `<linearGradient id="${id}" x1="0" y1="0" x2="${vertical ? 0 : 1}" y2="${vertical ? 1 : 0}">${stops.map(([o, c]) => `<stop offset="${o}" stop-color="${c}"/>`).join('')}</linearGradient>`;
+    let defs = '', cuerpo = '';
+
+    if (escena === 'espacio') {
+        defs = grad('c', [[0, hsl(hue + 230, 70, 6)], [0.6, hsl(hue + 250, 60, 14)], [1, hsl(hue + 280, 55, 22)]]) +
+            `<radialGradient id="p" cx="0.35" cy="0.35" r="0.8"><stop offset="0" stop-color="${hsl(hue + 20, 75, 70)}"/><stop offset="1" stop-color="${hsl(hue + 10, 70, 18)}"/></radialGradient><filter id="b"><feGaussianBlur stdDeviation="${fx(W * 0.05)}"/></filter>`;
+        cuerpo = `<rect width="${W}" height="${H}" fill="url(#c)"/>`;
+        for (let i = 0; i < 5; i++) cuerpo += `<circle cx="${fx(rnd() * W)}" cy="${fx(rnd() * H)}" r="${fx(W * (0.15 + rnd() * 0.2))}" fill="${hsl(hue + rnd() * 120, 80, 50)}" opacity="0.22" filter="url(#b)"><animate attributeName="opacity" values="0.12;0.3;0.12" dur="${fx(8 + rnd() * 6)}s" repeatCount="indefinite"/></circle>`;
+        cuerpo += svgEstrellas(rnd, W, H, 90, 1);
+        const px = fx(W * (0.3 + rnd() * 0.4)), py = fx(H * (0.35 + rnd() * 0.2)), pr = fx(Math.min(W, H) * 0.2);
+        cuerpo += `<g><ellipse cx="${px}" cy="${py}" rx="${fx(pr * 1.8)}" ry="${fx(pr * 0.35)}" fill="none" stroke="${hsl(hue + 40, 70, 75)}" stroke-width="${fx(pr * 0.08)}" opacity="0.6" transform="rotate(-18 ${px} ${py})"/><circle cx="${px}" cy="${py}" r="${pr}" fill="url(#p)"/><animateTransform attributeName="transform" type="translate" values="0 0;0 ${fx(H * 0.02)};0 0" dur="9s" repeatCount="indefinite"/></g>`;
+        cuerpo += `<line x1="0" y1="0" x2="${fx(W * 0.12)}" y2="${fx(H * 0.05)}" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity="0"><animateTransform attributeName="transform" type="translate" values="${fx(W * 0.9)} ${fx(H * 0.05)};${fx(W * 0.2)} ${fx(H * 0.4)}" dur="7s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0;1;0" keyTimes="0;0.7;0.78;1" dur="7s" repeatCount="indefinite"/></line>`;
+    } else if (escena === 'mar') {
+        defs = grad('c', [[0, hsl(hue + 220, 55, 14)], [0.55, hsl(hue + 10, 80, 45)], [1, hsl(hue + 35, 90, 70)]]) + grad('m', [[0, hsl(hue + 20, 60, 30)], [1, hsl(hue + 230, 60, 8)]]) +
+            `<radialGradient id="s" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#fff6d8"/><stop offset="1" stop-color="#fff6d8" stop-opacity="0"/></radialGradient>`;
+        const hz = fx(H * 0.6);
+        cuerpo = `<rect width="${W}" height="${H}" fill="url(#c)"/>` + svgEstrellas(rnd, W, H, 40, 0.3) + svgNubes(rnd, W, H, 4, hsl(hue + 20, 70, 80), 0.3, 0.35);
+        const sx = fx(W * (0.3 + rnd() * 0.4));
+        cuerpo += `<circle cx="${sx}" cy="${hz}" r="${fx(W * 0.28)}" fill="url(#s)"/><circle cx="${sx}" cy="${hz}" r="${fx(W * 0.07)}" fill="#fff3cf"/>`;
+        cuerpo += `<rect y="${hz}" width="${W}" height="${fx(H - hz)}" fill="url(#m)"/>`;
+        for (let i = 0; i < 8; i++) cuerpo += `<ellipse cx="${sx}" cy="${fx(hz + 8 + i * (H - hz) / 9)}" rx="${fx(W * (0.12 - i * 0.008))}" ry="2" fill="#fff0c0" opacity="0.5"><animate attributeName="rx" values="${fx(W * (0.12 - i * 0.008))};${fx(W * (0.06 - i * 0.004))};${fx(W * (0.12 - i * 0.008))}" dur="${fx(2 + rnd() * 2)}s" repeatCount="indefinite"/></ellipse>`;
+        for (let i = 0; i < 7; i++) { const y = fx(hz + 14 + i * (H - hz) / 7.5), m = fx(12 + rnd() * 20); cuerpo += `<path d="M-60,${y} Q${fx(W * 0.1)},${y - 6} ${fx(W * 0.2)},${y} T${fx(W * 0.4)},${y} T${fx(W * 0.6)},${y} T${fx(W * 0.8)},${y} T${W + 60},${y}" fill="none" stroke="${hsl(hue + 30, 70, 75)}" stroke-width="1.5" opacity="0.35"><animateTransform attributeName="transform" type="translate" values="-${m} 0;${m} 0;-${m} 0" dur="${fx(4 + rnd() * 4)}s" repeatCount="indefinite"/></path>`; }
+        const bx = fx(W * (0.58 + rnd() * 0.25)), by = fx(hz + (H - hz) * 0.18);
+        cuerpo += `<g fill="#0a0a12"><path d="M${bx - 38},${by} L${bx + 38},${by} L${bx + 26},${by + 12} L${bx - 28},${by + 12} Z"/><rect x="${bx - 1}" y="${by - 52}" width="2.4" height="52"/><path d="M${bx + 3},${by - 50} L${bx + 32},${by - 8} L${bx + 3},${by - 8} Z"/><path d="M${bx - 3},${by - 40} L${bx - 24},${by - 8} L${bx - 3},${by - 8} Z"/><animateTransform attributeName="transform" type="translate" values="0 0;0 4;0 0" dur="5s" repeatCount="indefinite"/></g>`;
+    } else if (escena === 'ciudad') {
+        defs = grad('c', [[0, hsl(hue + 240, 60, 5)], [0.7, hsl(hue + 255, 55, 15)], [1, hsl(hue + 300, 60, 28)]]);
+        cuerpo = `<rect width="${W}" height="${H}" fill="url(#c)"/>` + svgEstrellas(rnd, W, H, 25, 0.35) +
+            `<circle cx="${fx(W * (0.2 + rnd() * 0.6))}" cy="${fx(H * 0.2)}" r="${fx(W * 0.07)}" fill="#e9ecff" opacity="0.85"/>` + svgNubes(rnd, W, H, 4, hsl(hue + 260, 40, 20), 0.35, 0.8);
+        let x = 0;
+        for (let capa = 0; capa < 2; capa++) {
+            x = -10;
+            const oscuro = capa === 0 ? hsl(hue + 250, 40, 9) : hsl(hue + 250, 35, 4);
+            while (x < W) {
+                const bw = fx(W * (0.05 + rnd() * 0.08)), bh = fx(H * (capa === 0 ? 0.25 + rnd() * 0.35 : 0.14 + rnd() * 0.22)), by = fx(H - bh);
+                cuerpo += `<rect x="${fx(x)}" y="${by}" width="${bw}" height="${bh}" fill="${oscuro}"/>`;
+                if (capa === 1) for (let k = 0; k < 14; k++) cuerpo += `<rect x="${fx(x + 4 + rnd() * (bw - 10))}" y="${fx(by + 6 + rnd() * (bh - 14))}" width="3.5" height="5" fill="${rnd() > 0.5 ? '#ffd98a' : '#8fe3ff'}" opacity="0.9">${rnd() > 0.7 ? `<animate attributeName="opacity" values="0.9;0.15;0.9" dur="${fx(1.5 + rnd() * 4)}s" repeatCount="indefinite"/>` : ''}</rect>`;
+                x += bw + fx(rnd() * 6);
+            }
+        }
+        cuerpo += `<rect x="${fx(W * 0.15)}" y="${fx(H * 0.62)}" width="${fx(W * 0.22)}" height="6" rx="3" fill="${hsl(hue, 100, 65)}" opacity="0.9"><animate attributeName="opacity" values="0.95;0.4;0.95;0.7;0.95" dur="3s" repeatCount="indefinite"/></rect>`;
+        for (let i = 0; i < 60; i++) { const lx = fx(rnd() * W), ly = fx(rnd() * H * 0.9), d = fx(1 + rnd() * 1.2); cuerpo += `<line x1="${lx}" y1="${ly}" x2="${fx(lx - 6)}" y2="${fx(ly + 20)}" stroke="#bcd8ff" stroke-width="1" opacity="0.4"><animateTransform attributeName="transform" type="translate" values="0 -${fx(H * 0.1)};${fx(-W * 0.02)} ${fx(H * 0.12)}" dur="${d}s" begin="-${fx(rnd() * 2)}s" repeatCount="indefinite"/></line>`; }
+    } else if (escena === 'bosque') {
+        defs = grad('c', [[0, hsl(hue + 190, 60, 6)], [1, hsl(hue + 170, 50, 22)]]);
+        cuerpo = `<rect width="${W}" height="${H}" fill="url(#c)"/>` + svgEstrellas(rnd, W, H, 40, 0.4) +
+            `<circle cx="${fx(W * (0.25 + rnd() * 0.5))}" cy="${fx(H * 0.2)}" r="${fx(W * 0.09)}" fill="#f4f1d2"/>` + svgNubes(rnd, W, H, 3, hsl(hue + 180, 30, 25), 0.35, 0.6);
+        for (let capa = 0; capa < 3; capa++) {
+            const col = hsl(hue + 170, 45 - capa * 8, 14 - capa * 4), yb = H * (0.62 + capa * 0.12);
+            cuerpo += svgCapa(rnd, W, H, fx(yb + H * 0.05), H * 0.03, col, 8, false);
+            let x = -10;
+            while (x < W + 10) {
+                const th = fx(H * (0.14 + rnd() * 0.16 + (2 - capa) * 0.04)), tw = fx(th * 0.45);
+                cuerpo += `<path d="M${fx(x)},${fx(yb + H * 0.06)} L${fx(x + tw / 2)},${fx(yb + H * 0.06 - th)} L${fx(x + tw)},${fx(yb + H * 0.06)} Z" fill="${col}"/>`;
+                x += fx(tw * (0.55 + rnd() * 0.4));
+            }
+        }
+        cuerpo += svgLuciernagas(rnd, W, H, 26, '#d8ff7a', 0.45);
+    } else if (escena === 'desierto') {
+        const hd = 18 + rnd() * 22; // el desierto siempre es cálido
+        defs = grad('c', [[0, hsl(hd + 330, 70, 25)], [0.5, hsl(hd + 20, 85, 55)], [1, hsl(hd + 45, 90, 78)]]) + `<radialGradient id="s" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#fff2c4"/><stop offset="1" stop-color="#fff2c4" stop-opacity="0"/></radialGradient>`;
+        const sx = fx(W * (0.3 + rnd() * 0.4)), sy = fx(H * 0.42);
+        cuerpo = `<rect width="${W}" height="${H}" fill="url(#c)"/><circle cx="${sx}" cy="${sy}" r="${fx(W * 0.3)}" fill="url(#s)"/><circle cx="${sx}" cy="${sy}" r="${fx(W * 0.09)}" fill="#fff4cf"/>` + svgNubes(rnd, W, H, 4, hsl(hd + 30, 80, 85), 0.3, 0.4);
+        for (let i = 0; i < 3; i++) cuerpo += svgCapa(rnd, W, H, fx(H * (0.55 + i * 0.14)), H * 0.12, hsl(hd - 2 - i * 5, 70 - i * 6, 38 - i * 10), 6, false);
+        for (let i = 0; i < 5; i++) { const bx = fx(rnd() * W * 0.6), by = fx(H * (0.12 + rnd() * 0.2)); cuerpo += `<path d="M0,0 q4,-5 8,0 q4,-5 8,0" fill="none" stroke="#2a1a14" stroke-width="1.4" transform="translate(${bx} ${by})"><animateTransform attributeName="transform" type="translate" values="${bx} ${by};${fx(bx + W * 0.5)} ${fx(by - H * 0.05)}" dur="${fx(14 + rnd() * 10)}s" repeatCount="indefinite"/></path>`; }
+    } else if (escena === 'montana') {
+        defs = grad('c', [[0, hsl(hue + 230, 65, 5)], [1, hsl(hue + 215, 55, 20)]]) + `<filter id="b"><feGaussianBlur stdDeviation="${fx(W * 0.03)}"/></filter>`;
+        cuerpo = `<rect width="${W}" height="${H}" fill="url(#c)"/>` + svgEstrellas(rnd, W, H, 80, 0.7);
+        const cols = ['#3dffb0', '#7a6bff', '#38d9ff'];
+        for (let i = 0; i < 3; i++) cuerpo += `<path d="M-20,${fx(H * (0.2 + i * 0.07))} C${fx(W * 0.25)},${fx(H * (0.05 + i * 0.07))} ${fx(W * 0.5)},${fx(H * (0.4 + i * 0.05))} ${fx(W * 0.75)},${fx(H * (0.15 + i * 0.06))} S${W + 20},${fx(H * 0.12)} ${W + 20},${fx(H * 0.2)} L${W + 20},${fx(H * 0.45)} L-20,${fx(H * 0.45)} Z" fill="${cols[i]}" opacity="0.28" filter="url(#b)"><animate attributeName="opacity" values="0.15;0.42;0.15" dur="${fx(6 + i * 2)}s" repeatCount="indefinite"/><animateTransform attributeName="transform" type="translate" values="-${fx(W * 0.04)} 0;${fx(W * 0.04)} 0;-${fx(W * 0.04)} 0" dur="${fx(12 + i * 3)}s" repeatCount="indefinite"/></path>`;
+        for (let i = 0; i < 3; i++) cuerpo += svgCapa(rnd, W, H, fx(H * (0.62 + i * 0.1)), H * 0.3 - i * H * 0.07, hsl(hue + 225, 35 - i * 6, 16 - i * 5), 7 + i, true);
+    } else if (escena === 'escenario') {
+        defs = grad('c', [[0, hsl(hue + 340, 60, 6)], [1, hsl(hue + 345, 50, 15)]]) + grad('k', [[0, hsl(hue + 350, 75, 24)], [1, hsl(hue + 350, 80, 10)]], false) +
+            `<linearGradient id="l" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff2c8" stop-opacity="0.75"/><stop offset="1" stop-color="#fff2c8" stop-opacity="0"/></linearGradient>`;
+        cuerpo = `<rect width="${W}" height="${H}" fill="url(#c)"/>`;
+        for (let i = 0; i < 2; i++) {
+            const x = fx(W * (0.28 + i * 0.44)), sw = fx(rnd() * 4 + 4);
+            cuerpo += `<g><polygon points="${x},0 ${fx(x - W * 0.2)},${fx(H * 0.78)} ${fx(x + W * 0.2)},${fx(H * 0.78)}" fill="url(#l)"/><animateTransform attributeName="transform" type="rotate" values="-${sw} ${x} 0;${sw} ${x} 0;-${sw} ${x} 0" dur="${fx(6 + i * 2)}s" repeatCount="indefinite"/></g>`;
+        }
+        cuerpo += `<rect y="${fx(H * 0.78)}" width="${W}" height="${fx(H * 0.22)}" fill="${hsl(hue + 20, 45, 14)}"/><ellipse cx="${fx(W / 2)}" cy="${fx(H * 0.8)}" rx="${fx(W * 0.28)}" ry="${fx(H * 0.03)}" fill="#fff2c8" opacity="0.35"/>`;
+        for (const lado of [0, 1]) {
+            const x0 = lado ? W : 0, dir = lado ? -1 : 1;
+            let d = `M${x0},0`;
+            for (let i = 0; i <= 8; i++) d += ` Q${fx(x0 + dir * (W * 0.16 + (i % 2 ? 14 : -4)))},${fx(H * (i + 0.5) / 8.5)} ${fx(x0 + dir * (W * 0.14 + (i % 2 ? 6 : 0)))},${fx(H * (i + 1) / 8.5)}`;
+            cuerpo += `<path d="${d} L${x0},${H} Z" fill="url(#k)"><animateTransform attributeName="transform" type="translate" values="0 0;${dir * 5} 0;0 0" dur="6s" repeatCount="indefinite"/></path>`;
+        }
+        cuerpo += `<rect width="${W}" height="${fx(H * 0.07)}" fill="${hsl(hue + 350, 75, 12)}"/>`;
+        for (let i = 0; i < 14; i++) { const cx = fx((i + 0.5) * W / 14 + (rnd() - 0.5) * 14), cy = fx(H * (0.93 + rnd() * 0.03)); cuerpo += `<circle cx="${cx}" cy="${cy}" r="${fx(W * 0.03)}" fill="#05030a"/><rect x="${fx(cx - W * 0.035)}" y="${fx(cy + W * 0.02)}" width="${fx(W * 0.07)}" height="${fx(H * 0.12)}" rx="8" fill="#05030a"/>`; }
+        cuerpo += svgLuciernagas(rnd, W, H * 0.8, 24, '#ffe9b0', 0.05);
+    } else { // castillo
+        defs = grad('c', [[0, hsl(hue + 240, 60, 8)], [0.7, hsl(hue + 330, 65, 30)], [1, hsl(hue + 20, 80, 52)]]);
+        const mx = fx(W * (0.65 + rnd() * 0.2));
+        cuerpo = `<rect width="${W}" height="${H}" fill="url(#c)"/>` + svgEstrellas(rnd, W, H, 50, 0.45) + `<circle cx="${mx}" cy="${fx(H * 0.25)}" r="${fx(W * 0.12)}" fill="#fff6dd" opacity="0.92"/>` + svgNubes(rnd, W, H, 4, hsl(hue + 330, 40, 22), 0.4, 0.7);
+        cuerpo += svgCapa(rnd, W, H, fx(H * 0.78), H * 0.08, hsl(hue + 250, 30, 7), 6, false);
+        const cx = fx(W * (0.25 + rnd() * 0.25)), cb = fx(H * 0.78), cw = fx(W * 0.34);
+        cuerpo += `<g fill="#06040c"><rect x="${cx}" y="${fx(cb - H * 0.16)}" width="${cw}" height="${fx(H * 0.2)}"/>`;
+        [[0, 0.3], [cw * 0.38, 0.38], [cw - W * 0.07, 0.3]].forEach(([dx, th], i) => { const tw = fx(W * 0.07), tx = fx(cx + dx), ty = fx(cb - H * th); cuerpo += `<rect x="${tx}" y="${ty}" width="${tw}" height="${fx(cb - ty + H * 0.04)}"/><polygon points="${fx(tx - 6)},${ty} ${fx(tx + tw / 2)},${fx(ty - H * 0.09)} ${fx(tx + tw + 6)},${ty}"/>`; if (i !== 1) cuerpo += `<rect x="${fx(tx + tw / 2 - 1)}" y="${fx(ty - H * 0.16)}" width="2" height="${fx(H * 0.07)}"/>`; });
+        cuerpo += `</g>`;
+        for (let i = 0; i < 6; i++) cuerpo += `<rect x="${fx(cx + cw * (0.1 + rnd() * 0.8))}" y="${fx(cb - H * (0.04 + rnd() * 0.24))}" width="4" height="7" fill="#ffc861"><animate attributeName="opacity" values="1;0.35;1;0.7;1" dur="${fx(1.5 + rnd() * 2)}s" begin="-${fx(rnd() * 2)}s" repeatCount="indefinite"/></rect>`;
+        for (let i = 0; i < 4; i++) { const by = fx(H * (0.15 + rnd() * 0.25)); cuerpo += `<path d="M0,0 q6,-6 12,0 q6,-6 12,0 q-6,3 -12,3 q-6,-3 -12,-3" fill="#05030a" transform="translate(0 ${by})"><animateTransform attributeName="transform" type="translate" values="-30 ${by};${W + 30} ${fx(by - H * 0.06)}" dur="${fx(12 + rnd() * 8)}s" begin="-${fx(rnd() * 10)}s" repeatCount="indefinite"/></path>`; }
+        cuerpo += svgCapa(rnd, W, H, fx(H * 0.92), H * 0.05, '#030208', 5, false);
+    }
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" preserveAspectRatio="xMidYMid slice"><defs>${defs}</defs>${cuerpo}</svg>`;
 }
 
 function detectarImagen(buf) {
@@ -321,25 +497,25 @@ function detectarImagen(buf) {
     return null;
 }
 
+let cloudflareAgotado = false;   // se activa al agotar la cuota diaria: no se insiste más en esta ejecución
+let imagenesIA = 0, imagenesSVG = 0;
+
 async function imagenCloudflare(prompt) {
     if (!CF_ACCOUNT_ID || !CF_API_TOKEN) {
-        console.log('  ⚠️ Cloudflare no configurado (faltan Account ID o Token).');
+        if (!imagenCloudflare.avisado) { console.log('  ⚠️ Cloudflare no configurado (faltan CLOUDFLARE_ACCOUNT_ID o CLOUDFLARE_API_TOKEN).'); imagenCloudflare.avisado = true; }
         return null;
     }
+    if (cloudflareAgotado) return null;
     for (let intento = 1; intento <= 3; intento++) {
         try {
-            console.log(`  ☁️ Intentando generar imagen con Cloudflare FLUX (Intento ${intento}/3)...`);
             const res = await fetchConTimeout(
                 `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/ai/run/@cf/black-forest-labs/flux-1-schnell`,
-                { 
-                    method: 'POST', 
-                    headers: { 
-                        'Authorization': `Bearer ${CF_API_TOKEN}`, 
-                        'Content-Type': 'application/json' 
-                    }, 
-                    body: JSON.stringify({ prompt: prompt.slice(0, 1900), steps: 6 }) 
+                {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${CF_API_TOKEN}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt: prompt.slice(0, 1900), steps: 4 })   // FLUX schnell está pensado para 4 pasos
                 }, 90000);
-            
+
             const tipo = res.headers.get('content-type') || '';
             let buf;
             if (tipo.startsWith('image/')) {
@@ -353,15 +529,20 @@ async function imagenCloudflare(prompt) {
                 if (!b64) throw new Error('Respuesta de Cloudflare sin datos de imagen');
                 buf = Buffer.from(b64, 'base64');
             }
-            
             const ext = detectarImagen(buf);
             if (!ext || buf.length < 5000) throw new Error('El buffer recibido no corresponde a una imagen válida');
-            console.log('  ✅ Imagen generada con éxito mediante Cloudflare FLUX.');
             return { buf, ext };
         } catch (e) {
             console.warn(`  ⚠️ Falló Cloudflare (intento ${intento}): ${e.message}`);
-            if (/401|403/i.test(e.message)) {
-                console.error('  ❌ Error de autenticación con Cloudflare (Token o Account ID inválidos).');
+            if (/HTTP 429|4006|daily free allocation|neurons|quota|rate limit/i.test(e.message)) {
+                cloudflareAgotado = true;
+                console.error('  ❌ CUOTA DIARIA GRATUITA DE CLOUDFLARE AGOTADA (10.000 neuronas/día, se renueva a las 00:00 UTC).');
+                console.error('     El resto de imágenes de esta ejecución usará las ilustraciones animadas de respaldo.');
+                return null;
+            }
+            if (/HTTP (401|403)/i.test(e.message)) {
+                cloudflareAgotado = true;
+                console.error('  ❌ Error de autenticación con Cloudflare: revisa que el Token tenga permiso "Workers AI" y que el Account ID sea correcto.');
                 return null;
             }
             await dormir(3000 * intento);
@@ -388,29 +569,54 @@ async function imagenPollinations(prompt, ancho, alto, semilla) {
     }
 }
 
-async function crearImagenEnRuta({ rutaRelativa, prompt, tematica, ancho, alto, semilla, pistas }) {
+/** FLUX (Cloudflare) devuelve siempre 1024x1024: recorta al centro hasta la proporción pedida (16:9, 9:16, 3:2...) con ffmpeg. */
+function recortarAProporcion(buf, ext, ancho, alto) {
+    const id = `${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+    const entrada = path.join(os.tmpdir(), `sc_in_${id}.${ext}`);
+    const salida = path.join(os.tmpdir(), `sc_out_${id}.jpg`);
+    try {
+        fs.writeFileSync(entrada, buf);
+        const A = (ancho / alto).toFixed(5);
+        const filtro = `crop=w='min(iw,round(min(iw,ih*${A})/2)*2)':h='min(ih,round(min(ih,iw/${A})/2)*2)'`;
+        const r = spawnSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', entrada, '-vf', filtro, '-q:v', '2', salida], { timeout: 60000, encoding: 'utf8' });
+        if (r.status === 0 && fs.existsSync(salida)) {
+            const out = fs.readFileSync(salida);
+            if (out.length > 3000) return { buf: out, ext: 'jpg' };
+        }
+        console.warn(`  ⚠️ No pude recortar la imagen (ffmpeg ${r.status}); la dejo como llegó.`);
+    } catch (e) {
+        console.warn(`  ⚠️ No pude recortar la imagen: ${e.message}`);
+    } finally {
+        [entrada, salida].forEach(f => { try { fs.unlinkSync(f); } catch (e) { /* ya no existe */ } });
+    }
+    return { buf, ext };
+}
+
+/** Pide una imagen a la IA (Cloudflare → Pollinations). Devuelve {buf, ext} o null. */
+async function obtenerImagenIA(prompt, ancho, alto, semilla) {
+    return (await imagenCloudflare(prompt)) || (await imagenPollinations(prompt, ancho, alto, semilla));
+}
+
+/** Guarda una imagen en la ruta dada (con la proporción exacta), usando la IA o, si no, una ilustración SVG animada. */
+function guardarImagen({ rutaRelativa, base, tematica, ancho, alto, semilla, pistas }) {
     const rutaAbsoluta = path.join(RAIZ, rutaRelativa);
     asegurarCarpeta(path.dirname(rutaAbsoluta));
-    
-    // PRIORIDAD 1: Cloudflare AI (Flux)
-    let ia = await imagenCloudflare(prompt);
-    
-    // PRIORIDAD 2: Pollinations AI (si Cloudflare no está disponible o falla)
-    if (!ia) {
-        ia = await imagenPollinations(prompt, ancho, alto, semilla);
-    }
-
-    if (ia) {
-        const rutaFinal = `${rutaRelativa}.${ia.ext}`;
-        fs.writeFileSync(path.join(RAIZ, rutaFinal), ia.buf);
+    if (base) {
+        const img = recortarAProporcion(base.buf, base.ext, ancho, alto);
+        const rutaFinal = `${rutaRelativa}.${img.ext}`;
+        fs.writeFileSync(path.join(RAIZ, rutaFinal), img.buf);
         return { ruta: rutaFinal, ia: true };
     }
-
-    // RESPALDO FINAL: SVG geométrico si todo lo demás falla
-    console.log('  ⚠️ Usando SVG geométrico de respaldo.');
     const rutaFinal = `${rutaRelativa}.svg`;
     fs.writeFileSync(path.join(RAIZ, rutaFinal), crearSvg(tematica, semilla, ancho, alto, pistas));
     return { ruta: rutaFinal, ia: false };
+}
+
+async function crearImagenEnRuta({ rutaRelativa, prompt, tematica, ancho, alto, semilla, pistas }) {
+    const base = await obtenerImagenIA(prompt, ancho, alto, semilla);
+    const r = guardarImagen({ rutaRelativa, base, tematica, ancho, alto, semilla, pistas });
+    if (r.ia) imagenesIA++; else imagenesSVG++;
+    return r;
 }
 
 // ───────────────────────── 4. VOZ (PIPER) ─────────────────────────
@@ -509,22 +715,16 @@ async function crearStorycardCompleta({ tema, usados, idBase, indice }) {
     const promptPortada = `${hist.portada_en || titulo}. ${estilo}`;
     const pistasPortada = `${hist.portada_en || ''} ${titulo} ${hist.sinopsis || ''}`;
 
-    console.log('  🖼️  Creando las 3 imágenes de presentación (16:9 en imagenportada, 1:1, 9:16)...');
-    
-    const r169 = await crearImagenEnRuta({
-        rutaRelativa: `imagenportada/${slug}_16_9`,
-        prompt: promptPortada, tematica: tema.nombre, ancho: 1280, alto: 720, semilla, pistas: pistasPortada
-    });
-
-    const rPortada = await crearImagenEnRuta({
-        rutaRelativa: `storycard/${slug}/portada`,
-        prompt: promptPortada, tematica: tema.nombre, ancho: 768, alto: 768, semilla, pistas: pistasPortada
-    });
-
-    const rMovil = await crearImagenEnRuta({
-        rutaRelativa: `storycard/${slug}/portadamovil`,
-        prompt: promptPortada, tematica: tema.nombre, ancho: 576, alto: 1024, semilla: semilla + 7, pistas: pistasPortada
-    });
+    console.log('  🖼️  Creando la imagen de presentación (se recorta a 16:9, 1:1 y 9:16)...');
+    const promptWide = `${promptPortada}. Wide cinematic composition, main subject centered`;
+    const basePortada = await obtenerImagenIA(promptWide, 1280, 720, semilla);
+    const formatos = [
+        { rutaRelativa: `imagenportada/${slug}_16_9`, ancho: 1280, alto: 720, semilla },
+        { rutaRelativa: `storycard/${slug}/portada`, ancho: 768, alto: 768, semilla },
+        { rutaRelativa: `storycard/${slug}/portadamovil`, ancho: 576, alto: 1024, semilla: semilla + 7 }
+    ];
+    const [r169, rPortada, rMovil] = formatos.map(f => guardarImagen({ ...f, base: basePortada, tematica: tema.nombre, pistas: pistasPortada }));
+    if (basePortada) imagenesIA += 3; else imagenesSVG += 3;
 
     const capitulos = [];
     const audiosPendientes = [];
@@ -546,6 +746,7 @@ async function crearStorycardCompleta({ tema, usados, idBase, indice }) {
         capitulos.push({ titulo: tituloCap, texto: textoCap, ilustracion: rIlu.ruta, voz });
     }
 
+    console.log(`  📊 Hasta ahora en esta ejecución → imágenes con IA: ${imagenesIA} · ilustraciones de respaldo: ${imagenesSVG} · voces creadas en esta tarjeta: ${vocesOk}/${NUM_CAPITULOS}`);
     const musica = `${slug}.mp3`;
     audiosPendientes.push(musica);
 

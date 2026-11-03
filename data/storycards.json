@@ -64,22 +64,6 @@
     "fechaCreacion": "2026-11-03T09:07:09.819Z"
   },
   {
-    "id": 1793696224200,
-    "titulo": "La Cantata Rebelde de Valaria-Mond",
-    "fraseInspiracion": "Una voz alzada en el balcón puede derribar el imperio más denso.",
-    "tematica": "Teatro y musicales",
-    "tipo": "automatica-ia",
-    "descripcion": "En la oprimida ciudad de Valaria-Mond, una joven cantante desafía al régimen tiránico desde un balcón prohibido. Su voz desencadena una revolución musical que retumba en el teatro y transforma a un pueblo acallado.",
-    "imagen": "imagenportada/lacantatarebeldedevalariamond_16_9.svg",
-    "portada": "storycard/lacantatarebeldedevalariamond/portada.svg",
-    "portadaMovil": "storycard/lacantatarebeldedevalariamond/portadamovil.svg",
-    "slug": "lacantatarebeldedevalariamond",
-    "storyPage": "lacantatarebeldedevalariamond.html",
-    "audioVoz": "storycard/lacantatarebeldedevalariamond/voz1.wav",
-    "musicaFondo": "lacantatarebeldedevalariamond.mp3",
-    "fechaCreacion": "2026-11-03T09:08:49.175Z"
-  },
-  {
     "id": 1793642490925,
     "titulo": "La Sinfonía Prohibida de Elowen Vane",
     "fraseInspiracion": "Tocar la nota final significa entregar el alma al silencio eterno de la noche.",

@@ -32,7 +32,7 @@ jobs:
         run: python -m pip install --upgrade edge-tts
 
       # Voz de RESPALDO: Piper corre dentro del runner (gratis, sin claves y sin límites).
-      # Solo se usa si Microsoft bloquea a Edge TTS en esta ejecución. Si no la quieres, borra este paso.
+      # Solo se usa si Microsoft bloquea a Edge TTS en esta ejecución.
       - name: Instalar voz de respaldo (Piper + voz masculina en español)
         continue-on-error: true
         run: |
@@ -55,7 +55,8 @@ jobs:
           POLLINATIONS_API_KEY: ${{ secrets.POLLINATIONS_API_KEY }}
           NUM_CAPITULOS: 10
           PALABRAS_CAPITULO: 250
-          EDGE_VOICE: es-ES-AlvaroNeural   # voz masculina de España (otras: es-MX-JorgeNeural, es-AR-TomasNeural)
+          EDGE_VOICE: es-ES-AlvaroNeural   # voz masculina de España
+          EDGE_VOICE_EN: en-US-GuyNeural   # voz masculina en inglés
           EDGE_RATE: "-5%"                 # velocidad de lectura
         run: node scripts/generador_semanal.js
 
@@ -68,6 +69,6 @@ jobs:
             echo "No hay cambios que guardar."
             exit 0
           fi
-          git commit -m "🤖 Nuevas storycards épicas (historia, imágenes y voz Edge TTS)"
+          git commit -m "🤖 Nuevas storycards épicas bilingües (ES/EN) (historia, imágenes y voz)"
           git pull --rebase origin "${GITHUB_REF_NAME}"
           git push

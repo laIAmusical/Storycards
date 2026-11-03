@@ -49,3 +49,6 @@ Sube cada archivo a su ruta exacta (voz y música). La storycard funciona sin el
 
 ## La Cantata Rebelde de Valaria-Mond (2026-11-03)
 - [ ] `lacantatarebeldedevalariamond.mp3`
+
+## El Desvío Trágico del Río Aethelgard (2026-11-03)
+- [ ] `storycard/eldesviotragicodelrioaethelgard.mp3`

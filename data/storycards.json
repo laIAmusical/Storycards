@@ -1,5 +1,21 @@
 [
   {
+    "id": 1793705146316,
+    "titulo": "El Desvío Trágico del Río Aethelgard",
+    "fraseInspiracion": "Las aguas caprichosas del destino tallaron imperios y sepultaron civilizaciones enteras en el olvido.",
+    "tematica": "Documentales y usuarios",
+    "tipo": "automatica-ia",
+    "descripcion": "Un documental épico narra cómo el misterioso desvío del río Aethelgard transformó el destino de tres reinos enfrentados. A través de crónicas perdidas y testimonios de supervivientes, se revela un secreto ancestral que cambiará la historia para siempre.",
+    "imagen": "imagenportada/eldesviotragicodelrioaethelgard_16_9.jpg",
+    "portada": "storycard/eldesviotragicodelrioaethelgard/portada.jpg",
+    "portadaMovil": "storycard/eldesviotragicodelrioaethelgard/portadamovil.jpg",
+    "slug": "eldesviotragicodelrioaethelgard",
+    "storyPage": "eldesviotragicodelrioaethelgard.html",
+    "audioVoz": "storycard/eldesviotragicodelrioaethelgard/voz1.mp3",
+    "musicaFondo": "storycard/eldesviotragicodelrioaethelgard.mp3",
+    "fechaCreacion": "2026-11-03T11:29:18.326Z"
+  },
+  {
     "id": 1793696224199,
     "titulo": "El Salto Imposible del Caza Kaelen-Voss",
     "fraseInspiracion": "En la oscuridad del firmamento, la libertad se escribe con fuego.",

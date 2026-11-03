@@ -2,9 +2,10 @@
  * Robot semanal de Storycards (GitHub Actions)
  * ------------------------------------------------------------------
  * Cada ejecución escribe 2 historias ÉPICAS originales con Gemini y las
- * convierte en storycards completas:
- *   - <slug>.html                    → libro interactivo
- *   - imagenportada/<slug>_16_9.*    → imagen de presentación panorámica 16:9
+ * convierte en storycards completas (Español e Inglés):
+ *   - <slug>.html                    → libro interactivo ES
+ *   - <slug>-en.html                 → libro interactivo EN
+ *   - storycards/<slug>.jpg          → imagen de presentación panorámica 16:9
  *   - storycard/<slug>/portada.*     → portada cuadrada 1:1
  *   - storycard/<slug>/portadamovil.*→ portada vertical 9:16
  *   - storycard/<slug>/imagenN.*     → ilustración de cada capítulo
@@ -24,9 +25,10 @@ const PALABRAS_CAPITULO = Math.max(80, Math.min(400, parseInt(process.env.PALABR
 const POLLINATIONS_KEY = process.env.POLLINATIONS_API_KEY || '';
 const CF_ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID || '';
 const CF_API_TOKEN = process.env.CLOUDFLARE_API_TOKEN || '';
-const EDGE_VOICE = process.env.EDGE_VOICE || 'es-ES-AlvaroNeural';   // voz masculina de Microsoft (España). Otras: es-MX-JorgeNeural, es-AR-TomasNeural, es-CO-GonzaloNeural
-const EDGE_RATE = process.env.EDGE_RATE || '-5%';                    // velocidad de lectura (p. ej. -10%, +0%, +10%)
-const EDGE_PYTHON = process.env.EDGE_PYTHON || 'python3';            // Python donde está instalado el paquete edge-tts
+const EDGE_VOICE = process.env.EDGE_VOICE || 'es-ES-AlvaroNeural';
+const EDGE_VOICE_EN = process.env.EDGE_VOICE_EN || 'en-US-GuyNeural'; // Voz en inglés
+const EDGE_RATE = process.env.EDGE_RATE || '-5%';
+const EDGE_PYTHON = process.env.EDGE_PYTHON || 'python3';
 const PIPER_BIN = process.env.PIPER_BIN || '';
 const PIPER_MODEL = process.env.PIPER_MODEL || '';
 const AUTOR = 'LaIAmusical';
@@ -56,7 +58,7 @@ const TEMAS = [
         nombre: 'Series', alias: ['SERIES', 'SERIE', 'TV'],
         formato: 'la temporada de una gran serie dramática: cada capítulo es un episodio con su propio gancho, giros, varios personajes con arcos propios y un cliffhanger final',
         estilo: 'prestige tv series key art, moody cinematic lighting, ensemble cast silhouette, dramatic',
-        semillas: ['una familia de contrabandistas en una frontera en guerra', 'un equipo de científicos aislados en una estación polar que descubre algo bajo el hielo', 'una ciudad gobernada por tres casas rivales y un traidor entre ellas', 'una médica forense que investiga muertes impossibles en un pueblo minero', 'una tripulación de una nave de carga que hereda un mapa de una civilización perdida']
+        semillas: ['una familia de contrabandistas en una frontera en guerra', 'un equipo de científicos aislados en una estación polar que descubre algo bajo el hielo', 'una ciudad gobernada por tres casas rivales y un traidor entre ellas', 'una médica forense que investiga muertes imposibles en un pueblo minero', 'una tripulación de una nave de carga que hereda un mapa de una civilización perdida']
     },
     {
         nombre: 'Ópera y conciertos', alias: ['OPERA', 'ÓPERA', 'CONCIERTOS', 'CONCIERTO', 'OPERA Y CONCIERTOS', 'ÓPERA Y CONCIERTOS', 'MUSICA'],
@@ -252,13 +254,23 @@ function parseJsonSuelto(raw) {
 
 function validarHistoria(j) {
     if (!j || typeof j !== 'object') return 'no es un JSON';
-    const titulo = stripWrappingQuotes(String(j.titulo || ''));
-    if (titulo.length < 4 || titulo.length > 90) return 'título inválido';
-    if (!Array.isArray(j.capitulos) || j.capitulos.length < NUM_CAPITULOS) return `faltan capítulos (${(j.capitulos || []).length}/${NUM_CAPITULOS})`;
+    if (!j.es || !j.en) return 'faltan versiones es/en';
+
+    const titulo = stripWrappingQuotes(String(j.es.titulo || ''));
+    if (titulo.length < 4 || titulo.length > 90) return 'título ES inválido';
+
+    const tituloEn = stripWrappingQuotes(String(j.en.titulo || ''));
+    if (tituloEn.length < 4 || tituloEn.length > 90) return 'título EN inválido';
+
+    if (!Array.isArray(j.es.capitulos) || j.es.capitulos.length < NUM_CAPITULOS) return `faltan capítulos ES (${(j.es.capitulos || []).length}/${NUM_CAPITULOS})`;
+    if (!Array.isArray(j.en.capitulos) || j.en.capitulos.length < NUM_CAPITULOS) return `faltan capítulos EN (${(j.en.capitulos || []).length}/${NUM_CAPITULOS})`;
+
     const minimo = Math.round(PALABRAS_CAPITULO * 0.45);
     for (let i = 0; i < NUM_CAPITULOS; i++) {
-        const t = String(j.capitulos[i]?.texto || '');
-        if (t.split(/\s+/).length < minimo) return `el capítulo ${i + 1} es demasiado corto`;
+        const tEs = String(j.es.capitulos[i]?.texto || '');
+        if (tEs.split(/\s+/).length < minimo) return `el capítulo ES ${i + 1} es demasiado corto`;
+        const tEn = String(j.en.capitulos[i]?.texto || '');
+        if (tEn.split(/\s+/).length < minimo) return `el capítulo EN ${i + 1} es demasiado corto`;
     }
     return null;
 }
@@ -276,8 +288,10 @@ async function escribirHistoria(tema, usados) {
         `- Exactamente ${NUM_CAPITULOS} capítulos de unas ${PALABRAS_CAPITULO} palabras cada uno.`,
         usados.length ? `- Títulos ya usados (NO repetir ni imitar): ${usados.slice(0, 20).join(' | ')}.` : '',
         '',
+        'Además, proporciona la traducción al INGLÉS de la historia completa (título, frase, sinopsis y capítulos).',
+        '',
         'Responde SOLO con JSON válido con esta forma exacta:',
-        '{"titulo":"…","fraseInspiracion":"…","sinopsis":"2 frases atractivas, máx. 45 palabras","portada_en":"visual description in English of the cover art, no text, no letters","capitulos":[{"titulo":"título breve","texto":"…","escena_en":"visual description in English of this chapter\'s key scene"}]}'
+        '{"portada_en":"visual description in English of the cover art, no text, no letters","escenas_en":["visual description in English of chapter 1 key scene", "..."],"es":{"titulo":"…","fraseInspiracion":"…","sinopsis":"2 frases atractivas, máx. 45 palabras","capitulos":[{"titulo":"título breve","texto":"…"}]},"en":{"titulo":"…","fraseInspiracion":"…","sinopsis":"2 frases atractivas, máx. 45 palabras","capitulos":[{"titulo":"título breve","texto":"…"}]}}'
     ].filter(Boolean).join('\n');
 
     let motivo = '';
@@ -632,7 +646,7 @@ function textoParaNarrar(texto) {
 let edgeCaido = false;   // si Microsoft rechaza varias veces, no seguimos perdiendo tiempo en esta ejecución
 let vocesEdge = 0, vocesPiper = 0;
 
-async function crearVozEdge(texto, rutaRel) {
+async function crearVozEdge(texto, rutaRel, voz = EDGE_VOICE) {
     if (edgeCaido) return false;
     const mp3 = path.join(RAIZ, rutaRel);
     const txt = path.join(os.tmpdir(), `edge_${Date.now()}_${Math.random().toString(36).slice(2, 7)}.txt`);
@@ -640,7 +654,7 @@ async function crearVozEdge(texto, rutaRel) {
     let sinModulo = false;
     try {
         for (let intento = 1; intento <= 3; intento++) {
-            const r = spawnSync(EDGE_PYTHON, ['-m', 'edge_tts', '--file', txt, '--voice', EDGE_VOICE, `--rate=${EDGE_RATE}`, '--write-media', mp3, '--no-progress'],
+            const r = spawnSync(EDGE_PYTHON, ['-m', 'edge_tts', '--file', txt, '--voice', voz, `--rate=${EDGE_RATE}`, '--write-media', mp3, '--no-progress'],
                 { timeout: 180000, encoding: 'utf8' });
             const ok = r.status === 0 && fs.existsSync(mp3) && fs.statSync(mp3).size > 2000;
             if (ok) return true;
@@ -681,21 +695,21 @@ function crearVozPiper(texto, rutaRel) {
 }
 
 /** Devuelve 'edge', 'piper' o false. */
-async function crearVoz(texto, rutaRel) {
-    if (await crearVozEdge(texto, rutaRel)) { vocesEdge++; return 'edge'; }
-    if (crearVozPiper(texto, rutaRel)) { vocesPiper++; return 'piper'; }
+async function crearVoz(texto, rutaRel, voz, lang) {
+    if (await crearVozEdge(texto, rutaRel, voz)) { vocesEdge++; return 'edge'; }
+    if (lang === 'es' && crearVozPiper(texto, rutaRel)) { vocesPiper++; return 'piper'; }
     return false;
 }
 
 // ───────────────────────── 5. HTML GENERATOR ─────────────────────────
-function aplicarI18n(str) {
-    const t = PLANTILLA.STORY_I18N.es;
+function aplicarI18n(str, lang) {
+    const t = PLANTILLA.STORY_I18N[lang || 'es'];
     let out = str;
     Object.keys(t).forEach(k => { out = out.split('§' + k + '§').join(t[k]); });
     return out;
 }
 
-function generarHtmlStory({ titulo, fraseInspiracion, autor, coverImg, coverMobileImg, musica, capitulos }) {
+function generarHtmlStory({ titulo, fraseInspiracion, autor, coverImg, coverMobileImg, musica, capitulos, lang }) {
     let paginas = `  {\n    type: 'cover',\n    coverImg: ${safeJson(coverImg)},\n    coverMobileImg: ${safeJson(coverMobileImg)},\n    title: ${safeJson(titulo)},\n    fraseInspiracion: ${safeJson(fraseInspiracion || '')},\n    author: ${safeJson('De ' + autor)}\n  },\n`;
     capitulos.forEach((c, i) => {
         paginas += `  {\n    type: 'story',\n    pageNum: ${i + 1},\n    chapterTitle: ${safeJson(c.titulo)},\n    illustrationSrc: ${safeJson(c.ilustracion)},\n    voiceSrc: ${safeJson(c.voz || '')},\n    text: ${safeJson(c.texto)}\n  },\n`;
@@ -705,7 +719,7 @@ function generarHtmlStory({ titulo, fraseInspiracion, autor, coverImg, coverMobi
     const P = PLANTILLA;
     return [
         '<!DOCTYPE html>',
-        '<html lang="es">',
+        `<html lang="${lang || 'es'}">`,
         '<head>',
         '<meta charset="UTF-8">',
         '<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">',
@@ -714,16 +728,16 @@ function generarHtmlStory({ titulo, fraseInspiracion, autor, coverImg, coverMobi
         '<style>', P.STORY_CSS, '</style>',
         '</head>',
         '<body>',
-        aplicarI18n(P.STORY_BODY_HTML.replace(/__TITLE__/g, escapeHtml(titulo))),
+        aplicarI18n(P.STORY_BODY_HTML.replace(/__TITLE__/g, escapeHtml(titulo)), lang),
         '<' + 'script>',
         `const MUSIC_SRC = ${safeJson(musica)};`,
         'const pages = [', paginas, '];',
-        aplicarI18n(P.STORY_JS_ENGINE),
+        aplicarI18n(P.STORY_JS_ENGINE, lang),
         '</' + 'script>',
         '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">',
         '<style>', P.BACK_BTN_CSS, '</style>',
-        aplicarI18n(P.BACK_BTN_HTML),
-        '<' + 'script>', aplicarI18n(P.BACK_BTN_JS), '</' + 'script>',
+        aplicarI18n(P.BACK_BTN_HTML, lang),
+        '<' + 'script>', aplicarI18n(P.BACK_BTN_JS, lang), '</' + 'script>',
         '</body>',
         '</html>'
     ].join('\n');
@@ -741,81 +755,138 @@ function slugUnico(titulo) {
 
 async function crearStorycardCompleta({ tema, usados, idBase, indice }) {
     console.log(`\n📖 Storycard ${indice} · sala «${tema.nombre}»`);
-    console.log('  ✍️  Gemini está escribiendo la historia épica...');
+    console.log('  ✍️  Gemini está escribiendo la historia épica (ES/EN)...');
     const hist = await escribirHistoria(tema, usados);
-    const titulo = stripWrappingQuotes(String(hist.titulo)).replace(/\s+/g, ' ');
-    const fraseInspiracion = stripWrappingQuotes(String(hist.fraseInspiracion || '')).trim();
+    
+    // ES
+    const titulo = stripWrappingQuotes(String(hist.es.titulo)).replace(/\s+/g, ' ');
+    const fraseInspiracion = stripWrappingQuotes(String(hist.es.fraseInspiracion || '')).trim();
     const slug = slugUnico(titulo);
-    console.log(`  🏷️  Título: "${titulo}"  (slug: ${slug})`);
-    if (fraseInspiracion) console.log(`  ✨ Frase: "${fraseInspiracion}"`);
+    
+    // EN
+    const tituloEn = stripWrappingQuotes(String(hist.en.titulo)).replace(/\s+/g, ' ');
+    const fraseInspiracionEn = stripWrappingQuotes(String(hist.en.fraseInspiracion || '')).trim();
+    const slugEn = slugUnico(tituloEn) + '-en';
+    
+    console.log(`  🏷️  Título ES: "${titulo}" (slug: ${slug})`);
+    console.log(`  🏷️  Título EN: "${tituloEn}" (slug: ${slugEn})`);
 
     asegurarCarpeta(path.join(RAIZ, 'imagenportada'));
+    asegurarCarpeta(path.join(RAIZ, 'storycards')); // NUEVO: para las imágenes 16:9
     asegurarCarpeta(path.join(RAIZ, 'storycard', slug));
+    asegurarCarpeta(path.join(RAIZ, 'storycard', slugEn));
 
     const semilla = hashTexto(slug);
     const estilo = `${tema.estilo}, highly detailed, dramatic composition, volumetric light, no text, no letters, no watermark`;
     const promptPortada = `${hist.portada_en || titulo}. ${estilo}`;
-    const pistasPortada = `${hist.portada_en || ''} ${titulo} ${hist.sinopsis || ''}`;
+    const pistasPortada = `${hist.portada_en || ''} ${titulo} ${hist.es.sinopsis || ''}`;
 
     console.log('  🖼️  Creando la imagen de presentación (se recorta a 16:9, 1:1 y 9:16)...');
     const promptWide = `${promptPortada}. Wide cinematic composition, main subject centered`;
     const basePortada = await obtenerImagenIA(promptWide, 1280, 720, semilla);
-    const formatos = [
-        { rutaRelativa: `imagenportada/${slug}_16_9`, ancho: 1280, alto: 720, semilla },
-        { rutaRelativa: `storycard/${slug}/portada`, ancho: 768, alto: 768, semilla },
-        { rutaRelativa: `storycard/${slug}/portadamovil`, ancho: 576, alto: 1024, semilla: semilla + 7 }
-    ];
-    const [r169, rPortada, rMovil] = formatos.map(f => guardarImagen({ ...f, base: basePortada, tematica: tema.nombre, pistas: pistasPortada }));
-    if (basePortada) imagenesIA += 3; else imagenesSVG += 3;
+    
+    // 16:9 images: storycards/slug.jpg y storycards/slugEn.jpg
+    const r169 = guardarImagen({ rutaRelativa: `storycards/${slug}`, base: basePortada, tematica: tema.nombre, ancho: 1280, alto: 720, semilla, pistas: pistasPortada });
+    const r169En = guardarImagen({ rutaRelativa: `storycards/${slugEn}`, base: basePortada, tematica: tema.nombre, ancho: 1280, alto: 720, semilla, pistas: pistasPortada });
+    
+    // Covers para las cards (ES y EN pueden compartir la misma base de imagen)
+    const rPortada = guardarImagen({ rutaRelativa: `storycard/${slug}/portada`, base: basePortada, tematica: tema.nombre, ancho: 768, alto: 768, semilla, pistas: pistasPortada });
+    const rMovil = guardarImagen({ rutaRelativa: `storycard/${slug}/portadamovil`, base: basePortada, tematica: tema.nombre, ancho: 576, alto: 1024, semilla: semilla + 7, pistas: pistasPortada });
+    
+    const rPortadaEn = guardarImagen({ rutaRelativa: `storycard/${slugEn}/portada`, base: basePortada, tematica: tema.nombre, ancho: 768, alto: 768, semilla, pistas: pistasPortada });
+    const rMovilEn = guardarImagen({ rutaRelativa: `storycard/${slugEn}/portadamovil`, base: basePortada, tematica: tema.nombre, ancho: 576, alto: 1024, semilla: semilla + 7, pistas: pistasPortada });
+    
+    if (basePortada) { imagenesIA += 7; } else { imagenesSVG += 7; }
 
-    const capitulos = [];
-    const audiosPendientes = [];
-    let vocesOk = 0;
+    const capitulosEs = [];
+    const audiosPendientesEs = [];
+    const capitulosEn = [];
+    const audiosPendientesEn = [];
+    let vocesOkEs = 0;
+    let vocesOkEn = 0;
 
     for (let i = 0; i < NUM_CAPITULOS; i++) {
-        const c = hist.capitulos[i];
-        const tituloCap = tituloCorto(c.titulo, i), textoCap = limpiarTextoCapitulo(c.texto);
+        const cEs = hist.es.capitulos[i];
+        const cEn = hist.en.capitulos[i];
+        
+        const tituloCapEs = tituloCorto(cEs.titulo, i), textoCapEs = limpiarTextoCapitulo(cEs.texto);
+        const tituloCapEn = tituloCorto(cEn.titulo, i), textoCapEn = limpiarTextoCapitulo(cEn.texto);
+        
         console.log(`  📑 Capítulo ${i + 1}: ilustración y voz...`);
         
+        const escenaPrompt = hist.escenas_en && hist.escenas_en[i] ? hist.escenas_en[i] : (cEs.escena_en || cEs.titulo);
         const rIlu = await crearImagenEnRuta({
             rutaRelativa: `storycard/${slug}/imagen${i + 1}`,
             tematica: tema.nombre, ancho: 768, alto: 512, semilla: semilla + 100 + i,
-            prompt: `${c.escena_en || c.titulo}. ${estilo}`, pistas: `${c.escena_en || ''} ${c.titulo || ''} ${textoCap.slice(0, 300)}`
+            prompt: `${escenaPrompt}. ${estilo}`, pistas: `${escenaPrompt} ${cEs.titulo || ''} ${textoCapEs.slice(0, 300)}`
         });
         
-        const voz = `storycard/${slug}/voz${i + 1}.mp3`;
-        if (await crearVoz(textoCap, voz)) vocesOk++; else audiosPendientes.push(voz);
-        capitulos.push({ titulo: tituloCap, texto: textoCap, ilustracion: rIlu.ruta, voz });
+        const vozEs = `storycard/${slug}/voz${i + 1}.mp3`;
+        if (await crearVoz(textoCapEs, vozEs, EDGE_VOICE, 'es')) vocesOkEs++; else audiosPendientesEs.push(vozEs);
+        capitulosEs.push({ titulo: tituloCapEs, texto: textoCapEs, ilustracion: rIlu.ruta, voz: vozEs });
+        
+        const vozEn = `storycard/${slugEn}/voz${i + 1}.mp3`;
+        if (await crearVoz(textoCapEn, vozEn, EDGE_VOICE_EN, 'en')) vocesOkEn++; else audiosPendientesEn.push(vozEn);
+        capitulosEn.push({ titulo: tituloCapEn, texto: textoCapEn, ilustracion: rIlu.ruta, voz: vozEn });
     }
 
-    console.log(`  📊 Hasta ahora en esta ejecución → imágenes con IA: ${imagenesIA} · ilustraciones de respaldo: ${imagenesSVG} · voces de esta tarjeta: ${vocesOk}/${NUM_CAPITULOS} (Edge TTS: ${vocesEdge} · Piper: ${vocesPiper} en total)`);
-    const musica = `storycard/${slug}.mp3`;   // música de fondo: la subes tú a mano con este nombre exacto
-    audiosPendientes.push(musica);
+    console.log(`  📊 Voces ES: ${vocesOkEs}/${NUM_CAPITULOS} · Voces EN: ${vocesOkEn}/${NUM_CAPITULOS}`);
+    const musicaEs = `storycard/${slug}.mp3`;
+    const musicaEn = `storycard/${slugEn}.mp3`;
+    audiosPendientesEs.push(musicaEs);
+    audiosPendientesEn.push(musicaEn);
 
-    const html = generarHtmlStory({
-        titulo, fraseInspiracion, autor: AUTOR, coverImg: rPortada.ruta, coverMobileImg: rMovil.ruta, musica, capitulos
+    const htmlEs = generarHtmlStory({
+        titulo, fraseInspiracion, autor: AUTOR, coverImg: rPortada.ruta, coverMobileImg: rMovil.ruta, musica: musicaEs, capitulos: capitulosEs, lang: 'es'
     });
-    fs.writeFileSync(path.join(RAIZ, `${slug}.html`), html);
-    console.log(`  ✅ Archivo creado: ${slug}.html`);
+    fs.writeFileSync(path.join(RAIZ, `${slug}.html`), htmlEs);
+
+    const htmlEn = generarHtmlStory({
+        titulo: tituloEn, fraseInspiracion: fraseInspiracionEn, autor: AUTOR, coverImg: rPortadaEn.ruta, coverMobileImg: rMovilEn.ruta, musica: musicaEn, capitulos: capitulosEn, lang: 'en'
+    });
+    fs.writeFileSync(path.join(RAIZ, `${slugEn}.html`), htmlEn);
+
+    console.log(`  ✅ Archivos creados: ${slug}.html y ${slugEn}.html`);
 
     return {
-        tarjeta: {
-            id: idBase + indice,
-            titulo,
-            fraseInspiracion,
-            tematica: tema.nombre,
-            tipo: 'automatica-ia',
-            descripcion: String(hist.sinopsis || '').trim(),
-            imagen: r169.ruta,
-            portada: rPortada.ruta,
-            portadaMovil: rMovil.ruta,
-            slug,
-            storyPage: `${slug}.html`,
-            audioVoz: capitulos[0].voz,
-            musicaFondo: musica,
-            fechaCreacion: new Date().toISOString()
-        },
-        audiosPendientes
+        tarjetas: [
+            {
+                id: idBase + indice,
+                titulo,
+                fraseInspiracion,
+                tematica: tema.nombre,
+                tipo: 'automatica-ia',
+                descripcion: String(hist.es.sinopsis || '').trim(),
+                imagen: r169.ruta,
+                portada: rPortada.ruta,
+                portadaMovil: rMovil.ruta,
+                slug,
+                storyPage: `${slug}.html`,
+                audioVoz: capitulosEs[0].voz,
+                musicaFondo: musicaEs,
+                fechaCreacion: new Date().toISOString()
+            },
+            {
+                id: idBase + indice + 10000, // offset para evitar colisiones
+                titulo: tituloEn,
+                fraseInspiracion: fraseInspiracionEn,
+                tematica: tema.nombre,
+                tipo: 'automatica-ia',
+                descripcion: String(hist.en.sinopsis || '').trim(),
+                imagen: r169En.ruta,
+                portada: rPortadaEn.ruta,
+                portadaMovil: rMovilEn.ruta,
+                slug: slugEn,
+                storyPage: `${slugEn}.html`,
+                audioVoz: capitulosEn[0].voz,
+                musicaFondo: musicaEn,
+                fechaCreacion: new Date().toISOString()
+            }
+        ],
+        audiosPendientes: [
+            { titulo, archivos: audiosPendientesEs },
+            { titulo: tituloEn, archivos: audiosPendientesEn }
+        ]
     };
 }
 
@@ -838,8 +909,8 @@ async function ejecutarPipelineInteligente() {
     for (let i = 0; i < temas.length; i++) {
         try {
             const r = await crearStorycardCompleta({ tema: temas[i], usados: [...usados, ...nuevas.map(n => n.titulo)], idBase, indice: i + 1 });
-            nuevas.push(r.tarjeta);
-            pendientes.push({ titulo: r.tarjeta.titulo, archivos: r.audiosPendientes });
+            nuevas.push(...r.tarjetas); // Añade ES y EN
+            pendientes.push(...r.audiosPendientes);
         } catch (e) {
             console.error(`❌ Falló la storycard ${i + 1}: ${e.message}`);
             if (e.claveInvalida) break;

@@ -1,5 +1,37 @@
 [
   {
+    "id": 1793721471710,
+    "titulo": "La Chispa Eterna de Sylphira",
+    "fraseInspiracion": "Incluso la huella más pequeña puede encender el alma de un mundo entero.",
+    "tematica": "Animación",
+    "tipo": "automatica-ia",
+    "descripcion": "Un pequeño zorro mensajero emprende un viaje fantástico para devolver la luz a un bosque sumido en un sueño eterno. A través de la ternura y el valor, descubre que la verdadera magia vive en la unión.",
+    "imagen": "storycards/lachispaeternadesylphira.jpg",
+    "portada": "storycard/lachispaeternadesylphira/portada.jpg",
+    "portadaMovil": "storycard/lachispaeternadesylphira/portadamovil.jpg",
+    "slug": "lachispaeternadesylphira",
+    "storyPage": "lachispaeternadesylphira.html",
+    "audioVoz": "storycard/lachispaeternadesylphira/voz1.mp3",
+    "musicaFondo": "storycard/lachispaeternadesylphira.mp3",
+    "fechaCreacion": "2026-11-03T16:04:38.150Z"
+  },
+  {
+    "id": 1793721481710,
+    "titulo": "The Eternal Spark of Sylphira",
+    "fraseInspiracion": "Even the smallest paw print can ignite the soul of an entire world.",
+    "tematica": "Animación",
+    "tipo": "automatica-ia",
+    "descripcion": "A tiny messenger fox embarks on a whimsical journey to restore light to a forest trapped in eternal sleep. Through tenderness and courage, he discovers that true magic lives in togetherness.",
+    "imagen": "storycards/theeternalsparkofsylphira-en.jpg",
+    "portada": "storycard/theeternalsparkofsylphira-en/portada.jpg",
+    "portadaMovil": "storycard/theeternalsparkofsylphira-en/portadamovil.jpg",
+    "slug": "theeternalsparkofsylphira-en",
+    "storyPage": "theeternalsparkofsylphira-en.html",
+    "audioVoz": "storycard/theeternalsparkofsylphira-en/voz1.mp3",
+    "musicaFondo": "storycard/theeternalsparkofsylphira-en.mp3",
+    "fechaCreacion": "2026-11-03T16:04:38.151Z"
+  },
+  {
     "id": 1793705146316,
     "titulo": "El Desvío Trágico del Río Aethelgard",
     "fraseInspiracion": "Las aguas caprichosas del destino tallaron imperios y sepultaron civilizaciones enteras en el olvido.",

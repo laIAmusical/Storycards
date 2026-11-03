@@ -52,3 +52,9 @@ Sube cada archivo a su ruta exacta (voz y música). La storycard funciona sin el
 
 ## El Desvío Trágico del Río Aethelgard (2026-11-03)
 - [ ] `storycard/eldesviotragicodelrioaethelgard.mp3`
+
+## La Chispa Eterna de Sylphira (2026-11-03)
+- [ ] `storycard/lachispaeternadesylphira.mp3`
+
+## The Eternal Spark of Sylphira (2026-11-03)
+- [ ] `storycard/theeternalsparkofsylphira-en.mp3`

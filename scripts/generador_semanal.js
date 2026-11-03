@@ -789,7 +789,7 @@ async function crearStorycardCompleta({ tema, usados, idBase, indice }) {
     }
 
     console.log(`  📊 Hasta ahora en esta ejecución → imágenes con IA: ${imagenesIA} · ilustraciones de respaldo: ${imagenesSVG} · voces de esta tarjeta: ${vocesOk}/${NUM_CAPITULOS} (Edge TTS: ${vocesEdge} · Piper: ${vocesPiper} en total)`);
-    const musica = `${slug}.mp3`;
+    const musica = `storycard/${slug}.mp3`;   // música de fondo: la subes tú a mano con este nombre exacto
     audiosPendientes.push(musica);
 
     const html = generarHtmlStory({

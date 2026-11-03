@@ -21,8 +21,19 @@ jobs:
         with:
           node-version: '20'
 
-      # Voz del narrador: Piper corre dentro del propio runner (gratis, sin claves y sin límites).
-      - name: Instalar voz del narrador (Piper + voz masculina en español)
+      - name: Configurar Python (para Edge TTS)
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # Voz principal del narrador: Microsoft Edge TTS (voces neuronales, gratis, sin clave).
+      - name: Instalar Edge TTS
+        continue-on-error: true
+        run: python -m pip install --upgrade edge-tts
+
+      # Voz de RESPALDO: Piper corre dentro del runner (gratis, sin claves y sin límites).
+      # Solo se usa si Microsoft bloquea a Edge TTS en esta ejecución. Si no la quieres, borra este paso.
+      - name: Instalar voz de respaldo (Piper + voz masculina en español)
         continue-on-error: true
         run: |
           set -e
@@ -44,6 +55,8 @@ jobs:
           POLLINATIONS_API_KEY: ${{ secrets.POLLINATIONS_API_KEY }}
           NUM_CAPITULOS: 10
           PALABRAS_CAPITULO: 250
+          EDGE_VOICE: es-ES-AlvaroNeural   # voz masculina de España (otras: es-MX-JorgeNeural, es-AR-TomasNeural)
+          EDGE_RATE: "-5%"                 # velocidad de lectura
         run: node scripts/generador_semanal.js
 
       - name: Guardar y sincronizar cambios automáticamente en GitHub
@@ -55,6 +68,6 @@ jobs:
             echo "No hay cambios que guardar."
             exit 0
           fi
-          git commit -m "🤖 Nuevas storycards épicas con Cloudflare FLUX (historia, imágenes y voz)"
+          git commit -m "🤖 Nuevas storycards épicas (historia, imágenes y voz Edge TTS)"
           git pull --rebase origin "${GITHUB_REF_NAME}"
           git push

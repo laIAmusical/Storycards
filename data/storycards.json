@@ -64,22 +64,6 @@
     "fechaCreacion": "2026-11-03T09:07:09.819Z"
   },
   {
-    "id": 1793642490925,
-    "titulo": "La Sinfonía Prohibida de Elowen Vane",
-    "fraseInspiracion": "Tocar la nota final significa entregar el alma al silencio eterno de la noche.",
-    "tematica": "Ópera y conciertos",
-    "tipo": "automatica-ia",
-    "descripcion": "Un virtuoso violinista acepta interpretar una partitura maldita en la gran ópera de la ciudad. Cada movimiento desata pasiones desbordadas que conducen inevitablemente hacia un sublime y trágico desenlace.",
-    "imagen": "imagenportada/lasinfoniaprohibidadeelowenvane_16_9.svg",
-    "portada": "storycard/lasinfoniaprohibidadeelowenvane/portada.svg",
-    "portadaMovil": "storycard/lasinfoniaprohibidadeelowenvane/portadamovil.svg",
-    "slug": "lasinfoniaprohibidadeelowenvane",
-    "storyPage": "lasinfoniaprohibidadeelowenvane.html",
-    "audioVoz": "storycard/lasinfoniaprohibidadeelowenvane/voz1.wav",
-    "musicaFondo": "lasinfoniaprohibidadeelowenvane.mp3",
-    "fechaCreacion": "2026-11-02T18:11:50.204Z"
-  },
-  {
     "id": 1793621100896,
     "titulo": "La Última Travesía de Valen-Kael",
     "tematica": "Cine",

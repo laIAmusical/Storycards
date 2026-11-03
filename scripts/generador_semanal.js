@@ -24,6 +24,9 @@ const PALABRAS_CAPITULO = Math.max(80, Math.min(400, parseInt(process.env.PALABR
 const POLLINATIONS_KEY = process.env.POLLINATIONS_API_KEY || '';
 const CF_ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID || '';
 const CF_API_TOKEN = process.env.CLOUDFLARE_API_TOKEN || '';
+const EDGE_VOICE = process.env.EDGE_VOICE || 'es-ES-AlvaroNeural';   // voz masculina de Microsoft (España). Otras: es-MX-JorgeNeural, es-AR-TomasNeural, es-CO-GonzaloNeural
+const EDGE_RATE = process.env.EDGE_RATE || '-5%';                    // velocidad de lectura (p. ej. -10%, +0%, +10%)
+const EDGE_PYTHON = process.env.EDGE_PYTHON || 'python3';            // Python donde está instalado el paquete edge-tts
 const PIPER_BIN = process.env.PIPER_BIN || '';
 const PIPER_MODEL = process.env.PIPER_MODEL || '';
 const AUTOR = 'LaIAmusical';
@@ -619,30 +622,69 @@ async function crearImagenEnRuta({ rutaRelativa, prompt, tematica, ancho, alto, 
     return r;
 }
 
-// ───────────────────────── 4. VOZ (PIPER) ─────────────────────────
-function textoParaNarrar(titulo, texto, indiceCapitulo) {
-    const numCap = indiceCapitulo !== undefined ? `Capítulo ${indiceCapitulo}. ` : '';
-    const tClean = (titulo || '').replace(/^Cap[íi]tulo\s+\d+\s*[:.\-–—]*\s*/i, '').trim();
-    const cuerpo = texto.replace(/\r/g, '').split(/\n+/).map(l => l.trim()).filter(Boolean).join(' ');
-    return `${numCap}${tClean}. ... ${cuerpo}`;
+// ───────────────────────── 4. VOZ DEL NARRADOR ─────────────────────────
+// Principal: Microsoft Edge TTS (voces neuronales, gratis).  Respaldo: Piper (local), si Microsoft bloquea al runner.
+// El narrador lee SOLO el texto del capítulo: no dice "Capítulo N" ni el título.
+function textoParaNarrar(texto) {
+    return (texto || '').replace(/\r/g, '').split(/\n+/).map(l => l.trim()).filter(Boolean).join('\n\n');
 }
 
-function crearVoz(titulo, texto, rutaRel, indiceCapitulo) {
+let edgeCaido = false;   // si Microsoft rechaza varias veces, no seguimos perdiendo tiempo en esta ejecución
+let vocesEdge = 0, vocesPiper = 0;
+
+async function crearVozEdge(texto, rutaRel) {
+    if (edgeCaido) return false;
+    const mp3 = path.join(RAIZ, rutaRel);
+    const txt = path.join(os.tmpdir(), `edge_${Date.now()}_${Math.random().toString(36).slice(2, 7)}.txt`);
+    fs.writeFileSync(txt, textoParaNarrar(texto), 'utf8');
+    let sinModulo = false;
+    try {
+        for (let intento = 1; intento <= 3; intento++) {
+            const r = spawnSync(EDGE_PYTHON, ['-m', 'edge_tts', '--file', txt, '--voice', EDGE_VOICE, `--rate=${EDGE_RATE}`, '--write-media', mp3, '--no-progress'],
+                { timeout: 180000, encoding: 'utf8' });
+            const ok = r.status === 0 && fs.existsSync(mp3) && fs.statSync(mp3).size > 2000;
+            if (ok) return true;
+            const motivo = ((r.stderr || '') + (r.error ? ' ' + r.error.message : '')).trim().split('\n').slice(-2).join(' | ').slice(0, 260);
+            console.warn(`  ⚠️ Edge TTS (intento ${intento}/3): ${motivo || 'sin detalle (código ' + r.status + ')'}`);
+            try { fs.unlinkSync(mp3); } catch (e) { /* no se llegó a crear */ }
+            if (/No module named|ENOENT/i.test(motivo)) { sinModulo = true; break; }   // edge-tts no está instalado: reintentar no sirve
+            if (intento < 3) await dormir(4000 * intento);
+        }
+        edgeCaido = true;
+        console.error(sinModulo
+            ? '  ❌ El paquete edge-tts no está instalado en este servidor (revisa el paso "Instalar Edge TTS" del workflow). Uso Piper como respaldo si está instalado.'
+            : '  ❌ Edge TTS no responde desde este servidor (Microsoft lo bloquea a veces). Uso Piper como respaldo si está instalado.');
+        return false;
+    } finally {
+        try { fs.unlinkSync(txt); } catch (e) { /* ya no existe */ }
+    }
+}
+
+function crearVozPiper(texto, rutaRel) {
     if (!PIPER_BIN || !PIPER_MODEL || !fs.existsSync(PIPER_BIN) || !fs.existsSync(PIPER_MODEL)) return false;
-    const wav = path.join(RAIZ, rutaRel.replace(/\.wav$/, '.tmp.wav'));
-    const finalWav = path.join(RAIZ, rutaRel);
+    const wav = path.join(RAIZ, rutaRel.replace(/\.mp3$/, '.tmp.wav'));
+    const mp3 = path.join(RAIZ, rutaRel);
     try {
         const env = { ...process.env, LD_LIBRARY_PATH: `${path.dirname(PIPER_BIN)}:${process.env.LD_LIBRARY_PATH || ''}` };
         const p = spawnSync(PIPER_BIN, ['-m', PIPER_MODEL, '-f', wav, '--length_scale', '1.08', '--sentence_silence', '0.5', '-q'],
-            { input: textoParaNarrar(titulo, texto, indiceCapitulo), cwd: path.dirname(PIPER_BIN), env, timeout: 180000, encoding: 'utf8' });
-        if (p.status !== 0 || !fs.existsSync(wav)) throw new Error(`Piper error`);
-        fs.renameSync(wav, finalWav);
+            { input: textoParaNarrar(texto).replace(/\n+/g, '\n'), cwd: path.dirname(PIPER_BIN), env, timeout: 180000, encoding: 'utf8' });
+        if (p.status !== 0 || !fs.existsSync(wav)) throw new Error(`Piper terminó con código ${p.status}`);
+        const f = spawnSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', wav, '-ac', '1', '-codec:a', 'libmp3lame', '-b:a', '64k', mp3], { timeout: 120000, encoding: 'utf8' });
+        if (f.status !== 0 || !fs.existsSync(mp3)) throw new Error(`ffmpeg falló ${(f.stderr || '').slice(0, 160)}`);
         return true;
     } catch (e) {
+        console.warn(`  ⚠️ Piper no pudo crear la voz: ${e.message}`);
         return false;
     } finally {
-        try { if (fs.existsSync(wav)) fs.unlinkSync(wav); } catch (e) {}
+        try { fs.unlinkSync(wav); } catch (e) { /* ya no existe */ }
     }
+}
+
+/** Devuelve 'edge', 'piper' o false. */
+async function crearVoz(texto, rutaRel) {
+    if (await crearVozEdge(texto, rutaRel)) { vocesEdge++; return 'edge'; }
+    if (crearVozPiper(texto, rutaRel)) { vocesPiper++; return 'piper'; }
+    return false;
 }
 
 // ───────────────────────── 5. HTML GENERATOR ─────────────────────────
@@ -741,12 +783,12 @@ async function crearStorycardCompleta({ tema, usados, idBase, indice }) {
             prompt: `${c.escena_en || c.titulo}. ${estilo}`, pistas: `${c.escena_en || ''} ${c.titulo || ''} ${textoCap.slice(0, 300)}`
         });
         
-        const voz = `storycard/${slug}/voz${i + 1}.wav`;
-        if (crearVoz(tituloCap, textoCap, voz, i + 1)) vocesOk++; else audiosPendientes.push(voz);
+        const voz = `storycard/${slug}/voz${i + 1}.mp3`;
+        if (await crearVoz(textoCap, voz)) vocesOk++; else audiosPendientes.push(voz);
         capitulos.push({ titulo: tituloCap, texto: textoCap, ilustracion: rIlu.ruta, voz });
     }
 
-    console.log(`  📊 Hasta ahora en esta ejecución → imágenes con IA: ${imagenesIA} · ilustraciones de respaldo: ${imagenesSVG} · voces creadas en esta tarjeta: ${vocesOk}/${NUM_CAPITULOS}`);
+    console.log(`  📊 Hasta ahora en esta ejecución → imágenes con IA: ${imagenesIA} · ilustraciones de respaldo: ${imagenesSVG} · voces de esta tarjeta: ${vocesOk}/${NUM_CAPITULOS} (Edge TTS: ${vocesEdge} · Piper: ${vocesPiper} en total)`);
     const musica = `${slug}.mp3`;
     audiosPendientes.push(musica);
 

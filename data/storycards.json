@@ -1,5 +1,37 @@
 [
   {
+    "id": 1793696224199,
+    "titulo": "El Salto Imposible del Caza Kaelen-Voss",
+    "fraseInspiracion": "En la oscuridad del firmamento, la libertad se escribe con fuego.",
+    "tematica": "Cine",
+    "tipo": "automatica-ia",
+    "descripcion": "Atrapado tras las líneas enemigas, el comandante Darek Solis debe pilotar un prototipo experimental sobre la sitiada nación de Orikón. Su decisión final desatará una tormenta capaz de rehacer el mapa geopolítico del mundo.",
+    "imagen": "imagenportada/elsaltoimposibledelcazakaelenvoss_16_9.svg",
+    "portada": "storycard/elsaltoimposibledelcazakaelenvoss/portada.svg",
+    "portadaMovil": "storycard/elsaltoimposibledelcazakaelenvoss/portadamovil.svg",
+    "slug": "elsaltoimposibledelcazakaelenvoss",
+    "storyPage": "elsaltoimposibledelcazakaelenvoss.html",
+    "audioVoz": "storycard/elsaltoimposibledelcazakaelenvoss/voz1.wav",
+    "musicaFondo": "elsaltoimposibledelcazakaelenvoss.mp3",
+    "fechaCreacion": "2026-11-03T09:07:09.819Z"
+  },
+  {
+    "id": 1793696224200,
+    "titulo": "La Cantata Rebelde de Valaria-Mond",
+    "fraseInspiracion": "Una voz alzada en el balcón puede derribar el imperio más denso.",
+    "tematica": "Teatro y musicales",
+    "tipo": "automatica-ia",
+    "descripcion": "En la oprimida ciudad de Valaria-Mond, una joven cantante desafía al régimen tiránico desde un balcón prohibido. Su voz desencadena una revolución musical que retumba en el teatro y transforma a un pueblo acallado.",
+    "imagen": "imagenportada/lacantatarebeldedevalariamond_16_9.svg",
+    "portada": "storycard/lacantatarebeldedevalariamond/portada.svg",
+    "portadaMovil": "storycard/lacantatarebeldedevalariamond/portadamovil.svg",
+    "slug": "lacantatarebeldedevalariamond",
+    "storyPage": "lacantatarebeldedevalariamond.html",
+    "audioVoz": "storycard/lacantatarebeldedevalariamond/voz1.wav",
+    "musicaFondo": "lacantatarebeldedevalariamond.mp3",
+    "fechaCreacion": "2026-11-03T09:08:49.175Z"
+  },
+  {
     "id": 1793642490924,
     "titulo": "El Latido Faltante de la Ciudad de Aethelgard",
     "fraseInspiracion": "Cuando el tiempo se detiene, solo el pulso de la memoria puede reiniciar el mundo.",

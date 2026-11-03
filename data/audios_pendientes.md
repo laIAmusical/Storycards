@@ -43,3 +43,9 @@ Sube cada archivo a su ruta exacta (voz y música). La storycard funciona sin el
 
 ## La Sinfonía Prohibida de Elowen Vane (2026-11-02)
 - [ ] `lasinfoniaprohibidadeelowenvane.mp3`
+
+## El Salto Imposible del Caza Kaelen-Voss (2026-11-03)
+- [ ] `elsaltoimposibledelcazakaelenvoss.mp3`
+
+## La Cantata Rebelde de Valaria-Mond (2026-11-03)
+- [ ] `lacantatarebeldedevalariamond.mp3`

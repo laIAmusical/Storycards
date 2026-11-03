@@ -32,22 +32,6 @@
     "fechaCreacion": "2026-11-03T09:08:49.175Z"
   },
   {
-    "id": 1793642490924,
-    "titulo": "El Latido Faltante de la Ciudad de Aethelgard",
-    "fraseInspiracion": "Cuando el tiempo se detiene, solo el pulso de la memoria puede reiniciar el mundo.",
-    "tematica": "Cine",
-    "tipo": "automatica-ia",
-    "descripcion": "En una metrópolis suspendida en el cielo que está perdiendo su gravedad, un ingeniero renegado debe descender al corazón mecánico del mundo para reiniciar el generador antes de que millones caigan al vacío eterno.",
-    "imagen": "imagenportada/ellatidofaltantedelaciudaddeaethelgard_16_9.svg",
-    "portada": "storycard/ellatidofaltantedelaciudaddeaethelgard/portada.svg",
-    "portadaMovil": "storycard/ellatidofaltantedelaciudaddeaethelgard/portadamovil.svg",
-    "slug": "ellatidofaltantedelaciudaddeaethelgard",
-    "storyPage": "ellatidofaltantedelaciudaddeaethelgard.html",
-    "audioVoz": "storycard/ellatidofaltantedelaciudaddeaethelgard/voz1.wav",
-    "musicaFondo": "ellatidofaltantedelaciudaddeaethelgard.mp3",
-    "fechaCreacion": "2026-11-02T18:06:32.859Z"
-  },
-  {
     "id": 1793642490925,
     "titulo": "La Sinfonía Prohibida de Elowen Vane",
     "fraseInspiracion": "Tocar la nota final significa entregar el alma al silencio eterno de la noche.",

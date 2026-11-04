@@ -48,22 +48,6 @@
     "fechaCreacion": "2026-11-03T11:29:18.326Z"
   },
   {
-    "id": 1793696224199,
-    "titulo": "El Salto Imposible del Caza Kaelen-Voss",
-    "fraseInspiracion": "En la oscuridad del firmamento, la libertad se escribe con fuego.",
-    "tematica": "Cine",
-    "tipo": "automatica-ia",
-    "descripcion": "Atrapado tras las líneas enemigas, el comandante Darek Solis debe pilotar un prototipo experimental sobre la sitiada nación de Orikón. Su decisión final desatará una tormenta capaz de rehacer el mapa geopolítico del mundo.",
-    "imagen": "imagenportada/elsaltoimposibledelcazakaelenvoss_16_9.svg",
-    "portada": "storycard/elsaltoimposibledelcazakaelenvoss/portada.svg",
-    "portadaMovil": "storycard/elsaltoimposibledelcazakaelenvoss/portadamovil.svg",
-    "slug": "elsaltoimposibledelcazakaelenvoss",
-    "storyPage": "elsaltoimposibledelcazakaelenvoss.html",
-    "audioVoz": "storycard/elsaltoimposibledelcazakaelenvoss/voz1.wav",
-    "musicaFondo": "elsaltoimposibledelcazakaelenvoss.mp3",
-    "fechaCreacion": "2026-11-03T09:07:09.819Z"
-  },
-  {
     "id": 1793621100896,
     "titulo": "La Última Travesía de Valen-Kael",
     "tematica": "Cine",

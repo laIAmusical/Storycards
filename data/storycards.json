@@ -1,5 +1,37 @@
 [
   {
+    "id": 1793789553854,
+    "titulo": "La Última Vigilia de Alistair en Valenor",
+    "fraseInspiracion": "Entre las cenizas del imperio, el silencio es el único testigo verdadero.",
+    "tematica": "Literatura",
+    "tipo": "automatica-ia",
+    "descripcion": "Un joven peregrino emprende un doloroso viaje a través de los restos colosales de un imperio caído. Su misión es devolver la última chispa de memoria a la capital olvidada.",
+    "imagen": "imagenportada/laultimavigiliadealistairenvalenor.jpg",
+    "portada": "storycard/laultimavigiliadealistairenvalenor/portada.jpg",
+    "portadaMovil": "storycard/laultimavigiliadealistairenvalenor/portadamovil.jpg",
+    "slug": "laultimavigiliadealistairenvalenor",
+    "storyPage": "laultimavigiliadealistairenvalenor.html",
+    "audioVoz": "storycard/laultimavigiliadealistairenvalenor/voz1.mp3",
+    "musicaFondo": "storycard/laultimavigiliadealistairenvalenor.mp3",
+    "fechaCreacion": "2026-11-04T10:57:50.288Z"
+  },
+  {
+    "id": 1793789563854,
+    "titulo": "Alistair's Last Vigil in Valenor",
+    "fraseInspiracion": "Among the ashes of the empire, silence is the only true witness.",
+    "tematica": "Literatura",
+    "tipo": "automatica-ia",
+    "descripcion": "A young pilgrim undertakes a painful journey through the colossal remains of a fallen empire. His mission is to return the last spark of memory to the forgotten capital.",
+    "imagen": "imagenportada/alistairslastvigilinvalenor-en.jpg",
+    "portada": "storycard/alistairslastvigilinvalenor-en/portada.jpg",
+    "portadaMovil": "storycard/alistairslastvigilinvalenor-en/portadamovil.jpg",
+    "slug": "alistairslastvigilinvalenor-en",
+    "storyPage": "alistairslastvigilinvalenor-en.html",
+    "audioVoz": "storycard/alistairslastvigilinvalenor-en/voz1.mp3",
+    "musicaFondo": "storycard/alistairslastvigilinvalenor-en.mp3",
+    "fechaCreacion": "2026-11-04T10:57:50.289Z"
+  },
+  {
     "id": 1793721471710,
     "titulo": "La Chispa Eterna de Sylphira",
     "fraseInspiracion": "Incluso la huella más pequeña puede encender el alma de un mundo entero.",

@@ -58,3 +58,9 @@ Sube cada archivo a su ruta exacta (voz y música). La storycard funciona sin el
 
 ## The Eternal Spark of Sylphira (2026-11-03)
 - [ ] `storycard/theeternalsparkofsylphira-en.mp3`
+
+## La Última Vigilia de Alistair en Valenor (2026-11-04)
+- [ ] `storycard/laultimavigiliadealistairenvalenor.mp3`
+
+## Alistair's Last Vigil in Valenor (2026-11-04)
+- [ ] `storycard/alistairslastvigilinvalenor-en.mp3`

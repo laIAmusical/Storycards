@@ -26,13 +26,21 @@ jobs:
         with:
           python-version: '3.12'
 
+      # ffmpeg es OBLIGATORIO para recortar las imágenes generadas por IA
+      # a las proporciones exactas 16:9, 1:1 y 9:16. Sin él, el robot no
+      # puede garantizar que las portadas tengan el formato correcto.
+      - name: Instalar ffmpeg (recorte exacto de imágenes)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          ffmpeg -version | head -n 1
+
       # Voz principal del narrador: Microsoft Edge TTS (voces neuronales, gratis, sin clave).
       - name: Instalar Edge TTS
         continue-on-error: true
         run: python -m pip install --upgrade edge-tts
 
       # Voz de RESPALDO: Piper corre dentro del runner (gratis, sin claves y sin límites).
-      # Solo se usa si Microsoft bloquea a Edge TTS en esta ejecución.
       - name: Instalar voz de respaldo (Piper + voz masculina en español)
         continue-on-error: true
         run: |
@@ -69,6 +77,6 @@ jobs:
             echo "No hay cambios que guardar."
             exit 0
           fi
-          git commit -m "🤖 Nuevas storycards épicas bilingües (ES/EN) (historia, imágenes y voz)"
+          git commit -m "🤖 Nuevas storycards épicas bilingües (ES/EN) (historia, imágenes, voz, quiz y secretos)"
           git pull --rebase origin "${GITHUB_REF_NAME}"
           git push

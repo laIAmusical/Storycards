@@ -64,3 +64,9 @@ Sube cada archivo a su ruta exacta (voz y música). La storycard funciona sin el
 
 ## Alistair's Last Vigil in Valenor (2026-11-04)
 - [ ] `storycard/alistairslastvigilinvalenor-en.mp3`
+
+## El Canto Prohibido de Aethelgard (2026-11-04)
+- [ ] `storycard/elcantoprohibidodeaethelgard.mp3`
+
+## The Forbidden Song of Aethelgard (2026-11-04)
+- [ ] `storycard/theforbiddensongofaethelgard-en.mp3`

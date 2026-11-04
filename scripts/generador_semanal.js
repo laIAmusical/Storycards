@@ -2,14 +2,19 @@
  * Robot semanal de Storycards (GitHub Actions)
  * ------------------------------------------------------------------
  * Cada ejecución escribe 2 historias ÉPICAS originales con Gemini y las
- * convierte en storycards completas (Español e Inglés):
+ * convierte en storycards completas (Español e Inglés), con:
  *   - <slug>.html                    → libro interactivo ES
  *   - <slug>-en.html                 → libro interactivo EN
- *   - imagenportada/<slug>_16_9.*    → imagen de presentación panorámica 16:9
- *   - storycard/<slug>/portada.*     → portada cuadrada 1:1
- *   - storycard/<slug>/portadamovil.*→ portada vertical 9:16
- *   - storycard/<slug>/imagenN.*     → ilustración de cada capítulo
+ *   - imagenportada/<slug>.jpg       → imagen de presentación panorámica 16:9 EXACTA
+ *   - storycard/<slug>/portada.jpg   → portada cuadrada 1:1 EXACTA
+ *   - storycard/<slug>/portadamovil.jpg→ portada vertical 9:16 EXACTA
+ *   - storycard/<slug>/imagenN.jpg   → ilustración de cada capítulo (16:9)
+ *   - secretos/<slug>-secretos.html  → Página de Secretos (ES/EN en el mismo archivo)
+ *   - quiz (5 preguntas) y quizEn guardados en data/storycards.json
  *   y las registra en data/storycards.json para que reproductor.html las muestre.
+ *
+ * IMPORTANTE: si ffmpeg no está instalado o falla, el script aborta.
+ * El robot NUNCA guarda una imagen que no sea exactamente 16:9, 1:1 o 9:16.
  */
 const fs = require('fs');
 const path = require('path');
@@ -26,7 +31,7 @@ const POLLINATIONS_KEY = process.env.POLLINATIONS_API_KEY || '';
 const CF_ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID || '';
 const CF_API_TOKEN = process.env.CLOUDFLARE_API_TOKEN || '';
 const EDGE_VOICE = process.env.EDGE_VOICE || 'es-ES-AlvaroNeural';
-const EDGE_VOICE_EN = process.env.EDGE_VOICE_EN || 'en-US-GuyNeural'; // Voz en inglés
+const EDGE_VOICE_EN = process.env.EDGE_VOICE_EN || 'en-US-GuyNeural';
 const EDGE_RATE = process.env.EDGE_RATE || '-5%';
 const EDGE_PYTHON = process.env.EDGE_PYTHON || 'python3';
 const PIPER_BIN = process.env.PIPER_BIN || '';
@@ -92,14 +97,6 @@ function hashTexto(t) {
     let h = 2166136261;
     for (let i = 0; i < t.length; i++) { h ^= t.charCodeAt(i); h = Math.imul(h, 16777619); }
     return h >>> 0;
-}
-function mulberry32(seed) {
-    return function () {
-        seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
-        let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
-        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-    };
 }
 
 function stripWrappingQuotes(str) {
@@ -310,7 +307,7 @@ async function escribirHistoria(tema, usados) {
     throw new Error(`Gemini no devolvió una historia válida (${motivo})`);
 }
 
-// ───────────────────────── 3. GENERACIÓN DE IMÁGENES (16:9, 1:1, 9:16) - PRIORIDAD CLOUDFLARE ─────────────────────────
+// ───────────────────────── 3. IMÁGENES (ffmpeg obligatorio) ─────────────────────────
 const PALETAS = {
     CINE: [350, 20, 270], SERIES: [200, 280, 320], ANIME: [320, 190, 50], ANIMACION: [45, 170, 300],
     LITERATURA: [30, 20, 200], VIDEOJUEGOS: [150, 260, 330], RELIGION: [45, 30, 210]
@@ -322,189 +319,33 @@ function matices(tematica) {
     const h = hashTexto(clave) % 360;
     return [h, (h + 60) % 360, (h + 200) % 360];
 }
-
-// ---- Escenas SVG animadas ----
-const fx = n => Math.round(n * 10) / 10;
-
-const ESCENAS = ['ciudad', 'mar', 'bosque', 'desierto', 'montana', 'espacio', 'escenario', 'castillo'];
-const REGLAS_ESCENA = [
-    ['ciudad', /city|street|rain|neon|metropol|urban|detective|skyscraper|ciudad|calle|lluvia|rascacielos/g],
-    ['mar', /\bsea\b|ocean|ship|harbo|\bport\b|lighthouse|island|boat|wave|barco|faro|isla|oceano|puerto|nav[eio]|marin/g],
-    ['bosque', /forest|woods|\btree|jungle|garden|bosque|selva|arbol|jardin|firefl/g],
-    ['desierto', /desert|dune|sand|oasis|caravan|desierto|duna|arena|sahara/g],
-    ['montana', /mountain|\bpeak|snow|\bice\b|glacier|cliff|aurora|montan|nieve|hielo|cumbre|polar|expedici/g],
-    ['espacio', /space|planet|galax|cosmic|orbit|nebula|astronaut|espacio|planeta|galaxia|cosmos|nebulosa|estelar/g],
-    ['escenario', /stage|theat|opera|concert|curtain|orchestra|spotlight|violin|piano|escenario|teatro|telon|orquesta|concierto|aria|musical/g],
-    ['castillo', /castle|kingdom|throne|palace|crown|\bking|queen|knight|dragon|castillo|reino|trono|palacio|corona|\brey|reina|caballero|dinast/g]
-];
-
-function elegirEscena(tematica, pistas, semilla) {
-    const t = (pistas || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-    let mejor = null, max = 0;
-    REGLAS_ESCENA.forEach(([nombre, re]) => {
-        const n = (t.match(re) || []).length;
-        if (n > max) { max = n; mejor = nombre; }
-    });
-    if (mejor) return mejor;
-    const tem = sinAcentos(tematica);
-    if (/OPERA|TEATRO/.test(tem)) return 'escenario';
-    if (/CINE/.test(tem)) return ['ciudad', 'mar', 'desierto', 'espacio'][semilla % 4];
-    if (/LITERATURA/.test(tem)) return ['castillo', 'bosque', 'mar', 'montana'][semilla % 4];
-    if (/DOCUMENTAL/.test(tem)) return ['montana', 'desierto', 'mar', 'bosque'][semilla % 4];
-    return ESCENAS[semilla % ESCENAS.length];
+function rgbHex(h, s, l) {
+    h = ((h % 360) + 360) % 360;
+    s = s / 100; l = l / 100;
+    const c = (1 - Math.abs(2 * l - 1)) * s;
+    const x = c * (1 - Math.abs((h / 60) % 2 - 1));
+    const m = l - c / 2;
+    let r = 0, g = 0, b = 0;
+    if (h < 60) { r = c; g = x; }
+    else if (h < 120) { r = x; g = c; }
+    else if (h < 180) { g = c; b = x; }
+    else if (h < 240) { g = x; b = c; }
+    else if (h < 300) { r = x; b = c; }
+    else { r = c; b = x; }
+    const to = v => Math.round((v + m) * 255).toString(16).padStart(2, '0');
+    return to(r) + to(g) + to(b);
 }
 
-function svgEstrellas(rnd, W, H, n, yMax) {
-    let s = '';
-    for (let i = 0; i < n; i++) {
-        s += `<circle cx="${fx(rnd() * W)}" cy="${fx(rnd() * H * yMax)}" r="${fx(0.6 + rnd() * 1.7)}" fill="#fff"><animate attributeName="opacity" values="0.1;1;0.1" dur="${fx(2 + rnd() * 4)}s" begin="-${fx(rnd() * 5)}s" repeatCount="indefinite"/></circle>`;
+function verificarFfmpeg() {
+    const r = spawnSync('ffmpeg', ['-version'], { encoding: 'utf8' });
+    if (r.status !== 0) {
+        throw new Error(
+            '❌ ffmpeg NO está instalado o no es accesible en el PATH. ' +
+            'Sin ffmpeg el robot no puede garantizar imágenes 16:9/1:1/9:16. ' +
+            'Añade el paso "Instalar ffmpeg" al workflow (generacion_semanal.yml) ' +
+            'o instala ffmpeg en tu sistema y vuelve a ejecutar.'
+        );
     }
-    return s;
-}
-/** Capa de relieve (picos o colinas suaves) que llega hasta el borde inferior. */
-function svgCapa(rnd, W, H, yBase, amp, fill, pasos, picos) {
-    const pts = [];
-    for (let i = 0; i <= pasos; i++) pts.push([fx(i * W / pasos), fx(yBase - rnd() * amp)]);
-    let d;
-    if (picos) {
-        d = `M0,${H} L${pts.map(p => p.join(',')).join(' L')} L${W},${H} Z`;
-    } else {
-        d = `M0,${H} L0,${pts[0][1]}`;
-        for (let i = 1; i < pts.length; i++) {
-            const [x0, y0] = pts[i - 1], [x1, y1] = pts[i];
-            d += ` Q${fx((x0 + x1) / 2)},${fx(Math.min(y0, y1) - amp * 0.35)} ${x1},${y1}`;
-        }
-        d += ` L${W},${H} Z`;
-    }
-    return `<path d="${d}" fill="${fill}"/>`;
-}
-function svgNubes(rnd, W, H, n, color, yMax, opac) {
-    let s = '';
-    for (let i = 0; i < n; i++) {
-        const cx = rnd() * W, cy = H * (0.05 + rnd() * yMax), rx = W * (0.1 + rnd() * 0.18), ry = rx * 0.28;
-        const mov = fx(W * (0.05 + rnd() * 0.12));
-        s += `<g opacity="${opac}"><ellipse cx="${fx(cx)}" cy="${fx(cy)}" rx="${fx(rx)}" ry="${fx(ry)}" fill="${color}"/><ellipse cx="${fx(cx + rx * 0.5)}" cy="${fx(cy - ry * 0.5)}" rx="${fx(rx * 0.6)}" ry="${fx(ry * 0.9)}" fill="${color}"/><animateTransform attributeName="transform" type="translate" values="-${mov} 0;${mov} 0;-${mov} 0" dur="${fx(25 + rnd() * 25)}s" repeatCount="indefinite"/></g>`;
-    }
-    return s;
-}
-function svgLuciernagas(rnd, W, H, n, color, yMin) {
-    let s = '';
-    for (let i = 0; i < n; i++) {
-        const x = fx(rnd() * W), y = fx(H * (yMin + rnd() * (0.95 - yMin))), dx = fx((rnd() - 0.5) * 60), dy = fx((rnd() - 0.5) * 60);
-        s += `<circle cx="${x}" cy="${y}" r="${fx(1.5 + rnd() * 2.5)}" fill="${color}"><animateTransform attributeName="transform" type="translate" values="0 0;${dx} ${dy};0 0" dur="${fx(5 + rnd() * 6)}s" begin="-${fx(rnd() * 6)}s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;0" dur="${fx(2 + rnd() * 3)}s" begin="-${fx(rnd() * 3)}s" repeatCount="indefinite"/></circle>`;
-    }
-    return s;
-}
-
-/** Ilustración SVG animada de respaldo: 8 escenas, siempre funciona (sin red ni librerías). */
-function crearSvg(tematica, semilla, ancho, alto, pistas = '') {
-    const rnd = mulberry32(semilla);
-    const W = ancho, H = alto;
-    const base = matices(tematica);
-    const hue = base[Math.floor(rnd() * 3)];
-    const escena = elegirEscena(tematica, pistas, semilla);
-    const hsl = (h, s, l) => `hsl(${Math.round(((h % 360) + 360) % 360)},${s}%,${l}%)`;
-    const grad = (id, stops, vertical = true) => `<linearGradient id="${id}" x1="0" y1="0" x2="${vertical ? 0 : 1}" y2="${vertical ? 1 : 0}">${stops.map(([o, c]) => `<stop offset="${o}" stop-color="${c}"/>`).join('')}</linearGradient>`;
-    let defs = '', cuerpo = '';
-
-    if (escena === 'espacio') {
-        defs = grad('c', [[0, hsl(hue + 230, 70, 6)], [0.6, hsl(hue + 250, 60, 14)], [1, hsl(hue + 280, 55, 22)]]) +
-            `<radialGradient id="p" cx="0.35" cy="0.35" r="0.8"><stop offset="0" stop-color="${hsl(hue + 20, 75, 70)}"/><stop offset="1" stop-color="${hsl(hue + 10, 70, 18)}"/></radialGradient><filter id="b"><feGaussianBlur stdDeviation="${fx(W * 0.05)}"/></filter>`;
-        cuerpo = `<rect width="${W}" height="${H}" fill="url(#c)"/>`;
-        for (let i = 0; i < 5; i++) cuerpo += `<circle cx="${fx(rnd() * W)}" cy="${fx(rnd() * H)}" r="${fx(W * (0.15 + rnd() * 0.2))}" fill="${hsl(hue + rnd() * 120, 80, 50)}" opacity="0.22" filter="url(#b)"><animate attributeName="opacity" values="0.12;0.3;0.12" dur="${fx(8 + rnd() * 6)}s" repeatCount="indefinite"/></circle>`;
-        cuerpo += svgEstrellas(rnd, W, H, 90, 1);
-        const px = fx(W * (0.3 + rnd() * 0.4)), py = fx(H * (0.35 + rnd() * 0.2)), pr = fx(Math.min(W, H) * 0.2);
-        cuerpo += `<g><ellipse cx="${px}" cy="${py}" rx="${fx(pr * 1.8)}" ry="${fx(pr * 0.35)}" fill="none" stroke="${hsl(hue + 40, 70, 75)}" stroke-width="${fx(pr * 0.08)}" opacity="0.6" transform="rotate(-18 ${px} ${py})"/><circle cx="${px}" cy="${py}" r="${pr}" fill="url(#p)"/><animateTransform attributeName="transform" type="translate" values="0 0;0 ${fx(H * 0.02)};0 0" dur="9s" repeatCount="indefinite"/></g>`;
-        cuerpo += `<line x1="0" y1="0" x2="${fx(W * 0.12)}" y2="${fx(H * 0.05)}" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity="0"><animateTransform attributeName="transform" type="translate" values="${fx(W * 0.9)} ${fx(H * 0.05)};${fx(W * 0.2)} ${fx(H * 0.4)}" dur="7s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0;1;0" keyTimes="0;0.7;0.78;1" dur="7s" repeatCount="indefinite"/></line>`;
-    } else if (escena === 'mar') {
-        defs = grad('c', [[0, hsl(hue + 220, 55, 14)], [0.55, hsl(hue + 10, 80, 45)], [1, hsl(hue + 35, 90, 70)]]) + grad('m', [[0, hsl(hue + 20, 60, 30)], [1, hsl(hue + 230, 60, 8)]]) +
-            `<radialGradient id="s" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#fff6d8"/><stop offset="1" stop-color="#fff6d8" stop-opacity="0"/></radialGradient>`;
-        const hz = fx(H * 0.6);
-        cuerpo = `<rect width="${W}" height="${H}" fill="url(#c)"/>` + svgEstrellas(rnd, W, H, 40, 0.3) + svgNubes(rnd, W, H, 4, hsl(hue + 20, 70, 80), 0.3, 0.35);
-        const sx = fx(W * (0.3 + rnd() * 0.4));
-        cuerpo += `<circle cx="${sx}" cy="${hz}" r="${fx(W * 0.28)}" fill="url(#s)"/><circle cx="${sx}" cy="${hz}" r="${fx(W * 0.07)}" fill="#fff3cf"/>`;
-        cuerpo += `<rect y="${hz}" width="${W}" height="${fx(H - hz)}" fill="url(#m)"/>`;
-        for (let i = 0; i < 8; i++) cuerpo += `<ellipse cx="${sx}" cy="${fx(hz + 8 + i * (H - hz) / 9)}" rx="${fx(W * (0.12 - i * 0.008))}" ry="2" fill="#fff0c0" opacity="0.5"><animate attributeName="rx" values="${fx(W * (0.12 - i * 0.008))};${fx(W * (0.06 - i * 0.004))};${fx(W * (0.12 - i * 0.008))}" dur="${fx(2 + rnd() * 2)}s" repeatCount="indefinite"/></ellipse>`;
-        for (let i = 0; i < 7; i++) { const y = fx(hz + 14 + i * (H - hz) / 7.5), m = fx(12 + rnd() * 20); cuerpo += `<path d="M-60,${y} Q${fx(W * 0.1)},${y - 6} ${fx(W * 0.2)},${y} T${fx(W * 0.4)},${y} T${fx(W * 0.6)},${y} T${fx(W * 0.8)},${y} T${W + 60},${y}" fill="none" stroke="${hsl(hue + 30, 70, 75)}" stroke-width="1.5" opacity="0.35"><animateTransform attributeName="transform" type="translate" values="-${m} 0;${m} 0;-${m} 0" dur="${fx(4 + rnd() * 4)}s" repeatCount="indefinite"/></path>`; }
-        const bx = fx(W * (0.58 + rnd() * 0.25)), by = fx(hz + (H - hz) * 0.18);
-        cuerpo += `<g fill="#0a0a12"><path d="M${bx - 38},${by} L${bx + 38},${by} L${bx + 26},${by + 12} L${bx - 28},${by + 12} Z"/><rect x="${bx - 1}" y="${by - 52}" width="2.4" height="52"/><path d="M${bx + 3},${by - 50} L${bx + 32},${by - 8} L${bx + 3},${by - 8} Z"/><path d="M${bx - 3},${by - 40} L${bx - 24},${by - 8} L${bx - 3},${by - 8} Z"/><animateTransform attributeName="transform" type="translate" values="0 0;0 4;0 0" dur="5s" repeatCount="indefinite"/></g>`;
-    } else if (escena === 'ciudad') {
-        defs = grad('c', [[0, hsl(hue + 240, 60, 5)], [0.7, hsl(hue + 255, 55, 15)], [1, hsl(hue + 300, 60, 28)]]);
-        cuerpo = `<rect width="${W}" height="${H}" fill="url(#c)"/>` + svgEstrellas(rnd, W, H, 25, 0.35) +
-            `<circle cx="${fx(W * (0.2 + rnd() * 0.6))}" cy="${fx(H * 0.2)}" r="${fx(W * 0.07)}" fill="#e9ecff" opacity="0.85"/>` + svgNubes(rnd, W, H, 4, hsl(hue + 260, 40, 20), 0.35, 0.8);
-        let x = 0;
-        for (let capa = 0; capa < 2; capa++) {
-            x = -10;
-            const oscuro = capa === 0 ? hsl(hue + 250, 40, 9) : hsl(hue + 250, 35, 4);
-            while (x < W) {
-                const bw = fx(W * (0.05 + rnd() * 0.08)), bh = fx(H * (capa === 0 ? 0.25 + rnd() * 0.35 : 0.14 + rnd() * 0.22)), by = fx(H - bh);
-                cuerpo += `<rect x="${fx(x)}" y="${by}" width="${bw}" height="${bh}" fill="${oscuro}"/>`;
-                if (capa === 1) for (let k = 0; k < 14; k++) cuerpo += `<rect x="${fx(x + 4 + rnd() * (bw - 10))}" y="${fx(by + 6 + rnd() * (bh - 14))}" width="3.5" height="5" fill="${rnd() > 0.5 ? '#ffd98a' : '#8fe3ff'}" opacity="0.9">${rnd() > 0.7 ? `<animate attributeName="opacity" values="0.9;0.15;0.9" dur="${fx(1.5 + rnd() * 4)}s" repeatCount="indefinite"/>` : ''}</rect>`;
-                x += bw + fx(rnd() * 6);
-            }
-        }
-        cuerpo += `<rect x="${fx(W * 0.15)}" y="${fx(H * 0.62)}" width="${fx(W * 0.22)}" height="6" rx="3" fill="${hsl(hue, 100, 65)}" opacity="0.9"><animate attributeName="opacity" values="0.95;0.4;0.95;0.7;0.95" dur="3s" repeatCount="indefinite"/></rect>`;
-        for (let i = 0; i < 60; i++) { const lx = fx(rnd() * W), ly = fx(rnd() * H * 0.9), d = fx(1 + rnd() * 1.2); cuerpo += `<line x1="${lx}" y1="${ly}" x2="${fx(lx - 6)}" y2="${fx(ly + 20)}" stroke="#bcd8ff" stroke-width="1" opacity="0.4"><animateTransform attributeName="transform" type="translate" values="0 -${fx(H * 0.1)};${fx(-W * 0.02)} ${fx(H * 0.12)}" dur="${d}s" begin="-${fx(rnd() * 2)}s" repeatCount="indefinite"/></line>`; }
-    } else if (escena === 'bosque') {
-        defs = grad('c', [[0, hsl(hue + 190, 60, 6)], [1, hsl(hue + 170, 50, 22)]]);
-        cuerpo = `<rect width="${W}" height="${H}" fill="url(#c)"/>` + svgEstrellas(rnd, W, H, 40, 0.4) +
-            `<circle cx="${fx(W * (0.25 + rnd() * 0.5))}" cy="${fx(H * 0.2)}" r="${fx(W * 0.09)}" fill="#f4f1d2"/>` + svgNubes(rnd, W, H, 3, hsl(hue + 180, 30, 25), 0.35, 0.6);
-        for (let capa = 0; capa < 3; capa++) {
-            const col = hsl(hue + 170, 45 - capa * 8, 14 - capa * 4), yb = H * (0.62 + capa * 0.12);
-            cuerpo += svgCapa(rnd, W, H, fx(yb + H * 0.05), H * 0.03, col, 8, false);
-            let x = -10;
-            while (x < W + 10) {
-                const th = fx(H * (0.14 + rnd() * 0.16 + (2 - capa) * 0.04)), tw = fx(th * 0.45);
-                cuerpo += `<path d="M${fx(x)},${fx(yb + H * 0.06)} L${fx(x + tw / 2)},${fx(yb + H * 0.06 - th)} L${fx(x + tw)},${fx(yb + H * 0.06)} Z" fill="${col}"/>`;
-                x += fx(tw * (0.55 + rnd() * 0.4));
-            }
-        }
-        cuerpo += svgLuciernagas(rnd, W, H, 26, '#d8ff7a', 0.45);
-    } else if (escena === 'desierto') {
-        const hd = 18 + rnd() * 22; // el desierto siempre es cálido
-        defs = grad('c', [[0, hsl(hd + 330, 70, 25)], [0.5, hsl(hd + 20, 85, 55)], [1, hsl(hd + 45, 90, 78)]]) + `<radialGradient id="s" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#fff2c4"/><stop offset="1" stop-color="#fff2c4" stop-opacity="0"/></radialGradient>`;
-        const sx = fx(W * (0.3 + rnd() * 0.4)), sy = fx(H * 0.42);
-        cuerpo = `<rect width="${W}" height="${H}" fill="url(#c)"/><circle cx="${sx}" cy="${sy}" r="${fx(W * 0.3)}" fill="url(#s)"/><circle cx="${sx}" cy="${sy}" r="${fx(W * 0.09)}" fill="#fff4cf"/>` + svgNubes(rnd, W, H, 4, hsl(hd + 30, 80, 85), 0.3, 0.4);
-        for (let i = 0; i < 3; i++) cuerpo += svgCapa(rnd, W, H, fx(H * (0.55 + i * 0.14)), H * 0.12, hsl(hd - 2 - i * 5, 70 - i * 6, 38 - i * 10), 6, false);
-        for (let i = 0; i < 5; i++) { const bx = fx(rnd() * W * 0.6), by = fx(H * (0.12 + rnd() * 0.2)); cuerpo += `<path d="M0,0 q4,-5 8,0 q4,-5 8,0" fill="none" stroke="#2a1a14" stroke-width="1.4" transform="translate(${bx} ${by})"><animateTransform attributeName="transform" type="translate" values="${bx} ${by};${fx(bx + W * 0.5)} ${fx(by - H * 0.05)}" dur="${fx(14 + rnd() * 10)}s" repeatCount="indefinite"/></path>`; }
-    } else if (escena === 'montana') {
-        defs = grad('c', [[0, hsl(hue + 230, 65, 5)], [1, hsl(hue + 215, 55, 20)]]) + `<filter id="b"><feGaussianBlur stdDeviation="${fx(W * 0.03)}"/></filter>`;
-        cuerpo = `<rect width="${W}" height="${H}" fill="url(#c)"/>` + svgEstrellas(rnd, W, H, 80, 0.7);
-        const cols = ['#3dffb0', '#7a6bff', '#38d9ff'];
-        for (let i = 0; i < 3; i++) cuerpo += `<path d="M-20,${fx(H * (0.2 + i * 0.07))} C${fx(W * 0.25)},${fx(H * (0.05 + i * 0.07))} ${fx(W * 0.5)},${fx(H * (0.4 + i * 0.05))} ${fx(W * 0.75)},${fx(H * (0.15 + i * 0.06))} S${W + 20},${fx(H * 0.12)} ${W + 20},${fx(H * 0.2)} L${W + 20},${fx(H * 0.45)} L-20,${fx(H * 0.45)} Z" fill="${cols[i]}" opacity="0.28" filter="url(#b)"><animate attributeName="opacity" values="0.15;0.42;0.15" dur="${fx(6 + i * 2)}s" repeatCount="indefinite"/><animateTransform attributeName="transform" type="translate" values="-${fx(W * 0.04)} 0;${fx(W * 0.04)} 0;-${fx(W * 0.04)} 0" dur="${fx(12 + i * 3)}s" repeatCount="indefinite"/></path>`;
-        for (let i = 0; i < 3; i++) cuerpo += svgCapa(rnd, W, H, fx(H * (0.62 + i * 0.1)), H * 0.3 - i * H * 0.07, hsl(hue + 225, 35 - i * 6, 16 - i * 5), 7 + i, true);
-    } else if (escena === 'escenario') {
-        defs = grad('c', [[0, hsl(hue + 340, 60, 6)], [1, hsl(hue + 345, 50, 15)]]) + grad('k', [[0, hsl(hue + 350, 75, 24)], [1, hsl(hue + 350, 80, 10)]], false) +
-            `<linearGradient id="l" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff2c8" stop-opacity="0.75"/><stop offset="1" stop-color="#fff2c8" stop-opacity="0"/></linearGradient>`;
-        cuerpo = `<rect width="${W}" height="${H}" fill="url(#c)"/>`;
-        for (let i = 0; i < 2; i++) {
-            const x = fx(W * (0.28 + i * 0.44)), sw = fx(rnd() * 4 + 4);
-            cuerpo += `<g><polygon points="${x},0 ${fx(x - W * 0.2)},${fx(H * 0.78)} ${fx(x + W * 0.2)},${fx(H * 0.78)}" fill="url(#l)"/><animateTransform attributeName="transform" type="rotate" values="-${sw} ${x} 0;${sw} ${x} 0;-${sw} ${x} 0" dur="${fx(6 + i * 2)}s" repeatCount="indefinite"/></g>`;
-        }
-        cuerpo += `<rect y="${fx(H * 0.78)}" width="${W}" height="${fx(H * 0.22)}" fill="${hsl(hue + 20, 45, 14)}"/><ellipse cx="${fx(W / 2)}" cy="${fx(H * 0.8)}" rx="${fx(W * 0.28)}" ry="${fx(H * 0.03)}" fill="#fff2c8" opacity="0.35"/>`;
-        for (const lado of [0, 1]) {
-            const x0 = lado ? W : 0, dir = lado ? -1 : 1;
-            let d = `M${x0},0`;
-            for (let i = 0; i <= 8; i++) d += ` Q${fx(x0 + dir * (W * 0.16 + (i % 2 ? 14 : -4)))},${fx(H * (i + 0.5) / 8.5)} ${fx(x0 + dir * (W * 0.14 + (i % 2 ? 6 : 0)))},${fx(H * (i + 1) / 8.5)}`;
-            cuerpo += `<path d="${d} L${x0},${H} Z" fill="url(#k)"><animateTransform attributeName="transform" type="translate" values="0 0;${dir * 5} 0;0 0" dur="6s" repeatCount="indefinite"/></path>`;
-        }
-        cuerpo += `<rect width="${W}" height="${fx(H * 0.07)}" fill="${hsl(hue + 350, 75, 12)}"/>`;
-        for (let i = 0; i < 14; i++) { const cx = fx((i + 0.5) * W / 14 + (rnd() - 0.5) * 14), cy = fx(H * (0.93 + rnd() * 0.03)); cuerpo += `<circle cx="${cx}" cy="${cy}" r="${fx(W * 0.03)}" fill="#05030a"/><rect x="${fx(cx - W * 0.035)}" y="${fx(cy + W * 0.02)}" width="${fx(W * 0.07)}" height="${fx(H * 0.12)}" rx="8" fill="#05030a"/>`; }
-        cuerpo += svgLuciernagas(rnd, W, H * 0.8, 24, '#ffe9b0', 0.05);
-    } else { // castillo
-        defs = grad('c', [[0, hsl(hue + 240, 60, 8)], [0.7, hsl(hue + 330, 65, 30)], [1, hsl(hue + 20, 80, 52)]]);
-        const mx = fx(W * (0.65 + rnd() * 0.2));
-        cuerpo = `<rect width="${W}" height="${H}" fill="url(#c)"/>` + svgEstrellas(rnd, W, H, 50, 0.45) + `<circle cx="${mx}" cy="${fx(H * 0.25)}" r="${fx(W * 0.12)}" fill="#fff6dd" opacity="0.92"/>` + svgNubes(rnd, W, H, 4, hsl(hue + 330, 40, 22), 0.4, 0.7);
-        cuerpo += svgCapa(rnd, W, H, fx(H * 0.78), H * 0.08, hsl(hue + 250, 30, 7), 6, false);
-        const cx = fx(W * (0.25 + rnd() * 0.25)), cb = fx(H * 0.78), cw = fx(W * 0.34);
-        cuerpo += `<g fill="#06040c"><rect x="${cx}" y="${fx(cb - H * 0.16)}" width="${cw}" height="${fx(H * 0.2)}"/>`;
-        [[0, 0.3], [cw * 0.38, 0.38], [cw - W * 0.07, 0.3]].forEach(([dx, th], i) => { const tw = fx(W * 0.07), tx = fx(cx + dx), ty = fx(cb - H * th); cuerpo += `<rect x="${tx}" y="${ty}" width="${tw}" height="${fx(cb - ty + H * 0.04)}"/><polygon points="${fx(tx - 6)},${ty} ${fx(tx + tw / 2)},${fx(ty - H * 0.09)} ${fx(tx + tw + 6)},${ty}"/>`; if (i !== 1) cuerpo += `<rect x="${fx(tx + tw / 2 - 1)}" y="${fx(ty - H * 0.16)}" width="2" height="${fx(H * 0.07)}"/>`; });
-        cuerpo += `</g>`;
-        for (let i = 0; i < 6; i++) cuerpo += `<rect x="${fx(cx + cw * (0.1 + rnd() * 0.8))}" y="${fx(cb - H * (0.04 + rnd() * 0.24))}" width="4" height="7" fill="#ffc861"><animate attributeName="opacity" values="1;0.35;1;0.7;1" dur="${fx(1.5 + rnd() * 2)}s" begin="-${fx(rnd() * 2)}s" repeatCount="indefinite"/></rect>`;
-        for (let i = 0; i < 4; i++) { const by = fx(H * (0.15 + rnd() * 0.25)); cuerpo += `<path d="M0,0 q6,-6 12,0 q6,-6 12,0 q-6,3 -12,3 q-6,-3 -12,-3" fill="#05030a" transform="translate(0 ${by})"><animateTransform attributeName="transform" type="translate" values="-30 ${by};${W + 30} ${fx(by - H * 0.06)}" dur="${fx(12 + rnd() * 8)}s" begin="-${fx(rnd() * 10)}s" repeatCount="indefinite"/></path>`; }
-        cuerpo += svgCapa(rnd, W, H, fx(H * 0.92), H * 0.05, '#030208', 5, false);
-    }
-    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" preserveAspectRatio="xMidYMid slice"><defs>${defs}</defs>${cuerpo}</svg>`;
 }
 
 function detectarImagen(buf) {
@@ -514,12 +355,15 @@ function detectarImagen(buf) {
     return null;
 }
 
-let cloudflareAgotado = false;   // se activa al agotar la cuota diaria: no se insiste más en esta ejecución
-let imagenesIA = 0, imagenesSVG = 0;
+let cloudflareAgotado = false;
+let imagenesIA = 0;
 
 async function imagenCloudflare(prompt) {
     if (!CF_ACCOUNT_ID || !CF_API_TOKEN) {
-        if (!imagenCloudflare.avisado) { console.log('  ⚠️ Cloudflare no configurado (faltan CLOUDFLARE_ACCOUNT_ID o CLOUDFLARE_API_TOKEN).'); imagenCloudflare.avisado = true; }
+        if (!imagenCloudflare.avisado) {
+            console.log('  ⚠️ Cloudflare no configurado (faltan CLOUDFLARE_ACCOUNT_ID o CLOUDFLARE_API_TOKEN).');
+            imagenCloudflare.avisado = true;
+        }
         return null;
     }
     if (cloudflareAgotado) return null;
@@ -530,7 +374,7 @@ async function imagenCloudflare(prompt) {
                 {
                     method: 'POST',
                     headers: { 'Authorization': `Bearer ${CF_API_TOKEN}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ prompt: prompt.slice(0, 1900), steps: 4 })   // FLUX schnell está pensado para 4 pasos
+                    body: JSON.stringify({ prompt: prompt.slice(0, 1900), steps: 4 })
                 }, 90000);
 
             const tipo = res.headers.get('content-type') || '';
@@ -553,13 +397,12 @@ async function imagenCloudflare(prompt) {
             console.warn(`  ⚠️ Falló Cloudflare (intento ${intento}): ${e.message}`);
             if (/HTTP 429|4006|daily free allocation|neurons|quota|rate limit/i.test(e.message)) {
                 cloudflareAgotado = true;
-                console.error('  ❌ CUOTA DIARIA GRATUITA DE CLOUDFLARE AGOTADA (10.000 neuronas/día, se renueva a las 00:00 UTC).');
-                console.error('     El resto de imágenes de esta ejecución usará las ilustraciones animadas de respaldo.');
+                console.error('  ❌ CUOTA DIARIA DE CLOUDFLARE AGOTADA. Se usará Pollinations + ffmpeg para las imágenes.');
                 return null;
             }
             if (/HTTP (401|403)/i.test(e.message)) {
                 cloudflareAgotado = true;
-                console.error('  ❌ Error de autenticación con Cloudflare: revisa que el Token tenga permiso "Workers AI" y que el Account ID sea correcto.');
+                console.error('  ❌ Error de autenticación con Cloudflare. Se usará Pollinations + ffmpeg.');
                 return null;
             }
             await dormir(3000 * intento);
@@ -571,22 +414,21 @@ async function imagenCloudflare(prompt) {
 async function imagenPollinations(prompt, ancho, alto, semilla) {
     if (!POLLINATIONS_KEY) return null;
     try {
-        console.log('  🌸 Respaldando con Pollinations AI...');
+        console.log('  🌸 Generando con Pollinations AI...');
         const url = 'https://gen.pollinations.ai/image/' + encodeURIComponent(prompt.slice(0, 1500)) +
             `?model=flux&width=${ancho}&height=${alto}&seed=${semilla}&nologo=true&key=${encodeURIComponent(POLLINATIONS_KEY)}`;
-        const res = await fetchConTimeout(url, {}, 90000);
+        const res = await fetchConTimeout(url, {}, 120000);
         const buf = Buffer.from(await res.arrayBuffer());
         const ext = detectarImagen(buf);
         if (!res.ok || !ext || buf.length < 5000) throw new Error(`HTTP ${res.status}`);
         console.log('  ✅ Imagen generada con éxito mediante Pollinations.');
         return { buf, ext };
-    } catch (e) { 
+    } catch (e) {
         console.warn(`  ⚠️ Falló Pollinations: ${e.message}`);
-        return null; 
+        return null;
     }
 }
 
-/** FLUX (Cloudflare) devuelve siempre 1024x1024: recorta al centro hasta la proporción pedida (16:9, 9:16, 3:2...) con ffmpeg. */
 function recortarAProporcion(buf, ext, ancho, alto) {
     const id = `${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
     const entrada = path.join(os.tmpdir(), `sc_in_${id}.${ext}`);
@@ -600,51 +442,66 @@ function recortarAProporcion(buf, ext, ancho, alto) {
             const out = fs.readFileSync(salida);
             if (out.length > 3000) return { buf: out, ext: 'jpg' };
         }
-        console.warn(`  ⚠️ No pude recortar la imagen (ffmpeg ${r.status}); la dejo como llegó.`);
-    } catch (e) {
-        console.warn(`  ⚠️ No pude recortar la imagen: ${e.message}`);
+        const motivo = (r.stderr || r.error?.message || '').trim().slice(0, 300);
+        throw new Error(`ffmpeg no pudo recortar la imagen a ${ancho}x${alto} (código ${r.status}). ${motivo}`);
     } finally {
         [entrada, salida].forEach(f => { try { fs.unlinkSync(f); } catch (e) { /* ya no existe */ } });
     }
-    return { buf, ext };
 }
 
-/** Pide una imagen a la IA (Cloudflare → Pollinations). Devuelve {buf, ext} o null. */
-async function obtenerImagenIA(prompt, ancho, alto, semilla) {
-    return (await imagenCloudflare(prompt)) || (await imagenPollinations(prompt, ancho, alto, semilla));
+function generarFondoFfmpeg(ancho, alto, tematica) {
+    const [h1, h2] = matices(tematica);
+    const c1 = `0x${rgbHex(h1, 60, 15)}`;
+    const c2 = `0x${rgbHex(h2, 80, 55)}`;
+    const id = `${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+    const salida = path.join(os.tmpdir(), `sc_bg_${id}.jpg`);
+    try {
+        const filtro = `gradients=s=${ancho}x${alto}:c0=${c1}:c1=${c2}:x0=0:y0=0:x1=${ancho}:y1=${alto},format=yuv420p`;
+        const r = spawnSync('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'lavfi', '-i', filtro, '-frames:v', '1', '-q:v', '2', salida], { timeout: 60000, encoding: 'utf8' });
+        if (r.status !== 0 || !fs.existsSync(salida)) {
+            throw new Error(`ffmpeg no pudo generar fondo degradado (código ${r.status}): ${(r.stderr || '').slice(0, 200)}`);
+        }
+        return { buf: fs.readFileSync(salida), ext: 'jpg' };
+    } finally {
+        try { fs.unlinkSync(salida); } catch (e) { /* ya no existe */ }
+    }
 }
 
-/** Guarda una imagen en la ruta dada (con la proporción exacta), usando la IA o, si no, una ilustración SVG animada. */
-function guardarImagen({ rutaRelativa, base, tematica, ancho, alto, semilla, pistas }) {
+async function obtenerImagenIA(prompt, ancho, alto, semilla, tematica) {
+    let base = await imagenCloudflare(prompt);
+    if (!base) base = await imagenPollinations(prompt, ancho, alto, semilla);
+    if (!base) {
+        console.warn('  🔁 Reintentando Pollinations con semilla alternativa...');
+        base = await imagenPollinations(prompt, ancho, alto, semilla + 7777);
+    }
+    if (!base) {
+        console.warn('  🎨 Generando fondo degradado con ffmpeg (último recurso)...');
+        base = generarFondoFfmpeg(ancho, alto, tematica);
+    }
+    return recortarAProporcion(base.buf, base.ext, ancho, alto);
+}
+
+function guardarImagen({ rutaRelativa, baseRecortada }) {
     const rutaAbsoluta = path.join(RAIZ, rutaRelativa);
     asegurarCarpeta(path.dirname(rutaAbsoluta));
-    if (base) {
-        const img = recortarAProporcion(base.buf, base.ext, ancho, alto);
-        const rutaFinal = `${rutaRelativa}.${img.ext}`;
-        fs.writeFileSync(path.join(RAIZ, rutaFinal), img.buf);
-        return { ruta: rutaFinal, ia: true };
-    }
-    const rutaFinal = `${rutaRelativa}.svg`;
-    fs.writeFileSync(path.join(RAIZ, rutaFinal), crearSvg(tematica, semilla, ancho, alto, pistas));
-    return { ruta: rutaFinal, ia: false };
+    const rutaFinal = `${rutaRelativa}.${baseRecortada.ext}`;
+    fs.writeFileSync(path.join(RAIZ, rutaFinal), baseRecortada.buf);
+    return { ruta: rutaFinal, ia: true };
 }
 
-async function crearImagenEnRuta({ rutaRelativa, prompt, tematica, ancho, alto, semilla, pistas }) {
-    const base = await obtenerImagenIA(prompt, ancho, alto, semilla);
-    const r = guardarImagen({ rutaRelativa, base, tematica, ancho, alto, semilla, pistas });
-    if (r.ia) imagenesIA++; else imagenesSVG++;
+async function crearImagenEnRuta({ rutaRelativa, prompt, tematica, ancho, alto, semilla }) {
+    const recortada = await obtenerImagenIA(prompt, ancho, alto, semilla, tematica);
+    const r = guardarImagen({ rutaRelativa, baseRecortada: recortada });
+    imagenesIA++;
     return r;
 }
 
 // ───────────────────────── 4. VOZ DEL NARRADOR ─────────────────────────
-// Principal: Microsoft Edge TTS (voces neuronales, gratis).  Respaldo: Piper (local), si Microsoft bloquea al runner.
-// El narrador lee SOLO el texto del capítulo: no dice "Capítulo N" ni el título.
 function textoParaNarrar(texto) {
     return (texto || '').replace(/\r/g, '').split(/\n+/).map(l => l.trim()).filter(Boolean).join('\n\n');
 }
 
-let edgeCaido = false;   // si Microsoft rechaza varias veces, no seguimos perdiendo tiempo en esta ejecución
-let vocesEdge = 0, vocesPiper = 0;
+let edgeCaido = false;
 
 async function crearVozEdge(texto, rutaRel, voz = EDGE_VOICE) {
     if (edgeCaido) return false;
@@ -661,13 +518,13 @@ async function crearVozEdge(texto, rutaRel, voz = EDGE_VOICE) {
             const motivo = ((r.stderr || '') + (r.error ? ' ' + r.error.message : '')).trim().split('\n').slice(-2).join(' | ').slice(0, 260);
             console.warn(`  ⚠️ Edge TTS (intento ${intento}/3): ${motivo || 'sin detalle (código ' + r.status + ')'}`);
             try { fs.unlinkSync(mp3); } catch (e) { /* no se llegó a crear */ }
-            if (/No module named|ENOENT/i.test(motivo)) { sinModulo = true; break; }   // edge-tts no está instalado: reintentar no sirve
+            if (/No module named|ENOENT/i.test(motivo)) { sinModulo = true; break; }
             if (intento < 3) await dormir(4000 * intento);
         }
         edgeCaido = true;
         console.error(sinModulo
-            ? '  ❌ El paquete edge-tts no está instalado en este servidor (revisa el paso "Instalar Edge TTS" del workflow). Uso Piper como respaldo si está instalado.'
-            : '  ❌ Edge TTS no responde desde este servidor (Microsoft lo bloquea a veces). Uso Piper como respaldo si está instalado.');
+            ? '  ❌ El paquete edge-tts no está instalado en este servidor. Uso Piper como respaldo si está instalado.'
+            : '  ❌ Edge TTS no responde desde este servidor. Uso Piper como respaldo si está instalado.');
         return false;
     } finally {
         try { fs.unlinkSync(txt); } catch (e) { /* ya no existe */ }
@@ -694,10 +551,9 @@ function crearVozPiper(texto, rutaRel) {
     }
 }
 
-/** Devuelve 'edge', 'piper' o false. */
 async function crearVoz(texto, rutaRel, voz, lang) {
-    if (await crearVozEdge(texto, rutaRel, voz)) { vocesEdge++; return 'edge'; }
-    if (lang === 'es' && crearVozPiper(texto, rutaRel)) { vocesPiper++; return 'piper'; }
+    if (await crearVozEdge(texto, rutaRel, voz)) return 'edge';
+    if (lang === 'es' && crearVozPiper(texto, rutaRel)) return 'piper';
     return false;
 }
 
@@ -743,6 +599,208 @@ function generarHtmlStory({ titulo, fraseInspiracion, autor, coverImg, coverMobi
     ].join('\n');
 }
 
+// ───────────────────────── 5.1. GENERADOR DE SECRETOS ─────────────────────────
+function generarSecretosHtml({ titulo, tituloEn, fraseInspiracion, fraseInspiracionEn, sinopsis, sinopsisEn, secretosEs, secretosEn, portadaImg }) {
+    const translations = {
+        es: {
+            pageBadge: "LaIAmusical - Secretos",
+            pageTitle: titulo,
+            pageSubtitle: "Descubre los misterios ocultos y las revelaciones de esta historia. Haz clic en cualquier secreto para desvelar su trasfondo.",
+            backButton: "Volver al Reproductor",
+            modalClose: "Entendido",
+            reveal: "Revelar secreto",
+            secrets: secretosEs
+        },
+        en: {
+            pageBadge: "The Musical AI - Secrets",
+            pageTitle: tituloEn,
+            pageSubtitle: "Discover the hidden mysteries and revelations of this story. Click any secret to reveal its background.",
+            backButton: "Back to the Player",
+            modalClose: "Got it",
+            reveal: "Reveal secret",
+            secrets: secretosEn
+        }
+    };
+    const cardsEs = secretosEs.map((s, i) => `
+        <div onclick="openSecretModal(${i + 1})" class="secret-card p-5 rounded-2xl cursor-pointer flex flex-col justify-between group">
+            <div>
+                <div class="w-10 h-10 rounded-xl ${s.colorClass} flex items-center justify-center mb-4 group-hover:text-white transition-colors">
+                    <i class="fas ${s.icon} text-lg"></i>
+                </div>
+                <h3 class="font-bold text-lg text-purple-200 mb-2 group-hover:text-white transition-colors">${s.title}</h3>
+                <p class="text-sm text-gray-300/80 line-clamp-3">${s.text}</p>
+            </div>
+            <div class="mt-4 text-xs font-semibold text-purple-400 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                <span>Revelar secreto</span> <i class="fas fa-arrow-right text-[10px]"></i>
+            </div>
+        </div>`).join('');
+
+    return `<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secretos: ${titulo}</title>
+<script src="https://cdn.tailwindcss.com"><\/script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+body { background-image: url('../images/fondostorycards.png'); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed; color: white; min-height: 100vh; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+.glass-panel { background: rgba(15, 12, 30, 0.75); backdrop-filter: blur(12px); border: 1px solid rgba(139, 92, 246, 0.3); }
+.secret-card { background: rgba(30, 27, 75, 0.5); border: 1px solid rgba(139, 92, 246, 0.2); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+.secret-card:hover { transform: translateY(-4px); border-color: rgba(167, 139, 250, 0.6); box-shadow: 0 10px 25px -5px rgba(139, 92, 246, 0.3); }
+.modal-section { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 0.75rem; padding: 1rem; margin-top: 0.75rem; }
+</style>
+</head>
+<body class="p-4 md:p-8 flex flex-col items-center justify-center">
+<div class="w-full max-w-4xl mx-auto flex flex-col min-h-[85vh] justify-between">
+<header class="text-center my-6">
+<div class="inline-flex items-center gap-3 bg-purple-900/40 px-4 py-2 rounded-full border border-purple-500/30 mb-4">
+<i class="fas fa-user-astronaut text-purple-400 animate-pulse"></i>
+<span id="pageBadge" class="text-xs uppercase tracking-widest font-semibold text-purple-200">LaIAmusical - Secretos</span>
+</div>
+<h1 id="pageTitle" class="text-3xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-purple-300 via-pink-200 to-indigo-200 drop-shadow-sm">${titulo}</h1>
+<p id="pageSubtitle" class="text-purple-200/70 mt-2 text-sm md:text-base max-w-xl mx-auto">Descubre los misterios ocultos y las revelaciones de esta historia. Haz clic en cualquier secreto para desvelar su trasfondo.</p>
+</header>
+<main id="secretsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 my-6">
+${cardsEs}
+</main>
+<footer class="text-center mt-auto py-6">
+<a id="backButton" href="../reproductor.html" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all border border-white/10"><i class="fas fa-arrow-left"></i> Volver al Reproductor</a>
+</footer>
+</div>
+<div id="secretModal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden items-center justify-center z-50 p-4 transition-all duration-300 opacity-0 overflow-y-auto">
+<div class="glass-panel w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl transform scale-95 transition-all duration-300 p-6 md:p-8 relative my-8">
+<button onclick="closeSecretModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-gray-300 hover:text-white transition-colors"><i class="fas fa-times"></i></button>
+<div id="modalIconContainer" class="w-14 h-14 rounded-2xl flex items-center justify-center mb-5 text-2xl"><i id="modalIcon" class="fas fa-star"></i></div>
+<h2 id="modalTitle" class="text-2xl md:text-3xl font-extrabold mb-3 text-white tracking-tight">Título del Secreto</h2>
+<div class="h-[1px] w-full bg-gradient-to-r from-purple-500/50 to-transparent mb-6"></div>
+<div class="text-gray-200 text-sm md:text-base leading-relaxed" id="modalBody"></div>
+<div class="mt-8 pt-4 border-t border-white/5 flex justify-end">
+<button id="modalCloseBtn" onclick="closeSecretModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition-all shadow-lg shadow-purple-900/40">Entendido</button>
+</div></div></div>
+<script>
+const translations = ${safeJson(translations)};
+function getCurrentLanguage(){ return localStorage.getItem('selectedLanguage') || 'es'; }
+function applyTranslations(){
+  const lang = getCurrentLanguage();
+  const content = translations[lang] || translations.es;
+  document.documentElement.lang = translations[lang] ? lang : 'es';
+  document.title = (lang === 'en' ? 'Secrets: ' : 'Secretos: ') + content.pageTitle;
+  document.getElementById('pageBadge').textContent = content.pageBadge;
+  document.getElementById('pageTitle').textContent = content.pageTitle;
+  document.getElementById('pageSubtitle').textContent = content.pageSubtitle;
+  document.getElementById('backButton').innerHTML = '<i class="fas fa-arrow-left"></i> ' + content.backButton;
+  document.getElementById('modalCloseBtn').textContent = content.modalClose;
+  const grid = document.getElementById('secretsGrid');
+  if (grid && content.secrets && content.secrets.length) {
+    grid.innerHTML = content.secrets.map((s, i) => \`
+        <div onclick="openSecretModal(\${i + 1})" class="secret-card p-5 rounded-2xl cursor-pointer flex flex-col justify-between group">
+            <div>
+                <div class="w-10 h-10 rounded-xl \${s.colorClass} flex items-center justify-center mb-4 group-hover:text-white transition-colors">
+                    <i class="fas \${s.icon} text-lg"></i>
+                </div>
+                <h3 class="font-bold text-lg text-purple-200 mb-2 group-hover:text-white transition-colors">\${s.title}</h3>
+                <p class="text-sm text-gray-300/80 line-clamp-3">\${s.text}</p>
+            </div>
+            <div class="mt-4 text-xs font-semibold text-purple-400 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                <span>\${content.reveal}</span> <i class="fas fa-arrow-right text-[10px]"></i>
+            </div>
+        </div>\`).join('');
+  }
+}
+function openSecretModal(id){
+  const lang = getCurrentLanguage();
+  const content = translations[lang] || translations.es;
+  const data = content.secrets[id - 1];
+  if (!data) return;
+  const modal = document.getElementById('secretModal');
+  const modalContent = modal.querySelector('.glass-panel');
+  document.getElementById('modalTitle').textContent = data.title;
+  let bodyHtml = '<p class="mb-4">' + data.text + '</p>';
+  bodyHtml += '<div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-6">';
+  if (data.sugerencia) bodyHtml += '<div class="modal-section md:col-span-2"><h4 class="font-bold text-purple-300 mb-1 flex items-center gap-2"><i class="fas fa-lightbulb"></i> Sugerencia</h4><p class="text-sm text-gray-300">' + data.sugerencia + '</p></div>';
+  if (data.sorpresa) bodyHtml += '<div class="modal-section"><h4 class="font-bold text-pink-300 mb-1 flex items-center gap-2"><i class="fas fa-gift"></i> Sorpresa</h4><p class="text-sm text-gray-300">' + data.sorpresa + '</p></div>';
+  if (data.critica) bodyHtml += '<div class="modal-section"><h4 class="font-bold text-red-300 mb-1 flex items-center gap-2"><i class="fas fa-comment-dots"></i> Crítica</h4><p class="text-sm text-gray-300">' + data.critica + '</p></div>';
+  bodyHtml += '</div>';
+  document.getElementById('modalBody').innerHTML = bodyHtml;
+  document.getElementById('modalIconContainer').className = 'w-14 h-14 rounded-2xl flex items-center justify-center mb-5 text-2xl ' + data.colorClass;
+  document.getElementById('modalIcon').className = 'fas ' + data.icon;
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+  setTimeout(function(){ modal.classList.remove('opacity-0'); modalContent.classList.remove('scale-95'); modalContent.classList.add('scale-100'); }, 10);
+}
+function closeSecretModal(){
+  const modal = document.getElementById('secretModal');
+  const modalContent = modal.querySelector('.glass-panel');
+  modal.classList.add('opacity-0');
+  modalContent.classList.remove('scale-100');
+  modalContent.classList.add('scale-95');
+  setTimeout(function(){ modal.classList.add('hidden'); modal.classList.remove('flex'); }, 300);
+}
+document.addEventListener('DOMContentLoaded', applyTranslations);
+window.addEventListener('storage', function(e){ if (e.key === 'selectedLanguage') applyTranslations(); });
+document.getElementById('secretModal').addEventListener('click', function(e){ if (e.target === this) closeSecretModal(); });
+<\/script>
+</body></html>`;
+}
+
+// ───────────────────────── 5.2. SECRETOS desde la historia ─────────────────────────
+function construirSecretos(hist, tema, titulo) {
+    const syn = (hist.es.sinopsis || '').trim();
+    const synEn = (hist.en.sinopsis || '').trim();
+    const frase = (hist.es.fraseInspiracion || '').trim();
+    const fraseEn = (hist.en.fraseInspiracion || '').trim();
+    const primerCap = (hist.es.capitulos[0]?.texto || '').trim().split('.')[0] || '';
+    const primerCapEn = (hist.en.capitulos[0]?.texto || '').trim().split('.')[0] || '';
+
+    const secretosEs = [
+        { title: "El origen oculto", text: `Este relato de la sala «${tema.nombre}» nace de la semilla creativa «${frase || titulo}». Cada detalle del mundo que acabas de leer tiene una intención simbólica detrás.`, sugerencia: "Vuelve al primer capítulo y busca las palabras que se repiten: son las que sostienen el resto de la historia.", sorpresa: `El título «${titulo}» condensa en una sola imagen el conflicto que atraviesa toda la trama.`, critica: "El arranque puede parecer costumbrista, pero esa calma inicial es la trampa que prepara la tensión.", icon: "fa-compass", colorClass: "bg-purple-600/30 text-purple-400" },
+        { title: "Detalle clave", text: `La sinopsis oficial ya adelanta algo: «${syn}». Pero el texto completo esconde capas que no aparecen en ese resumen.`, sugerencia: "Fíjate en cómo los personajes cambian de opinión entre el primer y el último capítulo. Ese es el verdadero motor.", sorpresa: "Hay un objeto mencionado al principio que reaparece en el desenlace con un significado completamente distinto.", critica: "El simbolismo es rico, pero exigente: premia al lector atento y castiga al lector apresurado.", icon: "fa-city", colorClass: "bg-pink-600/30 text-pink-400" },
+        { title: "Escena eliminada", text: `En versiones previas del guion, el desenlace era mucho más oscuro: el protagonista no encontraba redención, sino una revelación amarga.`, sugerencia: "Piensa qué habría cambiado si la última página hubiera sido un castigo en lugar de una reconciliación.", sorpresa: `Algunas frases del capítulo 1 («${primerCap.slice(0, 100)}…») ya anunciaban el giro final, pero nadie lo nota la primera vez.`, critica: "El final actual es más luminoso que la versión descartada; la elección es coherente con el tono de la sala.", icon: "fa-wind", colorClass: "bg-indigo-600/30 text-indigo-400" },
+        { title: "Inspiración nocturna", text: `La atmósfera de esta historia se concibió como si fuera una sola noche en vela: cada capítulo es una hora que pasa y la tensión sube en espiral.`, sugerencia: "Lee la historia del tirón. Está diseñada para eso: para leerse en una sola sesión, como quien escucha un disco.", sorpresa: `La frase de inspiración «${fraseEn || frase}» es también el manifiesto secreto de la propia historia.`, critica: "La estructura es muy fílmica; quien busque una novela clásica puede sentirla fragmentada.", icon: "fa-monument", colorClass: "bg-amber-600/30 text-amber-400" },
+        { title: "El significado del símbolo", text: `La imagen que abre y cierra la historia funciona como un emblema: representa la dualidad entre el miedo y el valor que atraviesa cada capítulo.`, sugerencia: "Anota en qué capítulos aparecen objetos que remiten a la misma imagen mental. Verás que el autor lo hace a propósito.", sorpresa: `En la versión inglesa («${synEn || syn}»), el símbolo adquiere un matiz ligeramente más activo que en español.`, critica: "El símbolo es potente, pero se repite tanto que puede volverse obvio en una segunda lectura.", icon: "fa-leaf", colorClass: "bg-emerald-600/30 text-emerald-400" }
+    ];
+
+    const secretosEn = [
+        { title: "The Hidden Origin", text: `This story from the «${tema.nombre}» room is born from the creative seed «${fraseEn || titulo}». Every detail of the world you just read has a symbolic intent behind it.`, sugerencia: "Go back to the first chapter and look for the words that repeat: those are the pillars that hold the rest of the story.", sorpresa: `The title «${titulo}» condenses the conflict of the whole plot into a single image.`, critica: "The opening may feel grounded, but that initial calm is the trap that sets up the tension.", icon: "fa-compass", colorClass: "bg-purple-600/30 text-purple-400" },
+        { title: "Key Detail", text: `The official synopsis already hints at something: «${synEn || syn}». But the full text hides layers that summary does not reveal.`, sugerencia: "Notice how the characters change their minds between the first and last chapter. That is the real engine.", sorpresa: "An object mentioned at the beginning reappears in the finale with a completely different meaning.", critica: "The symbolism is rich but demanding: it rewards the attentive reader and punishes the hasty one.", icon: "fa-city", colorClass: "bg-pink-600/30 text-pink-400" },
+        { title: "Deleted Scene", text: `Earlier versions of the script had a much darker ending: the protagonist found no redemption, only a bitter revelation.`, sugerencia: "Imagine how the story would change if the last page had been a punishment instead of a reconciliation.", sorpresa: `Some lines from chapter 1 («${primerCapEn.slice(0, 100)}…») were already announcing the final twist, but nobody notices on the first read.`, critica: "The current ending is brighter than the discarded one; the choice is consistent with the room's tone.", icon: "fa-wind", colorClass: "bg-indigo-600/30 text-indigo-400" },
+        { title: "Nighttime Inspiration", text: `The atmosphere of this story was conceived as a single sleepless night: each chapter is an hour that passes and the tension spirals upwards.`, sugerencia: "Read the whole story in one sitting. It is designed for that: to be read in a single session, like listening to an album.", sorpresa: `The inspiration line «${fraseEn || frase}» is also the secret manifesto of the story itself.`, critica: "The structure is very cinematic; readers looking for a classic novel may feel it is fragmented.", icon: "fa-monument", colorClass: "bg-amber-600/30 text-amber-400" },
+        { title: "The Meaning of the Symbol", text: `The image that opens and closes the story works as an emblem: it represents the duality between fear and courage that runs through every chapter.`, sugerencia: "Note in which chapters objects that refer to the same mental image appear. You will see the author does it on purpose.", sorpresa: `In the Spanish version («${syn || synEn}»), the symbol takes on a slightly more contemplative tone than in English.`, critica: "The symbol is powerful, but it is repeated so often it can become obvious on a second read.", icon: "fa-leaf", colorClass: "bg-emerald-600/30 text-emerald-400" }
+    ];
+
+    return { secretosEs, secretosEn };
+}
+
+// ───────────────────────── 5.3. QUIZ desde la historia ─────────────────────────
+function construirQuiz(hist, tema, titulo) {
+    const cap1 = (hist.es.capitulos[0]?.texto || '').trim();
+    const cap1En = (hist.en.capitulos[0]?.texto || '').trim();
+    const cap5 = (hist.es.capitulos[4]?.texto || hist.es.capitulos[hist.es.capitulos.length - 1]?.texto || '').trim();
+    const cap5En = (hist.en.capitulos[4]?.texto || hist.en.capitulos[hist.en.capitulos.length - 1]?.texto || '').trim();
+    const sin = (hist.es.sinopsis || '').trim();
+    const sinEn = (hist.en.sinopsis || '').trim();
+
+    const recorte = (t, n = 80) => t.length > n ? t.slice(0, n).trim() + '…' : t;
+
+    const quizEs = [
+        { q: `¿En qué sala de La IA Musical se publica la historia «${titulo}»?`, a: [tema.nombre, 'Literatura', 'Cine', 'Series'], correct: 0 },
+        { q: `¿Cuál es la frase de inspiración de «${titulo}»?`, a: [(hist.es.fraseInspiracion || '').trim(), 'El destino siempre encuentra su camino.', 'Nada es lo que parece a primera vista.', 'La luz vence a la oscuridad.'], correct: 0 },
+        { q: `Según la sinopsis, ¿cuál es el conflicto central de la historia?`, a: [recorte(sin), 'Una guerra entre dos reinos lejanos.', 'Un romance prohibido entre dos familias rivales.', 'Una búsqueda del tesoro en una isla desierta.'], correct: 0 },
+        { q: `En el primer capítulo, la historia comienza hablando de…`, a: [recorte(cap1), 'Un prólogo sobre la creación del mundo.', 'Una lista de personajes principales.', 'Un mapa del territorio donde ocurre la trama.'], correct: 0 },
+        { q: `¿Cómo termina la historia?`, a: [recorte(cap5), 'Con un final abierto que deja todo en el aire.', 'Con una batalla final que destruye el mundo conocido.', 'Con un sueño del que el protagonista nunca despierta.'], correct: 0 }
+    ];
+
+    const quizEn = [
+        { q: `In which La IA Musical room is the story «${titulo}» published?`, a: [tema.nombre, 'Literature', 'Cinema', 'Series'], correct: 0 },
+        { q: `What is the inspiration line of «${titulo}»?`, a: [(hist.en.fraseInspiracion || '').trim(), 'Destiny always finds its way.', 'Nothing is what it seems at first glance.', 'Light defeats darkness.'], correct: 0 },
+        { q: `According to the synopsis, what is the central conflict of the story?`, a: [recorte(sinEn), 'A war between two distant kingdoms.', 'A forbidden romance between two rival families.', 'A treasure hunt on a deserted island.'], correct: 0 },
+        { q: `In the first chapter, the story begins by talking about…`, a: [recorte(cap1En), 'A prologue about the creation of the world.', 'A list of the main characters.', 'A map of the territory where the plot takes place.'], correct: 0 },
+        { q: `How does the story end?`, a: [recorte(cap5En), 'With an open ending that leaves everything in the air.', 'With a final battle that destroys the known world.', 'With a dream the protagonist never wakes up from.'], correct: 0 }
+    ];
+
+    return { quizEs, quizEn };
+}
 // ───────────────────────── 6. PIPELINE ─────────────────────────
 function slugUnico(titulo) {
     const base = slugify(titulo) || 'historia';
@@ -757,46 +815,70 @@ async function crearStorycardCompleta({ tema, usados, idBase, indice }) {
     console.log(`\n📖 Storycard ${indice} · sala «${tema.nombre}»`);
     console.log('  ✍️  Gemini está escribiendo la historia épica (ES/EN)...');
     const hist = await escribirHistoria(tema, usados);
-    
+
     // ES
     const titulo = stripWrappingQuotes(String(hist.es.titulo)).replace(/\s+/g, ' ');
     const fraseInspiracion = stripWrappingQuotes(String(hist.es.fraseInspiracion || '')).trim();
     const slug = slugUnico(titulo);
-    
+
     // EN
     const tituloEn = stripWrappingQuotes(String(hist.en.titulo)).replace(/\s+/g, ' ');
     const fraseInspiracionEn = stripWrappingQuotes(String(hist.en.fraseInspiracion || '')).trim();
     const slugEn = slugUnico(tituloEn) + '-en';
-    
+
     console.log(`  🏷️  Título ES: "${titulo}" (slug: ${slug})`);
     console.log(`  🏷️  Título EN: "${tituloEn}" (slug: ${slugEn})`);
 
     asegurarCarpeta(path.join(RAIZ, 'imagenportada'));
-    asegurarCarpeta(path.join(RAIZ, 'storycards')); // NUEVO: para las imágenes 16:9
     asegurarCarpeta(path.join(RAIZ, 'storycard', slug));
     asegurarCarpeta(path.join(RAIZ, 'storycard', slugEn));
+    asegurarCarpeta(path.join(RAIZ, 'secretos'));
 
     const semilla = hashTexto(slug);
     const estilo = `${tema.estilo}, highly detailed, dramatic composition, volumetric light, no text, no letters, no watermark`;
     const promptPortada = `${hist.portada_en || titulo}. ${estilo}`;
     const pistasPortada = `${hist.portada_en || ''} ${titulo} ${hist.es.sinopsis || ''}`;
 
-    console.log('  🖼️  Creando la imagen de presentación (se recorta a 16:9, 1:1 y 9:16)...');
+    console.log('  🖼️  Creando la imagen de presentación (16:9, 1:1, 9:16 EXACTOS)...');
     const promptWide = `${promptPortada}. Wide cinematic composition, main subject centered`;
-    const basePortada = await obtenerImagenIA(promptWide, 1280, 720, semilla);
-    
-    // 16:9 images: imagenportada/slug.jpg y imagenportada/slugEn.jpg
-    const r169 = guardarImagen({ rutaRelativa: `imagenportada/${slug}`, base: basePortada, tematica: tema.nombre, ancho: 1280, alto: 720, semilla, pistas: pistasPortada });
-    const r169En = guardarImagen({ rutaRelativa: `imagenportada/${slugEn}`, base: basePortada, tematica: tema.nombre, ancho: 1280, alto: 720, semilla, pistas: pistasPortada });
-    
-    // Covers para las cards (ES y EN pueden compartir la misma base de imagen)
-    const rPortada = guardarImagen({ rutaRelativa: `storycard/${slug}/portada`, base: basePortada, tematica: tema.nombre, ancho: 768, alto: 768, semilla, pistas: pistasPortada });
-    const rMovil = guardarImagen({ rutaRelativa: `storycard/${slug}/portadamovil`, base: basePortada, tematica: tema.nombre, ancho: 576, alto: 1024, semilla: semilla + 7, pistas: pistasPortada });
-    
-    const rPortadaEn = guardarImagen({ rutaRelativa: `storycard/${slugEn}/portada`, base: basePortada, tematica: tema.nombre, ancho: 768, alto: 768, semilla, pistas: pistasPortada });
-    const rMovilEn = guardarImagen({ rutaRelativa: `storycard/${slugEn}/portadamovil`, base: basePortada, tematica: tema.nombre, ancho: 576, alto: 1024, semilla: semilla + 7, pistas: pistasPortada });
-    
-    if (basePortada) { imagenesIA += 7; } else { imagenesSVG += 7; }
+    const promptSquare = `${promptPortada}. Square composition, centered subject, portrait of the scene`;
+    const promptPortrait = `${promptPortada}. Vertical portrait composition, tall framing, centered subject`;
+
+    // 16:9 → imagenportada/ (ES y EN)
+    const r169 = await crearImagenEnRuta({
+        rutaRelativa: `imagenportada/${slug}`,
+        prompt: promptWide, tematica: tema.nombre, ancho: 1280, alto: 720,
+        semilla
+    });
+    const r169En = await crearImagenEnRuta({
+        rutaRelativa: `imagenportada/${slugEn}`,
+        prompt: promptWide, tematica: tema.nombre, ancho: 1280, alto: 720,
+        semilla: semilla + 1
+    });
+
+    // 1:1 → storycard/<slug>/portada
+    const rPortada = await crearImagenEnRuta({
+        rutaRelativa: `storycard/${slug}/portada`,
+        prompt: promptSquare, tematica: tema.nombre, ancho: 768, alto: 768,
+        semilla: semilla + 2
+    });
+    const rPortadaEn = await crearImagenEnRuta({
+        rutaRelativa: `storycard/${slugEn}/portada`,
+        prompt: promptSquare, tematica: tema.nombre, ancho: 768, alto: 768,
+        semilla: semilla + 3
+    });
+
+    // 9:16 → storycard/<slug>/portadamovil
+    const rMovil = await crearImagenEnRuta({
+        rutaRelativa: `storycard/${slug}/portadamovil`,
+        prompt: promptPortrait, tematica: tema.nombre, ancho: 576, alto: 1024,
+        semilla: semilla + 7
+    });
+    const rMovilEn = await crearImagenEnRuta({
+        rutaRelativa: `storycard/${slugEn}/portadamovil`,
+        prompt: promptPortrait, tematica: tema.nombre, ancho: 576, alto: 1024,
+        semilla: semilla + 8
+    });
 
     const capitulosEs = [];
     const audiosPendientesEs = [];
@@ -808,23 +890,24 @@ async function crearStorycardCompleta({ tema, usados, idBase, indice }) {
     for (let i = 0; i < NUM_CAPITULOS; i++) {
         const cEs = hist.es.capitulos[i];
         const cEn = hist.en.capitulos[i];
-        
+
         const tituloCapEs = tituloCorto(cEs.titulo, i), textoCapEs = limpiarTextoCapitulo(cEs.texto);
         const tituloCapEn = tituloCorto(cEn.titulo, i), textoCapEn = limpiarTextoCapitulo(cEn.texto);
-        
+
         console.log(`  📑 Capítulo ${i + 1}: ilustración y voz...`);
-        
+
         const escenaPrompt = hist.escenas_en && hist.escenas_en[i] ? hist.escenas_en[i] : (cEs.escena_en || cEs.titulo);
         const rIlu = await crearImagenEnRuta({
             rutaRelativa: `storycard/${slug}/imagen${i + 1}`,
-            tematica: tema.nombre, ancho: 768, alto: 512, semilla: semilla + 100 + i,
-            prompt: `${escenaPrompt}. ${estilo}`, pistas: `${escenaPrompt} ${cEs.titulo || ''} ${textoCapEs.slice(0, 300)}`
+            prompt: `${escenaPrompt}. ${estilo}`,
+            tematica: tema.nombre, ancho: 768, alto: 512,
+            semilla: semilla + 100 + i
         });
-        
+
         const vozEs = `storycard/${slug}/voz${i + 1}.mp3`;
         if (await crearVoz(textoCapEs, vozEs, EDGE_VOICE, 'es')) vocesOkEs++; else audiosPendientesEs.push(vozEs);
         capitulosEs.push({ titulo: tituloCapEs, texto: textoCapEs, ilustracion: rIlu.ruta, voz: vozEs });
-        
+
         const vozEn = `storycard/${slugEn}/voz${i + 1}.mp3`;
         if (await crearVoz(textoCapEn, vozEn, EDGE_VOICE_EN, 'en')) vocesOkEn++; else audiosPendientesEn.push(vozEn);
         capitulosEn.push({ titulo: tituloCapEn, texto: textoCapEn, ilustracion: rIlu.ruta, voz: vozEn });
@@ -836,6 +919,28 @@ async function crearStorycardCompleta({ tema, usados, idBase, indice }) {
     audiosPendientesEs.push(musicaEs);
     audiosPendientesEn.push(musicaEn);
 
+    // ── Quiz (5 preguntas ES/EN) ──────────────────────────────
+    console.log('  ❓ Generando quiz (ES/EN)...');
+    const { quizEs, quizEn } = construirQuiz(hist, tema, titulo);
+
+    // ── Secretos (5 secretos ES/EN) ────────────────────────────
+    console.log('  🗝️  Generando archivo de Secretos...');
+    const { secretosEs, secretosEn } = construirSecretos(hist, tema, titulo);
+    const secretosHtml = generarSecretosHtml({
+        titulo, tituloEn,
+        fraseInspiracion,
+        fraseInspiracionEn,
+        sinopsis: hist.es.sinopsis || '',
+        sinopsisEn: hist.en.sinopsis || '',
+        secretosEs,
+        secretosEn,
+        portadaImg: r169.ruta
+    });
+    fs.writeFileSync(path.join(RAIZ, 'secretos', `${slug}-secretos.html`), secretosHtml);
+    console.log(`  ✅ Secretos ES guardados: secretos/${slug}-secretos.html`);
+    fs.writeFileSync(path.join(RAIZ, 'secretos', `${slugEn}-secretos.html`), secretosHtml);
+    console.log(`  ✅ Secretos EN (comparte archivo base): secretos/${slugEn}-secretos.html`);
+
     const htmlEs = generarHtmlStory({
         titulo, fraseInspiracion, autor: AUTOR, coverImg: rPortada.ruta, coverMobileImg: rMovil.ruta, musica: musicaEs, capitulos: capitulosEs, lang: 'es'
     });
@@ -846,7 +951,7 @@ async function crearStorycardCompleta({ tema, usados, idBase, indice }) {
     });
     fs.writeFileSync(path.join(RAIZ, `${slugEn}.html`), htmlEn);
 
-    console.log(`  ✅ Archivos creados: ${slug}.html y ${slugEn}.html`);
+    console.log(`  ✅ Archivos creados: ${slug}.html, ${slugEn}.html, secretos/${slug}-secretos.html`);
 
     return {
         tarjetas: [
@@ -862,12 +967,16 @@ async function crearStorycardCompleta({ tema, usados, idBase, indice }) {
                 portadaMovil: rMovil.ruta,
                 slug,
                 storyPage: `${slug}.html`,
+                secretosPage: `secretos/${slug}-secretos.html`,
+                esIA: true,
+                quiz: quizEs,
+                quizEn: quizEn,
                 audioVoz: capitulosEs[0].voz,
                 musicaFondo: musicaEs,
                 fechaCreacion: new Date().toISOString()
             },
             {
-                id: idBase + indice + 10000, // offset para evitar colisiones
+                id: idBase + indice + 10000,
                 titulo: tituloEn,
                 fraseInspiracion: fraseInspiracionEn,
                 tematica: tema.nombre,
@@ -878,6 +987,10 @@ async function crearStorycardCompleta({ tema, usados, idBase, indice }) {
                 portadaMovil: rMovilEn.ruta,
                 slug: slugEn,
                 storyPage: `${slugEn}.html`,
+                secretosPage: `secretos/${slugEn}-secretos.html`,
+                esIA: true,
+                quiz: quizEs,
+                quizEn: quizEn,
                 audioVoz: capitulosEn[0].voz,
                 musicaFondo: musicaEn,
                 fechaCreacion: new Date().toISOString()
@@ -895,6 +1008,10 @@ async function ejecutarPipelineInteligente() {
         console.error('❌ Falta el secreto GEMINI_API_KEY en GitHub Secrets.');
         process.exit(1);
     }
+
+    verificarFfmpeg();
+    console.log('✅ ffmpeg disponible. Las imágenes se recortarán a 16:9, 1:1 y 9:16 exactos.');
+
     const rutaJson = path.join(RAIZ, 'data/storycards.json');
     asegurarCarpeta(path.dirname(rutaJson));
     const actual = leerJson(rutaJson, []);
@@ -909,7 +1026,7 @@ async function ejecutarPipelineInteligente() {
     for (let i = 0; i < temas.length; i++) {
         try {
             const r = await crearStorycardCompleta({ tema: temas[i], usados: [...usados, ...nuevas.map(n => n.titulo)], idBase, indice: i + 1 });
-            nuevas.push(...r.tarjetas); // Añade ES y EN
+            nuevas.push(...r.tarjetas);
             pendientes.push(...r.audiosPendientes);
         } catch (e) {
             console.error(`❌ Falló la storycard ${i + 1}: ${e.message}`);
@@ -926,7 +1043,8 @@ async function ejecutarPipelineInteligente() {
     const bloque = pendientes.map(p => `\n## ${p.titulo} (${fecha})\n${p.archivos.map(a => `- [ ] \`${a}\``).join('\n')}\n`).join('');
     fs.writeFileSync(rutaPend, previo + bloque);
 
-    console.log('\n🎉 Pipeline completado con éxito.');
+    console.log(`\n🎉 Pipeline completado con éxito.`);
+    console.log(`📊 Imágenes IA generadas (con recorte exacto 16:9 / 1:1 / 9:16): ${imagenesIA}`);
 }
 
 ejecutarPipelineInteligente().catch(e => { console.error('❌ Error inesperado:', e); process.exit(1); });

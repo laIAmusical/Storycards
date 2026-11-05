@@ -1,0 +1,503 @@
+[
+  {
+    "id": 1793811248899,
+    "titulo": "El Canto Prohibido de Aethelgard",
+    "fraseInspiracion": "La música más bella es aquella que exige el alma como pago.",
+    "tematica": "Ópera y conciertos",
+    "tipo": "automatica-ia",
+    "descripcion": "La noche del estreno de una obra maldita enfrenta a dos casas rivales de ópera en un duelo de pasiones desbordadas que terminará en tragedia.",
+    "imagen": "imagenportada/elcantoprohibidodeaethelgard.jpg",
+    "portada": "storycard/elcantoprohibidodeaethelgard/portada.jpg",
+    "portadaMovil": "storycard/elcantoprohibidodeaethelgard/portadamovil.jpg",
+    "slug": "elcantoprohibidodeaethelgard",
+    "storyPage": "elcantoprohibidodeaethelgard.html",
+    "secretosPage": "secretos/elcantoprohibidodeaethelgard-secretos.html",
+    "esIA": true,
+    "quiz": [
+      {
+        "q": "¿En qué sala de La IA Musical se publica la historia «El Canto Prohibido de Aethelgard»?",
+        "a": [
+          "Ópera y conciertos",
+          "Literatura",
+          "Cine",
+          "Series"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "¿Cuál es la frase de inspiración de «El Canto Prohibido de Aethelgard»?",
+        "a": [
+          "La música más bella es aquella que exige el alma como pago.",
+          "El destino siempre encuentra su camino.",
+          "Nada es lo que parece a primera vista.",
+          "La luz vence a la oscuridad."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "Según la sinopsis, ¿cuál es el conflicto central de la historia?",
+        "a": [
+          "La noche del estreno de una obra maldita enfrenta a dos casas rivales de ópera e…",
+          "Una guerra entre dos reinos lejanos.",
+          "Un romance prohibido entre dos familias rivales.",
+          "Una búsqueda del tesoro en una isla desierta."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "En el primer capítulo, la historia comienza hablando de…",
+        "a": [
+          "Las sombras del Gran Teatro de Aethelgard guardaban secretos que ningún músico m…",
+          "Un prólogo sobre la creación del mundo.",
+          "Una lista de personajes principales.",
+          "Un mapa del territorio donde ocurre la trama."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "¿Cómo termina la historia?",
+        "a": [
+          "El segundo acto estalló como una tempestad desatada en alta mar. La música dejó…",
+          "Con un final abierto que deja todo en el aire.",
+          "Con una batalla final que destruye el mundo conocido.",
+          "Con un sueño del que el protagonista nunca despierta."
+        ],
+        "correct": 0
+      }
+    ],
+    "quizEn": [
+      {
+        "q": "In which La IA Musical room is the story «El Canto Prohibido de Aethelgard» published?",
+        "a": [
+          "Ópera y conciertos",
+          "Literature",
+          "Cinema",
+          "Series"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "What is the inspiration line of «El Canto Prohibido de Aethelgard»?",
+        "a": [
+          "The most beautiful music is that which demands the soul as payment.",
+          "Destiny always finds its way.",
+          "Nothing is what it seems at first glance.",
+          "Light defeats darkness."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "According to the synopsis, what is the central conflict of the story?",
+        "a": [
+          "On the opening night of a cursed opera, two rival houses clash in a duel of over…",
+          "A war between two distant kingdoms.",
+          "A forbidden romance between two rival families.",
+          "A treasure hunt on a deserted island."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "In the first chapter, the story begins by talking about…",
+        "a": [
+          "The shadows of the Grand Theater of Aethelgard held secrets no mortal musician s…",
+          "A prologue about the creation of the world.",
+          "A list of the main characters.",
+          "A map of the territory where the plot takes place."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "How does the story end?",
+        "a": [
+          "The second act erupted like a storm unleashed at sea. The music ceased to be art…",
+          "With an open ending that leaves everything in the air.",
+          "With a final battle that destroys the known world.",
+          "With a dream the protagonist never wakes up from."
+        ],
+        "correct": 0
+      }
+    ],
+    "audioVoz": "storycard/elcantoprohibidodeaethelgard/voz1.mp3",
+    "musicaFondo": "storycard/elcantoprohibidodeaethelgard.mp3",
+    "fechaCreacion": "2026-11-04T17:01:33.819Z"
+  },
+  {
+    "id": 1793811258899,
+    "titulo": "The Forbidden Song of Aethelgard",
+    "fraseInspiracion": "The most beautiful music is that which demands the soul as payment.",
+    "tematica": "Ópera y conciertos",
+    "tipo": "automatica-ia",
+    "descripcion": "On the opening night of a cursed opera, two rival houses clash in a duel of overwhelming passions that ends in tragedy.",
+    "imagen": "imagenportada/theforbiddensongofaethelgard-en.jpg",
+    "portada": "storycard/theforbiddensongofaethelgard-en/portada.jpg",
+    "portadaMovil": "storycard/theforbiddensongofaethelgard-en/portadamovil.jpg",
+    "slug": "theforbiddensongofaethelgard-en",
+    "storyPage": "theforbiddensongofaethelgard-en.html",
+    "secretosPage": "secretos/theforbiddensongofaethelgard-en-secretos.html",
+    "esIA": true,
+    "quiz": [
+      {
+        "q": "¿En qué sala de La IA Musical se publica la historia «El Canto Prohibido de Aethelgard»?",
+        "a": [
+          "Ópera y conciertos",
+          "Literatura",
+          "Cine",
+          "Series"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "¿Cuál es la frase de inspiración de «El Canto Prohibido de Aethelgard»?",
+        "a": [
+          "La música más bella es aquella que exige el alma como pago.",
+          "El destino siempre encuentra su camino.",
+          "Nada es lo que parece a primera vista.",
+          "La luz vence a la oscuridad."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "Según la sinopsis, ¿cuál es el conflicto central de la historia?",
+        "a": [
+          "La noche del estreno de una obra maldita enfrenta a dos casas rivales de ópera e…",
+          "Una guerra entre dos reinos lejanos.",
+          "Un romance prohibido entre dos familias rivales.",
+          "Una búsqueda del tesoro en una isla desierta."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "En el primer capítulo, la historia comienza hablando de…",
+        "a": [
+          "Las sombras del Gran Teatro de Aethelgard guardaban secretos que ningún músico m…",
+          "Un prólogo sobre la creación del mundo.",
+          "Una lista de personajes principales.",
+          "Un mapa del territorio donde ocurre la trama."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "¿Cómo termina la historia?",
+        "a": [
+          "El segundo acto estalló como una tempestad desatada en alta mar. La música dejó…",
+          "Con un final abierto que deja todo en el aire.",
+          "Con una batalla final que destruye el mundo conocido.",
+          "Con un sueño del que el protagonista nunca despierta."
+        ],
+        "correct": 0
+      }
+    ],
+    "quizEn": [
+      {
+        "q": "In which La IA Musical room is the story «El Canto Prohibido de Aethelgard» published?",
+        "a": [
+          "Ópera y conciertos",
+          "Literature",
+          "Cinema",
+          "Series"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "What is the inspiration line of «El Canto Prohibido de Aethelgard»?",
+        "a": [
+          "The most beautiful music is that which demands the soul as payment.",
+          "Destiny always finds its way.",
+          "Nothing is what it seems at first glance.",
+          "Light defeats darkness."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "According to the synopsis, what is the central conflict of the story?",
+        "a": [
+          "On the opening night of a cursed opera, two rival houses clash in a duel of over…",
+          "A war between two distant kingdoms.",
+          "A forbidden romance between two rival families.",
+          "A treasure hunt on a deserted island."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "In the first chapter, the story begins by talking about…",
+        "a": [
+          "The shadows of the Grand Theater of Aethelgard held secrets no mortal musician s…",
+          "A prologue about the creation of the world.",
+          "A list of the main characters.",
+          "A map of the territory where the plot takes place."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "How does the story end?",
+        "a": [
+          "The second act erupted like a storm unleashed at sea. The music ceased to be art…",
+          "With an open ending that leaves everything in the air.",
+          "With a final battle that destroys the known world.",
+          "With a dream the protagonist never wakes up from."
+        ],
+        "correct": 0
+      }
+    ],
+    "audioVoz": "storycard/theforbiddensongofaethelgard-en/voz1.mp3",
+    "musicaFondo": "storycard/theforbiddensongofaethelgard-en.mp3",
+    "fechaCreacion": "2026-11-04T17:01:33.819Z"
+  },
+  {
+    "id": 1793789553854,
+    "titulo": "La Última Vigilia de Alistair en Valenor",
+    "fraseInspiracion": "Entre las cenizas del imperio, el silencio es el único testigo verdadero.",
+    "tematica": "Literatura",
+    "tipo": "automatica-ia",
+    "descripcion": "Un joven peregrino emprende un doloroso viaje a través de los restos colosales de un imperio caído. Su misión es devolver la última chispa de memoria a la capital olvidada.",
+    "imagen": "imagenportada/laultimavigiliadealistairenvalenor.jpg",
+    "portada": "storycard/laultimavigiliadealistairenvalenor/portada.jpg",
+    "portadaMovil": "storycard/laultimavigiliadealistairenvalenor/portadamovil.jpg",
+    "slug": "laultimavigiliadealistairenvalenor",
+    "storyPage": "laultimavigiliadealistairenvalenor.html",
+    "audioVoz": "storycard/laultimavigiliadealistairenvalenor/voz1.mp3",
+    "musicaFondo": "storycard/laultimavigiliadealistairenvalenor.mp3",
+    "fechaCreacion": "2026-11-04T10:57:50.288Z"
+  },
+  {
+    "id": 1793789563854,
+    "titulo": "Alistair's Last Vigil in Valenor",
+    "fraseInspiracion": "Among the ashes of the empire, silence is the only true witness.",
+    "tematica": "Literatura",
+    "tipo": "automatica-ia",
+    "descripcion": "A young pilgrim undertakes a painful journey through the colossal remains of a fallen empire. His mission is to return the last spark of memory to the forgotten capital.",
+    "imagen": "imagenportada/alistairslastvigilinvalenor-en.jpg",
+    "portada": "storycard/alistairslastvigilinvalenor-en/portada.jpg",
+    "portadaMovil": "storycard/alistairslastvigilinvalenor-en/portadamovil.jpg",
+    "slug": "alistairslastvigilinvalenor-en",
+    "storyPage": "alistairslastvigilinvalenor-en.html",
+    "audioVoz": "storycard/alistairslastvigilinvalenor-en/voz1.mp3",
+    "musicaFondo": "storycard/alistairslastvigilinvalenor-en.mp3",
+    "fechaCreacion": "2026-11-04T10:57:50.289Z"
+  },
+  {
+    "id": 1793721471710,
+    "titulo": "La Chispa Eterna de Sylphira",
+    "fraseInspiracion": "Incluso la huella más pequeña puede encender el alma de un mundo entero.",
+    "tematica": "Animación",
+    "tipo": "automatica-ia",
+    "descripcion": "Un pequeño zorro mensajero emprende un viaje fantástico para devolver la luz a un bosque sumido en un sueño eterno. A través de la ternura y el valor, descubre que la verdadera magia vive en la unión.",
+    "imagen": "imagenportada/lachispaeternadesylphira.jpg",
+    "portada": "storycard/lachispaeternadesylphira/portada.jpg",
+    "portadaMovil": "storycard/lachispaeternadesylphira/portadamovil.jpg",
+    "slug": "lachispaeternadesylphira",
+    "storyPage": "lachispaeternadesylphira.html",
+    "audioVoz": "storycard/lachispaeternadesylphira/voz1.mp3",
+    "musicaFondo": "storycard/lachispaeternadesylphira.mp3",
+    "fechaCreacion": "2026-11-03T16:04:38.150Z"
+  },
+  {
+    "id": 1793721481710,
+    "titulo": "The Eternal Spark of Sylphira",
+    "fraseInspiracion": "Even the smallest paw print can ignite the soul of an entire world.",
+    "tematica": "Animación",
+    "tipo": "automatica-ia",
+    "descripcion": "A tiny messenger fox embarks on a whimsical journey to restore light to a forest trapped in eternal sleep. Through tenderness and courage, he discovers that true magic lives in togetherness.",
+    "imagen": "imagenportada/theeternalsparkofsylphira-en.jpg",
+    "portada": "storycard/theeternalsparkofsylphira-en/portada.jpg",
+    "portadaMovil": "storycard/theeternalsparkofsylphira-en/portadamovil.jpg",
+    "slug": "theeternalsparkofsylphira-en",
+    "storyPage": "theeternalsparkofsylphira-en.html",
+    "audioVoz": "storycard/theeternalsparkofsylphira-en/voz1.mp3",
+    "musicaFondo": "storycard/theeternalsparkofsylphira-en.mp3",
+    "fechaCreacion": "2026-11-03T16:04:38.151Z"
+  },
+  {
+    "id": 1793705146316,
+    "titulo": "El Desvío Trágico del Río Aethelgard",
+    "fraseInspiracion": "Las aguas caprichosas del destino tallaron imperios y sepultaron civilizaciones enteras en el olvido.",
+    "tematica": "Documentales y usuarios",
+    "tipo": "automatica-ia",
+    "descripcion": "Un documental épico narra cómo el misterioso desvío del río Aethelgard transformó el destino de tres reinos enfrentados. A través de crónicas perdidas y testimonios de supervivientes, se revela un secreto ancestral que cambiará la historia para siempre.",
+    "imagen": "imagenportada/eldesviotragicodelrioaethelgard_16_9.jpg",
+    "portada": "storycard/eldesviotragicodelrioaethelgard/portada.jpg",
+    "portadaMovil": "storycard/eldesviotragicodelrioaethelgard/portadamovil.jpg",
+    "slug": "eldesviotragicodelrioaethelgard",
+    "storyPage": "eldesviotragicodelrioaethelgard.html",
+    "audioVoz": "storycard/eldesviotragicodelrioaethelgard/voz1.mp3",
+    "musicaFondo": "storycard/eldesviotragicodelrioaethelgard.mp3",
+    "fechaCreacion": "2026-11-03T11:29:18.326Z"
+  },
+  {
+    "id": 1793621100896,
+    "titulo": "La Última Travesía de Valen-Kael",
+    "fraseInspiracion": "Cuando las banderas mienten, la verdad es el único cielo que vale la pena cruzar.",
+    "tematica": "Cine",
+    "tipo": "automatica-ia",
+    "descripcion": "El capitán Darek Vance emprende una misión suicida en los cielos tóxicos de Valen-Kael para destruir una superarma imperial. Al descubrir una conspiración que cambiará el destino de su patria, deberá desafiar a sus superiores para salvar al mundo.",
+    "imagen": "imagenportada/laultimatravesiadevalenkael_16_9.jpg",
+    "portada": "storycard/laultimatravesiadevalenkael/portada.jpg",
+    "portadaMovil": "storycard/laultimatravesiadevalenkael/portadamovil.jpg",
+    "slug": "laultimatravesiadevalenkael",
+    "storyPage": "laultimatravesiadevalenkael.html",
+    "audioVoz": "storycard/laultimatravesiadevalenkael/voz1.mp3",
+    "musicaFondo": "laultimatravesiadevalenkael.mp3",
+    "fechaCreacion": "2026-11-02T12:10:11.150Z"
+  },
+  {
+    "id": 1793621110896,
+    "titulo": "The Last Voyage of Valen-Kael",
+    "fraseInspiracion": "When the flags lie, truth is the only sky worth crossing.",
+    "tematica": "Cine",
+    "tipo": "automatica-ia",
+    "descripcion": "Captain Darek Vance embarks on a suicide mission through the toxic skies of Valen-Kael to destroy an imperial superweapon. Upon uncovering a conspiracy that will change his homeland's fate, he must defy his superiors to save the world.",
+    "imagen": "imagenportada/laultimatravesiadevalenkael_16_9.jpg",
+    "portada": "storycard/laultimatravesiadevalenkael/portada.jpg",
+    "portadaMovil": "storycard/laultimatravesiadevalenkael/portadamovil.jpg",
+    "slug": "thelastvoyageofvalenkael-en",
+    "storyPage": "thelastvoyageofvalenkael-en.html",
+    "audioVoz": "storycard/thelastvoyageofvalenkael-en/voz1.mp3",
+    "musicaFondo": "laultimatravesiadevalenkael.mp3",
+    "fechaCreacion": "2026-11-02T12:10:11.151Z",
+    "quiz": [
+      {
+        "q": "Which room of La IA Musical is the story «The Last Voyage of Valen-Kael» published in?",
+        "a": [
+          "Opera & Concerts",
+          "Literature",
+          "Cinema",
+          "Series"
+        ],
+        "correct": 2
+      },
+      {
+        "q": "What is the name of the experimental fighter that Captain Darek Vance pilots?",
+        "a": [
+          "Valera-1",
+          "Aeron-9",
+          "Titan-X",
+          "Leviathan"
+        ],
+        "correct": 1
+      },
+      {
+        "q": "What does Darek discover about the true purpose of the mission inside Valen-Kael?",
+        "a": [
+          "It is a cannon aimed at the enemy capital.",
+          "It is a terraforming engine that would freeze the surface of his own homeland.",
+          "It is a prison for captured pilots.",
+          "It is a lost fleet of ancient warships."
+        ],
+        "correct": 1
+      },
+      {
+        "q": "Who is Commander Valera, the pilot of the black fighter?",
+        "a": [
+          "An imperial general loyal to the Empire.",
+          "A Republican aviator presumed dead, who reveals the war is staged.",
+          "Darek's brother, who joined the Empire.",
+          "An AI that controls the fortress."
+        ],
+        "correct": 1
+      },
+      {
+        "q": "How does the story end?",
+        "a": [
+          "Darek dies when the Aeron-9 crashes into the sea.",
+          "The fortress destroys both countries.",
+          "Darek's capsule is saved, the weapon is neutralized and a new era of peace begins.",
+          "The war continues with new leaders."
+        ],
+        "correct": 2
+      }
+    ]
+  },
+  {
+    "id": 1793621100897,
+    "titulo": "El Despertar Oscuro de Selene-Voris",
+    "fraseInspiracion": "Lo que duerme bajo el hielo no es un secreto: es una advertencia.",
+    "tematica": "Series",
+    "tipo": "automatica-ia",
+    "descripcion": "En las profundidades de la Antártida, una expedición científica desentierra un enigma biomecánico milenario que altera la cordura humana. Cuando la entidad despierta, la supervivencia personal se transforma en una batalla por el destino del planeta.",
+    "imagen": "imagenportada/eldespertaroscurodeselenevoris_16_9.jpg",
+    "portada": "storycard/eldespertaroscurodeselenevoris/portada.jpg",
+    "portadaMovil": "storycard/eldespertaroscurodeselenevoris/portadamovil.jpg",
+    "slug": "eldespertaroscurodeselenevoris",
+    "storyPage": "eldespertaroscurodeselenevoris.html",
+    "audioVoz": "storycard/eldespertaroscurodeselenevoris/voz1.mp3",
+    "musicaFondo": "eldespertaroscurodeselenevoris.mp3",
+    "fechaCreacion": "2026-11-02T12:20:14.034Z"
+  },
+  {
+    "id": 1793621110897,
+    "titulo": "The Dark Awakening of Selene-Voris",
+    "fraseInspiracion": "What sleeps beneath the ice is not a secret: it is a warning.",
+    "tematica": "Series",
+    "tipo": "automatica-ia",
+    "descripcion": "Deep in Antarctica, a scientific expedition unearths a millennia-old biomechanical enigma that warps human sanity. When the entity awakens, personal survival becomes a battle for the fate of the planet.",
+    "imagen": "imagenportada/eldespertaroscurodeselenevoris_16_9.jpg",
+    "portada": "storycard/eldespertaroscurodeselenevoris/portada.jpg",
+    "portadaMovil": "storycard/eldespertaroscurodeselenevoris/portadamovil.jpg",
+    "slug": "thedarkawakeningofselenevoris-en",
+    "storyPage": "thedarkawakeningofselenevoris-en.html",
+    "audioVoz": "storycard/thedarkawakeningofselenevoris-en/voz1.mp3",
+    "musicaFondo": "eldespertaroscurodeselenevoris.mp3",
+    "fechaCreacion": "2026-11-02T12:20:14.035Z",
+    "quiz": [
+      {
+        "q": "Which room of La IA Musical is the story «The Dark Awakening of Selene-Voris» published in?",
+        "a": [
+          "Cinema",
+          "Literature",
+          "Series",
+          "Opera & Concerts"
+        ],
+        "correct": 2
+      },
+      {
+        "q": "What does the expedition find four hundred meters beneath the Antarctic ice?",
+        "a": [
+          "A buried research station.",
+          "A perfectly geometric biomechanical structure pulsing with electromagnetic energy.",
+          "A frozen ancient fleet.",
+          "A volcanic cavern full of crystals."
+        ],
+        "correct": 1
+      },
+      {
+        "q": "What is Titan-Corp's true objective?",
+        "a": [
+          "To protect the scientists.",
+          "To destroy the entity before it wakes.",
+          "To extract the core of Selene-Voris at all costs.",
+          "To abandon the base."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "What does Mateo discover about Selene-Voris inside its inner chamber?",
+        "a": [
+          "It is the planet's own backup system, holding the genetic code of extinct species.",
+          "It is a weapon built by Titan-Corp.",
+          "It is an alien ship waiting for rescue.",
+          "It is a hoax created by the mercenaries."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "How does the story end?",
+        "a": [
+          "The entity is destroyed and the base is saved.",
+          "Mateo escapes with the core.",
+          "Titan-Corp takes control of the entity.",
+          "The explosion triggers the Genesis Sequence, and other ancient structures begin to awaken worldwide."
+        ],
+        "correct": 3
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "titulo": "Tarjeta Base Inicial",
+    "tematica": "CINE",
+    "descripcion": "Tarjeta de ejemplo previa.",
+    "imagen": "storycard/assets/images/default_cover.jpg",
+    "audioVoz": "storycard/assets/audio/voz/default.mp3",
+    "musicaFondo": "storycard/assets/audio/musica/cine_ambient.mp3"
+  }
+]

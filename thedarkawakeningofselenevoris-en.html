@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>The Dark Awakening of Selene-Voris</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Text:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #f8f3ea;
+    --cream-dark: #ede5d4;
+    --ink: #2a1f14;
+    --ink-light: #6b5a47;
+    --gold: #c8a96e;
+    --spine: #8b6e50;
+  }
+
+  html, body {
+    height: 100%;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  body {
+    background: radial-gradient(ellipse at center, #3a2a1a 0%, #1a1008 100%);
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    font-family: 'Crimson Text', Georgia, serif;
+    overflow: hidden;
+    position: relative;
+    padding: 0;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── UI WRAPPER ── */
+  .ui-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100dvh;
+    position: relative;
+    z-index: 10;
+    padding: 10px 10px 8px;
+    gap: 8px;
+  }
+
+  /* ── TOP BAR ── */
+  .top-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 440px;
+    flex-shrink: 0;
+    gap: 6px;
+  }
+
+  .book-title-header {
+    color: var(--gold);
+    font-family: 'Playfair Display', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.75;
+    white-space: nowrap;
+    flex-shrink: 0;
+    text-align: center;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ── AUDIO CONTROLS BAR ── */
+  .audio-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 100%;
+  }
+  .audio-bar.visible { opacity: 1; pointer-events: all; }
+
+  .audio-btn {
+    background: rgba(200,169,110,0.12);
+    border: 1px solid rgba(200,169,110,0.3);
+    border-radius: 50%;
+    width: 30px; height: 30px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+    color: var(--gold);
+    padding: 0;
+    flex-shrink: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .audio-btn:active { background: rgba(200,169,110,0.25); }
+  .audio-btn svg { width: 12px; height: 12px; flex-shrink: 0; }
+
+  .audio-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.46rem;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: rgba(200,169,110,0.55);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .audio-divider {
+    width: 1px;
+    height: 18px;
+    background: rgba(200,169,110,0.2);
+    flex-shrink: 0;
+    margin: 0 2px;
+  }
+
+  /* Voice indicator */
+  .voice-indicator {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    height: 14px;
+    flex-shrink: 0;
+  }
+  .voice-indicator span {
+    display: block;
+    width: 3px;
+    border-radius: 2px;
+    background: var(--gold);
+    opacity: 0;
+    animation: none;
+  }
+  .voice-indicator.playing span { opacity: 0.7; animation: voiceBar 1s ease-in-out infinite; }
+  .voice-indicator.playing span:nth-child(1) { animation-delay: 0s; }
+  .voice-indicator.playing span:nth-child(2) { animation-delay: 0.15s; }
+  .voice-indicator.playing span:nth-child(3) { animation-delay: 0.3s; }
+  .voice-indicator.playing span:nth-child(4) { animation-delay: 0.15s; }
+  @keyframes voiceBar {
+    0%, 100% { height: 4px; }
+    50%       { height: 13px; }
+  }
+
+  #musicVolume {
+    width: 44px;
+    accent-color: var(--gold);
+    cursor: pointer;
+    vertical-align: middle;
+    flex-shrink: 0;
+  }
+
+  /* ── BOOK WRAPPER ── */
+  .book-wrapper {
+    position: relative;
+    flex: 1;
+    width: 100%;
+    max-width: 440px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  /* ── OPEN HINT ── */
+  .open-hint-badge {
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(200,169,110,0.15);
+    border: 1px solid rgba(200,169,110,0.35);
+    backdrop-filter: blur(6px);
+    border-radius: 30px;
+    padding: 6px 16px;
+    color: var(--gold);
+    font-family: 'Playfair Display', serif;
+    font-size: 0.66rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    animation: pulseHint 2.4s ease-in-out infinite;
+    transition: opacity 0.4s;
+    z-index: 30;
+    white-space: nowrap;
+  }
+  .open-hint-badge.hidden { opacity: 0; pointer-events: none; }
+  .open-hint-badge svg { opacity: 0.7; flex-shrink: 0; }
+  @keyframes pulseHint {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(200,169,110,0); }
+    50%       { box-shadow: 0 0 0 6px rgba(200,169,110,0.12); }
+  }
+
+  /* ── BOOK CARD ── */
+  .book-card {
+    width: 100%;
+    height: 100%;
+    border-radius: 14px;
+    box-shadow:
+      0 8px 32px rgba(0,0,0,0.7),
+      0 0 0 1px rgba(255,255,255,0.05),
+      inset -3px 0 8px rgba(0,0,0,0.15);
+    position: relative;
+    overflow: hidden;
+    background: var(--cream);
+    -webkit-tap-highlight-color: transparent;
+    perspective: 1400px;
+  }
+
+  /* Lomo del libro */
+  .book-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 8px;
+    background: linear-gradient(to right, var(--spine), rgba(139,110,80,0.3));
+    z-index: 20;
+    pointer-events: none;
+  }
+
+  /* ── COVER PAGE ── */
+  .cover-page {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+  }
+  .cover-page img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    display: block;
+  }
+  .cover-bg-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(160deg, #4a3520, #1a1008);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 6rem;
+    opacity: 0.5;
+  }
+  .cover-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 28px 24px;
+  }
+  .cover-overlay h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.7rem;
+    color: #fff;
+    line-height: 1.2;
+    text-shadow: 0 2px 16px rgba(0,0,0,0.8);
+    margin-bottom: 6px;
+  }
+  .cover-overlay .cover-frase {
+    font-family: 'Crimson Text', serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: rgba(200, 169, 110, 0.95);
+    margin-bottom: 10px;
+    line-height: 1.35;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.9);
+  }
+  .cover-overlay .author {
+    font-family: 'Crimson Text', serif;
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.75);
+    letter-spacing: 0.1em;
+  }
+
+  .cover-page::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(200,169,110,0);
+    transition: background 0.3s;
+    pointer-events: none;
+  }
+  .cover-page:active::after { background: rgba(200,169,110,0.08); }
+
+  /* ── STORY PAGE ── */
+  .story-page {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    background: var(--cream);
+  }
+
+  .page-illustration {
+    width: 100%;
+    flex-shrink: 0;
+    position: relative;
+    background: var(--cream-dark);
+    line-height: 0;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+  }
+  .page-illustration img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  .img-placeholder {
+    width: 100%;
+    padding: 40px 0;
+    background: var(--cream-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .img-placeholder svg { opacity: 0.15; width: 70px; height: 70px; }
+
+  /* Marco perimetral */
+  .page-illustration::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    box-shadow:
+      inset 0    30px 22px -8px var(--cream),
+      inset 0   -42px 28px -8px var(--cream),
+      inset  28px 0   22px -8px var(--cream),
+      inset -28px 0   22px -8px var(--cream);
+  }
+  .page-illustration::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 55px;
+    z-index: 3;
+    background: linear-gradient(to bottom, transparent, var(--cream));
+    pointer-events: none;
+  }
+
+  /* Sección de texto */
+  .page-text-section {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 22px 20px 26px;
+    position: relative;
+    background: var(--cream);
+  }
+  .chapter-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 14px;
+    opacity: 0.6;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .drop-cap {
+    font-family: 'Playfair Display', serif;
+    font-size: 4.4rem;
+    font-weight: 700;
+    line-height: 0.75;
+    float: left;
+    margin-right: 6px;
+    margin-top: 4px;
+    color: var(--ink);
+  }
+
+  .page-text {
+    font-family: 'Crimson Text', serif;
+    font-size: 1.12rem;
+    line-height: 1.7;
+    color: var(--ink);
+    text-align: justify;
+    position: relative;
+    z-index: 1;
+    background-image: repeating-linear-gradient(
+      transparent, transparent 30px,
+      rgba(180,160,130,0.13) 30px,
+      rgba(180,160,130,0.13) 31px
+    );
+    background-position: 0 4px;
+  }
+  .page-text p { margin-bottom: 0.8em; }
+  .page-text p::after { content: ''; display: table; clear: both; }
+
+  .page-number {
+    margin-top: 10px;
+    text-align: right;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.72rem;
+    color: var(--ink-light);
+    opacity: 0.5;
+    position: relative;
+    z-index: 2;
+  }
+
+  .swipe-hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 14px 0 16px;
+    color: var(--ink-light);
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-family: 'Playfair Display', serif;
+    opacity: 0.4;
+    flex-shrink: 0;
+    background: var(--cream);
+  }
+
+  /* ── NAVIGATION ARROWS ── */
+  @keyframes arrowPulse {
+    0%, 100% {
+      box-shadow: 0 0 0 0 rgba(200,169,110,0.55), 0 0 10px 2px rgba(200,169,110,0.25);
+      background: rgba(200,169,110,0.22);
+      border-color: rgba(200,169,110,0.7);
+    }
+    50% {
+      box-shadow: 0 0 0 8px rgba(200,169,110,0), 0 0 18px 4px rgba(200,169,110,0.45);
+      background: rgba(200,169,110,0.42);
+      border-color: var(--gold);
+    }
+  }
+
+  .nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 25;
+    width: 42px; height: 42px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(200,169,110,0.22);
+    border: 1.5px solid rgba(200,169,110,0.7);
+    border-radius: 50%;
+    color: var(--gold);
+    cursor: pointer;
+    transition: background 0.2s, opacity 0.3s;
+    -webkit-tap-highlight-color: transparent;
+    backdrop-filter: blur(6px);
+    animation: arrowPulse 1.5s ease-in-out infinite;
+  }
+  .nav-arrow:active { background: rgba(200,169,110,0.55); }
+  .nav-arrow.hidden { opacity: 0; pointer-events: none; animation: none; }
+  .nav-arrow svg { width: 18px; height: 18px; filter: drop-shadow(0 0 3px rgba(200,169,110,0.6)); }
+  .nav-arrow-left  { left: 6px; }
+  .nav-arrow-right { right: 6px; }
+
+  /* ── END PAGE ── */
+  .end-page {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--cream);
+  }
+  .end-page-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 30px;
+    text-align: center;
+  }
+  .end-page-content .ornament { color: var(--gold); font-size: 1.8rem; opacity: 0.6; }
+  .end-page-content h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--ink);
+  }
+  .end-page-content p {
+    font-family: 'Crimson Text', serif;
+    font-size: 0.95rem;
+    color: var(--ink-light);
+    opacity: 0.7;
+    letter-spacing: 0.1em;
+  }
+  .back-btn {
+    margin-top: 6px;
+    padding: 10px 24px;
+    border: 1px solid var(--gold);
+    background: none;
+    color: var(--ink-light);
+    font-family: 'Playfair Display', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back-btn:active { background: var(--gold); color: var(--cream); }
+
+  /* ── NAV DOTS ── */
+  .nav-dots {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+    padding: 2px 0;
+    z-index: 10;
+    position: relative;
+  }
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(200,169,110,0.3);
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 1px solid rgba(200,169,110,0.4);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .dot.active { background: var(--gold); transform: scale(1.3); }
+
+  /* ══════════════════════════════════════════════════════
+     PAGE FLIP ANIMATIONS
+  ══════════════════════════════════════════════════════ */
+  @keyframes pageFlipInForward {
+    0%   { transform: perspective(1400px) rotateY(-88deg); transform-origin: left center;  opacity: 0.4; filter: brightness(0.6); }
+    40%  { opacity: 0.85; filter: brightness(0.85); }
+    100% { transform: perspective(1400px) rotateY(0deg);   transform-origin: left center;  opacity: 1;   filter: brightness(1); }
+  }
+  @keyframes pageFlipInBackward {
+    0%   { transform: perspective(1400px) rotateY(88deg);  transform-origin: right center; opacity: 0.4; filter: brightness(0.6); }
+    40%  { opacity: 0.85; filter: brightness(0.85); }
+    100% { transform: perspective(1400px) rotateY(0deg);   transform-origin: right center; opacity: 1;   filter: brightness(1); }
+  }
+  @keyframes pageFlipOutForward {
+    0%   { transform: perspective(1400px) rotateY(0deg);   transform-origin: left center;  opacity: 1;   filter: brightness(1); }
+    60%  { opacity: 0.5; filter: brightness(0.7); }
+    100% { transform: perspective(1400px) rotateY(-88deg); transform-origin: left center;  opacity: 0;   filter: brightness(0.4); }
+  }
+  @keyframes pageFlipOutBackward {
+    0%   { transform: perspective(1400px) rotateY(0deg);  transform-origin: right center;  opacity: 1;   filter: brightness(1); }
+    60%  { opacity: 0.5; filter: brightness(0.7); }
+    100% { transform: perspective(1400px) rotateY(88deg); transform-origin: right center;  opacity: 0;   filter: brightness(0.4); }
+  }
+
+  .anim-in-forward   { animation: pageFlipInForward   0.42s cubic-bezier(0.25,0.46,0.45,0.94) both; }
+  .anim-in-backward  { animation: pageFlipInBackward  0.42s cubic-bezier(0.25,0.46,0.45,0.94) both; }
+  .anim-out-forward  { animation: pageFlipOutForward  0.22s cubic-bezier(0.4,0,1,1) both; }
+  .anim-out-backward { animation: pageFlipOutBackward 0.22s cubic-bezier(0.4,0,1,1) both; }
+
+  .page-shadow-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 15;
+    opacity: 0;
+    background: linear-gradient(to right, rgba(0,0,0,0.18) 0%, transparent 40%);
+    animation: shadowSweepForward 0.55s ease-out forwards;
+  }
+  .page-shadow-overlay.backward {
+    background: linear-gradient(to left, rgba(0,0,0,0.18) 0%, transparent 40%);
+    animation: shadowSweepBackward 0.55s ease-out forwards;
+  }
+/* Añade el "notch"/safe-area de iOS al viewport si el <meta viewport>
+       de la página no lo incluye todavía. No pasa nada si ya lo tenía. */
+    #backToRoomBtn {
+        position: fixed;
+        z-index: 9999;
+        display: none; /* se muestra solo si venimos de reproductor.html */
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        max-width: calc(100vw - 24px);
+        box-sizing: border-box;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        /* Desktop / tablet */
+        bottom: 24px;
+        right: 24px;
+        padding: 12px 20px;
+        font-size: 0.85rem;
+
+        border-radius: 9999px;
+        background: linear-gradient(135deg, #0d9488, #0891b2);
+        color: #fff;
+        font-weight: 700;
+        border: 1px solid rgba(45, 212, 191, 0.5);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.4), 0 0 20px rgba(45,212,191,0.25);
+        cursor: pointer;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        transition: transform .2s ease, box-shadow .2s ease;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    #backToRoomBtn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 32px rgba(0,0,0,0.5), 0 0 28px rgba(45,212,191,0.4);
+    }
+    #backToRoomBtn:active { transform: translateY(-1px) scale(0.97); }
+    #backToRoomBtn i { font-size: 1rem; flex-shrink: 0; }
+    #backToRoomLabel {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    /* ── Móviles: pegado al borde inferior, respetando el "safe area"
+         del notch/barra de gestos, y sin desbordar horizontalmente ── */
+    @media (max-width: 640px) {
+        #backToRoomBtn {
+            left: 12px;
+            right: 12px;
+            bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+            width: auto;
+            max-width: calc(100vw - 24px);
+            padding: 11px 16px;
+            font-size: 0.78rem;
+            justify-content: center;
+        }
+    }
+
+    /* Pantallas muy pequeñas (≤360px) */
+    @media (max-width: 360px) {
+        #backToRoomBtn {
+            left: 8px;
+            right: 8px;
+            bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+            padding: 10px 12px;
+            font-size: 0.72rem;
+            gap: 6px;
+        }
+    }
+</style>
+</head>
+<body>
+<div class="ui-wrapper">
+
+  <div class="top-bar">
+    <p class="book-title-header">✦ The Dark Awakening of Selene-Voris ✦</p>
+
+    <div class="audio-bar" id="audioBar">
+      <div class="voice-indicator" id="voiceIndicator">
+        <span></span><span></span><span></span><span></span>
+      </div>
+      <span class="audio-label">NARRATOR</span>
+      <button class="audio-btn" id="btnVoicePause" title="Pause/Resume narration" onclick="toggleVoicePause()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" id="iconVoicePause">
+          <polygon points="5 3 19 12 5 21 5 3"/>
+        </svg>
+      </button>
+      <button class="audio-btn" title="Stop narration" onclick="stopVoice()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <rect x="4" y="4" width="16" height="16" rx="1"/>
+        </svg>
+      </button>
+
+      <div class="audio-divider"></div>
+
+      <span class="audio-label">MUSIC</span>
+      <button class="audio-btn" id="btnMusicPause" title="Pause/Resume music" onclick="toggleMusicPause()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" id="iconMusicPause">
+          <polygon points="5 3 19 12 5 21 5 3"/>
+        </svg>
+      </button>
+      <button class="audio-btn" title="Mute music" onclick="toggleMusic()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" id="iconMusic">
+          <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+        </svg>
+      </button>
+      <input type="range" id="musicVolume" min="0" max="1" step="0.05" value="0.4"
+        title="Music volume" oninput="setMusicVolume(this.value)">
+    </div>
+  </div>
+
+  <div class="book-wrapper" id="bookWrapper">
+
+    <div class="open-hint-badge" id="openHintBadge">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+      </svg>
+      Tap to open
+    </div>
+
+    <div class="nav-arrow nav-arrow-left hidden" id="navLeft" onclick="prevPage()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M15 18l-6-6 6-6"/>
+      </svg>
+    </div>
+    <div class="nav-arrow nav-arrow-right hidden" id="navRight" onclick="nextPage()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M9 18l6-6-6-6"/>
+      </svg>
+    </div>
+
+    <div class="book-card" id="bookCard"></div>
+  </div>
+
+  <div class="nav-dots" id="navDots"></div>
+
+</div>
+<button id="backToRoomBtn" onclick="goBackToRoom()">
+    <i class="fas fa-arrow-left"></i>
+    <span id="backToRoomLabel">Back to room</span>
+</button>
+<script>
+const MUSIC_SRC = "eldespertaroscurodeselenevoris.mp3";
+const pages = [
+  {
+    type: 'cover',
+    coverImg: "storycard/eldespertaroscurodeselenevoris/portada.jpg",
+    coverMobileImg: "storycard/eldespertaroscurodeselenevoris/portadamovil.jpg",
+    title: "The Dark Awakening of Selene-Voris",
+    author: "By LaIAmusical"
+  },
+  {
+    type: 'story',
+    pageNum: 1,
+    chapterTitle: "Chapter 1 — The Echo in the Crack",
+    illustrationSrc: "storycard/eldespertaroscurodeselenevoris/imagen1.jpg",
+    voiceSrc: "storycard/thedarkawakeningofselenevoris-en/voz1.mp3",
+    text: "Four hundred meters beneath the frozen Antarctic desert, the main drill bit struck something that should not exist. Dr. Mateo Ramos watched as the seismic density readings went off every logical scale. It was not rock, nor permafrost, nor volcanic basalt. It was a perfectly geometric structure, polished like jet and as vast as an underground city, brimming with a faint electromagnetic pulse.\n\nBeside him, engineer Astrid Lindholm tried to calibrate the sensors, but the screens registered a single repeating sequence of pulses. Mateo, still tormented by the relentless grief of losing his daughter Sofía in an accident years before, felt a crackle not in his headphones, but deep inside his own skull. It was a melodic murmur, harmonic and terribly familiar.\n\n\"We are not alone down here,\" whispered glaciologist Ilya Morozov, pressing his forehead against the glass of the excavation cabin.\n\nIn that instant, the enormous wall of ice separating them from the enigma cracked. From the fissures burst a violet bioluminescent light that devoured the gloom. The thermal readings of the abyss soared within seconds: from forty degrees below zero to an almost tropical warmth. The artifact, named Selene-Voris in the mission's ancient texts, had sensed the human presence and had just opened its first eye. "
+  },
+  {
+    type: 'story',
+    pageNum: 2,
+    chapterTitle: "Chapter 2 — Voices Beneath the Frost",
+    illustrationSrc: "storycard/eldespertaroscurodeselenevoris/imagen2.jpg",
+    voiceSrc: "storycard/thedarkawakeningofselenevoris-en/voz2.mp3",
+    text: "The Astraea polar station turned into a hotbed of paranoia in less than twenty-four hours. The violet radiation emitted by Selene-Voris caused no cellular damage, but it triggered anomalous neural activity in the temporal lobe. Ilya was the first to give way. Locked in the cartography room, he tirelessly drew intricate star maps that matched no known constellation, using his own blood as ink.\n\nCommander Gabriel Thorne, the base's head of security, declared a state of emergency and tried to cut power to the drilling shaft. However, Astrid intervened in the central system to stop him. In secret, the engineer had been sending encrypted transmissions to the headquarters of the Titan-Corp corporation in Geneva; the executive order was clear: extract the core of Selene-Voris at all costs, regardless of human casualties.\n\nMateo tried to make her see reason, but was interrupted by a clear, crystalline whisper inside his mind. Sofía's voice asked him to descend into the abyss, assuring him that the pain of grief would vanish forever if he allowed the integration. While he argued with Thorne about the need to evacuate the station, the main lights failed. In the absolute darkness of the storm outside, a harrowing scream echoed from the medical bay: Ilya had broken through the containment barrier and was running barefoot toward the depths of the drilling shaft. "
+  },
+  {
+    type: 'story',
+    pageNum: 3,
+    chapterTitle: "Chapter 3 — Blood and Geothermics",
+    illustrationSrc: "storycard/eldespertaroscurodeselenevoris/imagen3.jpg",
+    voiceSrc: "storycard/thedarkawakeningofselenevoris-en/voz3.mp3",
+    text: "The descent into the pit was a race against time. Mateo and Gabriel climbed down the metal ladder while the station's geothermal generators groaned under unsustainable pressure. At the bottom of the excavation, the structure of Selene-Voris had unfurled a network of biomechanical filaments resembling plant roots, embedding themselves directly into the base's reactors and draining their energy.\n\nThey found Ilya at the center of the platform. The glaciologist showed no signs of frostbite despite standing barefoot on the frozen floor; his eyes were completely stained violet and his skin bore marked fluorescent veins. He knelt, touching the smooth surface of Selene-Voris as a mass of organic tendrils coiled around his arms.\n\n\"It is not a structure, Mateo... it is a womb,\" Ilya said, in a voice layered with thousands of simultaneous harmonic frequencies.\n\nGabriel drew his tactical weapon and ordered Ilya to step away, but the filaments leapt with superhuman speed, piercing the armor of Gabriel's vest and pinning him against the ice wall. Mateo ran to free him, but the wall of the monolith turned liquid, revealing inside it the transparent figure of a sleeping entity whose human silhouette seemed to change shape from one instant to the next. The electromagnetic pulse intensified, blowing the fuses of the entire station and leaving the surface without communications to the outside world. "
+  },
+  {
+    type: 'story',
+    pageNum: 4,
+    chapterTitle: "Chapter 4 — The Traitor of the Ice",
+    illustrationSrc: "storycard/eldespertaroscurodeselenevoris/imagen4.jpg",
+    voiceSrc: "storycard/thedarkawakeningofselenevoris-en/voz4.mp3",
+    text: "In the half-light of the complex plunged into chaos, Mateo managed to cut the tendril that held Gabriel prisoner using an industrial thermal cutter. The trauma, however, had left the commander severely wounded. Returning to the main level while dragging Gabriel, they discovered that the command center had been seized by Astrid and a small group of mercenaries who had infiltrated aboard the last supply transport before the storm.\n\nAstrid held manual control of the drilling shaft and aimed a sonic detonator at the fuel depots. She confessed that Selene-Voris was no chance discovery; Titan-Corp had been tracking its signal from orbital space for three decades, and the base's scientists had merely been the instrument for unearthing it.\n\n\"This entity contains the biological template of Earth's evolution,\" Astrid declared, her gaze devoid of empathy. \"Whoever controls Selene-Voris will reshape human life at will. The corporation will not allow you to destroy this find.\"\n\nMateo understood that corporate ambition had unleashed something they could neither comprehend nor control. Just as the mercenaries prepared to execute Gabriel, the structure at the bottom of the shaft emitted a sonic shockwave that made the walls of the complex vibrate. The ice supporting the base began to fracture into kilometer-long cracks, threatening to bury everyone under millions of tons of snow. "
+  },
+  {
+    type: 'story',
+    pageNum: 5,
+    chapterTitle: "Chapter 5 — The Chrysalis of Flesh",
+    illustrationSrc: "storycard/eldespertaroscurodeselenevoris/imagen5.jpg",
+    voiceSrc: "storycard/thedarkawakeningofselenevoris-en/voz5.mp3",
+    text: "The shockwave threw everyone to the ground, causing a cave-in in the western sector of Astraea. Mateo used the confusion to drag Gabriel into the secondary ventilation ducts. Meanwhile, in the lower drilling zone, Ilya's body had ceased to be entirely human. The integration with Selene-Voris was accelerating: the entity was using him as a channel of expression to speak through the base's loudspeakers.\n\nAstrid's mercenaries tried to place explosive charges on the entity's control nodes to force its extraction, but the structure reacted defensively. The violet filaments spread through the corridors like a living plague, assimilating organic matter and machinery alike. The screams of the captured mercenaries echoed over the intercoms before being silenced by assimilation.\n\nFrom the shadows, Mateo watched as the metal walls of the base became covered with a layer of biological tissue that breathed rhythmically. The voice of his daughter Sofía resounded more clearly inside his mind, promising him a reunion with her if he walked toward the center of the core. Mateo's sanity began to crack under the pressure of grief and the artifact's telepathic influence. Gabriel, weakened by his wounds, gripped his arm firmly, reminding him of his duty to stop that entity from reaching the surface. "
+  },
+  {
+    type: 'story',
+    pageNum: 6,
+    chapterTitle: "Chapter 6 — The Whisper of Absolution",
+    illustrationSrc: "storycard/eldespertaroscurodeselenevoris/imagen6.jpg",
+    voiceSrc: "storycard/thedarkawakeningofselenevoris-en/voz6.mp3",
+    text: "Armed only with high-temperature plasma charges, Mateo and Gabriel decided to infiltrate the pit once more before the assimilation became irreversible. Upon reaching the level of the cavernous floor, the transformation of the area was absolute: the ice had given way to a fluorescent biomechanical ecosystem, where plants of crystal and metal grew over the permafrost.\n\nAstrid awaited them on the access bridge to the core, gravely infected by the radiation yet wielding a neural extraction unit. The entity no longer hid; the monolith had opened like a giant chrysalis, revealing a heart of pure light that altered the laws of time and space around it.\n\n\"Don't you understand, Mateo?\" Astrid said, violet-tinged tears running down her cheeks. \"It is neither a weapon nor a treasure. Selene-Voris is a planetary reset mechanism. It has awakened because our species has driven the world to collapse.\"\n\nMateo advanced toward the core. The projection of his daughter Sofía emerged from the light, reaching out her hands and showing him memories of her childhood in impossible detail. The desire to embrace the ghost of his daughter nearly made him drop the plasma detonator, but Gabriel reacted by firing a covering volley at Astrid's extraction systems, momentarily shattering the illusion. "
+  },
+  {
+    type: 'story',
+    pageNum: 7,
+    chapterTitle: "Chapter 7 — Mutiny in the Abyss",
+    illustrationSrc: "storycard/eldespertaroscurodeselenevoris/imagen7.jpg",
+    voiceSrc: "storycard/thedarkawakeningofselenevoris-en/voz7.mp3",
+    text: "Gabriel's shot unleashed the fury of Selene-Voris's defense systems. The access bridge began to collapse over the geothermal abyss. Astrid, unhinged by the failure of her corporate mission, tried to activate the reactors' overload sequence to destroy the entity and the base simultaneously, preferring annihilation to losing control of the find.\n\nGabriel threw himself upon her in a desperate struggle at the edge of the precipice, managing to wrest the reactor controls from her at the cost of being mortally wounded by a thermal blade. With his last breath, the commander looked at Mateo and handed him the emergency access card to the central systems.\n\n\"End this, Mateo... don't let it leave this continent,\" Gabriel whispered before collapsing beside Astrid in the darkness of the crevice.\n\nMateo was left completely alone before the entity. Selene-Voris seemed to watch the humans' deaths with a frozen curiosity. The entity's voice stopped imitating Sofía and adopted an ancient resonance, speaking directly into Mateo's mind: it revealed that they were not the first humans to find it, nor would they be the last to try to destroy it. Time was running out; the temperature outside was dropping to record levels as the storm threatened to bury the station under an unrelenting glacier. "
+  },
+  {
+    type: 'story',
+    pageNum: 8,
+    chapterTitle: "Chapter 8 — The Underground Garden",
+    illustrationSrc: "storycard/eldespertaroscurodeselenevoris/imagen8.jpg",
+    voiceSrc: "storycard/thedarkawakeningofselenevoris-en/voz8.mp3",
+    text: "Cut off from the rest of the planet and with his vital signs nearing the limit from hypothermia, Mateo entered the inner chamber of Selene-Voris. Unlike the cold outside, the center of the monolith held a temperate, oxygen-rich atmosphere, where technology and biology converged in perfect balance. Gigantic helical structures floated in the air with no apparent gravity.\n\nMateo discovered that Selene-Voris kept in its genetic memory the code of thousands of extinct species of Earth, preserved for millions of years beneath the Antarctic ice. The entity was not an extraterrestrial invader; it was the planet's own backup system, programmed to activate when the biosphere reached a point of no return.\n\nHowever, the Titan-Corp corporation had altered the activation parameters by forcing entry with industrial methods. The reset sequence was not restoring nature, but eradicating the current atmosphere to adapt it to a new biological era incompatible with human life.\n\nMateo placed the last plasma charge on the central processing node. He had only five minutes before the timer reached zero. On the screen of his suit, an emergency satellite signal managed to slip through for a second: a fleet of Titan-Corp submarines had just broken through the ice off the nearby coast. "
+  },
+  {
+    type: 'story',
+    pageNum: 9,
+    chapterTitle: "Chapter 9 — Fire over the Permafrost",
+    illustrationSrc: "storycard/eldespertaroscurodeselenevoris/imagen9.jpg",
+    voiceSrc: "storycard/thedarkawakeningofselenevoris-en/voz9.mp3",
+    text: "Titan-Corp's elite troops burst into the Astraea complex from the upper levels, using heavy weaponry to purge any trace of biological assimilation. The detonations shook the entire structure, accelerating the glacier's collapse onto the base. Mateo hid behind the pillars of the inner chamber, adjusting the timer of the explosive payload as the soldiers rappelled down toward the core.\n\nThe captain of the mercenary force spotted Mateo and ordered him to disarm the plasma charge. Mateo tried to explain that activating the core would trigger a global catastrophe beyond any human control, but the answer was a burst of gunfire that grazed his protective helmet.\n\nSelene-Voris reacted to the invaders' armed violence. The ground opened into a series of thermal fissures from which gushed fountains of cold magma and crystalline energy. The soldiers were dragged by electromagnetic currents into the matrix, where their consciousnesses were digitized and absorbed into the entity's network.\n\nMateo ran toward the manual detonation panel to secure the explosion. As his hand came to rest on the switch, the light of Selene-Voris intensified until it became blinding. Sofía's voice resounded one last time, but this time it was no illusion: it was a farewell message recorded in the very fabric of reality. "
+  },
+  {
+    type: 'story',
+    pageNum: 10,
+    chapterTitle: "Chapter 10 — The Genesis Sequence",
+    illustrationSrc: "storycard/eldespertaroscurodeselenevoris/imagen10.jpg",
+    voiceSrc: "storycard/thedarkawakeningofselenevoris-en/voz10.mp3",
+    text: "Mateo pressed the manual detonator. The plasma charge became a star in the heart of the glacier, disintegrating the control core of Selene-Voris in a flash of extreme heat. The explosion melted millions of tons of ice within seconds, causing a tidal wave of steam and boiling water that surged toward the surface of the Antarctic continent.\n\nHowever, the charge's purpose was not to destroy the entity, but to release all the energy contained within it in an uncontrolled way. Instead of shutting down, the pillars of Selene-Voris launched a beam of ultraviolet light kilometers wide straight into the stratosphere, piercing the ozone layer and connecting with satellites in Earth's orbit.\n\nFrom the ruins of the command center, Mateo, gravely wounded but still alive, watched through the broken dome as the night sky over the South Pole turned a violet aurora that began to spread rapidly toward the inhabited continents.\n\nOn the control screens still flickering amid the rubble, the global readings confirmed the worst possible scenario: Selene-Voris had not been destroyed. The plasma explosion had initiated the Genesis Sequence on a planetary scale. All around the globe, from the ocean trenches to the snowy peaks of the Himalayas, other submerged millennia-old structures began to answer the call, awakening from their eons-long slumber. "
+  },
+  { type: 'end' }
+];
+const musicAudio  = new Audio();
+musicAudio.loop   = true;
+musicAudio.volume = 0.4;
+if (MUSIC_SRC) musicAudio.src = MUSIC_SRC;
+
+let voiceAudio   = null;
+let voicePaused  = false;
+let musicMuted   = false;
+let musicPaused  = false;
+let bookOpened   = false;
+
+function startMusic() {
+  if (!MUSIC_SRC || musicMuted) return;
+  musicAudio.currentTime = 0;
+  musicAudio.play().catch(() => {});
+  updateMusicPauseIcon(true);
+}
+
+function stopAllAudio() {
+  if (voiceAudio) { voiceAudio.pause(); voiceAudio.currentTime = 0; }
+  voicePaused = false;
+  setVoiceIndicator(false);
+  updateVoicePauseIcon(false);
+}
+
+function playPageVoice(src) {
+  stopAllAudio();
+  if (!src) return;
+  voiceAudio = new Audio(src);
+  voiceAudio.volume = 1;
+  voiceAudio.play().catch(() => {});
+  voiceAudio.onplay  = () => { setVoiceIndicator(true);  updateVoicePauseIcon(true); };
+  voiceAudio.onended = () => { setVoiceIndicator(false); updateVoicePauseIcon(false); voicePaused = false; };
+  voiceAudio.onpause = () => { setVoiceIndicator(false); };
+}
+
+function setVoiceIndicator(playing) {
+  const el = document.getElementById('voiceIndicator');
+  if (el) el.className = 'voice-indicator' + (playing ? ' playing' : '');
+}
+
+function updateVoicePauseIcon(isPlaying) {
+  const icon = document.getElementById('iconVoicePause');
+  if (!icon) return;
+  icon.innerHTML = isPlaying
+    ? `<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>`
+    : `<polygon points="5 3 19 12 5 21 5 3"/>`;
+}
+
+function toggleVoicePause() {
+  if (!voiceAudio) return;
+  if (voicePaused) {
+    voiceAudio.play().catch(() => {});
+    voicePaused = false;
+    setVoiceIndicator(true);
+    updateVoicePauseIcon(true);
+  } else {
+    voiceAudio.pause();
+    voicePaused = true;
+    setVoiceIndicator(false);
+    updateVoicePauseIcon(false);
+  }
+}
+
+function stopVoice() {
+  if (voiceAudio) {
+    voiceAudio.pause();
+    voiceAudio.currentTime = 0;
+    voicePaused = false;
+    setVoiceIndicator(false);
+    updateVoicePauseIcon(false);
+  }
+}
+
+function updateMusicPauseIcon(isPlaying) {
+  const icon = document.getElementById('iconMusicPause');
+  if (!icon) return;
+  icon.innerHTML = isPlaying
+    ? `<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>`
+    : `<polygon points="5 3 19 12 5 21 5 3"/>`;
+}
+
+function toggleMusicPause() {
+  if (musicMuted) return;
+  if (musicPaused) {
+    musicAudio.play().catch(() => {});
+    musicPaused = false;
+    updateMusicPauseIcon(true);
+  } else {
+    musicAudio.pause();
+    musicPaused = true;
+    updateMusicPauseIcon(false);
+  }
+}
+
+function setMusicVolume(val) {
+  musicAudio.volume = parseFloat(val);
+  if (parseFloat(val) === 0) {
+    musicMuted = true;
+    document.getElementById('iconMusic').innerHTML =
+      `<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+       <line x1="1" y1="1" x2="23" y2="23" stroke-width="2"/>`;
+    musicAudio.pause();
+    updateMusicPauseIcon(false);
+  } else if (musicMuted) {
+    musicMuted = false;
+    document.getElementById('iconMusic').innerHTML =
+      `<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>`;
+    musicAudio.play().catch(() => {});
+    updateMusicPauseIcon(true);
+  }
+}
+
+function toggleMusic() {
+  musicMuted = !musicMuted;
+  const icon   = document.getElementById('iconMusic');
+  const slider = document.getElementById('musicVolume');
+  if (musicMuted) {
+    musicAudio.pause();
+    musicPaused = false;
+    icon.innerHTML = `<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+      <line x1="1" y1="1" x2="23" y2="23" stroke-width="2"/>`;
+    if (slider) slider.value = 0;
+    updateMusicPauseIcon(false);
+  } else {
+    musicAudio.volume = 0.4;
+    musicAudio.play().catch(() => {});
+    icon.innerHTML = `<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>`;
+    if (slider) slider.value = 0.4;
+    updateMusicPauseIcon(true);
+  }
+}
+
+// ── STATE ────────────────────────────────────────────────────
+let currentPage = 0;
+let animating   = false;
+
+const bookCard  = document.getElementById('bookCard');
+const navDotsEl = document.getElementById('navDots');
+const navLeft   = document.getElementById('navLeft');
+const navRight  = document.getElementById('navRight');
+
+function withDropCap(text) {
+  const t = text.trimStart();
+  if (!t.length) return text;
+  return `<span class="drop-cap">${t.charAt(0)}</span>${t.slice(1)}`;
+}
+
+function buildDots() {
+  navDotsEl.innerHTML = '';
+  pages.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === currentPage ? ' active' : '');
+    d.onclick = () => goToPage(i);
+    navDotsEl.appendChild(d);
+  });
+}
+
+function updateArrows() {
+  const p = pages[currentPage];
+  navLeft.classList.toggle('hidden',  !bookOpened || currentPage <= 0);
+  navRight.classList.toggle('hidden', !bookOpened || p.type === 'end' || currentPage >= pages.length - 1);
+}
+
+function buildPageElement(p) {
+  const el = document.createElement('div');
+
+  if (p.type === 'cover') {
+    el.className = 'cover-page';
+    const isMobile = window.innerWidth <= 767;
+    const imgSrc = (isMobile && p.coverMobileImg) ? p.coverMobileImg : p.coverImg;
+    const fraseHtml = p.fraseInspiracion ? `<p class="cover-frase">“${p.fraseInspiracion}”</p>` : '';
+
+    el.innerHTML = imgSrc
+      ? `<img src="${imgSrc}" alt="Cover: ${p.title}">`
+      : `<div class="cover-bg-placeholder">🎵</div>`;
+    el.innerHTML += `
+      <div class="cover-overlay">
+        <h1>${p.title}</h1>
+        ${fraseHtml}
+        <p class="author">${p.author}</p>
+      </div>`;
+    el.onclick = openBook;
+
+  } else if (p.type === 'end') {
+    el.className = 'end-page';
+    el.innerHTML = `
+      <div class="end-page-content">
+        <div class="ornament">✦ ✦ ✦</div>
+        <h2>End of the story</h2>
+        <p>LaIAmusical</p>
+        <button class="back-btn" onclick="goToPage(0)">Back to the beginning</button>
+      </div>`;
+    stopAllAudio();
+
+  } else {
+    const imgHtml = p.illustrationSrc
+      ? `<img src="${p.illustrationSrc}" alt="${p.chapterTitle || 'Illustration page ' + p.pageNum}">`
+      : `<div class="img-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <path d="M3 15l5-5 4 4 3-3 6 6"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+          </svg>
+         </div>`;
+
+    el.className = 'story-page';
+    el.innerHTML = `
+      <div class="page-illustration">${imgHtml}</div>
+      <div class="page-text-section">
+        <div class="chapter-label">${p.chapterTitle || `Chapter ${p.pageNum}`}</div>
+        <div class="page-text"><p>${withDropCap(p.text)}</p></div>
+        <div class="page-number">${p.pageNum}</div>
+      </div>
+      <div class="swipe-hint">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+        Swipe to turn page
+      </div>`;
+  }
+
+  return el;
+}
+
+function renderBook(direction) {
+  const p = pages[currentPage];
+
+  const headerTitle = p.type === 'cover'
+    ? p.title
+    : p.type === 'end'
+      ? 'End of the story'
+      : (p.chapterTitle || `Chapter ${p.pageNum}`);
+  const headerEl = document.querySelector('.book-title-header');
+  if (headerEl) headerEl.textContent = headerTitle;
+
+  const newEl = buildPageElement(p);
+
+  if (direction && bookOpened) {
+    const inClass  = direction === 'forward' ? 'anim-in-forward'  : 'anim-in-backward';
+    const outClass = direction === 'forward' ? 'anim-out-forward' : 'anim-out-backward';
+
+    newEl.style.position = 'absolute';
+    newEl.style.inset    = '0';
+    newEl.style.zIndex   = '2';
+
+    const oldEl = bookCard.firstElementChild;
+    if (oldEl && !oldEl.classList.contains('page-shadow-overlay')) {
+      oldEl.style.position = 'absolute';
+      oldEl.style.inset    = '0';
+      oldEl.style.zIndex   = '1';
+      oldEl.classList.add(outClass);
+    }
+
+    const shadow = document.createElement('div');
+    shadow.className = 'page-shadow-overlay' + (direction === 'backward' ? ' backward' : '');
+    shadow.style.zIndex = '5';
+    bookCard.appendChild(shadow);
+
+    setTimeout(() => {
+      bookCard.appendChild(newEl);
+      newEl.classList.add(inClass);
+    }, 80);
+
+    setTimeout(() => {
+      while (bookCard.children.length > 1) bookCard.removeChild(bookCard.firstChild);
+      newEl.style.position = '';
+      newEl.style.inset    = '';
+      newEl.style.zIndex   = '';
+    }, 520);
+
+  } else {
+    bookCard.innerHTML = '';
+    bookCard.appendChild(newEl);
+  }
+
+  buildDots();
+  updateArrows();
+}
+
+function openBook() {
+  if (!bookOpened) {
+    bookOpened = true;
+    document.getElementById('openHintBadge').classList.add('hidden');
+    document.getElementById('audioBar').classList.add('visible');
+    startMusic();
+  }
+  nextPage();
+}
+
+function nextPage() {
+  if (currentPage < pages.length - 1) goToPage(currentPage + 1, 'forward');
+}
+function prevPage() {
+  if (currentPage > 0) goToPage(currentPage - 1, 'backward');
+}
+
+function goToPage(target, dir) {
+  if (animating || target === currentPage || target < 0 || target >= pages.length) return;
+  const forward = dir ? dir === 'forward' : target > currentPage;
+  animating = true;
+  stopAllAudio();
+  currentPage = target;
+  renderBook(forward ? 'forward' : 'backward');
+  setTimeout(() => {
+    animating = false;
+    const p = pages[currentPage];
+    if (p && p.voiceSrc) playPageVoice(p.voiceSrc);
+  }, 540);
+}
+
+// ── SWIPE GESTURES ───────────────────────────────────────────
+let touchStartX = 0;
+let touchStartY = 0;
+
+bookCard.addEventListener('touchstart', e => {
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+}, { passive: true });
+
+bookCard.addEventListener('touchend', e => {
+  if (!bookOpened) return;
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  const dy = e.changedTouches[0].clientY - touchStartY;
+  if (Math.abs(dx) > Math.abs(dy) * 1.2 && Math.abs(dx) > 45) {
+    if (dx < 0) nextPage();
+    else        prevPage();
+  }
+}, { passive: true });
+
+// ── KEYBOARD ─────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextPage();
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   prevPage();
+});
+
+// ── INIT ─────────────────────────────────────────────────────
+renderBook();
+</script>
+<script>
+(function () {
+    // Asegura que el viewport respete el "notch"/barra de gestos en iPhone,
+    // para que env(safe-area-inset-bottom) funcione aunque la página no
+    // tuviera viewport-fit=cover configurado en su <meta viewport>.
+    var vp = document.querySelector('meta[name="viewport"]');
+    if (vp && vp.content.indexOf('viewport-fit') === -1) {
+        vp.content = vp.content + ', viewport-fit=cover';
+    } else if (!vp) {
+        var m = document.createElement('meta');
+        m.name = 'viewport';
+        m.content = 'width=device-width, initial-scale=1.0, viewport-fit=cover';
+        document.head.appendChild(m);
+    }
+
+    var returnUrl   = sessionStorage.getItem('lastRoomUrl');
+    var returnTopic = sessionStorage.getItem('lastRoomTopicLabel') || sessionStorage.getItem('lastRoomTopic');
+    var btn   = document.getElementById('backToRoomBtn');
+    var label = document.getElementById('backToRoomLabel');
+
+    // Solo mostrar el botón si llegamos aquí desde reproductor.html
+    if (returnUrl) {
+        btn.style.display = 'flex';
+        if (returnTopic) {
+            label.textContent = 'Back to ' + returnTopic;
+        }
+    }
+
+    window.goBackToRoom = function () {
+        window.location.href = returnUrl || 'reproductor.html';
+    };
+})();
+</script>
+</body>
+</html>

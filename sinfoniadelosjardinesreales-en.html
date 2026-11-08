@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Symphony of the Royal Gardens</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Text:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #f8f3ea;
+    --cream-dark: #ede5d4;
+    --ink: #2a1f14;
+    --ink-light: #6b5a47;
+    --gold: #c8a96e;
+    --spine: #8b6e50;
+  }
+
+  html, body {
+    height: 100%;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  body {
+    background: radial-gradient(ellipse at center, #3a2a1a 0%, #1a1008 100%);
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    font-family: 'Crimson Text', Georgia, serif;
+    overflow: hidden;
+    position: relative;
+    padding: 0;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── UI WRAPPER ── */
+  .ui-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100dvh;
+    position: relative;
+    z-index: 10;
+    padding: 10px 10px 8px;
+    gap: 8px;
+  }
+
+  /* ── TOP BAR ── */
+  .top-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 440px;
+    flex-shrink: 0;
+    gap: 6px;
+  }
+
+  .book-title-header {
+    color: var(--gold);
+    font-family: 'Playfair Display', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.75;
+    white-space: nowrap;
+    flex-shrink: 0;
+    text-align: center;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ── AUDIO CONTROLS BAR ── */
+  .audio-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 100%;
+  }
+  .audio-bar.visible { opacity: 1; pointer-events: all; }
+
+  .audio-btn {
+    background: rgba(200,169,110,0.12);
+    border: 1px solid rgba(200,169,110,0.3);
+    border-radius: 50%;
+    width: 30px; height: 30px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+    color: var(--gold);
+    padding: 0;
+    flex-shrink: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .audio-btn:active { background: rgba(200,169,110,0.25); }
+  .audio-btn svg { width: 12px; height: 12px; flex-shrink: 0; }
+
+  .audio-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.46rem;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: rgba(200,169,110,0.55);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .audio-divider {
+    width: 1px;
+    height: 18px;
+    background: rgba(200,169,110,0.2);
+    flex-shrink: 0;
+    margin: 0 2px;
+  }
+
+  /* Voice indicator */
+  .voice-indicator {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    height: 14px;
+    flex-shrink: 0;
+  }
+  .voice-indicator span {
+    display: block;
+    width: 3px;
+    border-radius: 2px;
+    background: var(--gold);
+    opacity: 0;
+    animation: none;
+  }
+  .voice-indicator.playing span { opacity: 0.7; animation: voiceBar 1s ease-in-out infinite; }
+  .voice-indicator.playing span:nth-child(1) { animation-delay: 0s; }
+  .voice-indicator.playing span:nth-child(2) { animation-delay: 0.15s; }
+  .voice-indicator.playing span:nth-child(3) { animation-delay: 0.3s; }
+  .voice-indicator.playing span:nth-child(4) { animation-delay: 0.15s; }
+  @keyframes voiceBar {
+    0%, 100% { height: 4px; }
+    50%       { height: 13px; }
+  }
+
+  #musicVolume {
+    width: 44px;
+    accent-color: var(--gold);
+    cursor: pointer;
+    vertical-align: middle;
+    flex-shrink: 0;
+  }
+
+  /* ── BOOK WRAPPER ── */
+  .book-wrapper {
+    position: relative;
+    flex: 1;
+    width: 100%;
+    max-width: 440px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  /* ── OPEN HINT ── */
+  .open-hint-badge {
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(200,169,110,0.15);
+    border: 1px solid rgba(200,169,110,0.35);
+    backdrop-filter: blur(6px);
+    border-radius: 30px;
+    padding: 6px 16px;
+    color: var(--gold);
+    font-family: 'Playfair Display', serif;
+    font-size: 0.66rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    animation: pulseHint 2.4s ease-in-out infinite;
+    transition: opacity 0.4s;
+    z-index: 30;
+    white-space: nowrap;
+  }
+  .open-hint-badge.hidden { opacity: 0; pointer-events: none; }
+  .open-hint-badge svg { opacity: 0.7; flex-shrink: 0; }
+  @keyframes pulseHint {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(200,169,110,0); }
+    50%       { box-shadow: 0 0 0 6px rgba(200,169,110,0.12); }
+  }
+
+  /* ── BOOK CARD ── */
+  .book-card {
+    width: 100%;
+    height: 100%;
+    border-radius: 14px;
+    box-shadow:
+      0 8px 32px rgba(0,0,0,0.7),
+      0 0 0 1px rgba(255,255,255,0.05),
+      inset -3px 0 8px rgba(0,0,0,0.15);
+    position: relative;
+    overflow: hidden;
+    background: var(--cream);
+    -webkit-tap-highlight-color: transparent;
+    perspective: 1400px;
+  }
+
+  /* Lomo del libro */
+  .book-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 8px;
+    background: linear-gradient(to right, var(--spine), rgba(139,110,80,0.3));
+    z-index: 20;
+    pointer-events: none;
+  }
+
+  /* ── COVER PAGE ── */
+  .cover-page {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+  }
+  .cover-page img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .cover-bg-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(160deg, #4a3520, #1a1008);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 6rem;
+    opacity: 0.5;
+  }
+  .cover-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, transparent 55%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 28px 24px;
+  }
+  .cover-overlay h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: #fff;
+    line-height: 1.2;
+    text-shadow: 0 2px 16px rgba(0,0,0,0.8);
+    margin-bottom: 8px;
+  }
+  .cover-overlay .author {
+    font-family: 'Crimson Text', serif;
+    font-size: 1rem;
+    color: rgba(255,255,255,0.75);
+    letter-spacing: 0.1em;
+  }
+
+  .cover-page::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(200,169,110,0);
+    transition: background 0.3s;
+    pointer-events: none;
+  }
+  .cover-page:active::after { background: rgba(200,169,110,0.08); }
+
+  /* ── STORY PAGE ── */
+  .story-page {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    background: var(--cream);
+  }
+
+  .page-illustration {
+    width: 100%;
+    flex-shrink: 0;
+    position: relative;
+    background: var(--cream-dark);
+    line-height: 0;
+  }
+  .page-illustration img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+  }
+
+  .img-placeholder {
+    width: 100%;
+    padding: 40px 0;
+    background: var(--cream-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .img-placeholder svg { opacity: 0.15; width: 70px; height: 70px; }
+
+  /* Marco perimetral */
+  .page-illustration::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    box-shadow:
+      inset 0    30px 22px -8px var(--cream),
+      inset 0   -42px 28px -8px var(--cream),
+      inset  28px 0   22px -8px var(--cream),
+      inset -28px 0   22px -8px var(--cream);
+  }
+  .page-illustration::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 55px;
+    z-index: 3;
+    background: linear-gradient(to bottom, transparent, var(--cream));
+    pointer-events: none;
+  }
+
+  /* Sección de texto */
+  .page-text-section {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 22px 20px 26px;
+    position: relative;
+    background: var(--cream);
+  }
+  .chapter-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 14px;
+    opacity: 0.6;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .drop-cap {
+    font-family: 'Playfair Display', serif;
+    font-size: 4.4rem;
+    font-weight: 700;
+    line-height: 0.75;
+    float: left;
+    margin-right: 6px;
+    margin-top: 4px;
+    color: var(--ink);
+  }
+
+  .page-text {
+    font-family: 'Crimson Text', serif;
+    font-size: 1.12rem;
+    line-height: 1.7;
+    color: var(--ink);
+    text-align: justify;
+    position: relative;
+    z-index: 1;
+    background-image: repeating-linear-gradient(
+      transparent, transparent 30px,
+      rgba(180,160,130,0.13) 30px,
+      rgba(180,160,130,0.13) 31px
+    );
+    background-position: 0 4px;
+  }
+  .page-text p { margin-bottom: 0.8em; }
+  .page-text p::after { content: ''; display: table; clear: both; }
+
+  .page-number {
+    margin-top: 10px;
+    text-align: right;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.72rem;
+    color: var(--ink-light);
+    opacity: 0.5;
+    position: relative;
+    z-index: 2;
+  }
+
+  .swipe-hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 14px 0 16px;
+    color: var(--ink-light);
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-family: 'Playfair Display', serif;
+    opacity: 0.4;
+    flex-shrink: 0;
+    background: var(--cream);
+  }
+
+  /* ── NAVIGATION ARROWS ── */
+  @keyframes arrowPulse {
+    0%, 100% {
+      box-shadow: 0 0 0 0 rgba(200,169,110,0.55), 0 0 10px 2px rgba(200,169,110,0.25);
+      background: rgba(200,169,110,0.22);
+      border-color: rgba(200,169,110,0.7);
+    }
+    50% {
+      box-shadow: 0 0 0 8px rgba(200,169,110,0), 0 0 18px 4px rgba(200,169,110,0.45);
+      background: rgba(200,169,110,0.42);
+      border-color: var(--gold);
+    }
+  }
+
+  .nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 25;
+    width: 42px; height: 42px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(200,169,110,0.22);
+    border: 1.5px solid rgba(200,169,110,0.7);
+    border-radius: 50%;
+    color: var(--gold);
+    cursor: pointer;
+    transition: background 0.2s, opacity 0.3s;
+    -webkit-tap-highlight-color: transparent;
+    backdrop-filter: blur(6px);
+    animation: arrowPulse 1.5s ease-in-out infinite;
+  }
+  .nav-arrow:active { background: rgba(200,169,110,0.55); }
+  .nav-arrow.hidden { opacity: 0; pointer-events: none; animation: none; }
+  .nav-arrow svg { width: 18px; height: 18px; filter: drop-shadow(0 0 3px rgba(200,169,110,0.6)); }
+  .nav-arrow-left  { left: 6px; }
+  .nav-arrow-right { right: 6px; }
+
+  /* ── END PAGE ── */
+  .end-page {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--cream);
+  }
+  .end-page-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 30px;
+    text-align: center;
+  }
+  .end-page-content .ornament { color: var(--gold); font-size: 1.8rem; opacity: 0.6; }
+  .end-page-content h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--ink);
+  }
+  .end-page-content p {
+    font-family: 'Crimson Text', serif;
+    font-size: 0.95rem;
+    color: var(--ink-light);
+    opacity: 0.7;
+    letter-spacing: 0.1em;
+  }
+  .back-btn {
+    margin-top: 6px;
+    padding: 10px 24px;
+    border: 1px solid var(--gold);
+    background: none;
+    color: var(--ink-light);
+    font-family: 'Playfair Display', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back-btn:active { background: var(--gold); color: var(--cream); }
+
+  /* ── NAV DOTS ── */
+  .nav-dots {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+    padding: 2px 0;
+    z-index: 10;
+    position: relative;
+  }
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(200,169,110,0.3);
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 1px solid rgba(200,169,110,0.4);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .dot.active { background: var(--gold); transform: scale(1.3); }
+
+  /* ══════════════════════════════════════════════════════
+     PAGE FLIP ANIMATIONS
+  ══════════════════════════════════════════════════════ */
+  @keyframes pageFlipInForward {
+    0%   { transform: perspective(1400px) rotateY(-88deg); transform-origin: left center;  opacity: 0.4; filter: brightness(0.6); }
+    40%  { opacity: 0.85; filter: brightness(0.85); }
+    100% { transform: perspective(1400px) rotateY(0deg);   transform-origin: left center;  opacity: 1;   filter: brightness(1); }
+  }
+  @keyframes pageFlipInBackward {
+    0%   { transform: perspective(1400px) rotateY(88deg);  transform-origin: right center; opacity: 0.4; filter: brightness(0.6); }
+    40%  { opacity: 0.85; filter: brightness(0.85); }
+    100% { transform: perspective(1400px) rotateY(0deg);   transform-origin: right center; opacity: 1;   filter: brightness(1); }
+  }
+  @keyframes pageFlipOutForward {
+    0%   { transform: perspective(1400px) rotateY(0deg);   transform-origin: left center;  opacity: 1;   filter: brightness(1); }
+    60%  { opacity: 0.5; filter: brightness(0.7); }
+    100% { transform: perspective(1400px) rotateY(-88deg); transform-origin: left center;  opacity: 0;   filter: brightness(0.4); }
+  }
+  @keyframes pageFlipOutBackward {
+    0%   { transform: perspective(1400px) rotateY(0deg);  transform-origin: right center;  opacity: 1;   filter: brightness(1); }
+    60%  { opacity: 0.5; filter: brightness(0.7); }
+    100% { transform: perspective(1400px) rotateY(88deg); transform-origin: right center;  opacity: 0;   filter: brightness(0.4); }
+  }
+
+  .anim-in-forward   { animation: pageFlipInForward   0.42s cubic-bezier(0.25,0.46,0.45,0.94) both; }
+  .anim-in-backward  { animation: pageFlipInBackward  0.42s cubic-bezier(0.25,0.46,0.45,0.94) both; }
+  .anim-out-forward  { animation: pageFlipOutForward  0.22s cubic-bezier(0.4,0,1,1) both; }
+  .anim-out-backward { animation: pageFlipOutBackward 0.22s cubic-bezier(0.4,0,1,1) both; }
+
+  .page-shadow-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 15;
+    opacity: 0;
+    background: linear-gradient(to right, rgba(0,0,0,0.18) 0%, transparent 40%);
+    animation: shadowSweepForward 0.55s ease-out forwards;
+  }
+  .page-shadow-overlay.backward {
+    background: linear-gradient(to left, rgba(0,0,0,0.18) 0%, transparent 40%);
+    animation: shadowSweepBackward 0.55s ease-out forwards;
+  }
+  @keyframes shadowSweepForward  { 0% { opacity: 0.8; } 100% { opacity: 0; } }
+  @keyframes shadowSweepBackward { 0% { opacity: 0.8; } 100% { opacity: 0; } }
+</style>
+</head>
+<body>
+<div class="ui-wrapper">
+
+  <div class="top-bar">
+    <p class="book-title-header">✦ Symphony of the Royal Gardens ✦</p>
+
+    <div class="audio-bar" id="audioBar">
+      <div class="voice-indicator" id="voiceIndicator">
+        <span></span><span></span><span></span><span></span>
+      </div>
+      <span class="audio-label">NARRATOR</span>
+      <button class="audio-btn" id="btnVoicePause" title="Pause/Resume narration" onclick="toggleVoicePause()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" id="iconVoicePause">
+          <polygon points="5 3 19 12 5 21 5 3"/>
+        </svg>
+      </button>
+      <button class="audio-btn" title="Stop narration" onclick="stopVoice()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <rect x="4" y="4" width="16" height="16" rx="1"/>
+        </svg>
+      </button>
+
+      <div class="audio-divider"></div>
+
+      <span class="audio-label">MUSIC</span>
+      <button class="audio-btn" id="btnMusicPause" title="Pause/Resume music" onclick="toggleMusicPause()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" id="iconMusicPause">
+          <polygon points="5 3 19 12 5 21 5 3"/>
+        </svg>
+      </button>
+      <button class="audio-btn" title="Mute music" onclick="toggleMusic()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" id="iconMusic">
+          <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+        </svg>
+      </button>
+      <input type="range" id="musicVolume" min="0" max="1" step="0.05" value="0.4"
+        title="Music volume" oninput="setMusicVolume(this.value)">
+    </div>
+  </div>
+
+  <div class="book-wrapper" id="bookWrapper">
+
+    <div class="open-hint-badge" id="openHintBadge">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+      </svg>
+      Tap to open
+    </div>
+
+    <div class="nav-arrow nav-arrow-left hidden" id="navLeft" onclick="prevPage()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M15 18l-6-6 6-6"/>
+      </svg>
+    </div>
+    <div class="nav-arrow nav-arrow-right hidden" id="navRight" onclick="nextPage()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M9 18l6-6-6-6"/>
+      </svg>
+    </div>
+
+    <div class="book-card" id="bookCard"></div>
+  </div>
+
+  <div class="nav-dots" id="navDots"></div>
+
+</div>
+<script>
+const MUSIC_SRC = "storycard/sinfoniadelosjardinesreales.mp3";
+const pages = [
+  {
+    type: 'cover',
+    coverImg: "storycard/sinfoniadelosjardinesreales/portada.png",
+    coverMobileImg: "storycard/sinfoniadelosjardinesreales/portadamovil.png",
+    title: "Symphony of the Royal Gardens",
+    author: "By LaIAmusical"
+  },
+  {
+    type: 'story',
+    pageNum: 1,
+    chapterTitle: "Chapter 1: The Pulse of the Garden",
+    illustrationSrc: "storycard/sinfoniadelosjardinesreales/imagen1.png",
+    voiceSrc: "storycard/english/sinfoniadelosjardinesreales/audio1.wav",
+    text: "Rodrigo felt the music before his fingers brushed the strings. It was not a specific melody, but a pulse, a vibration that emanated from the damp earth and rose through the roots of the centuries-old trees in the Jardín del Príncipe. Seated on a stone bench, in the shadow of a monumental plane tree, he held his guitar as if it were an extension of his own body. In the distance, the murmur of the Tagus was the perpetual accompaniment of Aranjuez.\n\nFor weeks he had been trying to capture that essence. The spirit the poets spoke of, the silent majesty breathed in every corner of the Royal Palace and its domains. But the music slipped away from him, like water between his fingers. He could play the notes, yes, but he failed to evoke the whisper of the wind among the leaves, nor the reflection of the setting sun upon the marble statues. His music was hollow, a mere echo.\n\nFrustrated, he let out a sigh and leaned the guitar against his side. The afternoon sun filtered a golden light through the foliage, painting dancing patterns on the path. It was then that he saw her.\n\nA few meters away, with her back to him, a young woman was standing in front of an easel. She wore a simple, light-colored dress that seemed to absorb the light of the garden. With rapid, confident strokes of charcoal, her hand moved across the paper, not drawing the outline of a tree or a fountain, but the sensation of the air, the texture of the light itself. She was so absorbed in her work that she seemed to be part of the landscape, just another figure in the silent symphony of the garden.\n\nRodrigo remained motionless, watching her. There was an energy in her, a vitality that contrasted with his own melancholy. He saw how she tilted her head, narrowing her eyes to catch a new perspective, and a fleeting smile formed on her lips. It was a smile for herself, a small spark of satisfaction.\n\nIn that instant, without thinking, Rodrigo took up his guitar. His fingers, which had previously felt clumsy and empty, suddenly found a purpose. He did not think about technique or structure; he simply played. And what emerged was a lively and playful melody, a musical phrase that leaped and twirled like the patterns of light on the ground. It was the sound of curiosity, the spark of an unexpected encounter.\n\nThe young woman stopped. Slowly, as if waking from a dream, she turned. Her eyes, large and the color of honey, met Rodrigo's. There was no surprise in her gaze, but recognition, as if she had been listening to that very melody within herself.\n\nRodrigo continued to play, and now the music flowed effortlessly, weaving a conversation between the guitar and the silence of the garden. It was the allegro con spirito, the joyful soul he had sought for so long. And it had appeared, not in the solitude of his inspiration, but in the presence of a stranger drawing the light.\n\nShe said nothing. Simply, she smiled again, but this time, the smile was for him. And in that exchange of glances and melodies, the garden came to life in a completely new way."
+  },
+  {
+    type: 'story',
+    pageNum: 2,
+    chapterTitle: "Chapter 2: The Color of Music",
+    illustrationSrc: "storycard/sinfoniadelosjardinesreales/imagen2.png",
+    voiceSrc: "storycard/english/sinfoniadelosjardinesreales/audio2.wav",
+    text: "The melody faded, but its echo seemed to float in the warm air. The silence that followed was not awkward, but expectant. The young woman took a step toward him, leaving her easel like a solitary sentinel.\n\n—That was... —she began, searching for the word—. It sounded exactly like the color of this light.\n\nRodrigo felt a heat rise up his neck. —I've been trying to find that melody for weeks. It seems I only needed the right inspiration.\n\n—My name is Isabel —she said, extending a hand stained with charcoal. Her grip was firm and warm.\n\n—Rodrigo —he replied, smiling as he saw the gray smudge she had left on his palm.\n\nIsabel followed his gaze and laughed. —It's the dust of art. I'm a landscape painter, or at least I try to be. I try to paint not what I see, but what I feel when I see it. This place... is overwhelming.\n\n—I know —Rodrigo agreed—. It's as if every corner had its own orchestra. The fountains are the violins, the wind in the trees is the flutes, and the river... the river is the cello, deep and constant.\n\n—Exactly! —she exclaimed with enthusiasm—. And you, with your guitar, are the soloist in dialogue with all of them.\n\nThey walked together, without a fixed course, venturing deeper into the Jardín del Príncipe. Isabel spoke to him of the colors hidden in the shadows and how the line of a hedge could express melancholy or joy. Rodrigo, in turn, described to him how a chord change could transform the atmosphere of a piece, passing from euphoria to nostalgia in an instant.\n\nThey found themselves sharing a vision of the world. Both were translators of beauty, using different languages to tell the same story.\n\n—Look —said Isabel, stopping beside a small gazebo covered in vines—. From here, the palace looks like a distant dream. This garden wasn't made to be admired from a distance, but to get lost in it.\n\nRodrigo nodded, softly strumming his guitar. The notes that emerged were fuller, richer. They were no longer just an echo of his surroundings, but a conversation with it, fueled by Isabel's presence.\n\n—It's like the first movement of a symphony —he said—. Full of energy, of promise. The themes are introduced, the ideas that will grow throughout the work.\n\nIsabel looked at him, and her smile widened. —So, what theme have you introduced today?\n\nRodrigo did not answer with words. Instead, he played the opening bars of the melody he had composed upon seeing her, but this time it was bolder, surer. It was a melody that spoke of a golden sun, an unexpected smile, and the beginning of something vibrant and full of life. Isabel closed her eyes, listening, and with a slight nod of her head, she seemed to paint the music on the canvas of her mind. The garden, with all its history and splendor, had become the stage for their own particular concert."
+  },
+  {
+    type: 'story',
+    pageNum: 3,
+    chapterTitle: "Chapter 3: Dialogue in the Island Garden",
+    illustrationSrc: "storycard/sinfoniadelosjardinesreales/imagen3.png",
+    voiceSrc: "storycard/english/sinfoniadelosjardinesreales/audio3.wav",
+    text: "The following days became a continuous melody. They met every afternoon, sometimes in the Prince's Garden, other times exploring the most intimate and geometric corners of the Island Garden. Isabel carried her sketchbook; Rodrigo, his guitar. They were two artists in a constant dialogue with the beauty that surrounded them and with each other.\n\nOne afternoon, they spread out a blanket near the Fountain of Hercules. The sun filtered through the leaves, and the sound of the water was a soft and steady percussion. Isabel had brought bread, cheese, and a handful of strawberries from Aranjuez, red and bright as jewels.\n\n\"They say this garden was designed like a chessboard, an oasis of order and reason against the wild nature of the river,\" Isabel said, as she sketched the tension in the back of the statue of Hercules.\n\n\"To me, it's more like a Bach fugue,\" Rodrigo replied, biting into a strawberry. \"A main theme, the fountain, and then variations that intertwine everywhere: the hedges, the statues, the flowerbeds. Everything is connected.\"\n\nIsabel put down her notebook and looked at him. \"And where do we fit into this fugue?\"\n\nRodrigo smiled and picked up his guitar. He didn't answer, he simply began to play. The music that burst forth was cheerful and rhythmic, a dance. His fingers moved with an agility he hadn't had before. It was music that invited movement, rejoicing. It captured the shimmer of the sun on the water, the sweet taste of the strawberries, the easy laughter they shared.\n\nIsabel listened to him, cross-legged with her chin propped in her hand. Her gaze followed the movement of Rodrigo's fingers on the fretboard, as if she could see the notes being born and flying up toward the sky. When the piece ended, a satisfied silence settled between them.\n\n\"That is the happiest music I've ever heard you play,\" she whispered.\n\n\"That's because I feel happy,\" he confessed, with a simplicity that disarmed even himself. \"It's easy to find the music when the company is good.\"\n\nThey stayed there until the sky began to tinge with shades of orange and purple. They talked about their dreams: Isabel wanted to travel to Italy to study the masters of the Renaissance; Rodrigo dreamed of composing a piece that would capture the soul of Aranjuez, a symphony for guitar and orchestra that the whole world could hear.\n\n\"You'll call it 'Concierto de Aranjuez',\" Isabel said, as if it were the most obvious thing in the world.\n\nRodrigo laughed. \"Maybe. But I'm still missing the most important part. A symphony needs emotion, conflict, yearning... I only have the joy of the first movement.\"\n\nIsabel took his hand, the one that still bore the faint smudge of charcoal. Her fingers intertwined with his.\n\n\"The emotion will come,\" she said in a low voice. \"Life always takes care of composing the rest of the symphony.\"\n\nAt that moment, beneath the twilight sky and with the sound of the fountains as their only orchestra, Rodrigo felt that his personal symphony was complete. He did not know how prophetic Isabel's words would be, nor that the radiant joy of that first movement was about to face the deep and melancholy melody of the second."
+  },
+  {
+    type: 'story',
+    pageNum: 4,
+    chapterTitle: "Chapter 4: The Melancholy Chord",
+    illustrationSrc: "storycard/sinfoniadelosjardinesreales/imagen4.png",
+    voiceSrc: "storycard/english/sinfoniadelosjardinesreales/audio4.wav",
+    text: "The light of the following morning seemed different, less bright. They met on their usual bench, but the air between them was heavy with an unusual stillness. Isabel held a letter in her hands, the paper slightly crumpled from the tension of her fingers.\n\nRodrigo knew before she spoke. He saw it in the way her shoulders were slightly slumped, in the smile that failed to reach her eyes.\n\n\"It's from my parents,\" she began, her voice barely a whisper. \"My stay here... was always temporary. I'm going back home, to the north, in two days.\"\n\nThe news fell upon Rodrigo like a dissonant chord in the middle of a perfect melody. Two days. The word echoed in his mind, empty and cruel. The garden, which moments before had teemed with life, suddenly seemed to fall silent. The leaves stopped whispering, the river seemed to have halted its course.\n\n\"I thought...\" he began, but he didn't know how to finish the sentence. What had he thought? That those golden afternoons would last forever?\n\n\"I thought so too,\" Isabel admitted, and a solitary tear slid down her cheek. She wiped it away quickly, with anger. \"It's just that here, in this place... time seems to stop. I forgot there was a world outside these gardens.\"\n\nRodrigo said nothing. He picked up his guitar, but his fingers felt like lead. He tried to find a note, a single note that could express the knot he felt in his throat, but the instrument remained mute in his lap. The joy of the allegro had vanished, leaving a desolate emptiness.\n\nThis was the change of key. The beginning of the adagio.\n\nThey spent the rest of the day walking, but their cheerful dialogue had been replaced by a dense silence, filled with everything they dared not say. Every corner of the garden they had discovered together was now a reminder of the impending farewell. The Fountain of Hercules seemed more imposing and tragic; the geometries of the Island Garden, once a game, now felt like the bars of a cage.\n\n\"I want to draw you,\" Isabel said suddenly, when they stopped by the swan pond. Her voice was resolute, as if she needed to cling to one final task.\n\nRodrigo sat on the stone ledge, with the guitar leaning beside him. Isabel took out her sketchbook and, with feverish strokes, began to draw. She did not draw his face or his figure, but the posture of his body: the curve of his back, the way his hand rested on the strings without touching them, his gaze lost in the dark reflection of the water.\n\nShe was drawing absence. The premonition of loneliness.\n\nRodrigo watched her work. He saw the concentration in her brow, the passion in the movement of her hand, and felt a surge of longing so intense it took his breath away. It was a painful emotion, yes, but it was also profoundly beautiful in its despair. It was the kind of emotion that great music, great poetry, was made of.\n\nLife, as Isabel had said, was composing the rest of the symphony. And its second movement would be a piece of heartbreaking beauty, a melody born from the certainty of imminent loss."
+  },
+  {
+    type: 'story',
+    pageNum: 5,
+    chapterTitle: "Chapter 5: The Last Walk",
+    illustrationSrc: "storycard/sinfoniadelosjardinesreales/imagen5.png",
+    voiceSrc: "storycard/english/sinfoniadelosjardinesreales/audio5.wav",
+    text: "Their last day together was of an almost unbearable beauty. The sky was of a purest blue, and the air was so clear that every leaf, every petal, every drop of water from the fountains seemed to shine with a light of its own. It was as if the garden had dressed in its finest attire to bid them farewell, a cruel and poetic irony.\n\nThey made no plans. Simply, they walked.\n\nThey retraced their own steps, walking in silence along the route of their first conversations. Each place was now a sanctuary of memory. The bench beneath the plane tree where he first saw her. The vine-covered gazebo where they spoke of their dreams. The riverbank where he had tried to capture the soul of Aranjuez and, instead, had found her.\n\nIsabel was not carrying her sketchbook. Rodrigo was not carrying his guitar. Today they were not artists; they were just a man and a woman engraving every second into their memory.\n\n\"Will you remember this?\" asked Rodrigo, his voice husky, as they watched the Royal Palace silhouetted against the sky.\n\n\"I will remember the color of the light through the leaves,\" she replied. \"The sound of your chords blending with the murmur of the water. The taste of the strawberries. I will remember the feeling of being here, with you, and feeling that the entire world narrowed down to this garden.\"\n\nThey stopped at the royal dock, a Chinese pavilion that floated over a serene pond. The afternoon sun reflected in the water, creating a mosaic of tremulous light. It was a place of profound peace, almost sacred.\n\n\"When I leave,\" Isabel said, without looking at him, \"you have to promise me something.\"\n\n\"Anything.\"\n\n\"Finish your symphony. Play for me everything we have lived. The joy, the light... and this too. Especially this. Do not let the silence claim it.\"\n\nRodrigo nodded, incapable of speaking. He understood what she was asking of him. She was asking him to transform his pain into beauty, to make of her absence a presence through music. Her departure would not be an ending, but the very heart of his work.\n\nTheysatthere,watchingthegoldenlightturnintoacopperradianceandthenintoasoftviolettone.Theydnotneeddesperatekissesorhugs.Theirfarewellwasdeeper,asharedgoodbyeinthequietofadusk,withthegardenasthesolewitness.\n\nWhen they finally parted at the gates of Aranjuez, Isabel turned one last time.\n\n\"Goodbye, Rodrigo, my soloist.\"\n\n\"Goodbye, Isabel,\" he whispered into the air she had left behind.\n\nHe returned alone to the garden, now enveloped in the shadows of the night. He sat on the stone bench and, for the first time, did not feel the need to take out his guitar. He simply listened. In the silence, he no longer heard the pulse of the garden. He heard the echo of a laugh, the memory of a conversation, the melody of a love as brief and as intense as a summer sunset. The adagio had begun, and his orchestra would be solitude."
+  },
+  {
+    type: 'story',
+    pageNum: 6,
+    chapterTitle: "Chapter 6: The Guitar Weeps",
+    illustrationSrc: "storycard/sinfoniadelosjardinesreales/imagen6.png",
+    voiceSrc: "storycard/english/sinfoniadelosjardinesreales/audio6.wav",
+    text: "The train departed the following morning. Rodrigo did not go to the station. He knew he could not bear the sound of the train whistle, the final image of a face behind a receding window. Instead, he sought refuge in the only place that was now both solace and torture: the gardens.\n\nBut the Aranjuez that welcomed him was a stranger. The colors seemed muted, the sounds distant. The sun that once danced now fell heavy upon the stone. It was the same place, but the magic had left with Isabel. The garden was a body without a soul.\n\nFor days, he wandered like a ghost. The guitar remained in its case, silent and heavy. Every attempt to compose was a failure. The cheerful melodies of his first movement now sounded like a mockery, like a distant and unreachable happiness. The pain was a dull, constant noise that drowned out any hint of music.\n\nOne afternoon, in desperation, he sat on the banks of the Tajo, in the very spot where he had struggled to find inspiration weeks before. He opened the case and took out the guitar. His fingers were cold and clumsy. He closed his eyes and did not think of the garden, nor of the river, nor of the light. He thought only of her.\n\nHe remembered her smile. The way she tilted her head when drawing. The smudge of charcoal on her hand. The promise she made to him. “Finish your symphony. Play for me everything we have lived... especially this.”\n\nAnd then, his fingers moved.\n\nWhat emerged was not a melody, but a lament. A few notes, slow, almost hesitant, like a question hurled into an empty sky. Then, an ascending arpeggio, filled with a yearning so deep it hurt. It was the sound of loneliness, the music of absence.\n\nThe guitar was weeping.\n\nRodrigo played with his eyes closed, letting himself be carried away by the tide of memory. The music now flowed like a torrent, telling his story without words. One could hear the echo of their walks, the warmth of their conversations, the piercing joy of their first encounters. But everything was tinged with an overwhelming melancholy. The imaginary orchestra in his mind responded to the guitar's lament: the violins entered with an infinite sadness, the woodwinds added a touch of sweet remembrance, and the English horn, solitary and piercing, was the very voice of loss.\n\nIt was a desperate dialogue between the soloist, clinging to his pain and his memory, and the orchestra, which represented the world that kept turning, the indifferent beauty of the garden, the time moving forward mercilessly.\n\nHe played for what felt like hours, with his heart torn apart and his soul laid bare in every note. It was the most honest and painful composition of his life. It was not just the music of a man who had lost a love; it was the music of the human condition, of the universal yearning for what is gone, of the tragic beauty that resides in memory.\n\nWhen the last note faded away, vibrating upon the surface of the river, Rodrigo opened his eyes. He was exhausted, empty. But in that emptiness, there was a strange peace. He had fulfilled the first part of his promise. He had transformed his pain into music. The adagio, the heart of his concerto, had finally been born from the ashes of his happiness."
+  },
+  {
+    type: 'story',
+    pageNum: 7,
+    chapterTitle: "Chapter 7: An echo of laughter",
+    illustrationSrc: "storycard/sinfoniadelosjardinesreales/imagen7.png",
+    voiceSrc: "storycard/english/sinfoniadelosjardinesreales/audio7.wav",
+    text: "Weeks turned into a month. Rodrigo immersed himself completely in his composition, transcribing onto paper the painful melody that had sprung from his guitar. The adagio was the center of his universe, a piece so intense and absorbing that it threatened to consume him. The other movements, the early joy and the promise of an ending, now seemed distant, memories of another man in another life.\n\nHe had stalled. The grief that had been his source of inspiration was now his prison. He could find no way out. How could one compose joy after having known such a level of melancholy? Any attempt to write an upbeat melody sounded false, a betrayal of the emotional depth he had reached. He was on the verge of giving up, of leaving his \"Royal Gardens Symphony\" as an unfinished torso: a brilliant beginning and a heartbreaking heart, but with no resolution.\n\nOne gray afternoon, as he walked aimlessly, his feet led him to the Fountain of Hercules. The site of their picnic, the setting of Isabel's promise. He sat on the damp grass, feeling an immense weight upon his shoulders. He looked at the statues, the mythological figures frozen in an eternal drama, and felt like one of them.\n\nHe closed his eyes, resigned to his sadness. And then, he heard it.\n\nIt was not a real sound, but an echo in his memory, so vivid it felt real. It was laughter. Isabel's clear, spontaneous laughter that day, right after he said some nonsense about Bach. He remembered the way her eyes shone, the way she threw her head back, carefree and happy.\n\nThat simple sound, that fragment of pure joy, cut through the fog of his melancholy like a ray of sunlight.\n\nHe realized something fundamental. His grief over Isabel's absence did not erase the joy he had felt with her. Both emotions were not enemies; they were two sides of the same coin. Love. The depth of his sadness was the exact measure of the height of his happiness. One could not exist without the other.\n\nHis symphony could not end with the adagio. That would mean telling only half the story. It would mean remembering Isabel solely as a loss, and not as the gift she had been. She was not just melancholy; she was, above all, the spark that had ignited his music.\n\nHe stood up, feeling a new lightness in his step. Life, as she had said, composes the rest of the symphony. And life is not just a lament. It is also dance, it is acceptance, it is the ability to smile through tears.\n\nHe hurried back home. The guitar, which had wept for so long, now seemed to wait with a new patience. Rodrigo sat down, took a deep breath, and thought once more of Isabel's laughter.\n\nAnd his fingers began to move, searching for a new rhythm. A rhythm that was neither the carefree euphoria of the beginning nor the slow lament of the middle. It was something different. An elegant, courteous rhythm, like a palace dance. An allegro gentile. A movement that acknowledged the sadness, but chose not to drown in it. A movement that said: \"I remember you, and it hurts, but I also smile when I remember you, because the joy you gave me is stronger than the pain of your absence.\"\n\nThe path toward the end of his symphony had opened up."
+  },
+  {
+    type: 'story',
+    pageNum: 8,
+    chapterTitle: "Chapter 8: The Dance of Memory",
+    illustrationSrc: "storycard/sinfoniadelosjardinesreales/imagen8.png",
+    voiceSrc: "storycard/english/sinfoniadelosjardinesreales/audio8.wav",
+    text: "The third movement was not born from a torrent of emotion like the first two, but from careful and delicate craftsmanship. Rodrigo worked on it with the patience of a gardener pruning his rose bushes, knowing that beauty lies as much in what is cut away as in what is allowed to flourish.\n\nHe wanted it to be a rondo, a musical form where a main theme returns again and again, like a recurring memory. The theme he chose was a simple and elegant melody, with the air of an old courtly dance. It was the melody of acceptance.\n\nBetween each appearance of this main theme, Rodrigo wove contrasting episodes. In one, the guitar recalled the liveliness of the first movement, with fast, playful arpeggios that evoked the sunlight and early conversations with Isabel. But the joy was no longer naive; it was tinged with bittersweet wisdom.\n\nIn another episode, the orchestra brought echoes of the adagio. A solitary flute repeated a phrase of the lament, or the violins sustained a melancholy chord. But the guitar responded to that sadness not with despair, but with its main theme, that of the serene dance, as if saying: \"Yes, that pain exists, but it does not have the final word.\"\n\nThe composition became an act of balance. Rodrigo learned to hold joy and sadness in the same hand, to allow them to coexist in his music without one canceling out the other. He realized that memory is not a static photograph, but a dance. Sometimes we remember with a smile, sometimes with a tear, and often with both at once.\n\nThe garden of Aranjuez became his workshop once again. Now, as he walked along its paths, he saw the complete history. He saw the golden light of the first encounter, but also the long shadows of the farewell. The sound of the fountains was no longer just happy or just sad; it was both things, a constant murmur containing all emotions, like the Tagus River itself.\n\nAs he wrote the final notes, Rodrigo felt that he was not only finishing a piece of music. He was rebuilding himself. He had arrived in Aranjuez as a young musician in search of inspiration, and he had found it in Isabel. Her departure had broken him, but in the process of creating his symphony, he had put the pieces back together in a new and stronger way.\n\nThe work was finished. On the first page of the score, with a clear and firm handwriting, he wrote the title that Isabel had given him on a distant afternoon:\n\nConcierto de Aranjuez\n\nBut beneath it, he added a dedication that only he would understand in all its depth:\n\nFor Isabel, who taught me the color of music and the dance of memory.\n\nNow only one thing remained to be done: to let the symphony of the royal gardens resonate beyond his lonely heart."
+  },
+  {
+    type: 'story',
+    pageNum: 9,
+    chapterTitle: "Chapter 9: The Symphony Resounds",
+    illustrationSrc: "storycard/sinfoniadelosjardinesreales/imagen9.png",
+    voiceSrc: "storycard/english/sinfoniadelosjardinesreales/audio9.wav",
+    text: "The news swept like a murmur of wind through the musical circles of Madrid. A young and unknown composer named Rodrigo had written a guitar and orchestra concerto of startling originality and emotional force. A renowned conductor, intrigued by the rumors, asked to see the score.\n\nDays later, Rodrigo received a letter. The National Orchestra wanted to premiere his \"Concierto de Aranjuez.\" And they wanted him, of course, to be the soloist.\n\nOn the night of the premiere, the theater was packed. From the stage, as he tuned his guitar, Rodrigo felt the beating of his heart like a nervous drum. He searched the audience, a reflex and irrational act, half hoping to find a pair of honey-colored eyes smiling back at him. But they were not there.\n\nThe conductor raised his baton. Silence fell.\n\nAnd then, it began.\n\nThe first movement burst into the theater, vibrant and full of life. Rodrigo's guitar engaged in a dialogue with the orchestra, telling the story of two souls meeting in a sun-drenched garden. The music was pure light, a celebration of discovery and joy.\n\nThen came the adagio.\n\nFrom the very first note of the English horn, an atmosphere of sacred melancholy took hold of the hall. When Rodrigo's guitar entered, with its solitary and heartbreaking lament, the audience held its breath. It was a sound so intimate, so vulnerable, that it felt as though they were listening to the secrets of a naked heart. In the strings of his guitar lay not only his own pain, but that of everyone who had ever loved and lost. The dialogue between the soloist and the orchestra reached an almost unbearable tension, a beauty born directly from the wound.\n\nWhen the movement ended, a deep and awestruck silence filled the theater. No one dared to applaud.\n\nFinally, the conductor gave the cue for the allegro gentile. The elegant dance of the third movement began, and it was as if dawn had arrived after a long night. The music did not deny the previous sadness, but rather integrated it, transformed it. There was acceptance in its courteous rhythms, and a serene hope in the main theme that returned again and again. It was the dance of memory, the promise that life, despite its losses, continues in a cadence of grace and strength.\n\nThe final chord resonated and faded away.\n\nFor a second, the silence lingered. And then, the theater erupted. The applause was thunderous, a collective catharsis. People rose to their feet, shouting \"Bravo!\" Rodrigo, standing in the center of the stage, with his guitar pressed against his chest, could barely process it. He had shared his most personal story, his secret symphony of the royal gardens, and the world had understood it. They had made it their own.\n\nThat night, Rodrigo did not celebrate. He returned to his room and looked out the window. The city slept beneath a starry sky. His heart was at peace. He had fulfilled his promise. The music of his love and his loss no longer belonged to him alone. He had given it to the wind, for it to travel, to resonate in other hearts, and perhaps, one day, to reach the ears of a landscape designer in the north who remembered the color of the light in a garden of Aranjuez."
+  },
+  {
+    type: 'story',
+    pageNum: 10,
+    chapterTitle: "Chapter 10: Symphony of the Royal Gardens",
+    illustrationSrc: "storycard/sinfoniadelosjardinesreales/imagen10.png",
+    voiceSrc: "storycard/english/sinfoniadelosjardinesreales/audio10.wav",
+    text: "Years passed. The \"Concierto de Aranjuez\" became one of the most beloved pieces in the classical repertoire, a work that seemed to contain the very soul of Spain. Rodrigo became a respected composer, but he never wrote anything again with the same bare intensity of his first great work. That concerto had been a lightning strike, an unrepeatable moment in which life and art had completely fused.\n\nOne summer, many years later, he returned to Aranjuez. Time had silvered his temples, but the garden remained almost unchanged, suspended in its own green eternity. He walked the familiar paths, the soundtrack of his own life echoing in his mind.\n\nHe sat down on his bench, beneath the great plane tree. The garden was quiet, populated only by the singing of the birds and the distant murmur of the river. He closed his eyes, allowing the memories to flow.\n\n—It is still the most beautiful guitar piece ever written.\n\nRodrigo opened his eyes with a start.\n\nStanding before him was a woman. Her hair was an elegant gray, and fine expression lines traced the corners of her eyes. But the eyes… the eyes were unmistakable. They were the color of honey.\n\nIt was Isabel.\n\nRodrigo caught his breath. He slowly rose to his feet, as if he feared a sudden movement might make her disappear.\n\n—Isabel…\n\nShe smiled, a smile that spanned all the intervening years. —I heard it for the first time on the radio, in a small café in Florence. They didn't say the composer's name at first, but I knew instantly. It was our music. It was the color of the light.\n\nThey looked at each other in a silence that held decades of unasked questions, of lives lived separately.\n\n—I married. I had children —Isabel said softly—. I lived a good life. But there was always a corner of my heart that belonged to a garden in Spain.\n\n—I never married —Rodrigo replied simply—. I was married to my music. And my music… was always you.\n\nIsabel walked closer and, with infinite tenderness, touched his cheek. —Thank you for keeping your promise, Rodrigo. Thank you for not letting the silence win.\n\nHe did not need his guitar. The symphony was right there, between them, in the warm afternoon air. The *allegro con spirito* of their unexpected reunion. The *adagio* of the lost years and unshared lives. And the *allegro gentile*, the serene dance of acceptance, of two souls finding each other again at the end of the road, not with the feverish passion of youth, but with the deep and quiet affection of those who have lived, have loved, have lost, and have remembered.\n\nThey did not ask about the future. The past and the present were enough. They sat together on the bench, as they had done so long ago, and watched as the afternoon sun gilded the leaves of the trees. The garden, which had witnessed their love and their parting, now welcomed their reunion, bringing the circle to a close.\n\nThe symphony of the royal gardens was, at last, complete. And its final chord was not of music, but of a shared silence, filled with peace and the serene beauty of time regained."
+  },
+  { type: 'end' }
+
+];
+const musicAudio  = new Audio();
+musicAudio.loop   = true;
+musicAudio.volume = 0.4;
+if (MUSIC_SRC) musicAudio.src = MUSIC_SRC;
+
+let voiceAudio   = null;
+let voicePaused  = false;
+let musicMuted   = false;
+let musicPaused  = false;
+let bookOpened   = false;
+
+function startMusic() {
+  if (!MUSIC_SRC || musicMuted) return;
+  musicAudio.currentTime = 0;
+  musicAudio.play().catch(() => {});
+  updateMusicPauseIcon(true);
+}
+
+function stopAllAudio() {
+  if (voiceAudio) { voiceAudio.pause(); voiceAudio.currentTime = 0; }
+  voicePaused = false;
+  setVoiceIndicator(false);
+  updateVoicePauseIcon(false);
+}
+
+function playPageVoice(src) {
+  stopAllAudio();
+  if (!src) return;
+  voiceAudio = new Audio(src);
+  voiceAudio.volume = 1;
+  voiceAudio.play().catch(() => {});
+  voiceAudio.onplay  = () => { setVoiceIndicator(true);  updateVoicePauseIcon(true); };
+  voiceAudio.onended = () => { setVoiceIndicator(false); updateVoicePauseIcon(false); voicePaused = false; };
+  voiceAudio.onpause = () => { setVoiceIndicator(false); };
+}
+
+function setVoiceIndicator(playing) {
+  const el = document.getElementById('voiceIndicator');
+  if (el) el.className = 'voice-indicator' + (playing ? ' playing' : '');
+}
+
+function updateVoicePauseIcon(isPlaying) {
+  const icon = document.getElementById('iconVoicePause');
+  if (!icon) return;
+  icon.innerHTML = isPlaying
+    ? `<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>`
+    : `<polygon points="5 3 19 12 5 21 5 3"/>`;
+}
+
+function toggleVoicePause() {
+  if (!voiceAudio) return;
+  if (voicePaused) {
+    voiceAudio.play().catch(() => {});
+    voicePaused = false;
+    setVoiceIndicator(true);
+    updateVoicePauseIcon(true);
+  } else {
+    voiceAudio.pause();
+    voicePaused = true;
+    setVoiceIndicator(false);
+    updateVoicePauseIcon(false);
+  }
+}
+
+function stopVoice() {
+  if (voiceAudio) {
+    voiceAudio.pause();
+    voiceAudio.currentTime = 0;
+    voicePaused = false;
+    setVoiceIndicator(false);
+    updateVoicePauseIcon(false);
+  }
+}
+
+function updateMusicPauseIcon(isPlaying) {
+  const icon = document.getElementById('iconMusicPause');
+  if (!icon) return;
+  icon.innerHTML = isPlaying
+    ? `<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>`
+    : `<polygon points="5 3 19 12 5 21 5 3"/>`;
+}
+
+function toggleMusicPause() {
+  if (musicMuted) return;
+  if (musicPaused) {
+    musicAudio.play().catch(() => {});
+    musicPaused = false;
+    updateMusicPauseIcon(true);
+  } else {
+    musicAudio.pause();
+    musicPaused = true;
+    updateMusicPauseIcon(false);
+  }
+}
+
+function setMusicVolume(val) {
+  musicAudio.volume = parseFloat(val);
+  if (parseFloat(val) === 0) {
+    musicMuted = true;
+    document.getElementById('iconMusic').innerHTML =
+      `<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+       <line x1="1" y1="1" x2="23" y2="23" stroke-width="2"/>`;
+    musicAudio.pause();
+    updateMusicPauseIcon(false);
+  } else if (musicMuted) {
+    musicMuted = false;
+    document.getElementById('iconMusic').innerHTML =
+      `<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>`;
+    musicAudio.play().catch(() => {});
+    updateMusicPauseIcon(true);
+  }
+}
+
+function toggleMusic() {
+  musicMuted = !musicMuted;
+  const icon   = document.getElementById('iconMusic');
+  const slider = document.getElementById('musicVolume');
+  if (musicMuted) {
+    musicAudio.pause();
+    musicPaused = false;
+    icon.innerHTML = `<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+      <line x1="1" y1="1" x2="23" y2="23" stroke-width="2"/>`;
+    if (slider) slider.value = 0;
+    updateMusicPauseIcon(false);
+  } else {
+    musicAudio.volume = 0.4;
+    musicAudio.play().catch(() => {});
+    icon.innerHTML = `<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>`;
+    if (slider) slider.value = 0.4;
+    updateMusicPauseIcon(true);
+  }
+}
+
+// ── STATE ────────────────────────────────────────────────────
+let currentPage = 0;
+let animating   = false;
+
+const bookCard  = document.getElementById('bookCard');
+const navDotsEl = document.getElementById('navDots');
+const navLeft   = document.getElementById('navLeft');
+const navRight  = document.getElementById('navRight');
+
+function withDropCap(text) {
+  const t = text.trimStart();
+  if (!t.length) return text;
+  return `<span class="drop-cap">${t.charAt(0)}</span>${t.slice(1)}`;
+}
+
+function buildDots() {
+  navDotsEl.innerHTML = '';
+  pages.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === currentPage ? ' active' : '');
+    d.onclick = () => goToPage(i);
+    navDotsEl.appendChild(d);
+  });
+}
+
+function updateArrows() {
+  const p = pages[currentPage];
+  navLeft.classList.toggle('hidden',  !bookOpened || currentPage <= 0);
+  navRight.classList.toggle('hidden', !bookOpened || p.type === 'end' || currentPage >= pages.length - 1);
+}
+
+function buildPageElement(p) {
+  const el = document.createElement('div');
+
+  if (p.type === 'cover') {
+    el.className = 'cover-page';
+    const isMobile = window.innerWidth <= 767;
+    const imgSrc = (isMobile && p.coverMobileImg) ? p.coverMobileImg : p.coverImg;
+
+    el.innerHTML = imgSrc
+      ? `<img src="${imgSrc}" alt="Cover: ${p.title}">`
+      : `<div class="cover-bg-placeholder">🎵</div>`;
+    el.innerHTML += `
+      <div class="cover-overlay">
+        <h1>${p.title}</h1>
+        <p class="author">${p.author}</p>
+      </div>`;
+    el.onclick = openBook;
+
+  } else if (p.type === 'end') {
+    el.className = 'end-page';
+    el.innerHTML = `
+      <div class="end-page-content">
+        <div class="ornament">✦ ✦ ✦</div>
+        <h2>End of the story</h2>
+        <p>LaIAmusical</p>
+        <button class="back-btn" onclick="goToPage(0)">Back to the beginning</button>
+      </div>`;
+    stopAllAudio();
+
+  } else {
+    const imgHtml = p.illustrationSrc
+      ? `<img src="${p.illustrationSrc}" alt="${p.chapterTitle || 'Illustration page ' + p.pageNum}">`
+      : `<div class="img-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <path d="M3 15l5-5 4 4 3-3 6 6"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+          </svg>
+         </div>`;
+
+    el.className = 'story-page';
+    el.innerHTML = `
+      <div class="page-illustration">${imgHtml}</div>
+      <div class="page-text-section">
+        <div class="chapter-label">${p.chapterTitle || `Chapter ${p.pageNum}`}</div>
+        <div class="page-text"><p>${withDropCap(p.text)}</p></div>
+        <div class="page-number">${p.pageNum}</div>
+      </div>
+      <div class="swipe-hint">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+        Swipe to turn page
+      </div>`;
+  }
+
+  return el;
+}
+
+function renderBook(direction) {
+  const p = pages[currentPage];
+
+  const headerTitle = p.type === 'cover'
+    ? p.title
+    : p.type === 'end'
+      ? 'End of the story'
+      : (p.chapterTitle || `Chapter ${p.pageNum}`);
+  const headerEl = document.querySelector('.book-title-header');
+  if (headerEl) headerEl.textContent = headerTitle;
+
+  const newEl = buildPageElement(p);
+
+  if (direction && bookOpened) {
+    const inClass  = direction === 'forward' ? 'anim-in-forward'  : 'anim-in-backward';
+    const outClass = direction === 'forward' ? 'anim-out-forward' : 'anim-out-backward';
+
+    newEl.style.position = 'absolute';
+    newEl.style.inset    = '0';
+    newEl.style.zIndex   = '2';
+
+    const oldEl = bookCard.firstElementChild;
+    if (oldEl && !oldEl.classList.contains('page-shadow-overlay')) {
+      oldEl.style.position = 'absolute';
+      oldEl.style.inset    = '0';
+      oldEl.style.zIndex   = '1';
+      oldEl.classList.add(outClass);
+    }
+
+    const shadow = document.createElement('div');
+    shadow.className = 'page-shadow-overlay' + (direction === 'backward' ? ' backward' : '');
+    shadow.style.zIndex = '5';
+    bookCard.appendChild(shadow);
+
+    setTimeout(() => {
+      bookCard.appendChild(newEl);
+      newEl.classList.add(inClass);
+    }, 80);
+
+    setTimeout(() => {
+      while (bookCard.children.length > 1) bookCard.removeChild(bookCard.firstChild);
+      newEl.style.position = '';
+      newEl.style.inset    = '';
+      newEl.style.zIndex   = '';
+    }, 520);
+
+  } else {
+    bookCard.innerHTML = '';
+    bookCard.appendChild(newEl);
+  }
+
+  buildDots();
+  updateArrows();
+}
+
+function openBook() {
+  if (!bookOpened) {
+    bookOpened = true;
+    document.getElementById('openHintBadge').classList.add('hidden');
+    document.getElementById('audioBar').classList.add('visible');
+    startMusic();
+  }
+  nextPage();
+}
+
+function nextPage() {
+  if (currentPage < pages.length - 1) goToPage(currentPage + 1, 'forward');
+}
+function prevPage() {
+  if (currentPage > 0) goToPage(currentPage - 1, 'backward');
+}
+
+function goToPage(target, dir) {
+  if (animating || target === currentPage || target < 0 || target >= pages.length) return;
+  const forward = dir ? dir === 'forward' : target > currentPage;
+  animating = true;
+  stopAllAudio();
+  currentPage = target;
+  renderBook(forward ? 'forward' : 'backward');
+  setTimeout(() => {
+    animating = false;
+    const p = pages[currentPage];
+    if (p && p.voiceSrc) playPageVoice(p.voiceSrc);
+  }, 540);
+}
+
+// ── SWIPE GESTURES ───────────────────────────────────────────
+let touchStartX = 0;
+let touchStartY = 0;
+
+bookCard.addEventListener('touchstart', e => {
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+}, { passive: true });
+
+bookCard.addEventListener('touchend', e => {
+  if (!bookOpened) return;
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  const dy = e.changedTouches[0].clientY - touchStartY;
+  if (Math.abs(dx) > Math.abs(dy) * 1.2 && Math.abs(dx) > 45) {
+    if (dx < 0) nextPage();
+    else        prevPage();
+  }
+}, { passive: true });
+
+// ── KEYBOARD ─────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextPage();
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   prevPage();
+});
+
+// ── INIT ─────────────────────────────────────────────────────
+renderBook();
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+/* Añade el "notch"/safe-area de iOS al viewport si el <meta viewport>
+       de la página no lo incluye todavía. No pasa nada si ya lo tenía. */
+    #backToRoomBtn {
+        position: fixed;
+        z-index: 9999;
+        display: none; /* se muestra solo si venimos de reproductor.html */
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        max-width: calc(100vw - 24px);
+        box-sizing: border-box;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        /* Desktop / tablet */
+        bottom: 24px;
+        right: 24px;
+        padding: 12px 20px;
+        font-size: 0.85rem;
+
+        border-radius: 9999px;
+        background: linear-gradient(135deg, #0d9488, #0891b2);
+        color: #fff;
+        font-weight: 700;
+        border: 1px solid rgba(45, 212, 191, 0.5);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.4), 0 0 20px rgba(45,212,191,0.25);
+        cursor: pointer;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        transition: transform .2s ease, box-shadow .2s ease;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    #backToRoomBtn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 32px rgba(0,0,0,0.5), 0 0 28px rgba(45,212,191,0.4);
+    }
+    #backToRoomBtn:active { transform: translateY(-1px) scale(0.97); }
+    #backToRoomBtn i { font-size: 1rem; flex-shrink: 0; }
+    #backToRoomLabel {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    /* ── Móviles: pegado al borde inferior, respetando el "safe area"
+         del notch/barra de gestos, y sin desbordar horizontalmente ── */
+    @media (max-width: 640px) {
+        #backToRoomBtn {
+            left: 12px;
+            right: 12px;
+            bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+            width: auto;
+            max-width: calc(100vw - 24px);
+            padding: 11px 16px;
+            font-size: 0.78rem;
+            justify-content: center;
+        }
+    }
+
+    /* Pantallas muy pequeñas (≤360px) */
+    @media (max-width: 360px) {
+        #backToRoomBtn {
+            left: 8px;
+            right: 8px;
+            bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+            padding: 10px 12px;
+            font-size: 0.72rem;
+            gap: 6px;
+        }
+    }
+</style>
+<button id="backToRoomBtn" onclick="goBackToRoom()">
+    <i class="fas fa-arrow-left"></i>
+    <span id="backToRoomLabel">Back to room</span>
+</button>
+<script>
+(function () {
+    // Asegura que el viewport respete el "notch"/barra de gestos en iPhone,
+    // para que env(safe-area-inset-bottom) funcione aunque la página no
+    // tuviera viewport-fit=cover configurado en su <meta viewport>.
+    var vp = document.querySelector('meta[name="viewport"]');
+    if (vp && vp.content.indexOf('viewport-fit') === -1) {
+        vp.content = vp.content + ', viewport-fit=cover';
+    } else if (!vp) {
+        var m = document.createElement('meta');
+        m.name = 'viewport';
+        m.content = 'width=device-width, initial-scale=1.0, viewport-fit=cover';
+        document.head.appendChild(m);
+    }
+
+    var returnUrl   = sessionStorage.getItem('lastRoomUrl');
+    var returnTopic = sessionStorage.getItem('lastRoomTopicLabel') || sessionStorage.getItem('lastRoomTopic');
+    var btn   = document.getElementById('backToRoomBtn');
+    var label = document.getElementById('backToRoomLabel');
+
+    // Solo mostrar el botón si llegamos aquí desde reproductor.html
+    if (returnUrl) {
+        btn.style.display = 'flex';
+        if (returnTopic) {
+            label.textContent = 'Back to ' + returnTopic;
+        }
+    }
+
+    window.goBackToRoom = function () {
+        window.location.href = returnUrl || 'reproductor.html';
+    };
+})();
+</script>
+</body>
+</html>

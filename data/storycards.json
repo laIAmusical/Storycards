@@ -1,5 +1,493 @@
 [
   {
+    "id": 1794197528250,
+    "titulo": "El Eco Sumergido de Vael-Khoris",
+    "fraseInspiracion": "Incluso en el abismo más oscuro, la lluvia recuerda el calor del sol.",
+    "tematica": "Cine",
+    "tipo": "automatica-ia",
+    "descripcion": "En la metrópolis decadente de Vael-Khoris, un detective exhausto investiga un crimen que oculta un sabotaje apocalíptico. Mientras el diluvio perpetuo amenaza con hundir el último bastión humano, deberá enfrentar a los arquitectos del fin del mundo.",
+    "imagen": "imagenportada/elecosumergidodevaelkhoris.jpg",
+    "portada": "storycard/elecosumergidodevaelkhoris/portada.jpg",
+    "portadaMovil": "storycard/elecosumergidodevaelkhoris/portadamovil.jpg",
+    "slug": "elecosumergidodevaelkhoris",
+    "storyPage": "elecosumergidodevaelkhoris.html",
+    "secretosPage": "secretos/elecosumergidodevaelkhoris-secretos.html",
+    "esIA": true,
+    "quiz": [
+      {
+        "q": "¿En qué sala de La IA Musical se publica la historia «El Eco Sumergido de Vael-Khoris»?",
+        "a": [
+          "Cine",
+          "Literatura",
+          "Cine",
+          "Series"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "¿Cuál es la frase de inspiración de «El Eco Sumergido de Vael-Khoris»?",
+        "a": [
+          "Incluso en el abismo más oscuro, la lluvia recuerda el calor del sol.",
+          "El destino siempre encuentra su camino.",
+          "Nada es lo que parece a primera vista.",
+          "La luz vence a la oscuridad."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "Según la sinopsis, ¿cuál es el conflicto central de la historia?",
+        "a": [
+          "En la metrópolis decadente de Vael-Khoris, un detective exhausto investiga un cr…",
+          "Una guerra entre dos reinos lejanos.",
+          "Un romance prohibido entre dos familias rivales.",
+          "Una búsqueda del tesoro en una isla desierta."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "En el primer capítulo, la historia comienza hablando de…",
+        "a": [
+          "La lluvia no caía en Vael-Khoris; azotaba como un veredicto implacable. Hacía tr…",
+          "Un prólogo sobre la creación del mundo.",
+          "Una lista de personajes principales.",
+          "Un mapa del territorio donde ocurre la trama."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "¿Cómo termina la historia?",
+        "a": [
+          "De regreso al mundo de la lluvia y la pólvora, Silas penetró en el complejo de l…",
+          "Con un final abierto que deja todo en el aire.",
+          "Con una batalla final que destruye el mundo conocido.",
+          "Con un sueño del que el protagonista nunca despierta."
+        ],
+        "correct": 0
+      }
+    ],
+    "quizEn": [
+      {
+        "q": "In which La IA Musical room is the story «El Eco Sumergido de Vael-Khoris» published?",
+        "a": [
+          "Cine",
+          "Literature",
+          "Cinema",
+          "Series"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "What is the inspiration line of «El Eco Sumergido de Vael-Khoris»?",
+        "a": [
+          "Even in the deepest abyss, the rain remembers the sun's warmth.",
+          "Destiny always finds its way.",
+          "Nothing is what it seems at first glance.",
+          "Light defeats darkness."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "According to the synopsis, what is the central conflict of the story?",
+        "a": [
+          "In the decaying metropolis of Vael-Khoris, an exhausted detective uncovers an ap…",
+          "A war between two distant kingdoms.",
+          "A forbidden romance between two rival families.",
+          "A treasure hunt on a deserted island."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "In the first chapter, the story begins by talking about…",
+        "a": [
+          "Rain did not merely fall on Vael-Khoris; it struck like an unforgiving verdict.…",
+          "A prologue about the creation of the world.",
+          "A list of the main characters.",
+          "A map of the territory where the plot takes place."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "How does the story end?",
+        "a": [
+          "Returning to the world of rain and muzzle fire, Silas breached the Primary Turbi…",
+          "With an open ending that leaves everything in the air.",
+          "With a final battle that destroys the known world.",
+          "With a dream the protagonist never wakes up from."
+        ],
+        "correct": 0
+      }
+    ],
+    "audioVoz": "storycard/elecosumergidodevaelkhoris/voz1.mp3",
+    "musicaFondo": "storycard/elecosumergidodevaelkhoris.mp3",
+    "fechaCreacion": "2026-11-09T04:20:07.667Z"
+  },
+  {
+    "id": 1794197538250,
+    "titulo": "The Submerged Echo of Vael-Khoris",
+    "fraseInspiracion": "Even in the deepest abyss, the rain remembers the sun's warmth.",
+    "tematica": "Cine",
+    "tipo": "automatica-ia",
+    "descripcion": "In the decaying metropolis of Vael-Khoris, an exhausted detective uncovers an apocalyptic sabotage beneath eternal deluge. As sea-gates fail, only a final sacrifice can halt the city's plunge into the oceanic abyss.",
+    "imagen": "imagenportada/thesubmergedechoofvaelkhoris-en.jpg",
+    "portada": "storycard/thesubmergedechoofvaelkhoris-en/portada.jpg",
+    "portadaMovil": "storycard/thesubmergedechoofvaelkhoris-en/portadamovil.jpg",
+    "slug": "thesubmergedechoofvaelkhoris-en",
+    "storyPage": "thesubmergedechoofvaelkhoris-en.html",
+    "secretosPage": "secretos/thesubmergedechoofvaelkhoris-en-secretos.html",
+    "esIA": true,
+    "quiz": [
+      {
+        "q": "¿En qué sala de La IA Musical se publica la historia «El Eco Sumergido de Vael-Khoris»?",
+        "a": [
+          "Cine",
+          "Literatura",
+          "Cine",
+          "Series"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "¿Cuál es la frase de inspiración de «El Eco Sumergido de Vael-Khoris»?",
+        "a": [
+          "Incluso en el abismo más oscuro, la lluvia recuerda el calor del sol.",
+          "El destino siempre encuentra su camino.",
+          "Nada es lo que parece a primera vista.",
+          "La luz vence a la oscuridad."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "Según la sinopsis, ¿cuál es el conflicto central de la historia?",
+        "a": [
+          "En la metrópolis decadente de Vael-Khoris, un detective exhausto investiga un cr…",
+          "Una guerra entre dos reinos lejanos.",
+          "Un romance prohibido entre dos familias rivales.",
+          "Una búsqueda del tesoro en una isla desierta."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "En el primer capítulo, la historia comienza hablando de…",
+        "a": [
+          "La lluvia no caía en Vael-Khoris; azotaba como un veredicto implacable. Hacía tr…",
+          "Un prólogo sobre la creación del mundo.",
+          "Una lista de personajes principales.",
+          "Un mapa del territorio donde ocurre la trama."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "¿Cómo termina la historia?",
+        "a": [
+          "De regreso al mundo de la lluvia y la pólvora, Silas penetró en el complejo de l…",
+          "Con un final abierto que deja todo en el aire.",
+          "Con una batalla final que destruye el mundo conocido.",
+          "Con un sueño del que el protagonista nunca despierta."
+        ],
+        "correct": 0
+      }
+    ],
+    "quizEn": [
+      {
+        "q": "In which La IA Musical room is the story «El Eco Sumergido de Vael-Khoris» published?",
+        "a": [
+          "Cine",
+          "Literature",
+          "Cinema",
+          "Series"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "What is the inspiration line of «El Eco Sumergido de Vael-Khoris»?",
+        "a": [
+          "Even in the deepest abyss, the rain remembers the sun's warmth.",
+          "Destiny always finds its way.",
+          "Nothing is what it seems at first glance.",
+          "Light defeats darkness."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "According to the synopsis, what is the central conflict of the story?",
+        "a": [
+          "In the decaying metropolis of Vael-Khoris, an exhausted detective uncovers an ap…",
+          "A war between two distant kingdoms.",
+          "A forbidden romance between two rival families.",
+          "A treasure hunt on a deserted island."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "In the first chapter, the story begins by talking about…",
+        "a": [
+          "Rain did not merely fall on Vael-Khoris; it struck like an unforgiving verdict.…",
+          "A prologue about the creation of the world.",
+          "A list of the main characters.",
+          "A map of the territory where the plot takes place."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "How does the story end?",
+        "a": [
+          "Returning to the world of rain and muzzle fire, Silas breached the Primary Turbi…",
+          "With an open ending that leaves everything in the air.",
+          "With a final battle that destroys the known world.",
+          "With a dream the protagonist never wakes up from."
+        ],
+        "correct": 0
+      }
+    ],
+    "audioVoz": "storycard/thesubmergedechoofvaelkhoris-en/voz1.mp3",
+    "musicaFondo": "storycard/thesubmergedechoofvaelkhoris-en.mp3",
+    "fechaCreacion": "2026-11-09T04:20:07.667Z"
+  },
+  {
+    "id": 1794197528251,
+    "titulo": "El Apuntador Secreto de Caelomira",
+    "fraseInspiracion": "Bajo la tramoya, el amor es la única línea jamás olvidada.",
+    "tematica": "Teatro y musicales",
+    "tipo": "automatica-ia",
+    "descripcion": "En la reapertura del Gran Coliseo, un joven apuntador descubre que el libreto esconde una misiva centenaria. Guiar a los actores desvelará una redención olvidada que transformará la noche teatral.",
+    "imagen": "imagenportada/elapuntadorsecretodecaelomira.jpg",
+    "portada": "storycard/elapuntadorsecretodecaelomira/portada.jpg",
+    "portadaMovil": "storycard/elapuntadorsecretodecaelomira/portadamovil.jpg",
+    "slug": "elapuntadorsecretodecaelomira",
+    "storyPage": "elapuntadorsecretodecaelomira.html",
+    "secretosPage": "secretos/elapuntadorsecretodecaelomira-secretos.html",
+    "esIA": true,
+    "quiz": [
+      {
+        "q": "¿En qué sala de La IA Musical se publica la historia «El Apuntador Secreto de Caelomira»?",
+        "a": [
+          "Teatro y musicales",
+          "Literatura",
+          "Cine",
+          "Series"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "¿Cuál es la frase de inspiración de «El Apuntador Secreto de Caelomira»?",
+        "a": [
+          "Bajo la tramoya, el amor es la única línea jamás olvidada.",
+          "El destino siempre encuentra su camino.",
+          "Nada es lo que parece a primera vista.",
+          "La luz vence a la oscuridad."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "Según la sinopsis, ¿cuál es el conflicto central de la historia?",
+        "a": [
+          "En la reapertura del Gran Coliseo, un joven apuntador descubre que el libreto es…",
+          "Una guerra entre dos reinos lejanos.",
+          "Un romance prohibido entre dos familias rivales.",
+          "Una búsqueda del tesoro en una isla desierta."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "En el primer capítulo, la historia comienza hablando de…",
+        "a": [
+          "Julián ocupó su reino en penumbra: la concha del apuntador, ese pequeño habitácu…",
+          "Un prólogo sobre la creación del mundo.",
+          "Una lista de personajes principales.",
+          "Un mapa del territorio donde ocurre la trama."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "¿Cómo termina la historia?",
+        "a": [
+          "Comenzó el segundo acto: la gran escena del baile de máscaras en Caelomira. Trei…",
+          "Con un final abierto que deja todo en el aire.",
+          "Con una batalla final que destruye el mundo conocido.",
+          "Con un sueño del que el protagonista nunca despierta."
+        ],
+        "correct": 0
+      }
+    ],
+    "quizEn": [
+      {
+        "q": "In which La IA Musical room is the story «El Apuntador Secreto de Caelomira» published?",
+        "a": [
+          "Teatro y musicales",
+          "Literature",
+          "Cinema",
+          "Series"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "What is the inspiration line of «El Apuntador Secreto de Caelomira»?",
+        "a": [
+          "Beneath the stage rigging, love is the only line never forgotten.",
+          "Destiny always finds its way.",
+          "Nothing is what it seems at first glance.",
+          "Light defeats darkness."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "According to the synopsis, what is the central conflict of the story?",
+        "a": [
+          "At the reopening of the Grand Colosseum, a young prompter discovers the script h…",
+          "A war between two distant kingdoms.",
+          "A forbidden romance between two rival families.",
+          "A treasure hunt on a deserted island."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "In the first chapter, the story begins by talking about…",
+        "a": [
+          "Julián took his place in his shadowy domain: the prompter’s box, an intimate woo…",
+          "A prologue about the creation of the world.",
+          "A list of the main characters.",
+          "A map of the territory where the plot takes place."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "How does the story end?",
+        "a": [
+          "Act Two commenced: the grand masquerade within Caelomira. Thirty dancers whirled…",
+          "With an open ending that leaves everything in the air.",
+          "With a final battle that destroys the known world.",
+          "With a dream the protagonist never wakes up from."
+        ],
+        "correct": 0
+      }
+    ],
+    "audioVoz": "storycard/elapuntadorsecretodecaelomira/voz1.mp3",
+    "musicaFondo": "storycard/elapuntadorsecretodecaelomira.mp3",
+    "fechaCreacion": "2026-11-09T04:27:54.263Z"
+  },
+  {
+    "id": 1794197538251,
+    "titulo": "The Secret Prompter of Caelomira",
+    "fraseInspiracion": "Beneath the stage rigging, love is the only line never forgotten.",
+    "tematica": "Teatro y musicales",
+    "tipo": "automatica-ia",
+    "descripcion": "At the reopening of the Grand Colosseum, a young prompter discovers the script hides a century-old missive. Guiding the actors will unleash a forgotten redemption across the footlights.",
+    "imagen": "imagenportada/thesecretprompterofcaelomira-en.jpg",
+    "portada": "storycard/thesecretprompterofcaelomira-en/portada.jpg",
+    "portadaMovil": "storycard/thesecretprompterofcaelomira-en/portadamovil.jpg",
+    "slug": "thesecretprompterofcaelomira-en",
+    "storyPage": "thesecretprompterofcaelomira-en.html",
+    "secretosPage": "secretos/thesecretprompterofcaelomira-en-secretos.html",
+    "esIA": true,
+    "quiz": [
+      {
+        "q": "¿En qué sala de La IA Musical se publica la historia «El Apuntador Secreto de Caelomira»?",
+        "a": [
+          "Teatro y musicales",
+          "Literatura",
+          "Cine",
+          "Series"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "¿Cuál es la frase de inspiración de «El Apuntador Secreto de Caelomira»?",
+        "a": [
+          "Bajo la tramoya, el amor es la única línea jamás olvidada.",
+          "El destino siempre encuentra su camino.",
+          "Nada es lo que parece a primera vista.",
+          "La luz vence a la oscuridad."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "Según la sinopsis, ¿cuál es el conflicto central de la historia?",
+        "a": [
+          "En la reapertura del Gran Coliseo, un joven apuntador descubre que el libreto es…",
+          "Una guerra entre dos reinos lejanos.",
+          "Un romance prohibido entre dos familias rivales.",
+          "Una búsqueda del tesoro en una isla desierta."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "En el primer capítulo, la historia comienza hablando de…",
+        "a": [
+          "Julián ocupó su reino en penumbra: la concha del apuntador, ese pequeño habitácu…",
+          "Un prólogo sobre la creación del mundo.",
+          "Una lista de personajes principales.",
+          "Un mapa del territorio donde ocurre la trama."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "¿Cómo termina la historia?",
+        "a": [
+          "Comenzó el segundo acto: la gran escena del baile de máscaras en Caelomira. Trei…",
+          "Con un final abierto que deja todo en el aire.",
+          "Con una batalla final que destruye el mundo conocido.",
+          "Con un sueño del que el protagonista nunca despierta."
+        ],
+        "correct": 0
+      }
+    ],
+    "quizEn": [
+      {
+        "q": "In which La IA Musical room is the story «El Apuntador Secreto de Caelomira» published?",
+        "a": [
+          "Teatro y musicales",
+          "Literature",
+          "Cinema",
+          "Series"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "What is the inspiration line of «El Apuntador Secreto de Caelomira»?",
+        "a": [
+          "Beneath the stage rigging, love is the only line never forgotten.",
+          "Destiny always finds its way.",
+          "Nothing is what it seems at first glance.",
+          "Light defeats darkness."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "According to the synopsis, what is the central conflict of the story?",
+        "a": [
+          "At the reopening of the Grand Colosseum, a young prompter discovers the script h…",
+          "A war between two distant kingdoms.",
+          "A forbidden romance between two rival families.",
+          "A treasure hunt on a deserted island."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "In the first chapter, the story begins by talking about…",
+        "a": [
+          "Julián took his place in his shadowy domain: the prompter’s box, an intimate woo…",
+          "A prologue about the creation of the world.",
+          "A list of the main characters.",
+          "A map of the territory where the plot takes place."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "How does the story end?",
+        "a": [
+          "Act Two commenced: the grand masquerade within Caelomira. Thirty dancers whirled…",
+          "With an open ending that leaves everything in the air.",
+          "With a final battle that destroys the known world.",
+          "With a dream the protagonist never wakes up from."
+        ],
+        "correct": 0
+      }
+    ],
+    "audioVoz": "storycard/thesecretprompterofcaelomira-en/voz1.mp3",
+    "musicaFondo": "storycard/thesecretprompterofcaelomira-en.mp3",
+    "fechaCreacion": "2026-11-09T04:27:54.263Z"
+  },
+  {
     "id": 1793811248899,
     "titulo": "El Canto Prohibido de Aethelgard",
     "fraseInspiracion": "La música más bella es aquella que exige el alma como pago.",

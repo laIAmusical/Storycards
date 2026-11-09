@@ -70,3 +70,15 @@ Sube cada archivo a su ruta exacta (voz y música). La storycard funciona sin el
 
 ## The Forbidden Song of Aethelgard (2026-11-04)
 - [ ] `storycard/theforbiddensongofaethelgard-en.mp3`
+
+## El Eco Sumergido de Vael-Khoris (2026-11-09)
+- [ ] `storycard/elecosumergidodevaelkhoris.mp3`
+
+## The Submerged Echo of Vael-Khoris (2026-11-09)
+- [ ] `storycard/thesubmergedechoofvaelkhoris-en.mp3`
+
+## El Apuntador Secreto de Caelomira (2026-11-09)
+- [ ] `storycard/elapuntadorsecretodecaelomira.mp3`
+
+## The Secret Prompter of Caelomira (2026-11-09)
+- [ ] `storycard/thesecretprompterofcaelomira-en.mp3`

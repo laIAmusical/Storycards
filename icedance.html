@@ -316,27 +316,6 @@
     object-fit: contain;
   }
 
-  .page-illustration::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    pointer-events: none;
-    box-shadow:
-      inset 0    30px 22px -8px var(--cream),
-      inset 0   -42px 28px -8px var(--cream),
-      inset  28px 0   22px -8px var(--cream),
-      inset -28px 0   22px -8px var(--cream);
-  }
-  .page-illustration::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 55px;
-    z-index: 3;
-    background: linear-gradient(to bottom, transparent, var(--cream));
-    pointer-events: none;
-  }
 
   .page-text-section {
     flex-shrink: 0;

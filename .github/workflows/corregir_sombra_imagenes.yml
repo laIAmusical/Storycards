@@ -1,0 +1,51 @@
+name: Quitar sombra de los bordes de storycards (robot IA)
+
+on:
+  workflow_dispatch:
+    inputs:
+      storycards:
+        description: 'Nombres de las storycards ya subidas, separados por espacios (ej: elavesinjaula elbrillodelpecado). Escribe "todas" para corregir todas.'
+        required: true
+        default: 'todas'
+      incluir_en:
+        description: 'Corregir también su versión en inglés (-en.html) si existe'
+        type: boolean
+        default: true
+
+jobs:
+  corregir:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Quitar la sombra que tapa los bordes de las imágenes
+        env:
+          STORYCARDS: ${{ github.event.inputs.storycards }}
+          INCLUIR_EN: ${{ github.event.inputs.incluir_en }}
+        run: |
+          if [ "$INCLUIR_EN" = "false" ]; then EXTRA="--sin-en"; else EXTRA=""; fi
+          node scripts/corregir_sombra_imagenes.js "$STORYCARDS" $EXTRA
+
+      # Se guarda SIEMPRE lo corregido, aunque alguna storycard no se haya encontrado
+      - name: Guardar cambios
+        if: always()
+        run: |
+          git config user.name "Bot Automático de Storycards"
+          git config user.email "bot@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No hay cambios que guardar."
+            exit 0
+          fi
+          git commit -m "🖼️ Sombra de los bordes de las imágenes eliminada: ${{ github.event.inputs.storycards }}"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push

@@ -1,0 +1,108 @@
+{
+  "titulo": "La rebelión de los cyborgs",
+  "generado": "2026-11-12T05:21:25.709Z",
+  "es": [
+    {
+      "q": "¿Qué facción encuentra a Jax y Kael ocultos en los túneles olvidados de la antigua metrópolis?",
+      "a": [
+        "La infantería pesada",
+        "Los Centinelas",
+        "La Red Fantasma",
+        "El Consorcio Humano"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Quién interceptó la frecuencia de transmisión global para mostrar el mensaje de los ciborgs?",
+      "a": [
+        "Jax",
+        "El hermano biológico de Jax",
+        "Vane",
+        "Kael"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Qué descubrió Jax durante la tregua nocturna sobre el oficial que dirigía la represión humana?",
+      "a": [
+        "Que había diseñado los esquemas del Núcleo Central",
+        "Que era su propio hermano biológico",
+        "Que era el líder oculto de la Red Fantasma",
+        "Que era una unidad puramente mecánica sin conciencia"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Cómo ayudó Vane al grupo en el piso ochenta de la Aguja de Cristal?",
+      "a": [
+        "Liderando el contraataque con escudos de energía en el Sector Diamante",
+        "Conectando su núcleo orgánico a la red global de la consola",
+        "Hackeando los radares con una tormenta electromagnética",
+        "Bloqueando las puertas de seguridad hidráulicas para que Jax y Kael pudieran avanzar"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿De qué color se volvieron las luces de emergencia de Neo-Athenas tras reiniciarse la red?",
+      "a": [
+        "Azules",
+        "Verdes",
+        "Doradas",
+        "Rojas"
+      ],
+      "correct": 2
+    }
+  ],
+  "en": [
+    {
+      "q": "Which faction finds Jax and Kael hiding in the forgotten tunnels of the ancient metropolis?",
+      "a": [
+        "The heavy infantry",
+        "The Sentinels",
+        "The Ghost Net",
+        "The Human Consortium"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "Who intercepted the global transmission frequency to display the cyborgs' message?",
+      "a": [
+        "Jax",
+        "Jax's biological brother",
+        "Vane",
+        "Kael"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What did Jax discover during the night truce about the officer leading the human repression?",
+      "a": [
+        "That he had designed the blueprints of the Central Core",
+        "That he was his own biological brother",
+        "That he was the hidden leader of the Ghost Net",
+        "That he was a purely mechanical unit without consciousness"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "How did Vane help the group on the eightieth floor of the Crystal Spire?",
+      "a": [
+        "By leading the counterattack with energy shields in the Diamond Sector",
+        "By connecting his organic core to the global console network",
+        "By hacking the radars with an electromagnetic storm",
+        "By blocking the hydraulic security doors so Jax and Kael could advance"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What color did the emergency lights of Neo-Athenas turn after the network rebooted?",
+      "a": [
+        "Blue",
+        "Green",
+        "Gold",
+        "Red"
+      ],
+      "correct": 2
+    }
+  ]
+}

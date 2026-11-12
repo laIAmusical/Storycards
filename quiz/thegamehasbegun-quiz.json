@@ -1,0 +1,108 @@
+{
+  "titulo": "The Game Has Begun",
+  "generado": "2026-11-12T05:29:19.856Z",
+  "es": [
+    {
+      "q": "¿Cómo fue asesinado Marcus Thorne en su piso franco en Praga?",
+      "a": [
+        "Mediante un disparo certero realizado a través de la ventana sellada de la habitación.",
+        "Con un veneno indetectable administrado en secreto en su última comida.",
+        "Mediante una manipulación remota del sistema de ventilación que redujo el filtro de CO2.",
+        "A través de una descarga eléctrica programada en los controles del dispositivo de seguridad."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Qué imperio intentó hundir Julian Thorne revelando secretos a través de la ópera en Viena?",
+      "a": [
+        "La familia Von Schreibers, una antigua dinastía bancaria austriaca.",
+        "La red de agencias de inteligencia que investigaba sus crímenes.",
+        "La farmacéutica internacional que sufrió un colapso bursátil previo.",
+        "El conglomerado tecnológico liderado por su difunto hermano Marcus."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Qué tipo de mecanismo tenía la bomba colocada junto al periodista secuestrado en Tánger?",
+      "a": [
+        "Un detonador por control remoto operado directamente por Julian desde Londres.",
+        "Un sistema de presión que explotaría si la silla se movía un solo centímetro.",
+        "Un sensor de red que detonaba si Alistair intentaba usar cualquier dispositivo para pedir ayuda.",
+        "Una cuenta atrás clásica basada en un temporizador de minutos."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Qué pista permitió a Alistair descubrir la verdadera identidad detrás del alias de El Operador?",
+      "a": [
+        "Una foto de un internado de élite suizo donde estudió Julian Thorne, el hermano de Marcus.",
+        "Una confesión firmada encontrada en la caja fuerte del piso franco en Praga.",
+        "Una huella dactilar dejada en el dispositivo de red oculto en el servidor.",
+        "Un registro financiero que vinculaba directamente la cuenta bancaria de la bróker con Julian."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Cómo logró Liam salvar a la inspectora Vance en el enfrentamiento final en el Teatro Palace?",
+      "a": [
+        "Rompiendo la puerta blindada del palco VIP con una barra de hierro.",
+        "Desactivando el código principal de la bomba con la ayuda de la computadora de Julian.",
+        "Disparando al dispositivo explosivo a distancia con su arma reglamentaria.",
+        "Utilizando un bisturí de bolsillo lanzado por Alistair para cortar sus ataduras."
+      ],
+      "correct": 3
+    }
+  ],
+  "en": [
+    {
+      "q": "How was Marcus Thorne killed in his safe room in Prague?",
+      "a": [
+        "Through a precise gunshot fired through the sealed window of the room.",
+        "With an undetectable poison administered secretly in his last meal.",
+        "Through remote tampering with the ventilation system that reduced the CO2 filter.",
+        "Through a programmed electric shock in the security device controls."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "What empire did Julian Thorne attempt to sink by revealing secrets through the opera in Vienna?",
+      "a": [
+        "The Von Schreibers family, an ancient Austrian banking dynasty.",
+        "The network of intelligence agencies investigating his crimes.",
+        "The international pharmaceutical company that suffered a previous stock market crash.",
+        "The tech conglomerate led by his late brother Marcus."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "What type of mechanism did the bomb placed next to the kidnapped journalist in Tangier have?",
+      "a": [
+        "A remote-controlled detonator operated directly by Julian from London.",
+        "A pressure system that would explode if the chair moved a single centimeter.",
+        "A network sensor that would detonate if Alistair tried to use any device to ask for help.",
+        "A classic countdown based on a minute timer."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "What clue allowed Alistair to discover the true identity behind the alias of The Operator?",
+      "a": [
+        "A photo of an elite Swiss boarding school where Julian Thorne, Marcus's brother, studied.",
+        "A signed confession found in the safe of the Prague hideout.",
+        "A fingerprint left on the network device hidden in the server.",
+        "A financial record that directly linked the broker's bank account to Julian."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "How did Liam manage to save Inspector Vance in the final confrontation at the Palace Theatre?",
+      "a": [
+        "By breaking down the armored door of the VIP box with an iron bar.",
+        "By deactivating the bomb's master code using Julian's computer.",
+        "By shooting the explosive device from a distance with his service weapon.",
+        "By using a pocket scalpel thrown by Alistair to cut her bindings."
+      ],
+      "correct": 3
+    }
+  ]
+}

@@ -15,106 +15,106 @@
     "esIA": true,
     "quiz": [
       {
-        "q": "¿En qué sala de La IA Musical se publica la historia «El Eco Sumergido de Vael-Khoris»?",
+        "q": "¿Qué objeto sostenía en su mano la doctora Evelyn Cruz cuando Silas Vance encontró su cadáver en el Nivel Cuarenta?",
         "a": [
-          "Cine",
-          "Literatura",
-          "Cine",
-          "Series"
+          "Un cilindro de datos sellado con el emblema de la Dinastía Orpheus.",
+          "Un plano hidráulico de las megaválvulas de soporte inferior.",
+          "La matriz energética extraída del Núcleo Ícaro.",
+          "Un transmisor de emergencia del Sistema de Drenaje Central."
         ],
         "correct": 0
       },
       {
-        "q": "¿Cuál es la frase de inspiración de «El Eco Sumergido de Vael-Khoris»?",
+        "q": "¿Cómo muere el técnico Jax durante la incursión en la Antigua Basílica de Santa Marea?",
         "a": [
-          "Incluso en el abismo más oscuro, la lluvia recuerda el calor del sol.",
-          "El destino siempre encuentra su camino.",
-          "Nada es lo que parece a primera vista.",
-          "La luz vence a la oscuridad."
+          "Es alcanzado por la onda de choque de una pistola de impulsos.",
+          "Cae al vacío tras resbalar en una plataforma cortada por el óxido.",
+          "Un arpón de los cazadores submarinos de Orpheus atraviesa su respirador.",
+          "Se ahoga cuando las esclusas de emergencia reventadas inundan la nave gótica."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "¿Cómo logra Silas derrotar al comandante Lucian Voss en el complejo de las Turbinas Primarias?",
+        "a": [
+          "Detona el soporte hidráulico bajo los pies de Voss para hacerlo caer a los engranajes trituradores.",
+          "Lo electrocuta lanzando una granada de pulso electromagnético a su sintetizador de voz.",
+          "Utiliza una sobrecarga de plasma para arrojarlo contra una pasarela de metal.",
+          "Lo acorrala y le dispara a quemarropa con su revólver magnético."
         ],
         "correct": 0
       },
       {
-        "q": "Según la sinopsis, ¿cuál es el conflicto central de la historia?",
+        "q": "¿Qué decisión crucial toma Silas en el Ojo del Diluvio para reiniciar el Sifón Atmosférico?",
         "a": [
-          "En la metrópolis decadente de Vael-Khoris, un detective exhausto investiga un cr…",
-          "Una guerra entre dos reinos lejanos.",
-          "Un romance prohibido entre dos familias rivales.",
-          "Una búsqueda del tesoro en una isla desierta."
+          "Decide arrojar el Núcleo Ícaro al vacío para que explote lejos de las estructuras.",
+          "Decide huir en un transbordador privado dejando que la fusión ocurra automáticamente.",
+          "Decide destruir la cámara de ignición disparando al Núcleo Ícaro desde la pasarela.",
+          "Decide quedarse a sostener manualmente la palanca de sellado mientras se libera el pulso térmico."
         ],
-        "correct": 0
+        "correct": 3
       },
       {
-        "q": "En el primer capítulo, la historia comienza hablando de…",
+        "q": "¿Qué consecuencia directa produce la detonación de energía blanca liberada desde la aguja?",
         "a": [
-          "La lluvia no caía en Vael-Khoris; azotaba como un veredicto implacable. Hacía tr…",
-          "Un prólogo sobre la creación del mundo.",
-          "Una lista de personajes principales.",
-          "Un mapa del territorio donde ocurre la trama."
+          "Congela instantáneamente las aguas de la marea permitiendo a los supervivientes escapar a pie.",
+          "Provoca el colapso definitivo de todos los niveles superiores de Vael-Khoris sobre el océano.",
+          "Disipa las nubes ácidas, detiene la lluvia y permite que los rayos del sol iluminen la ciudad.",
+          "Destruye por completo la flota de arcas orbitales de la aristocracia Orpheus."
         ],
-        "correct": 0
-      },
-      {
-        "q": "¿Cómo termina la historia?",
-        "a": [
-          "De regreso al mundo de la lluvia y la pólvora, Silas penetró en el complejo de l…",
-          "Con un final abierto que deja todo en el aire.",
-          "Con una batalla final que destruye el mundo conocido.",
-          "Con un sueño del que el protagonista nunca despierta."
-        ],
-        "correct": 0
+        "correct": 2
       }
     ],
     "quizEn": [
       {
-        "q": "In which La IA Musical room is the story «El Eco Sumergido de Vael-Khoris» published?",
+        "q": "What object was Dr. Evelyn Cruz holding in her hand when Silas Vance found her body at Level Forty?",
         "a": [
-          "Cine",
-          "Literature",
-          "Cinema",
-          "Series"
+          "A data cylinder sealed with the emblem of the Orpheus Dynasty.",
+          "A hydraulic blueprint of the lower support mega-valves.",
+          "The energy matrix extracted from the Icarus Core.",
+          "An emergency transmitter from the Central Drainage System."
         ],
         "correct": 0
       },
       {
-        "q": "What is the inspiration line of «El Eco Sumergido de Vael-Khoris»?",
+        "q": "How does the technician Jax die during the raid on the Ancient Basilica of Santa Marea?",
         "a": [
-          "Even in the deepest abyss, the rain remembers the sun's warmth.",
-          "Destiny always finds its way.",
-          "Nothing is what it seems at first glance.",
-          "Light defeats darkness."
+          "He is struck by the shockwave of an impulse pistol.",
+          "He falls into the void after slipping on a rust-severed platform.",
+          "A harpoon from Orpheus underwater hunters pierces his respirator.",
+          "He drowns when the blown emergency locks flood the gothic nave."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "How does Silas defeat Commander Lucian Voss in the Primary Turbines complex?",
+        "a": [
+          "He detonates the hydraulic support under Voss's feet, causing him to fall into the crushing gears.",
+          "He electrocutes him by throwing an electromagnetic pulse grenade at his voice synthesizer.",
+          "He uses a plasma overload to throw him against a metal catwalk.",
+          "He corners him and shoots him point-blank with his magnetic revolver."
         ],
         "correct": 0
       },
       {
-        "q": "According to the synopsis, what is the central conflict of the story?",
+        "q": "What crucial decision does Silas make at the Eye of the Flood to reset the Atmospheric Siphon?",
         "a": [
-          "In the decaying metropolis of Vael-Khoris, an exhausted detective uncovers an ap…",
-          "A war between two distant kingdoms.",
-          "A forbidden romance between two rival families.",
-          "A treasure hunt on a deserted island."
+          "He decides to throw the Icarus Core into the void so it explodes away from the structures.",
+          "He decides to escape in a private shuttle, letting the fusion happen automatically.",
+          "He decides to destroy the ignition chamber by shooting the Icarus Core from the catwalk.",
+          "He decides to stay and manually hold the sealing lever while the thermal pulse is released."
         ],
-        "correct": 0
+        "correct": 3
       },
       {
-        "q": "In the first chapter, the story begins by talking about…",
+        "q": "What direct consequence is produced by the white energy detonation released from the spire?",
         "a": [
-          "Rain did not merely fall on Vael-Khoris; it struck like an unforgiving verdict.…",
-          "A prologue about the creation of the world.",
-          "A list of the main characters.",
-          "A map of the territory where the plot takes place."
+          "It instantly freezes the tide waters, allowing survivors to escape on foot.",
+          "It causes the final collapse of all the upper levels of Vael-Khoris into the ocean.",
+          "It dissipates the acid clouds, stops the rain, and allows sunlight to illuminate the city.",
+          "It completely destroys the fleet of orbital arks belonging to the Orpheus aristocracy."
         ],
-        "correct": 0
-      },
-      {
-        "q": "How does the story end?",
-        "a": [
-          "Returning to the world of rain and muzzle fire, Silas breached the Primary Turbi…",
-          "With an open ending that leaves everything in the air.",
-          "With a final battle that destroys the known world.",
-          "With a dream the protagonist never wakes up from."
-        ],
-        "correct": 0
+        "correct": 2
       }
     ],
     "audioVoz": "storycard/elecosumergidodevaelkhoris/voz1.mp3",
@@ -137,106 +137,106 @@
     "esIA": true,
     "quiz": [
       {
-        "q": "¿En qué sala de La IA Musical se publica la historia «El Eco Sumergido de Vael-Khoris»?",
+        "q": "¿Qué objeto sostenía en su mano la doctora Evelyn Cruz cuando Silas Vance encontró su cadáver en el Nivel Cuarenta?",
         "a": [
-          "Cine",
-          "Literatura",
-          "Cine",
-          "Series"
+          "Un cilindro de datos sellado con el emblema de la Dinastía Orpheus.",
+          "Un plano hidráulico de las megaválvulas de soporte inferior.",
+          "La matriz energética extraída del Núcleo Ícaro.",
+          "Un transmisor de emergencia del Sistema de Drenaje Central."
         ],
         "correct": 0
       },
       {
-        "q": "¿Cuál es la frase de inspiración de «El Eco Sumergido de Vael-Khoris»?",
+        "q": "¿Cómo muere el técnico Jax durante la incursión en la Antigua Basílica de Santa Marea?",
         "a": [
-          "Incluso en el abismo más oscuro, la lluvia recuerda el calor del sol.",
-          "El destino siempre encuentra su camino.",
-          "Nada es lo que parece a primera vista.",
-          "La luz vence a la oscuridad."
+          "Es alcanzado por la onda de choque de una pistola de impulsos.",
+          "Cae al vacío tras resbalar en una plataforma cortada por el óxido.",
+          "Un arpón de los cazadores submarinos de Orpheus atraviesa su respirador.",
+          "Se ahoga cuando las esclusas de emergencia reventadas inundan la nave gótica."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "¿Cómo logra Silas derrotar al comandante Lucian Voss en el complejo de las Turbinas Primarias?",
+        "a": [
+          "Detona el soporte hidráulico bajo los pies de Voss para hacerlo caer a los engranajes trituradores.",
+          "Lo electrocuta lanzando una granada de pulso electromagnético a su sintetizador de voz.",
+          "Utiliza una sobrecarga de plasma para arrojarlo contra una pasarela de metal.",
+          "Lo acorrala y le dispara a quemarropa con su revólver magnético."
         ],
         "correct": 0
       },
       {
-        "q": "Según la sinopsis, ¿cuál es el conflicto central de la historia?",
+        "q": "¿Qué decisión crucial toma Silas en el Ojo del Diluvio para reiniciar el Sifón Atmosférico?",
         "a": [
-          "En la metrópolis decadente de Vael-Khoris, un detective exhausto investiga un cr…",
-          "Una guerra entre dos reinos lejanos.",
-          "Un romance prohibido entre dos familias rivales.",
-          "Una búsqueda del tesoro en una isla desierta."
+          "Decide arrojar el Núcleo Ícaro al vacío para que explote lejos de las estructuras.",
+          "Decide huir en un transbordador privado dejando que la fusión ocurra automáticamente.",
+          "Decide destruir la cámara de ignición disparando al Núcleo Ícaro desde la pasarela.",
+          "Decide quedarse a sostener manualmente la palanca de sellado mientras se libera el pulso térmico."
         ],
-        "correct": 0
+        "correct": 3
       },
       {
-        "q": "En el primer capítulo, la historia comienza hablando de…",
+        "q": "¿Qué consecuencia directa produce la detonación de energía blanca liberada desde la aguja?",
         "a": [
-          "La lluvia no caía en Vael-Khoris; azotaba como un veredicto implacable. Hacía tr…",
-          "Un prólogo sobre la creación del mundo.",
-          "Una lista de personajes principales.",
-          "Un mapa del territorio donde ocurre la trama."
+          "Congela instantáneamente las aguas de la marea permitiendo a los supervivientes escapar a pie.",
+          "Provoca el colapso definitivo de todos los niveles superiores de Vael-Khoris sobre el océano.",
+          "Disipa las nubes ácidas, detiene la lluvia y permite que los rayos del sol iluminen la ciudad.",
+          "Destruye por completo la flota de arcas orbitales de la aristocracia Orpheus."
         ],
-        "correct": 0
-      },
-      {
-        "q": "¿Cómo termina la historia?",
-        "a": [
-          "De regreso al mundo de la lluvia y la pólvora, Silas penetró en el complejo de l…",
-          "Con un final abierto que deja todo en el aire.",
-          "Con una batalla final que destruye el mundo conocido.",
-          "Con un sueño del que el protagonista nunca despierta."
-        ],
-        "correct": 0
+        "correct": 2
       }
     ],
     "quizEn": [
       {
-        "q": "In which La IA Musical room is the story «El Eco Sumergido de Vael-Khoris» published?",
+        "q": "What object was Dr. Evelyn Cruz holding in her hand when Silas Vance found her body at Level Forty?",
         "a": [
-          "Cine",
-          "Literature",
-          "Cinema",
-          "Series"
+          "A data cylinder sealed with the emblem of the Orpheus Dynasty.",
+          "A hydraulic blueprint of the lower support mega-valves.",
+          "The energy matrix extracted from the Icarus Core.",
+          "An emergency transmitter from the Central Drainage System."
         ],
         "correct": 0
       },
       {
-        "q": "What is the inspiration line of «El Eco Sumergido de Vael-Khoris»?",
+        "q": "How does the technician Jax die during the raid on the Ancient Basilica of Santa Marea?",
         "a": [
-          "Even in the deepest abyss, the rain remembers the sun's warmth.",
-          "Destiny always finds its way.",
-          "Nothing is what it seems at first glance.",
-          "Light defeats darkness."
+          "He is struck by the shockwave of an impulse pistol.",
+          "He falls into the void after slipping on a rust-severed platform.",
+          "A harpoon from Orpheus underwater hunters pierces his respirator.",
+          "He drowns when the blown emergency locks flood the gothic nave."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "How does Silas defeat Commander Lucian Voss in the Primary Turbines complex?",
+        "a": [
+          "He detonates the hydraulic support under Voss's feet, causing him to fall into the crushing gears.",
+          "He electrocutes him by throwing an electromagnetic pulse grenade at his voice synthesizer.",
+          "He uses a plasma overload to throw him against a metal catwalk.",
+          "He corners him and shoots him point-blank with his magnetic revolver."
         ],
         "correct": 0
       },
       {
-        "q": "According to the synopsis, what is the central conflict of the story?",
+        "q": "What crucial decision does Silas make at the Eye of the Flood to reset the Atmospheric Siphon?",
         "a": [
-          "In the decaying metropolis of Vael-Khoris, an exhausted detective uncovers an ap…",
-          "A war between two distant kingdoms.",
-          "A forbidden romance between two rival families.",
-          "A treasure hunt on a deserted island."
+          "He decides to throw the Icarus Core into the void so it explodes away from the structures.",
+          "He decides to escape in a private shuttle, letting the fusion happen automatically.",
+          "He decides to destroy the ignition chamber by shooting the Icarus Core from the catwalk.",
+          "He decides to stay and manually hold the sealing lever while the thermal pulse is released."
         ],
-        "correct": 0
+        "correct": 3
       },
       {
-        "q": "In the first chapter, the story begins by talking about…",
+        "q": "What direct consequence is produced by the white energy detonation released from the spire?",
         "a": [
-          "Rain did not merely fall on Vael-Khoris; it struck like an unforgiving verdict.…",
-          "A prologue about the creation of the world.",
-          "A list of the main characters.",
-          "A map of the territory where the plot takes place."
+          "It instantly freezes the tide waters, allowing survivors to escape on foot.",
+          "It causes the final collapse of all the upper levels of Vael-Khoris into the ocean.",
+          "It dissipates the acid clouds, stops the rain, and allows sunlight to illuminate the city.",
+          "It completely destroys the fleet of orbital arks belonging to the Orpheus aristocracy."
         ],
-        "correct": 0
-      },
-      {
-        "q": "How does the story end?",
-        "a": [
-          "Returning to the world of rain and muzzle fire, Silas breached the Primary Turbi…",
-          "With an open ending that leaves everything in the air.",
-          "With a final battle that destroys the known world.",
-          "With a dream the protagonist never wakes up from."
-        ],
-        "correct": 0
+        "correct": 2
       }
     ],
     "audioVoz": "storycard/thesubmergedechoofvaelkhoris-en/voz1.mp3",
@@ -259,104 +259,104 @@
     "esIA": true,
     "quiz": [
       {
-        "q": "¿En qué sala de La IA Musical se publica la historia «El Apuntador Secreto de Caelomira»?",
+        "q": "¿Qué descubrió Julián escrito con tinta púrpura al abrir la partitura maestra de «La Venganza del Duque»?",
         "a": [
-          "Teatro y musicales",
-          "Literatura",
-          "Cine",
-          "Series"
+          "Un plano secreto que detallaba las fallas estructurales de la concha del apuntador bajo el escenario.",
+          "Una nota oficial del director de escena advirtiendo sobre errores técnicos en el segundo acto de la obra.",
+          "Un mensaje que afirmaba que cada compás de muerte fue la única forma del autor de salvar a una mujer de la hoguera del mundo.",
+          "Una carta de confesión donde el compositor admitía haber envenenado al tenor principal durante el estreno."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "¿Qué frase le susurró Julián a Elena Rivera cuando la soprano titubeó antes del agudo en el primer acto?",
+        "a": [
+          "«Canta tú el compás dieciséis con la cadencia de la alondra».",
+          "«Espérame donde el mar pierde su orgullo».",
+          "«No bebas de la copa que forjó el engaño».",
+          "«Mira bajo el estrado donde duerme el perdón»."
+        ],
+        "correct": 1
+      },
+      {
+        "q": "¿Qué decisión tomó Julián en el segundo acto a pesar de los gestos furiosos del director de escena?",
+        "a": [
+          "Proyectar hacia el escenario el texto de la carta de Aurelio en lugar del guion impreso.",
+          "Apagar la bombilla verde de su atril para detener la función hasta que el director interviniera.",
+          "Salir de la concha del apuntador para entregarle la partitura directamente al tenor principal.",
+          "Cambiar el cáliz de plata del escenario por un accesorio de utilería para evitar un envenenamiento."
         ],
         "correct": 0
       },
       {
-        "q": "¿Cuál es la frase de inspiración de «El Apuntador Secreto de Caelomira»?",
+        "q": "¿Cómo reaccionó Elena Rivera cuando Julián le sopló el inicio de la melodía prohibida en el acto final?",
         "a": [
-          "Bajo la tramoya, el amor es la única línea jamás olvidada.",
-          "El destino siempre encuentra su camino.",
-          "Nada es lo que parece a primera vista.",
-          "La luz vence a la oscuridad."
+          "Detuvo a la orquesta y exigió al director de escena que explicara los cambios en el aria.",
+          "Arrojó la tiara al suelo y atacó el compás dieciséis con una cadencia luminosa y redentora.",
+          "Se desplomó sobre el banco de mármol según lo exigido por el libreto original de 1924.",
+          "Corrió fuera del escenario hacia el foso de carga donde se encontraba la salida de emergencia."
         ],
-        "correct": 0
+        "correct": 1
       },
       {
-        "q": "Según la sinopsis, ¿cuál es el conflicto central de la historia?",
+        "q": "¿Qué gesto tuvo Elena Rivera hacia Julián antes de retirarse del escenario tras los aplausos finales?",
         "a": [
-          "En la reapertura del Gran Coliseo, un joven apuntador descubre que el libreto es…",
-          "Una guerra entre dos reinos lejanos.",
-          "Un romance prohibido entre dos familias rivales.",
-          "Una búsqueda del tesoro en una isla desierta."
-        ],
-        "correct": 0
-      },
-      {
-        "q": "En el primer capítulo, la historia comienza hablando de…",
-        "a": [
-          "Julián ocupó su reino en penumbra: la concha del apuntador, ese pequeño habitácu…",
-          "Un prólogo sobre la creación del mundo.",
-          "Una lista de personajes principales.",
-          "Un mapa del territorio donde ocurre la trama."
-        ],
-        "correct": 0
-      },
-      {
-        "q": "¿Cómo termina la historia?",
-        "a": [
-          "Comenzó el segundo acto: la gran escena del baile de máscaras en Caelomira. Trei…",
-          "Con un final abierto que deja todo en el aire.",
-          "Con una batalla final que destruye el mundo conocido.",
-          "Con un sueño del que el protagonista nunca despierta."
+          "Se arrodilló sobre la madera de la concha y deslizó una rosa roja por la rejilla.",
+          "Apagó la bombilla verde del atril de Julián a través de la abertura de ventilación.",
+          "Le entregó la tiara de falsos diamantes como símbolo de gratitud por salvar la función.",
+          "Lo invitó a salir de la concha del apuntador para saludar al público junto a toda la compañía."
         ],
         "correct": 0
       }
     ],
     "quizEn": [
       {
-        "q": "In which La IA Musical room is the story «El Apuntador Secreto de Caelomira» published?",
+        "q": "What did Julián discover written in purple ink when he opened the master score of 'La Venganza del Duque'?",
         "a": [
-          "Teatro y musicales",
-          "Literature",
-          "Cinema",
-          "Series"
+          "A secret blueprint detailing the structural flaws of the prompter's box under the stage.",
+          "An official note from the stage director warning about technical errors in the second act of the play.",
+          "A message stating that each measure of death was the author's only way to save a woman from the world's stake.",
+          "A letter of confession where the composer admitted to poisoning the lead tenor during the premiere."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "What phrase did Julián whisper to Elena Rivera when the soprano hesitated before the high note in the first act?",
+        "a": [
+          "\"Sing measure sixteen with the cadence of the lark.\"",
+          "\"Wait for me where the sea loses its pride.\"",
+          "\"Do not drink from the cup forged by deceit.\"",
+          "\"Look under the dais where forgiveness sleeps.\""
+        ],
+        "correct": 1
+      },
+      {
+        "q": "What decision did Julián make during the second act despite the stage director's angry gestures?",
+        "a": [
+          "Prompt the stage with the text from Aurelio's letter instead of the printed script.",
+          "Turn off the green bulb at his desk to stop the performance until the conductor intervened.",
+          "Climb out of the prompter's box to hand the score directly to the lead tenor.",
+          "Swap the silver chalice on stage for a prop to prevent a real poisoning."
         ],
         "correct": 0
       },
       {
-        "q": "What is the inspiration line of «El Apuntador Secreto de Caelomira»?",
+        "q": "How did Elena Rivera react when Julián whispered the opening of the forbidden melody in the final act?",
         "a": [
-          "Beneath the stage rigging, love is the only line never forgotten.",
-          "Destiny always finds its way.",
-          "Nothing is what it seems at first glance.",
-          "Light defeats darkness."
+          "She stopped the orchestra and demanded that the stage director explain the changes to the aria.",
+          "She threw her tiara to the floor and tackled measure sixteen with a luminous, redemptive cadence.",
+          "She collapsed onto the marble bench as required by the original 1924 script.",
+          "She ran off the stage toward the loading bay where the emergency exit was located."
         ],
-        "correct": 0
+        "correct": 1
       },
       {
-        "q": "According to the synopsis, what is the central conflict of the story?",
+        "q": "What gesture did Elena Rivera make toward Julián before leaving the stage after the final applause?",
         "a": [
-          "At the reopening of the Grand Colosseum, a young prompter discovers the script h…",
-          "A war between two distant kingdoms.",
-          "A forbidden romance between two rival families.",
-          "A treasure hunt on a deserted island."
-        ],
-        "correct": 0
-      },
-      {
-        "q": "In the first chapter, the story begins by talking about…",
-        "a": [
-          "Julián took his place in his shadowy domain: the prompter’s box, an intimate woo…",
-          "A prologue about the creation of the world.",
-          "A list of the main characters.",
-          "A map of the territory where the plot takes place."
-        ],
-        "correct": 0
-      },
-      {
-        "q": "How does the story end?",
-        "a": [
-          "Act Two commenced: the grand masquerade within Caelomira. Thirty dancers whirled…",
-          "With an open ending that leaves everything in the air.",
-          "With a final battle that destroys the known world.",
-          "With a dream the protagonist never wakes up from."
+          "She knelt on the wood of the prompter's box and slid a red rose through the grate.",
+          "She blew out the green light bulb on Julián's desk through the ventilation opening.",
+          "She handed him the tiara of false diamonds as a token of gratitude for saving the performance.",
+          "She invited him out of the prompter's box to bow before the audience alongside the full cast."
         ],
         "correct": 0
       }
@@ -381,104 +381,104 @@
     "esIA": true,
     "quiz": [
       {
-        "q": "¿En qué sala de La IA Musical se publica la historia «El Apuntador Secreto de Caelomira»?",
+        "q": "¿Qué descubrió Julián escrito con tinta púrpura al abrir la partitura maestra de «La Venganza del Duque»?",
         "a": [
-          "Teatro y musicales",
-          "Literatura",
-          "Cine",
-          "Series"
+          "Un plano secreto que detallaba las fallas estructurales de la concha del apuntador bajo el escenario.",
+          "Una nota oficial del director de escena advirtiendo sobre errores técnicos en el segundo acto de la obra.",
+          "Un mensaje que afirmaba que cada compás de muerte fue la única forma del autor de salvar a una mujer de la hoguera del mundo.",
+          "Una carta de confesión donde el compositor admitía haber envenenado al tenor principal durante el estreno."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "¿Qué frase le susurró Julián a Elena Rivera cuando la soprano titubeó antes del agudo en el primer acto?",
+        "a": [
+          "«Canta tú el compás dieciséis con la cadencia de la alondra».",
+          "«Espérame donde el mar pierde su orgullo».",
+          "«No bebas de la copa que forjó el engaño».",
+          "«Mira bajo el estrado donde duerme el perdón»."
+        ],
+        "correct": 1
+      },
+      {
+        "q": "¿Qué decisión tomó Julián en el segundo acto a pesar de los gestos furiosos del director de escena?",
+        "a": [
+          "Proyectar hacia el escenario el texto de la carta de Aurelio en lugar del guion impreso.",
+          "Apagar la bombilla verde de su atril para detener la función hasta que el director interviniera.",
+          "Salir de la concha del apuntador para entregarle la partitura directamente al tenor principal.",
+          "Cambiar el cáliz de plata del escenario por un accesorio de utilería para evitar un envenenamiento."
         ],
         "correct": 0
       },
       {
-        "q": "¿Cuál es la frase de inspiración de «El Apuntador Secreto de Caelomira»?",
+        "q": "¿Cómo reaccionó Elena Rivera cuando Julián le sopló el inicio de la melodía prohibida en el acto final?",
         "a": [
-          "Bajo la tramoya, el amor es la única línea jamás olvidada.",
-          "El destino siempre encuentra su camino.",
-          "Nada es lo que parece a primera vista.",
-          "La luz vence a la oscuridad."
+          "Detuvo a la orquesta y exigió al director de escena que explicara los cambios en el aria.",
+          "Arrojó la tiara al suelo y atacó el compás dieciséis con una cadencia luminosa y redentora.",
+          "Se desplomó sobre el banco de mármol según lo exigido por el libreto original de 1924.",
+          "Corrió fuera del escenario hacia el foso de carga donde se encontraba la salida de emergencia."
         ],
-        "correct": 0
+        "correct": 1
       },
       {
-        "q": "Según la sinopsis, ¿cuál es el conflicto central de la historia?",
+        "q": "¿Qué gesto tuvo Elena Rivera hacia Julián antes de retirarse del escenario tras los aplausos finales?",
         "a": [
-          "En la reapertura del Gran Coliseo, un joven apuntador descubre que el libreto es…",
-          "Una guerra entre dos reinos lejanos.",
-          "Un romance prohibido entre dos familias rivales.",
-          "Una búsqueda del tesoro en una isla desierta."
-        ],
-        "correct": 0
-      },
-      {
-        "q": "En el primer capítulo, la historia comienza hablando de…",
-        "a": [
-          "Julián ocupó su reino en penumbra: la concha del apuntador, ese pequeño habitácu…",
-          "Un prólogo sobre la creación del mundo.",
-          "Una lista de personajes principales.",
-          "Un mapa del territorio donde ocurre la trama."
-        ],
-        "correct": 0
-      },
-      {
-        "q": "¿Cómo termina la historia?",
-        "a": [
-          "Comenzó el segundo acto: la gran escena del baile de máscaras en Caelomira. Trei…",
-          "Con un final abierto que deja todo en el aire.",
-          "Con una batalla final que destruye el mundo conocido.",
-          "Con un sueño del que el protagonista nunca despierta."
+          "Se arrodilló sobre la madera de la concha y deslizó una rosa roja por la rejilla.",
+          "Apagó la bombilla verde del atril de Julián a través de la abertura de ventilación.",
+          "Le entregó la tiara de falsos diamantes como símbolo de gratitud por salvar la función.",
+          "Lo invitó a salir de la concha del apuntador para saludar al público junto a toda la compañía."
         ],
         "correct": 0
       }
     ],
     "quizEn": [
       {
-        "q": "In which La IA Musical room is the story «El Apuntador Secreto de Caelomira» published?",
+        "q": "What did Julián discover written in purple ink when he opened the master score of 'La Venganza del Duque'?",
         "a": [
-          "Teatro y musicales",
-          "Literature",
-          "Cinema",
-          "Series"
+          "A secret blueprint detailing the structural flaws of the prompter's box under the stage.",
+          "An official note from the stage director warning about technical errors in the second act of the play.",
+          "A message stating that each measure of death was the author's only way to save a woman from the world's stake.",
+          "A letter of confession where the composer admitted to poisoning the lead tenor during the premiere."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "What phrase did Julián whisper to Elena Rivera when the soprano hesitated before the high note in the first act?",
+        "a": [
+          "\"Sing measure sixteen with the cadence of the lark.\"",
+          "\"Wait for me where the sea loses its pride.\"",
+          "\"Do not drink from the cup forged by deceit.\"",
+          "\"Look under the dais where forgiveness sleeps.\""
+        ],
+        "correct": 1
+      },
+      {
+        "q": "What decision did Julián make during the second act despite the stage director's angry gestures?",
+        "a": [
+          "Prompt the stage with the text from Aurelio's letter instead of the printed script.",
+          "Turn off the green bulb at his desk to stop the performance until the conductor intervened.",
+          "Climb out of the prompter's box to hand the score directly to the lead tenor.",
+          "Swap the silver chalice on stage for a prop to prevent a real poisoning."
         ],
         "correct": 0
       },
       {
-        "q": "What is the inspiration line of «El Apuntador Secreto de Caelomira»?",
+        "q": "How did Elena Rivera react when Julián whispered the opening of the forbidden melody in the final act?",
         "a": [
-          "Beneath the stage rigging, love is the only line never forgotten.",
-          "Destiny always finds its way.",
-          "Nothing is what it seems at first glance.",
-          "Light defeats darkness."
+          "She stopped the orchestra and demanded that the stage director explain the changes to the aria.",
+          "She threw her tiara to the floor and tackled measure sixteen with a luminous, redemptive cadence.",
+          "She collapsed onto the marble bench as required by the original 1924 script.",
+          "She ran off the stage toward the loading bay where the emergency exit was located."
         ],
-        "correct": 0
+        "correct": 1
       },
       {
-        "q": "According to the synopsis, what is the central conflict of the story?",
+        "q": "What gesture did Elena Rivera make toward Julián before leaving the stage after the final applause?",
         "a": [
-          "At the reopening of the Grand Colosseum, a young prompter discovers the script h…",
-          "A war between two distant kingdoms.",
-          "A forbidden romance between two rival families.",
-          "A treasure hunt on a deserted island."
-        ],
-        "correct": 0
-      },
-      {
-        "q": "In the first chapter, the story begins by talking about…",
-        "a": [
-          "Julián took his place in his shadowy domain: the prompter’s box, an intimate woo…",
-          "A prologue about the creation of the world.",
-          "A list of the main characters.",
-          "A map of the territory where the plot takes place."
-        ],
-        "correct": 0
-      },
-      {
-        "q": "How does the story end?",
-        "a": [
-          "Act Two commenced: the grand masquerade within Caelomira. Thirty dancers whirled…",
-          "With an open ending that leaves everything in the air.",
-          "With a final battle that destroys the known world.",
-          "With a dream the protagonist never wakes up from."
+          "She knelt on the wood of the prompter's box and slid a red rose through the grate.",
+          "She blew out the green light bulb on Julián's desk through the ventilation opening.",
+          "She handed him the tiara of false diamonds as a token of gratitude for saving the performance.",
+          "She invited him out of the prompter's box to bow before the audience alongside the full cast."
         ],
         "correct": 0
       }
@@ -503,106 +503,106 @@
     "esIA": true,
     "quiz": [
       {
-        "q": "¿En qué sala de La IA Musical se publica la historia «El Canto Prohibido de Aethelgard»?",
+        "q": "¿Qué particularidad tenía la partitura sin nombre que encontró el maestro Valerio en los archivos del Gran Teatro?",
         "a": [
-          "Ópera y conciertos",
-          "Literatura",
-          "Cine",
-          "Series"
+          "Contenía anotaciones al margen realizadas por los antiguos apuntadores del teatro.",
+          "Estaba escrita en pergamino dorado y sellada con la insignia del duque de Lysander.",
+          "Desprendía aroma a azufre y cera vieja, con tinta que parecía sangre coagulada.",
+          "Tenía sus compases marcados con polvo de cristal y lágrimas de la casa Belcanto."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "Durante la interpretación de la tormenta sinfónica, ¿qué les sucedió a los violines de la orquesta y a sus ejecutantes?",
+        "a": [
+          "Cayeron de las manos de los músicos hacia el suelo, haciendo estallar los espejos de los palcos.",
+          "Las cuerdas se rompieron por la presión extrema e hirieron las manos de los músicos, quienes continuaron tocando ensangrentados.",
+          "Se incendiaron al instante debido al aire denso y cargado de electricidad invisible de la sala principal.",
+          "Se desafinaron completamente hacia una escala menor que hizo huir a los acomodadores por los pasillos."
+        ],
+        "correct": 1
+      },
+      {
+        "q": "En el clímax del duelo entre ambos teatros, ¿cómo contrastaban las direcciones musicales de Valerio y Lysander?",
+        "a": [
+          "Valerio exigía velocidad y furia, mientras que Lysander respondía con lentitud sepulcral y peso dramático.",
+          "Valerio intentaba detener a la orquesta, mientras que Lysander incitaba al gran coro a cantar en un idioma muerto.",
+          "Valerio mantenía un ritmo melancólico e inmóvil, mientras que Lysander aceleraba la orquesta en un tempo caótico.",
+          "Valerio dirigía con susurros de cuerdas suaves, mientras que Lysander empleaba metales y timbales destructivos."
         ],
         "correct": 0
       },
       {
-        "q": "¿Cuál es la frase de inspiración de «El Canto Prohibido de Aethelgard»?",
+        "q": "¿Qué ocurrió con la soprano Elvira cuando emitió la última y más alta estrofa de su interpretación?",
         "a": [
-          "La música más bella es aquella que exige el alma como pago.",
-          "El destino siempre encuentra su camino.",
-          "Nada es lo que parece a primera vista.",
-          "La luz vence a la oscuridad."
+          "Se convirtió en una sombra oscura que tomó el control de la batuta del maestro Valerio.",
+          "Una luz cegadora brotó de su pecho y se desvaneció en el aire disolviéndose en notas de polvo dorado.",
+          "Huyó del escenario hacia los pasillos mientras la araña de cristal caía sobre el foso de la orquesta.",
+          "Se desplomó sobre el podio del director tras romper las cuerdas de todos los instrumentos de viento."
         ],
-        "correct": 0
+        "correct": 1
       },
       {
-        "q": "Según la sinopsis, ¿cuál es el conflicto central de la historia?",
+        "q": "¿Cuál fue el estado final de la partitura maldita y de los sobrevivientes tras el colapso de los teatros?",
         "a": [
-          "La noche del estreno de una obra maldita enfrenta a dos casas rivales de ópera e…",
-          "Una guerra entre dos reinos lejanos.",
-          "Un romance prohibido entre dos familias rivales.",
-          "Una búsqueda del tesoro en una isla desierta."
+          "La partitura se consumió en llamas de azufre, y los sobrevivientes fundaron una nueva escuela rival a la casa Belcanto.",
+          "La partitura fue destruida por el duque de Lysander antes de morir, liberando al público del trance involuntario.",
+          "La partitura yacía cerrada y limpia entre los escombros, mientras los sobrevivientes vagaban mudos e incapaces de escuchar música ordinaria.",
+          "La partitura quedó atrapada en la araña de cristal colapsada, y los sobrevivientes continuaron cantando el gran coro."
         ],
-        "correct": 0
-      },
-      {
-        "q": "En el primer capítulo, la historia comienza hablando de…",
-        "a": [
-          "Las sombras del Gran Teatro de Aethelgard guardaban secretos que ningún músico m…",
-          "Un prólogo sobre la creación del mundo.",
-          "Una lista de personajes principales.",
-          "Un mapa del territorio donde ocurre la trama."
-        ],
-        "correct": 0
-      },
-      {
-        "q": "¿Cómo termina la historia?",
-        "a": [
-          "El segundo acto estalló como una tempestad desatada en alta mar. La música dejó…",
-          "Con un final abierto que deja todo en el aire.",
-          "Con una batalla final que destruye el mundo conocido.",
-          "Con un sueño del que el protagonista nunca despierta."
-        ],
-        "correct": 0
+        "correct": 2
       }
     ],
     "quizEn": [
       {
-        "q": "In which La IA Musical room is the story «El Canto Prohibido de Aethelgard» published?",
+        "q": "What was unique about the unnamed sheet music found by Master Valerio in the archives of the Great Theatre?",
         "a": [
-          "Ópera y conciertos",
-          "Literature",
-          "Cinema",
-          "Series"
+          "It contained marginal notes written by the ancient prompters of the theatre.",
+          "It was written on golden parchment and sealed with the crest of the Duke of Lysander.",
+          "It gave off an aroma of sulfur and old wax, with ink that looked like coagulated blood.",
+          "Its bars were marked with crystal dust and tears from the House of Belcanto."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "During the performance of the symphonic storm, what happened to the orchestra's violins and their players?",
+        "a": [
+          "They fell from the musicians' hands to the floor, shattering the mirrors of the boxes.",
+          "The strings snapped under extreme pressure and wounded the musicians' hands, who kept playing bleeding.",
+          "They caught fire instantly due to the dense and electrically charged air in the main hall.",
+          "They went completely out of tune toward a minor scale that made the ushers flee through the corridors."
+        ],
+        "correct": 1
+      },
+      {
+        "q": "At the climax of the duel between both theatres, how did the musical direction of Valerio and Lysander contrast?",
+        "a": [
+          "Valerio demanded speed and fury, while Lysander responded with sepulchral slowness and dramatic weight.",
+          "Valerio attempted to stop the orchestra, while Lysander incited the great chorus to sing in a dead language.",
+          "Valerio maintained a melancholic and motionless rhythm, while Lysander accelerated the orchestra in a chaotic tempo.",
+          "Valerio directed with soft string whispers, while Lysander employed destructive brass and kettledrums."
         ],
         "correct": 0
       },
       {
-        "q": "What is the inspiration line of «El Canto Prohibido de Aethelgard»?",
+        "q": "What happened to the soprano Elvira when she emitted the final and highest verse of her performance?",
         "a": [
-          "The most beautiful music is that which demands the soul as payment.",
-          "Destiny always finds its way.",
-          "Nothing is what it seems at first glance.",
-          "Light defeats darkness."
+          "She transformed into a dark shadow that took control of Master Valerio's baton.",
+          "A blinding light burst from her chest and she dissolved into the air into golden musical dust.",
+          "She fled from the stage into the corridors as the crystal chandelier fell onto the orchestra pit.",
+          "She collapsed onto the conductor's podium after breaking the strings of all the wind instruments."
         ],
-        "correct": 0
+        "correct": 1
       },
       {
-        "q": "According to the synopsis, what is the central conflict of the story?",
+        "q": "What was the final state of the cursed score and the survivors after the collapse of the theatres?",
         "a": [
-          "On the opening night of a cursed opera, two rival houses clash in a duel of over…",
-          "A war between two distant kingdoms.",
-          "A forbidden romance between two rival families.",
-          "A treasure hunt on a deserted island."
+          "The score burned in sulfur flames, and the survivors founded a new rival school to the House of Belcanto.",
+          "The score was destroyed by the Duke of Lysander before he died, freeing the audience from the involuntary trance.",
+          "The score lay closed and clean among the rubble, while the survivors wandered mute and unable to listen to ordinary music.",
+          "The score remained trapped in the collapsed crystal chandelier, and the survivors kept singing the great chorus."
         ],
-        "correct": 0
-      },
-      {
-        "q": "In the first chapter, the story begins by talking about…",
-        "a": [
-          "The shadows of the Grand Theater of Aethelgard held secrets no mortal musician s…",
-          "A prologue about the creation of the world.",
-          "A list of the main characters.",
-          "A map of the territory where the plot takes place."
-        ],
-        "correct": 0
-      },
-      {
-        "q": "How does the story end?",
-        "a": [
-          "The second act erupted like a storm unleashed at sea. The music ceased to be art…",
-          "With an open ending that leaves everything in the air.",
-          "With a final battle that destroys the known world.",
-          "With a dream the protagonist never wakes up from."
-        ],
-        "correct": 0
+        "correct": 2
       }
     ],
     "audioVoz": "storycard/elcantoprohibidodeaethelgard/voz1.mp3",
@@ -625,106 +625,106 @@
     "esIA": true,
     "quiz": [
       {
-        "q": "¿En qué sala de La IA Musical se publica la historia «El Canto Prohibido de Aethelgard»?",
+        "q": "¿Qué particularidad tenía la partitura sin nombre que encontró el maestro Valerio en los archivos del Gran Teatro?",
         "a": [
-          "Ópera y conciertos",
-          "Literatura",
-          "Cine",
-          "Series"
+          "Contenía anotaciones al margen realizadas por los antiguos apuntadores del teatro.",
+          "Estaba escrita en pergamino dorado y sellada con la insignia del duque de Lysander.",
+          "Desprendía aroma a azufre y cera vieja, con tinta que parecía sangre coagulada.",
+          "Tenía sus compases marcados con polvo de cristal y lágrimas de la casa Belcanto."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "Durante la interpretación de la tormenta sinfónica, ¿qué les sucedió a los violines de la orquesta y a sus ejecutantes?",
+        "a": [
+          "Cayeron de las manos de los músicos hacia el suelo, haciendo estallar los espejos de los palcos.",
+          "Las cuerdas se rompieron por la presión extrema e hirieron las manos de los músicos, quienes continuaron tocando ensangrentados.",
+          "Se incendiaron al instante debido al aire denso y cargado de electricidad invisible de la sala principal.",
+          "Se desafinaron completamente hacia una escala menor que hizo huir a los acomodadores por los pasillos."
+        ],
+        "correct": 1
+      },
+      {
+        "q": "En el clímax del duelo entre ambos teatros, ¿cómo contrastaban las direcciones musicales de Valerio y Lysander?",
+        "a": [
+          "Valerio exigía velocidad y furia, mientras que Lysander respondía con lentitud sepulcral y peso dramático.",
+          "Valerio intentaba detener a la orquesta, mientras que Lysander incitaba al gran coro a cantar en un idioma muerto.",
+          "Valerio mantenía un ritmo melancólico e inmóvil, mientras que Lysander aceleraba la orquesta en un tempo caótico.",
+          "Valerio dirigía con susurros de cuerdas suaves, mientras que Lysander empleaba metales y timbales destructivos."
         ],
         "correct": 0
       },
       {
-        "q": "¿Cuál es la frase de inspiración de «El Canto Prohibido de Aethelgard»?",
+        "q": "¿Qué ocurrió con la soprano Elvira cuando emitió la última y más alta estrofa de su interpretación?",
         "a": [
-          "La música más bella es aquella que exige el alma como pago.",
-          "El destino siempre encuentra su camino.",
-          "Nada es lo que parece a primera vista.",
-          "La luz vence a la oscuridad."
+          "Se convirtió en una sombra oscura que tomó el control de la batuta del maestro Valerio.",
+          "Una luz cegadora brotó de su pecho y se desvaneció en el aire disolviéndose en notas de polvo dorado.",
+          "Huyó del escenario hacia los pasillos mientras la araña de cristal caía sobre el foso de la orquesta.",
+          "Se desplomó sobre el podio del director tras romper las cuerdas de todos los instrumentos de viento."
         ],
-        "correct": 0
+        "correct": 1
       },
       {
-        "q": "Según la sinopsis, ¿cuál es el conflicto central de la historia?",
+        "q": "¿Cuál fue el estado final de la partitura maldita y de los sobrevivientes tras el colapso de los teatros?",
         "a": [
-          "La noche del estreno de una obra maldita enfrenta a dos casas rivales de ópera e…",
-          "Una guerra entre dos reinos lejanos.",
-          "Un romance prohibido entre dos familias rivales.",
-          "Una búsqueda del tesoro en una isla desierta."
+          "La partitura se consumió en llamas de azufre, y los sobrevivientes fundaron una nueva escuela rival a la casa Belcanto.",
+          "La partitura fue destruida por el duque de Lysander antes de morir, liberando al público del trance involuntario.",
+          "La partitura yacía cerrada y limpia entre los escombros, mientras los sobrevivientes vagaban mudos e incapaces de escuchar música ordinaria.",
+          "La partitura quedó atrapada en la araña de cristal colapsada, y los sobrevivientes continuaron cantando el gran coro."
         ],
-        "correct": 0
-      },
-      {
-        "q": "En el primer capítulo, la historia comienza hablando de…",
-        "a": [
-          "Las sombras del Gran Teatro de Aethelgard guardaban secretos que ningún músico m…",
-          "Un prólogo sobre la creación del mundo.",
-          "Una lista de personajes principales.",
-          "Un mapa del territorio donde ocurre la trama."
-        ],
-        "correct": 0
-      },
-      {
-        "q": "¿Cómo termina la historia?",
-        "a": [
-          "El segundo acto estalló como una tempestad desatada en alta mar. La música dejó…",
-          "Con un final abierto que deja todo en el aire.",
-          "Con una batalla final que destruye el mundo conocido.",
-          "Con un sueño del que el protagonista nunca despierta."
-        ],
-        "correct": 0
+        "correct": 2
       }
     ],
     "quizEn": [
       {
-        "q": "In which La IA Musical room is the story «El Canto Prohibido de Aethelgard» published?",
+        "q": "What was unique about the unnamed sheet music found by Master Valerio in the archives of the Great Theatre?",
         "a": [
-          "Ópera y conciertos",
-          "Literature",
-          "Cinema",
-          "Series"
+          "It contained marginal notes written by the ancient prompters of the theatre.",
+          "It was written on golden parchment and sealed with the crest of the Duke of Lysander.",
+          "It gave off an aroma of sulfur and old wax, with ink that looked like coagulated blood.",
+          "Its bars were marked with crystal dust and tears from the House of Belcanto."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "During the performance of the symphonic storm, what happened to the orchestra's violins and their players?",
+        "a": [
+          "They fell from the musicians' hands to the floor, shattering the mirrors of the boxes.",
+          "The strings snapped under extreme pressure and wounded the musicians' hands, who kept playing bleeding.",
+          "They caught fire instantly due to the dense and electrically charged air in the main hall.",
+          "They went completely out of tune toward a minor scale that made the ushers flee through the corridors."
+        ],
+        "correct": 1
+      },
+      {
+        "q": "At the climax of the duel between both theatres, how did the musical direction of Valerio and Lysander contrast?",
+        "a": [
+          "Valerio demanded speed and fury, while Lysander responded with sepulchral slowness and dramatic weight.",
+          "Valerio attempted to stop the orchestra, while Lysander incited the great chorus to sing in a dead language.",
+          "Valerio maintained a melancholic and motionless rhythm, while Lysander accelerated the orchestra in a chaotic tempo.",
+          "Valerio directed with soft string whispers, while Lysander employed destructive brass and kettledrums."
         ],
         "correct": 0
       },
       {
-        "q": "What is the inspiration line of «El Canto Prohibido de Aethelgard»?",
+        "q": "What happened to the soprano Elvira when she emitted the final and highest verse of her performance?",
         "a": [
-          "The most beautiful music is that which demands the soul as payment.",
-          "Destiny always finds its way.",
-          "Nothing is what it seems at first glance.",
-          "Light defeats darkness."
+          "She transformed into a dark shadow that took control of Master Valerio's baton.",
+          "A blinding light burst from her chest and she dissolved into the air into golden musical dust.",
+          "She fled from the stage into the corridors as the crystal chandelier fell onto the orchestra pit.",
+          "She collapsed onto the conductor's podium after breaking the strings of all the wind instruments."
         ],
-        "correct": 0
+        "correct": 1
       },
       {
-        "q": "According to the synopsis, what is the central conflict of the story?",
+        "q": "What was the final state of the cursed score and the survivors after the collapse of the theatres?",
         "a": [
-          "On the opening night of a cursed opera, two rival houses clash in a duel of over…",
-          "A war between two distant kingdoms.",
-          "A forbidden romance between two rival families.",
-          "A treasure hunt on a deserted island."
+          "The score burned in sulfur flames, and the survivors founded a new rival school to the House of Belcanto.",
+          "The score was destroyed by the Duke of Lysander before he died, freeing the audience from the involuntary trance.",
+          "The score lay closed and clean among the rubble, while the survivors wandered mute and unable to listen to ordinary music.",
+          "The score remained trapped in the collapsed crystal chandelier, and the survivors kept singing the great chorus."
         ],
-        "correct": 0
-      },
-      {
-        "q": "In the first chapter, the story begins by talking about…",
-        "a": [
-          "The shadows of the Grand Theater of Aethelgard held secrets no mortal musician s…",
-          "A prologue about the creation of the world.",
-          "A list of the main characters.",
-          "A map of the territory where the plot takes place."
-        ],
-        "correct": 0
-      },
-      {
-        "q": "How does the story end?",
-        "a": [
-          "The second act erupted like a storm unleashed at sea. The music ceased to be art…",
-          "With an open ending that leaves everything in the air.",
-          "With a final battle that destroys the known world.",
-          "With a dream the protagonist never wakes up from."
-        ],
-        "correct": 0
+        "correct": 2
       }
     ],
     "audioVoz": "storycard/theforbiddensongofaethelgard-en/voz1.mp3",
@@ -745,7 +745,111 @@
     "storyPage": "laultimavigiliadealistairenvalenor.html",
     "audioVoz": "storycard/laultimavigiliadealistairenvalenor/voz1.mp3",
     "musicaFondo": "storycard/laultimavigiliadealistairenvalenor.mp3",
-    "fechaCreacion": "2026-11-04T10:57:50.288Z"
+    "fechaCreacion": "2026-11-04T10:57:50.288Z",
+    "quiz": [
+      {
+        "q": "¿Qué objeto lleva Alistair ajustado contra su pecho al cruzar el umbral de Valenor?",
+        "a": [
+          "Un prisma de cristal oscuro conocido como el Corazón del Creador",
+          "Una antigua antorcha de aceite de la Gran Biblioteca Imperial",
+          "Una estatuilla de oro con la efigie de la emperatriz Vespera",
+          "Un fragmento de cerámica con grabados de peces y barcos"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "¿Qué restos encontró Alistair en el cauce seco del gran río Oros?",
+        "a": [
+          "Estatuas decapitadas de emperadores olvidados y líquenes oscuros",
+          "Guijarros pulidos, huesos blanqueados y un fragmento de cerámica con grabados",
+          "Miles de estanterías vacías que guardaban un aroma a pergamino viejo",
+          "Matorrales silvestres y enredaderas espinosas que trepaban por los arcos"
+        ],
+        "correct": 1
+      },
+      {
+        "q": "¿Cómo cruzó Alistair el abismo que separaba el distrito comercial de la ciudadela imperial?",
+        "a": [
+          "Navegando en un pequeño bote por el fondo del cañón cubierto de niebla",
+          "Arriesgándose por los estrechos pilares de piedra que aún resistían en medio del vacío",
+          "Utilizando los cables de acero del puente colgante que estaban intactos",
+          "Caminando por los legendarios Jardines Colgantes situados en la meseta"
+        ],
+        "correct": 1
+      },
+      {
+        "q": "¿Dónde buscó refugio Alistair al desatarse la vasta tormenta de arena?",
+        "a": [
+          "En el interior de la Aguja de Obsidiana tras abrirse las puertas de metal",
+          "Bajo la cúpula pintada del pabellón de mármol rosa en los Jardines Colgantes",
+          "En el soportal de un antiguo templo dedicado al dios de la guerra",
+          "En las cúpulas de cristal derruidas de la Gran Biblioteca Imperial"
+        ],
+        "correct": 2
+      },
+      {
+        "q": "¿Qué sucedió exactamente al depositar el prisma oscuro en el Altar del Recordatorio?",
+        "a": [
+          "La torre de obsidiana colapsó por completo, sepultando las ruinas bajo una capa de polvo dorado",
+          "Se abrió un portal temporal que transportó a Alistair de regreso a su época de origen",
+          "Una luz brillante brotó del cristal, devolviendo el color a las piedras y la paz a las voces del imperio",
+          "El río Oros volvió a llenarse de agua, reviviendo los jardines y las fuentes monumentales"
+        ],
+        "correct": 2
+      }
+    ],
+    "quizEn": [
+      {
+        "q": "What object does Alistair carry adjusted against his chest when crossing the threshold of Valenor?",
+        "a": [
+          "A dark crystal prism known as the Heart of the Creator",
+          "An ancient oil torch from the Great Imperial Library",
+          "A gold statuette with the effigy of Empress Vespera",
+          "A ceramic fragment with engravings of fish and boats"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "What remains did Alistair find in the dry bed of the great Oros river?",
+        "a": [
+          "Decapitated statues of forgotten emperors and dark lichens",
+          "Polished pebbles, bleached bones, and a ceramic fragment with engravings",
+          "Thousands of empty bookshelves holding an aroma of old parchment",
+          "Wild bushes and thorny vines climbing the arches"
+        ],
+        "correct": 1
+      },
+      {
+        "q": "How did Alistair cross the abyss separating the commercial district from the imperial citadel?",
+        "a": [
+          "By sailing in a small boat through the bottom of the fog-covered canyon",
+          "By risking his life on the narrow stone pillars that still withstood the emptiness",
+          "By using the steel cables of the suspension bridge that were intact",
+          "By walking through the legendary Hanging Gardens located on the plateau"
+        ],
+        "correct": 1
+      },
+      {
+        "q": "Where did Alistair seek shelter when the vast sandstorm broke out?",
+        "a": [
+          "Inside the Obsidian Needle after the metal doors opened",
+          "Under the painted dome of the pink marble pavilion in the Hanging Gardens",
+          "In the porch of an ancient temple dedicated to the god of war",
+          "In the ruined glass domes of the Great Imperial Library"
+        ],
+        "correct": 2
+      },
+      {
+        "q": "What exactly happened when he placed the dark prism on the Altar of Remembrance?",
+        "a": [
+          "The obsidian tower completely collapsed, burying the ruins under a layer of golden dust",
+          "A temporal portal opened that transported Alistair back to his original era",
+          "A bright light burst from the crystal, returning color to the stones and peace to the voices of the empire",
+          "The Oros river filled with water again, reviving the gardens and monumental fountains"
+        ],
+        "correct": 2
+      }
+    ]
   },
   {
     "id": 1793789563854,
@@ -761,7 +865,111 @@
     "storyPage": "alistairslastvigilinvalenor-en.html",
     "audioVoz": "storycard/alistairslastvigilinvalenor-en/voz1.mp3",
     "musicaFondo": "storycard/alistairslastvigilinvalenor-en.mp3",
-    "fechaCreacion": "2026-11-04T10:57:50.289Z"
+    "fechaCreacion": "2026-11-04T10:57:50.289Z",
+    "quiz": [
+      {
+        "q": "¿Qué objeto lleva Alistair ajustado contra su pecho al cruzar el umbral de Valenor?",
+        "a": [
+          "Un prisma de cristal oscuro conocido como el Corazón del Creador",
+          "Una antigua antorcha de aceite de la Gran Biblioteca Imperial",
+          "Una estatuilla de oro con la efigie de la emperatriz Vespera",
+          "Un fragmento de cerámica con grabados de peces y barcos"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "¿Qué restos encontró Alistair en el cauce seco del gran río Oros?",
+        "a": [
+          "Estatuas decapitadas de emperadores olvidados y líquenes oscuros",
+          "Guijarros pulidos, huesos blanqueados y un fragmento de cerámica con grabados",
+          "Miles de estanterías vacías que guardaban un aroma a pergamino viejo",
+          "Matorrales silvestres y enredaderas espinosas que trepaban por los arcos"
+        ],
+        "correct": 1
+      },
+      {
+        "q": "¿Cómo cruzó Alistair el abismo que separaba el distrito comercial de la ciudadela imperial?",
+        "a": [
+          "Navegando en un pequeño bote por el fondo del cañón cubierto de niebla",
+          "Arriesgándose por los estrechos pilares de piedra que aún resistían en medio del vacío",
+          "Utilizando los cables de acero del puente colgante que estaban intactos",
+          "Caminando por los legendarios Jardines Colgantes situados en la meseta"
+        ],
+        "correct": 1
+      },
+      {
+        "q": "¿Dónde buscó refugio Alistair al desatarse la vasta tormenta de arena?",
+        "a": [
+          "En el interior de la Aguja de Obsidiana tras abrirse las puertas de metal",
+          "Bajo la cúpula pintada del pabellón de mármol rosa en los Jardines Colgantes",
+          "En el soportal de un antiguo templo dedicado al dios de la guerra",
+          "En las cúpulas de cristal derruidas de la Gran Biblioteca Imperial"
+        ],
+        "correct": 2
+      },
+      {
+        "q": "¿Qué sucedió exactamente al depositar el prisma oscuro en el Altar del Recordatorio?",
+        "a": [
+          "La torre de obsidiana colapsó por completo, sepultando las ruinas bajo una capa de polvo dorado",
+          "Se abrió un portal temporal que transportó a Alistair de regreso a su época de origen",
+          "Una luz brillante brotó del cristal, devolviendo el color a las piedras y la paz a las voces del imperio",
+          "El río Oros volvió a llenarse de agua, reviviendo los jardines y las fuentes monumentales"
+        ],
+        "correct": 2
+      }
+    ],
+    "quizEn": [
+      {
+        "q": "What object does Alistair carry adjusted against his chest when crossing the threshold of Valenor?",
+        "a": [
+          "A dark crystal prism known as the Heart of the Creator",
+          "An ancient oil torch from the Great Imperial Library",
+          "A gold statuette with the effigy of Empress Vespera",
+          "A ceramic fragment with engravings of fish and boats"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "What remains did Alistair find in the dry bed of the great Oros river?",
+        "a": [
+          "Decapitated statues of forgotten emperors and dark lichens",
+          "Polished pebbles, bleached bones, and a ceramic fragment with engravings",
+          "Thousands of empty bookshelves holding an aroma of old parchment",
+          "Wild bushes and thorny vines climbing the arches"
+        ],
+        "correct": 1
+      },
+      {
+        "q": "How did Alistair cross the abyss separating the commercial district from the imperial citadel?",
+        "a": [
+          "By sailing in a small boat through the bottom of the fog-covered canyon",
+          "By risking his life on the narrow stone pillars that still withstood the emptiness",
+          "By using the steel cables of the suspension bridge that were intact",
+          "By walking through the legendary Hanging Gardens located on the plateau"
+        ],
+        "correct": 1
+      },
+      {
+        "q": "Where did Alistair seek shelter when the vast sandstorm broke out?",
+        "a": [
+          "Inside the Obsidian Needle after the metal doors opened",
+          "Under the painted dome of the pink marble pavilion in the Hanging Gardens",
+          "In the porch of an ancient temple dedicated to the god of war",
+          "In the ruined glass domes of the Great Imperial Library"
+        ],
+        "correct": 2
+      },
+      {
+        "q": "What exactly happened when he placed the dark prism on the Altar of Remembrance?",
+        "a": [
+          "The obsidian tower completely collapsed, burying the ruins under a layer of golden dust",
+          "A temporal portal opened that transported Alistair back to his original era",
+          "A bright light burst from the crystal, returning color to the stones and peace to the voices of the empire",
+          "The Oros river filled with water again, reviving the gardens and monumental fountains"
+        ],
+        "correct": 2
+      }
+    ]
   },
   {
     "id": 1793721471710,
@@ -777,7 +985,111 @@
     "storyPage": "lachispaeternadesylphira.html",
     "audioVoz": "storycard/lachispaeternadesylphira/voz1.mp3",
     "musicaFondo": "storycard/lachispaeternadesylphira.mp3",
-    "fechaCreacion": "2026-11-03T16:04:38.150Z"
+    "fechaCreacion": "2026-11-03T16:04:38.150Z",
+    "quiz": [
+      {
+        "q": "¿Qué objeto lleva Bastián para cumplir su misión de romper el hechizo del Árbol Madre?",
+        "a": [
+          "Una linterna antigua que encontró bajo una roca cubierta de musgo.",
+          "Una semilla dorada entregada personalmente por el Gran Espíritu.",
+          "Una pequeña bolsa de cuero que contiene el último destello del amanecer.",
+          "Un mapa detallado que indica el camino hacia el corazón del bosque."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "¿Cómo logra Bastián que Gorth, el guardián de piedra, le permita cruzar el Paso del Eco?",
+        "a": [
+          "Le entrega una ofrenda de flores marchitas que recuperan su vida al contacto.",
+          "Recita un poema antiguo que le enseñó el Gran Espíritu antes de partir.",
+          "Responde al acertijo del tejón con una broma sobre una lista de pendientes.",
+          "Utiliza el calor de la linterna para derretir la piedra que cubre al guardián."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "¿Qué método utiliza Bastián para enfrentarse a las polillas de la sombra en el Valle de los Susurros?",
+        "a": [
+          "Utiliza la luz intensa de la linterna para cegar a las criaturas durante su ataque.",
+          "Canta una melodía alegre que su abuelo le enseñó en las tardes de verano.",
+          "Lucha contra ellas usando las botas de hojas de roble como arma defensiva.",
+          "Les entrega recuerdos felices de su infancia para saciarlas y que lo dejen pasar."
+        ],
+        "correct": 1
+      },
+      {
+        "q": "¿Qué decisión toma Bastián durante la Tormenta de Cristal para proteger su misión?",
+        "a": [
+          "Pide ayuda a Lyra para que cree un puente de burbujas que lo proteja de la tormenta.",
+          "Esconde la linterna en un hueco seguro y corre hacia el Árbol Madre sin ella.",
+          "Se lanza al vacío para recuperar la linterna y la abraza contra su cuerpo.",
+          "Utiliza la linterna para crear un escudo de luz que detiene el granizo de diamante."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "¿Qué ocurre inmediatamente después de que Bastián coloca la brasa en el Árbol Madre?",
+        "a": [
+          "Las runas de la corteza brillan y una onda de calor y color recorre el bosque.",
+          "Bastián se convierte en el nuevo guardián eterno del desfiladero de piedra.",
+          "El Gran Espíritu aparece para agradecerle y devolverle su forma original.",
+          "El Árbol Madre se desploma y libera toda la magia acumulada en sus raíces."
+        ],
+        "correct": 0
+      }
+    ],
+    "quizEn": [
+      {
+        "q": "What object does Bastián carry to fulfill his mission of breaking the Mother Tree's spell?",
+        "a": [
+          "An old lantern he found under a moss-covered rock.",
+          "A golden seed given personally by the Great Spirit.",
+          "A small leather bag containing the last glimmer of dawn.",
+          "A detailed map showing the path to the heart of the forest."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "How does Bastián get Gorth, the stone guardian, to let him cross the Echo Pass?",
+        "a": [
+          "He gives him an offering of withered flowers that regain their life upon contact.",
+          "He recites an ancient poem taught to him by the Great Spirit before leaving.",
+          "He answers the badger's riddle with a joke about a to-do list.",
+          "He uses the heat of the lantern to melt the stone covering the guardian."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "What method does Bastián use to face the shadow moths in the Valley of Whispers?",
+        "a": [
+          "He uses the intense light of the lantern to blind the creatures during their attack.",
+          "He sings a cheerful tune his grandfather taught him on summer afternoons.",
+          "He fights them using his oak-leaf boots as a defensive weapon.",
+          "He gives them happy memories of his childhood to satisfy them so they let him pass."
+        ],
+        "correct": 1
+      },
+      {
+        "q": "What decision does Bastián make during the Crystal Storm to protect his mission?",
+        "a": [
+          "He asks Lyra for help to create a bubble bridge that protects him from the storm.",
+          "He hides the lantern in a safe hollow and runs to the Mother Tree without it.",
+          "He jumps into the void to retrieve the lantern and hugs it against his body.",
+          "He uses the lantern to create a light shield that stops the diamond hail."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "What happens immediately after Bastián places the ember in the Mother Tree?",
+        "a": [
+          "The runes on the bark glow and a wave of heat and color sweeps through the forest.",
+          "Bastián becomes the new eternal guardian of the stone gorge.",
+          "The Great Spirit appears to thank him and return him to his original form.",
+          "The Mother Tree collapses and releases all the magic accumulated in its roots."
+        ],
+        "correct": 0
+      }
+    ]
   },
   {
     "id": 1793721481710,
@@ -793,7 +1105,111 @@
     "storyPage": "theeternalsparkofsylphira-en.html",
     "audioVoz": "storycard/theeternalsparkofsylphira-en/voz1.mp3",
     "musicaFondo": "storycard/theeternalsparkofsylphira-en.mp3",
-    "fechaCreacion": "2026-11-03T16:04:38.151Z"
+    "fechaCreacion": "2026-11-03T16:04:38.151Z",
+    "quiz": [
+      {
+        "q": "¿Qué objeto lleva Bastián para cumplir su misión de romper el hechizo del Árbol Madre?",
+        "a": [
+          "Una linterna antigua que encontró bajo una roca cubierta de musgo.",
+          "Una semilla dorada entregada personalmente por el Gran Espíritu.",
+          "Una pequeña bolsa de cuero que contiene el último destello del amanecer.",
+          "Un mapa detallado que indica el camino hacia el corazón del bosque."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "¿Cómo logra Bastián que Gorth, el guardián de piedra, le permita cruzar el Paso del Eco?",
+        "a": [
+          "Le entrega una ofrenda de flores marchitas que recuperan su vida al contacto.",
+          "Recita un poema antiguo que le enseñó el Gran Espíritu antes de partir.",
+          "Responde al acertijo del tejón con una broma sobre una lista de pendientes.",
+          "Utiliza el calor de la linterna para derretir la piedra que cubre al guardián."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "¿Qué método utiliza Bastián para enfrentarse a las polillas de la sombra en el Valle de los Susurros?",
+        "a": [
+          "Utiliza la luz intensa de la linterna para cegar a las criaturas durante su ataque.",
+          "Canta una melodía alegre que su abuelo le enseñó en las tardes de verano.",
+          "Lucha contra ellas usando las botas de hojas de roble como arma defensiva.",
+          "Les entrega recuerdos felices de su infancia para saciarlas y que lo dejen pasar."
+        ],
+        "correct": 1
+      },
+      {
+        "q": "¿Qué decisión toma Bastián durante la Tormenta de Cristal para proteger su misión?",
+        "a": [
+          "Pide ayuda a Lyra para que cree un puente de burbujas que lo proteja de la tormenta.",
+          "Esconde la linterna en un hueco seguro y corre hacia el Árbol Madre sin ella.",
+          "Se lanza al vacío para recuperar la linterna y la abraza contra su cuerpo.",
+          "Utiliza la linterna para crear un escudo de luz que detiene el granizo de diamante."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "¿Qué ocurre inmediatamente después de que Bastián coloca la brasa en el Árbol Madre?",
+        "a": [
+          "Las runas de la corteza brillan y una onda de calor y color recorre el bosque.",
+          "Bastián se convierte en el nuevo guardián eterno del desfiladero de piedra.",
+          "El Gran Espíritu aparece para agradecerle y devolverle su forma original.",
+          "El Árbol Madre se desploma y libera toda la magia acumulada en sus raíces."
+        ],
+        "correct": 0
+      }
+    ],
+    "quizEn": [
+      {
+        "q": "What object does Bastián carry to fulfill his mission of breaking the Mother Tree's spell?",
+        "a": [
+          "An old lantern he found under a moss-covered rock.",
+          "A golden seed given personally by the Great Spirit.",
+          "A small leather bag containing the last glimmer of dawn.",
+          "A detailed map showing the path to the heart of the forest."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "How does Bastián get Gorth, the stone guardian, to let him cross the Echo Pass?",
+        "a": [
+          "He gives him an offering of withered flowers that regain their life upon contact.",
+          "He recites an ancient poem taught to him by the Great Spirit before leaving.",
+          "He answers the badger's riddle with a joke about a to-do list.",
+          "He uses the heat of the lantern to melt the stone covering the guardian."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "What method does Bastián use to face the shadow moths in the Valley of Whispers?",
+        "a": [
+          "He uses the intense light of the lantern to blind the creatures during their attack.",
+          "He sings a cheerful tune his grandfather taught him on summer afternoons.",
+          "He fights them using his oak-leaf boots as a defensive weapon.",
+          "He gives them happy memories of his childhood to satisfy them so they let him pass."
+        ],
+        "correct": 1
+      },
+      {
+        "q": "What decision does Bastián make during the Crystal Storm to protect his mission?",
+        "a": [
+          "He asks Lyra for help to create a bubble bridge that protects him from the storm.",
+          "He hides the lantern in a safe hollow and runs to the Mother Tree without it.",
+          "He jumps into the void to retrieve the lantern and hugs it against his body.",
+          "He uses the lantern to create a light shield that stops the diamond hail."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "What happens immediately after Bastián places the ember in the Mother Tree?",
+        "a": [
+          "The runes on the bark glow and a wave of heat and color sweeps through the forest.",
+          "Bastián becomes the new eternal guardian of the stone gorge.",
+          "The Great Spirit appears to thank him and return him to his original form.",
+          "The Mother Tree collapses and releases all the magic accumulated in its roots."
+        ],
+        "correct": 0
+      }
+    ]
   },
   {
     "id": 1793705146316,
@@ -809,7 +1225,111 @@
     "storyPage": "eldesviotragicodelrioaethelgard.html",
     "audioVoz": "storycard/eldesviotragicodelrioaethelgard/voz1.mp3",
     "musicaFondo": "storycard/eldesviotragicodelrioaethelgard.mp3",
-    "fechaCreacion": "2026-11-03T11:29:18.326Z"
+    "fechaCreacion": "2026-11-03T11:29:18.326Z",
+    "quiz": [
+      {
+        "q": "¿Qué tres naciones dependían del río Aethelgard antes del cataclismo?",
+        "a": [
+          "Valenor, Draconis y Oakhaven.",
+          "Draconis, los cronistas y los mercaderes.",
+          "Valenor, Oakhaven y el Gran Abismo.",
+          "Oakhaven, los guardianes y los antiguos duques."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "¿Qué ocurrió con las tierras fértiles de Valenor tras el desvío del río?",
+        "a": [
+          "Fueron sepultadas bajo toneladas de escombros humeantes.",
+          "Se transformaron en lodazales tóxicos y estériles.",
+          "Sufrieron inundaciones catastróficas que arrasaron sus fortalezas.",
+          "Se convirtieron en un yermo polvoriento y sediento."
+        ],
+        "correct": 3
+      },
+      {
+        "q": "¿Qué descubrió la expedición de Theron Vane en el fondo del Gran Abismo?",
+        "a": [
+          "Un titán geológico despertando de su sueño milenario.",
+          "Un mecanismo de ingeniería ancestral de aleación desconocida.",
+          "Un manantial de agua pura que aún no había sido contaminado.",
+          "Los restos de los antiguos duques de la sal."
+        ],
+        "correct": 1
+      },
+      {
+        "q": "¿Cuál era la verdadera función del río Aethelgard según el testimonio de Ethelwulf?",
+        "a": [
+          "Servir como frontera natural para evitar la guerra entre naciones.",
+          "Actuar como sistema de enfriamiento de un artefacto que mantenía dormido a un titán.",
+          "Canalizar las oraciones de los místicos de Oakhaven hacia el centro de la tierra.",
+          "Proveer oro y riqueza a los mercaderes de Valenor."
+        ],
+        "correct": 1
+      },
+      {
+        "q": "¿Qué compromiso tomaron los líderes de Valenor, Draconis y Oakhaven al final de la historia?",
+        "a": [
+          "Cerrar las fronteras para proteger los últimos pozos subterráneos.",
+          "Reconstruir el mecanismo ancestral bajo las montañas.",
+          "Gestionar de manera conjunta los tres nuevos cauces del río.",
+          "Elegir un nuevo soberano para las tres naciones unificadas."
+        ],
+        "correct": 2
+      }
+    ],
+    "quizEn": [
+      {
+        "q": "Which three nations depended on the Aethelgard River before the cataclysm?",
+        "a": [
+          "Valenor, Draconis, and Oakhaven.",
+          "Draconis, the chroniclers, and the merchants.",
+          "Valenor, Oakhaven, and the Great Abyss.",
+          "Oakhaven, the guardians, and the ancient dukes."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "What happened to the fertile lands of Valenor after the river was diverted?",
+        "a": [
+          "They were buried under tons of smoking rubble.",
+          "They turned into toxic and sterile mudflats.",
+          "They suffered catastrophic floods that destroyed their fortresses.",
+          "They became a dusty and thirsty wasteland."
+        ],
+        "correct": 3
+      },
+      {
+        "q": "What did Theron Vane's expedition discover at the bottom of the Great Abyss?",
+        "a": [
+          "A geological titan waking from its millennial sleep.",
+          "An ancestral engineering mechanism made of an unknown alloy.",
+          "A spring of pure water that had not yet been contaminated.",
+          "The remains of the ancient dukes of salt."
+        ],
+        "correct": 1
+      },
+      {
+        "q": "What was the true function of the Aethelgard River according to Ethelwulf's testimony?",
+        "a": [
+          "To serve as a natural border to prevent war between nations.",
+          "To act as a cooling system for an artifact that kept a titan asleep.",
+          "To channel the prayers of the Oakhaven mystics toward the center of the earth.",
+          "To provide gold and wealth to the merchants of Valenor."
+        ],
+        "correct": 1
+      },
+      {
+        "q": "What commitment did the leaders of Valenor, Draconis, and Oakhaven make at the end of the story?",
+        "a": [
+          "To close the borders to protect the last underground wells.",
+          "To rebuild the ancestral mechanism under the mountains.",
+          "To jointly manage the three new river channels.",
+          "To choose a new sovereign for the three unified nations."
+        ],
+        "correct": 2
+      }
+    ]
   },
   {
     "id": 1793705156316,
@@ -828,54 +1348,106 @@
     "fechaCreacion": "2026-11-03T11:29:18.327Z",
     "quiz": [
       {
-        "q": "In which La IA Musical room is the story «The Tragic Diversion of the Aethelgard River» published?",
+        "q": "¿Qué tres naciones dependían del río Aethelgard antes del cataclismo?",
         "a": [
-          "Cinema",
-          "Literature",
-          "Series",
-          "Documentaries & Users"
+          "Valenor, Draconis y Oakhaven.",
+          "Draconis, los cronistas y los mercaderes.",
+          "Valenor, Oakhaven y el Gran Abismo.",
+          "Oakhaven, los guardianes y los antiguos duques."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "¿Qué ocurrió con las tierras fértiles de Valenor tras el desvío del río?",
+        "a": [
+          "Fueron sepultadas bajo toneladas de escombros humeantes.",
+          "Se transformaron en lodazales tóxicos y estériles.",
+          "Sufrieron inundaciones catastróficas que arrasaron sus fortalezas.",
+          "Se convirtieron en un yermo polvoriento y sediento."
         ],
         "correct": 3
       },
       {
-        "q": "Which three nations depended on the Aethelgard River?",
+        "q": "¿Qué descubrió la expedición de Theron Vane en el fondo del Gran Abismo?",
         "a": [
-          "Valenor, Draconis and Oakhaven",
-          "Valenor, Aethelgard and Vance",
-          "Draconis, Oakhaven and Theron",
-          "Oakhaven, Kaelen and Lyra"
-        ],
-        "correct": 0
-      },
-      {
-        "q": "What happened to the river after the cataclysm?",
-        "a": [
-          "It dried up completely.",
-          "It split into three wild torrents, ruining Valenor and flooding Draconis.",
-          "It froze over the whole continent.",
-          "It flowed back toward its source."
+          "Un titán geológico despertando de su sueño milenario.",
+          "Un mecanismo de ingeniería ancestral de aleación desconocida.",
+          "Un manantial de agua pura que aún no había sido contaminado.",
+          "Los restos de los antiguos duques de la sal."
         ],
         "correct": 1
       },
       {
-        "q": "What did Theron Vane's expedition discover at the bottom of the abyss?",
+        "q": "¿Cuál era la verdadera función del río Aethelgard según el testimonio de Ethelwulf?",
         "a": [
-          "A lost city of gold.",
-          "The tomb of an ancient king.",
-          "A colossal ancient mechanism connected to the underground aquifers.",
-          "A hidden army."
+          "Servir como frontera natural para evitar la guerra entre naciones.",
+          "Actuar como sistema de enfriamiento de un artefacto que mantenía dormido a un titán.",
+          "Canalizar las oraciones de los místicos de Oakhaven hacia el centro de la tierra.",
+          "Proveer oro y riqueza a los mercaderes de Valenor."
         ],
-        "correct": 2
+        "correct": 1
       },
       {
-        "q": "How does the story end?",
+        "q": "¿Qué compromiso tomaron los líderes de Valenor, Draconis y Oakhaven al final de la historia?",
         "a": [
-          "The three kingdoms sign the Treaty of Aethelgard and jointly manage the new channels.",
-          "Draconis conquers the continent.",
-          "The river returns to its original bed.",
-          "The machine is destroyed and the war continues."
+          "Cerrar las fronteras para proteger los últimos pozos subterráneos.",
+          "Reconstruir el mecanismo ancestral bajo las montañas.",
+          "Gestionar de manera conjunta los tres nuevos cauces del río.",
+          "Elegir un nuevo soberano para las tres naciones unificadas."
+        ],
+        "correct": 2
+      }
+    ],
+    "quizEn": [
+      {
+        "q": "Which three nations depended on the Aethelgard River before the cataclysm?",
+        "a": [
+          "Valenor, Draconis, and Oakhaven.",
+          "Draconis, the chroniclers, and the merchants.",
+          "Valenor, Oakhaven, and the Great Abyss.",
+          "Oakhaven, the guardians, and the ancient dukes."
         ],
         "correct": 0
+      },
+      {
+        "q": "What happened to the fertile lands of Valenor after the river was diverted?",
+        "a": [
+          "They were buried under tons of smoking rubble.",
+          "They turned into toxic and sterile mudflats.",
+          "They suffered catastrophic floods that destroyed their fortresses.",
+          "They became a dusty and thirsty wasteland."
+        ],
+        "correct": 3
+      },
+      {
+        "q": "What did Theron Vane's expedition discover at the bottom of the Great Abyss?",
+        "a": [
+          "A geological titan waking from its millennial sleep.",
+          "An ancestral engineering mechanism made of an unknown alloy.",
+          "A spring of pure water that had not yet been contaminated.",
+          "The remains of the ancient dukes of salt."
+        ],
+        "correct": 1
+      },
+      {
+        "q": "What was the true function of the Aethelgard River according to Ethelwulf's testimony?",
+        "a": [
+          "To serve as a natural border to prevent war between nations.",
+          "To act as a cooling system for an artifact that kept a titan asleep.",
+          "To channel the prayers of the Oakhaven mystics toward the center of the earth.",
+          "To provide gold and wealth to the merchants of Valenor."
+        ],
+        "correct": 1
+      },
+      {
+        "q": "What commitment did the leaders of Valenor, Draconis, and Oakhaven make at the end of the story?",
+        "a": [
+          "To close the borders to protect the last underground wells.",
+          "To rebuild the ancestral mechanism under the mountains.",
+          "To jointly manage the three new river channels.",
+          "To choose a new sovereign for the three unified nations."
+        ],
+        "correct": 2
       }
     ]
   },
@@ -893,7 +1465,111 @@
     "storyPage": "laultimatravesiadevalenkael.html",
     "audioVoz": "storycard/laultimatravesiadevalenkael/voz1.mp3",
     "musicaFondo": "laultimatravesiadevalenkael.mp3",
-    "fechaCreacion": "2026-11-02T12:10:11.150Z"
+    "fechaCreacion": "2026-11-02T12:10:11.150Z",
+    "quiz": [
+      {
+        "q": "¿Cuál es el verdadero objetivo de la misión asignada al capitán Darek Vance al comienzo del viaje?",
+        "a": [
+          "Establecer una base de operaciones secreta en el núcleo volcánico de la nación.",
+          "Penetrar la atmósfera de la fortaleza flotante Valen-Kael para soltar bombas de pulso con una carga útil.",
+          "Rescatar a la legendaria aviadora Valera de las purgas de la frontera imperial.",
+          "Destruir la flota de cazas enemigos en los hangares subterráneos de la República."
+        ],
+        "correct": 1
+      },
+      {
+        "q": "¿Qué descubre Darek en el interior del domo atmosférico al escanear el reactor central de Valen-Kael?",
+        "a": [
+          "Que contiene una reserva masiva de combustible para abastecer a la armada imperial.",
+          "Que es un motor terraformador alimentado por el núcleo volcánico para congelar la superficie de su patria.",
+          "Que alberga la base de comunicaciones desde donde se originan todas las órdenes de su alto mando.",
+          "Que es una estación de armas diseñada exclusivamente para lanzar un rayo destructivo inmediato."
+        ],
+        "correct": 1
+      },
+      {
+        "q": "¿Quién resulta ser el piloto del misterioso caza negro con insignias doradas que lo persigue en la estratosfera?",
+        "a": [
+          "La comandante Valera, una legendaria aviadora republicana dada por muerta años atrás.",
+          "Un desertor anónimo que busca vender los secretos de la fortaleza al mejor postor.",
+          "El líder de las fuerzas de seguridad de la República que activó la auto-destrucción.",
+          "Un general del alto mando imperial enviado personalmente para ejecutarlo por traición."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "¿Qué decisión toma Darek cuando el acorazado militar de clase Titán se posiciona sobre el reactor principal?",
+        "a": [
+          "Enfila la proa del Aeron-9 hacia el puerto de ventilación del acorazado para estrellarlo contra su reactor.",
+          "Despliega el paracaídas térmico de su cápsula de pilotaje para descender directamente a tierra firme.",
+          "Activa el sistema de hackeo manual para transferir el control de su reactor a la computadora enemiga.",
+          "Utiliza el gancho de remolque magnético de Valera para escapar hacia las profundidades subterráneas."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "¿Cómo termina la historia de Darek tras la destrucción del acorazado insignia y el colapso de la fortaleza?",
+        "a": [
+          "Se convierte en el nuevo líder supremo del Imperio tras firmar un tratado de paz con la República.",
+          "Toca tierra firme en las playas doradas de la República, donde es recibido por ciudadanos y soldados unidos.",
+          "Es capturado por los generales tiranos que huyen en sus lanzaderas personales hacia la frontera.",
+          "Se embarca junto con Valera en una nueva misión secreta para explorar civilizaciones olvidadas."
+        ],
+        "correct": 1
+      }
+    ],
+    "quizEn": [
+      {
+        "q": "What is the true objective of the mission assigned to Captain Darek Vance at the beginning of the journey?",
+        "a": [
+          "To establish a secret operations base in the volcanic core of the nation.",
+          "To penetrate the atmosphere of the floating fortress Valen-Kael to drop pulse bombs with a payload.",
+          "To rescue the legendary aviator Valera from the imperial border purges.",
+          "To destroy the enemy fighter fleet in the underground hangars of the Republic."
+        ],
+        "correct": 1
+      },
+      {
+        "q": "What does Darek discover inside the atmospheric dome when scanning Valen-Kael's central reactor?",
+        "a": [
+          "That it contains a massive fuel reserve to supply the imperial armada.",
+          "That it is a terraforming engine fueled by the volcanic core to freeze the surface of his homeland.",
+          "That it houses the communications base from which all orders from his high command originate.",
+          "That it is a weapons station designed exclusively to launch an immediate destructive beam."
+        ],
+        "correct": 1
+      },
+      {
+        "q": "Who turns out to be the pilot of the mysterious black fighter with gold insignia pursuing him in the stratosphere?",
+        "a": [
+          "Commander Valera, a legendary republican aviator presumed dead years ago.",
+          "An anonymous deserter looking to sell the fortress's secrets to the highest bidder.",
+          "The leader of the Republic's security forces who activated the self-destruct.",
+          "An imperial high command general sent personally to execute him for treason."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "What decision does Darek make when the Titan-class military battleship positions itself over the main reactor?",
+        "a": [
+          "He points the bow of the Aeron-9 toward the battleship's vent port to crash it into its reactor.",
+          "He deploys the thermal parachute of his piloting capsule to descend directly to solid ground.",
+          "He activates the manual hacking system to transfer his reactor's control to the enemy computer.",
+          "He uses Valera's magnetic tow hook to escape into the underground depths."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "How does Darek's story end after the destruction of the flagship battleship and the collapse of the fortress?",
+        "a": [
+          "He becomes the new supreme leader of the Empire after signing a peace treaty with the Republic.",
+          "He touches solid ground on the golden beaches of the Republic, where he is welcomed by united citizens and soldiers.",
+          "He is captured by the tyrant generals fleeing in their personal shuttles toward the border.",
+          "He embarks with Valera on a new secret mission to explore forgotten civilizations."
+        ],
+        "correct": 1
+      }
+    ]
   },
   {
     "id": 1793621110896,
@@ -912,54 +1588,106 @@
     "fechaCreacion": "2026-11-02T12:10:11.151Z",
     "quiz": [
       {
-        "q": "Which room of La IA Musical is the story «The Last Voyage of Valen-Kael» published in?",
+        "q": "¿Cuál es el verdadero objetivo de la misión asignada al capitán Darek Vance al comienzo del viaje?",
         "a": [
-          "Opera & Concerts",
-          "Literature",
-          "Cinema",
-          "Series"
-        ],
-        "correct": 2
-      },
-      {
-        "q": "What is the name of the experimental fighter that Captain Darek Vance pilots?",
-        "a": [
-          "Valera-1",
-          "Aeron-9",
-          "Titan-X",
-          "Leviathan"
+          "Establecer una base de operaciones secreta en el núcleo volcánico de la nación.",
+          "Penetrar la atmósfera de la fortaleza flotante Valen-Kael para soltar bombas de pulso con una carga útil.",
+          "Rescatar a la legendaria aviadora Valera de las purgas de la frontera imperial.",
+          "Destruir la flota de cazas enemigos en los hangares subterráneos de la República."
         ],
         "correct": 1
       },
       {
-        "q": "What does Darek discover about the true purpose of the mission inside Valen-Kael?",
+        "q": "¿Qué descubre Darek en el interior del domo atmosférico al escanear el reactor central de Valen-Kael?",
         "a": [
-          "It is a cannon aimed at the enemy capital.",
-          "It is a terraforming engine that would freeze the surface of his own homeland.",
-          "It is a prison for captured pilots.",
-          "It is a lost fleet of ancient warships."
+          "Que contiene una reserva masiva de combustible para abastecer a la armada imperial.",
+          "Que es un motor terraformador alimentado por el núcleo volcánico para congelar la superficie de su patria.",
+          "Que alberga la base de comunicaciones desde donde se originan todas las órdenes de su alto mando.",
+          "Que es una estación de armas diseñada exclusivamente para lanzar un rayo destructivo inmediato."
         ],
         "correct": 1
       },
       {
-        "q": "Who is Commander Valera, the pilot of the black fighter?",
+        "q": "¿Quién resulta ser el piloto del misterioso caza negro con insignias doradas que lo persigue en la estratosfera?",
         "a": [
-          "An imperial general loyal to the Empire.",
-          "A Republican aviator presumed dead, who reveals the war is staged.",
-          "Darek's brother, who joined the Empire.",
-          "An AI that controls the fortress."
+          "La comandante Valera, una legendaria aviadora republicana dada por muerta años atrás.",
+          "Un desertor anónimo que busca vender los secretos de la fortaleza al mejor postor.",
+          "El líder de las fuerzas de seguridad de la República que activó la auto-destrucción.",
+          "Un general del alto mando imperial enviado personalmente para ejecutarlo por traición."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "¿Qué decisión toma Darek cuando el acorazado militar de clase Titán se posiciona sobre el reactor principal?",
+        "a": [
+          "Enfila la proa del Aeron-9 hacia el puerto de ventilación del acorazado para estrellarlo contra su reactor.",
+          "Despliega el paracaídas térmico de su cápsula de pilotaje para descender directamente a tierra firme.",
+          "Activa el sistema de hackeo manual para transferir el control de su reactor a la computadora enemiga.",
+          "Utiliza el gancho de remolque magnético de Valera para escapar hacia las profundidades subterráneas."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "¿Cómo termina la historia de Darek tras la destrucción del acorazado insignia y el colapso de la fortaleza?",
+        "a": [
+          "Se convierte en el nuevo líder supremo del Imperio tras firmar un tratado de paz con la República.",
+          "Toca tierra firme en las playas doradas de la República, donde es recibido por ciudadanos y soldados unidos.",
+          "Es capturado por los generales tiranos que huyen en sus lanzaderas personales hacia la frontera.",
+          "Se embarca junto con Valera en una nueva misión secreta para explorar civilizaciones olvidadas."
+        ],
+        "correct": 1
+      }
+    ],
+    "quizEn": [
+      {
+        "q": "What is the true objective of the mission assigned to Captain Darek Vance at the beginning of the journey?",
+        "a": [
+          "To establish a secret operations base in the volcanic core of the nation.",
+          "To penetrate the atmosphere of the floating fortress Valen-Kael to drop pulse bombs with a payload.",
+          "To rescue the legendary aviator Valera from the imperial border purges.",
+          "To destroy the enemy fighter fleet in the underground hangars of the Republic."
         ],
         "correct": 1
       },
       {
-        "q": "How does the story end?",
+        "q": "What does Darek discover inside the atmospheric dome when scanning Valen-Kael's central reactor?",
         "a": [
-          "Darek dies when the Aeron-9 crashes into the sea.",
-          "The fortress destroys both countries.",
-          "Darek's capsule is saved, the weapon is neutralized and a new era of peace begins.",
-          "The war continues with new leaders."
+          "That it contains a massive fuel reserve to supply the imperial armada.",
+          "That it is a terraforming engine fueled by the volcanic core to freeze the surface of his homeland.",
+          "That it houses the communications base from which all orders from his high command originate.",
+          "That it is a weapons station designed exclusively to launch an immediate destructive beam."
         ],
-        "correct": 2
+        "correct": 1
+      },
+      {
+        "q": "Who turns out to be the pilot of the mysterious black fighter with gold insignia pursuing him in the stratosphere?",
+        "a": [
+          "Commander Valera, a legendary republican aviator presumed dead years ago.",
+          "An anonymous deserter looking to sell the fortress's secrets to the highest bidder.",
+          "The leader of the Republic's security forces who activated the self-destruct.",
+          "An imperial high command general sent personally to execute him for treason."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "What decision does Darek make when the Titan-class military battleship positions itself over the main reactor?",
+        "a": [
+          "He points the bow of the Aeron-9 toward the battleship's vent port to crash it into its reactor.",
+          "He deploys the thermal parachute of his piloting capsule to descend directly to solid ground.",
+          "He activates the manual hacking system to transfer his reactor's control to the enemy computer.",
+          "He uses Valera's magnetic tow hook to escape into the underground depths."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "How does Darek's story end after the destruction of the flagship battleship and the collapse of the fortress?",
+        "a": [
+          "He becomes the new supreme leader of the Empire after signing a peace treaty with the Republic.",
+          "He touches solid ground on the golden beaches of the Republic, where he is welcomed by united citizens and soldiers.",
+          "He is captured by the tyrant generals fleeing in their personal shuttles toward the border.",
+          "He embarks with Valera on a new secret mission to explore forgotten civilizations."
+        ],
+        "correct": 1
       }
     ]
   },

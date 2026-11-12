@@ -1,0 +1,108 @@
+{
+  "titulo": "The Ice Dance",
+  "generado": "2026-11-12T05:17:42.354Z",
+  "es": [
+    {
+      "q": "¿Qué dos llamadas sentía Tuk al comienzo de su viaje con la colonia?",
+      "a": [
+        "La de su linaje hacia el interior y el susurro rebelde del océano hacia La Orilla Danzante.",
+        "La de regresar al nido abandonado y la de buscar alimento en El Nido de Acero.",
+        "La de explorar El Valle de Las Luces y la de unirse a la colonia de pingüinos Adélie.",
+        "La de seguir a Los Picos Grises y la de huir de las gaviotas skúas del sur."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Qué criatura mística apareció cruzando el cielo durante la monótona marcha de los días?",
+      "a": [
+        "Un viejo búho blanco que habitaba solitario en la cima de los Picos Grises.",
+        "Un gran skúa agresivo que buscaba robar los huevos de los pingüinos.",
+        "Nimbus, un albatros nival de gran tamaño y antiguos ojos de inteligencia.",
+        "Un albatros marino oscuro que guiaba a los pingüinos hacia El Nido de Acero."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Qué obstáculo repentino interrumpió el avance de la columna a través de la llanura de hielo?",
+      "a": [
+        "Un campamento abandonado lleno de trampas metálicas para pingüinos.",
+        "Una manada de skúas bloqueando el acceso al Valle de Las Luces.",
+        "Una fuerte tormenta de nieve provocada por Los Picos Grises.",
+        "Una gigantesca Fisura Silenciosa que se abrió en medio del camino."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Qué decisión tomó Tuk tras observar las constelaciones sobre el océano durante la noche?",
+      "a": [
+        "Atacar a los skúas en El Nido de Acero para liberar a los pingüinos Adélie.",
+        "Regresar inmediatamente a La Orilla Danzante desafiando a Los Picos Grises.",
+        "Continuar avanzando ciegamente por El Camino Ancestral a pesar del abismo.",
+        "Proponer un desvío audaz alrededor de la fisura guiándose por las estrellas."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Qué descubrió Tuk en el mar tras finalizar el viaje y regresar la colonia a la costa meses después?",
+      "a": [
+        "Que las llamadas del océano y de la colonia formaban parte de la misma canción.",
+        "Que los pingüinos Adélie se habían convertido en los nuevos líderes de la costa.",
+        "Que El Nido de Acero estaba completamente cubierto por una nueva fisura.",
+        "Que Nimbus se había marchado para siempre sin dejar ningún rastro en el cielo."
+      ],
+      "correct": 0
+    }
+  ],
+  "en": [
+    {
+      "q": "What two callings did Tuk feel at the beginning of his journey with the colony?",
+      "a": [
+        "That of his lineage inland and the rebellious whisper of the ocean toward The Dancing Shore.",
+        "That of returning to the abandoned nest and that of searching for food in The Steel Nest.",
+        "That of exploring The Valley of Lights and that of joining the colony of Adélie penguins.",
+        "That of following The Gray Peaks and that of fleeing from the southern skua gulls."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "What mystical creature appeared crossing the sky during the monotonous march of the days?",
+      "a": [
+        "An old white owl that lived alone at the top of the Gray Peaks.",
+        "A large aggressive skua looking to steal the penguins' eggs.",
+        "Nimbus, a large snowy albatross with ancient eyes of intelligence.",
+        "A dark sea albatross that guided the penguins toward The Steel Nest."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "What sudden obstacle interrupted the advance of the column across the ice plain?",
+      "a": [
+        "An abandoned camp full of metal traps for penguins.",
+        "A flock of skuas blocking access to the Valley of Lights.",
+        "A heavy snowstorm caused by The Gray Peaks.",
+        "A gigantic Silent Fissure that opened right in the middle of the path."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What decision did Tuk make after observing the constellations over the ocean during the night?",
+      "a": [
+        "To attack the skuas in The Steel Nest to free the Adélie penguins.",
+        "To return immediately to The Dancing Shore defying The Gray Peaks.",
+        "To continue moving forward blindly along The Ancestral Path despite the abyss.",
+        "To propose a bold detour around the fissure guided by the stars."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What did Tuk discover in the sea after finishing the journey and the colony returning to the coast months later?",
+      "a": [
+        "That the calling of the ocean and the calling of the colony were part of the same song.",
+        "That the Adélie penguins had become the new leaders of the coast.",
+        "That The Steel Nest was completely covered by a new fissure.",
+        "That Nimbus had left forever without leaving any trace in the sky."
+      ],
+      "correct": 0
+    }
+  ]
+}

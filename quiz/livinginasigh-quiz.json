@@ -1,0 +1,108 @@
+{
+  "titulo": "Living in a sigh",
+  "generado": "2026-11-12T05:19:27.680Z",
+  "es": [
+    {
+      "q": "¿Dónde se conocieron Elena y Marco por primera vez?",
+      "a": [
+        "En una pequeña casa de piedra en la Sierra de Guadarrama",
+        "En un banquete formal de la alta sociedad de Madrid",
+        "En el estudio de Elena en la calle Huertas",
+        "En las oficinas de la empresa de transporte de Don Augusto"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Quién visitó a Elena en la casa de la montaña mientras Marco estaba en el pueblo?",
+      "a": [
+        "El médico personal de Elena",
+        "La hermana de Marco",
+        "Un inversor de la alta sociedad",
+        "Don Augusto Belmonte"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Qué excusa inventó Elena para terminar su relación con Marco y regresar a la ciudad?",
+      "a": [
+        "Le aseguró que se iba a casar con el heredero de otra familia rica",
+        "Le confesó que sufría de una condición cardíaca congénita y mortal",
+        "Le dijo que las montañas ya no la inspiraban y que su romance había sido un sueño de verano",
+        "Le admitió que su padre le había sobornado para que lo abandonara"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Cómo se enteró Marco de la verdad sobre el sacrificio y la visita de su padre?",
+      "a": [
+        "A través de un telegrama enviado por su hermana",
+        "Mediante una confesión directa de Don Augusto en su lecho de muerte",
+        "A través de una carta póstuma escrita por la propia Elena",
+        "Por medio del médico que trató a Elena en sus últimos días"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Qué objeto quedó en el estudio de Elena mezclado con el recuerdo eterno de las gardenias al final de la historia?",
+      "a": [
+        "Las cartas que Marco nunca llegó a enviar",
+        "Los pinceles de madera de su padre",
+        "El aroma de la pintura",
+        "Un retrato inacabado de Don Augusto"
+      ],
+      "correct": 2
+    }
+  ],
+  "en": [
+    {
+      "q": "Where did Elena and Marco first meet?",
+      "a": [
+        "In a small stone house in the Sierra de Guadarrama",
+        "At a formal banquet of Madrid high society",
+        "In Elena's studio on Huertas Street",
+        "In the offices of Don Augusto's shipping company"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "Who visited Elena at the mountain house while Marco was away in town?",
+      "a": [
+        "Elena's personal doctor",
+        "Marco's sister",
+        "A high society investor",
+        "Don Augusto Belmonte"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What excuse did Elena invent to end her relationship with Marco and return to the city?",
+      "a": [
+        "She assured him she was going to marry the heir of another rich family",
+        "She confessed to him that she suffered from a congenital and fatal heart condition",
+        "She told him that the mountains no longer inspired her and their romance had been a summer dream",
+        "She admitted that his father had bribed her to abandon him"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "How did Marco find out the truth about the sacrifice and his father's visit?",
+      "a": [
+        "Through a telegram sent by his sister",
+        "Through a direct confession from Don Augusto on his deathbed",
+        "Through a posthumous letter written by Elena herself",
+        "Through the doctor who treated Elena in her final days"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "What object remained in Elena's studio mingling with the eternal memory of gardenias at the end of the story?",
+      "a": [
+        "The letters Marco never managed to send",
+        "Her father's wooden paintbrushes",
+        "The scent of paint",
+        "An unfinished portrait of Don Augusto"
+      ],
+      "correct": 2
+    }
+  ]
+}

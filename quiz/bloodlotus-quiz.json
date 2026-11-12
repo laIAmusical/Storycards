@@ -1,0 +1,108 @@
+{
+  "titulo": "Blood Lotus",
+  "generado": "2026-11-12T05:14:08.408Z",
+  "es": [
+    {
+      "q": "¿Qué habilidad especial poseía Kenji que lo diferenciaba de los demás habitantes de su aldea?",
+      "a": [
+        "Podía predecir los eclipses solares con perfecta exactitud.",
+        "Era un experto guerrero con la espada de madera reforzada.",
+        "Poseía una fuerza física sobrehumana para combatir bestias.",
+        "Tenía una extraña empatía con las plantas, pudiendo sentir su sed, vitalidad y dolor."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Cómo se llamaba el líder de los Cazadores del Amanecer que llegó a la aldea?",
+      "a": [
+        "Akito",
+        "Yumi",
+        "Ren",
+        "Kenji"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Qué descubrimiento hizo Kenji durante la emboscada en el bosque de bambú que sirvió como cura parcial?",
+      "a": [
+        "Rompió una raíz mutada que expulsaba una savia lechosa capaz de adormecer a los infectados.",
+        "Halló agua bendita en un estanque oculto que revertía la fiebre en los aldeanos.",
+        "Encontró un pergamino secreto con conjuros antiguos para purificar el alma.",
+        "Descubrió que el fuego de las antorchas destruía instantáneamente los pétalos oscuros."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Qué hizo Kenji en lugar de intentar destruir la Loto Madre durante el enfrentamiento final en el cráter?",
+      "a": [
+        "Le inundó su energía para compartirle memorias humanas y mostrarle lo que significaba sentir.",
+        "Arrojó la savia blanca directamente en el centro del estanque de agua negra.",
+        "La cortó en pedazos con la espada de Ren para debilitar su poder raíz por raíz.",
+        "Usó los sellos de purificación de los cazadores para atraparla para siempre."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Qué sucedió al final con la hermana de Kenji, Yumi, después de que la Loto cambiara de color?",
+      "a": [
+        "La marca en su mejilla desapareció gracias a la lluvia de luz que curó a los no consumidos por completo.",
+        "Se transformó en la nueva guardiana suprema de la planta en el monte Kuro.",
+        "Quedó confinada a su bed de por vida debido a una fiebre incurable.",
+        "Se unió a la orden de los Cazadores del Amanecer junto a Kenji y Ren."
+      ],
+      "correct": 0
+    }
+  ],
+  "en": [
+    {
+      "q": "What special ability did Kenji possess that set him apart from the other inhabitants of his village?",
+      "a": [
+        "He could predict solar eclipses with perfect accuracy.",
+        "He was an expert warrior with the reinforced wooden sword.",
+        "He possessed superhuman physical strength to fight beasts.",
+        "He had a strange empathy with plants, being able to feel their thirst, vitality, and pain."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What was the name of the leader of the Dawn Hunters who arrived at the village?",
+      "a": [
+        "Akito",
+        "Yumi",
+        "Ren",
+        "Kenji"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "What discovery did Kenji make during the ambush in the bamboo forest that served as a partial cure?",
+      "a": [
+        "He broke a mutated root that expelled a milky sap capable of subduing the infected.",
+        "He found holy water in a hidden pond that reversed the fever in the villagers.",
+        "He found a secret scroll with ancient spells to purify the soul.",
+        "He discovered that torch fire instantly destroyed the dark petals."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "What did Kenji do instead of trying to destroy the Mother Lotus during the final clash in the crater?",
+      "a": [
+        "He flooded it with his energy to share human memories and show it what it meant to feel.",
+        "He threw the white sap directly into the center of the black water pond.",
+        "He cut it into pieces with Ren's sword to weaken its power root by root.",
+        "He used the hunters' purification seals to trap it forever."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "What eventually happened to Kenji's sister, Yumi, after the Lotus changed color?",
+      "a": [
+        "The mark on her cheek vanished thanks to the rain of light that cured those not entirely consumed.",
+        "She transformed into the new supreme guardian of the plant on Mount Kuro.",
+        "She remained confined to her bed for life due to an incurable fever.",
+        "She joined the order of the Dawn Hunters alongside Kenji and Ren."
+      ],
+      "correct": 0
+    }
+  ]
+}

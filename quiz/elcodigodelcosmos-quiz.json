@@ -1,0 +1,108 @@
+{
+  "titulo": "El código del cosmos",
+  "generado": "2026-11-12T05:16:29.654Z",
+  "es": [
+    {
+      "q": "¿Qué instrumento estaba observando la Dra. Valeria Ramos cuando detectó la fluctuación extraña en el desierto de Atacama?",
+      "a": [
+        "El laboratorio subterráneo de física cuántica",
+        "El interferómetro de ondas gravitacionales",
+        "El canal del Fondo Cósmico de Microondas",
+        "La supercomputadora del Instituto de Astrofísica"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Qué anomalías específicas coincidieron exactamente con las variaciones predichas por la ecuación en el capítulo dos?",
+      "a": [
+        "Las anomalías no explicadas en los aceleradores de partículas de los últimos diez años",
+        "Las irregularidades en la radiación de Hawking alrededor de Sagitario A*",
+        "Las deformaciones registradas por la red global de ondas gravitacionales",
+        "Las alteraciones térmicas detectadas en el meteorito de la Antártida"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Qué estructura celeste revelaba el código como la memoria central del sistema según el mapa generado?",
+      "a": [
+        "Una colisión masiva de dos estrellas de neutrones",
+        "El Fondo Cósmico de Microondas del universo temprano",
+        "Una geometría de Calabi-Yau de diez dimensiones",
+        "Sagitario A*, el agujero negro supermasivo"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Qué decisión tomó el equipo tras analizar las muestras orgánicas de un meteorito condrita carbonácea en la Antártida?",
+      "a": [
+        "Desplegar la matriz matemática en geometrías de Calabi-Yau",
+        "Modificar el código para eliminar la latencia de la colapsación de onda",
+        "Aislar un grupo de moléculas para buscar una micro-reversión temporal",
+        "Confirmar que la física y la biología comparten el mismo molde matemático"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Qué conclusión final expresó Valeria sobre la naturaleza del código al unificar las teorías físicas en la terraza del observatorio?",
+      "a": [
+        "Que las constantes fundamentales de la física son fijas y no pueden ser modificadas por ningún medio",
+        "Que es la firma del cosmos y una invitación para que despertemos y entendamos la casa en la que vivimos",
+        "Que fue escrito por una civilización alienígena avanzada para advertirnos sobre el fin del universo",
+        "Que el tiempo no existe y que la entropía termodinámica es simplemente una ilusión de la conciencia"
+      ],
+      "correct": 1
+    }
+  ],
+  "en": [
+    {
+      "q": "What instrument was Dr. Valeria Ramos observing when she detected the strange fluctuation in the Atacama Desert?",
+      "a": [
+        "The underground quantum physics laboratory",
+        "The gravitational wave interferometer",
+        "The Cosmic Microwave Background channel",
+        "The supercomputer at the Astrophysics Institute"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "What specific anomalies matched exactly with the variations predicted by the equation in chapter two?",
+      "a": [
+        "The unexplained anomalies in particle accelerators over the last ten years",
+        "The irregularities in Hawking radiation around Sagittarius A*",
+        "The deformations recorded by the global gravitational wave network",
+        "The thermal alterations detected in the meteorite from Antarctica"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "What celestial structure did the code reveal as the system's central memory according to the generated map?",
+      "a": [
+        "A massive collision of two neutron stars",
+        "The Cosmic Microwave Background of the early universe",
+        "A ten-dimensional Calabi-Yau geometry",
+        "Sagittarius A*, the supermassive black hole"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What decision did the team make after analyzing the organic samples of a carbonaceous chondrite meteorite in Antarctica?",
+      "a": [
+        "To deploy the mathematical matrix in Calabi-Yau geometries",
+        "To modify the code to eliminate wave collapse latency",
+        "To isolate a group of molecules to seek a micro-time reversal",
+        "To confirm that physics and biology share the same mathematical mold"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What final conclusion did Valeria express about the nature of the code when unifying physical theories on the observatory terrace?",
+      "a": [
+        "That the fundamental constants of physics are fixed and cannot be modified by any means",
+        "That it is the signature of the cosmos and an invitation for us to wake up and understand the house we live in",
+        "That it was written by an advanced alien civilization to warn us about the end of the universe",
+        "That time does not exist and thermodynamic entropy is simply an illusion of consciousness"
+      ],
+      "correct": 1
+    }
+  ]
+}

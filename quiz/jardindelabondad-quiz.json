@@ -1,0 +1,108 @@
+{
+  "titulo": "El jardín de la bondad",
+  "generado": "2026-11-12T05:18:47.413Z",
+  "es": [
+    {
+      "q": "¿Qué animal persigue Elara antes de encontrar la pequeña puerta de madera oculta tras la hiedra?",
+      "a": [
+        "Un pájaro de plumas doradas.",
+        "Una mariposa de un inusual tono azul.",
+        "Un gato negro con ojos brillantes.",
+        "Una abeja que emitía una suave melodía."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Qué le entrega Silvan a Elara en el centro del jardín para ayudar a combatir el olvido del pueblo?",
+      "a": [
+        "Una llave de bronce con la forma de una hoja.",
+        "Una diminuta semilla que brillaba con una luz dorada.",
+        "Una rosa mustia que debía cuidar con agua pura.",
+        "Un jazmín mágico que nunca perdía su color verde."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Cómo decide Elara utilizar inicialmente la semilla dorada que le dio el guardián?",
+      "a": [
+        "Enterrándola en la maceta del balcón de la señora Amelia.",
+        "Plantándola directamente bajo las raíces del árbol milenario.",
+        "Escondiéndola en el buzón del barrendero del pueblo.",
+        "Aplicándola en las acciones cotidianas y ayudando al señor Fausto con su harina."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Qué hace Elara para disolver la fuerte disputa que estalla repentinamente en la plaza del mercado?",
+      "a": [
+        "Sostiene la semilla dorada en alto mientras recita las palabras de Silvan.",
+        "Reparte flores silvestres entre los vecinos hasta calmar su enfado.",
+        "Se tropieza y cae de bruces en un charco, provocando una risa compartida.",
+        "Llama a gritos al guardián para que detenga la pelea entre los comerciantes."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Qué sucede con el muro de hiedra del jardín al final de la historia según le muestra Silvan a Elara?",
+      "a": [
+        "Se había derrumbado por completo debido al crecimiento del árbol milenario.",
+        "Se había cubierto de flores doradas que iluminaban todo el camino.",
+        "Se había transformado en una puerta abierta de par en par para todo el pueblo.",
+        "Se había vuelto casi transparente porque el jardín ya no necesitaba esconderse."
+      ],
+      "correct": 3
+    }
+  ],
+  "en": [
+    {
+      "q": "What animal does Elara chase before finding the small wooden door hidden behind the ivy?",
+      "a": [
+        "A bird with golden feathers.",
+        "A butterfly of an unusual blue shade.",
+        "A black cat with bright eyes.",
+        "A bee that emitted a soft melody."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "What does Silvan hand Elara in the center of the garden to help fight the town's forgetfulness?",
+      "a": [
+        "A bronze key shaped like a leaf.",
+        "A tiny seed that glowed with a golden light.",
+        "A withered rose that she had to care for with pure water.",
+        "A magical jasmine that never lost its green color."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "How does Elara initially decide to use the golden seed given to her by the guardian?",
+      "a": [
+        "By burying it in the flowerpot on Mrs. Amelia's balcony.",
+        "By planting it directly under the roots of the ancient tree.",
+        "By hiding it in the town sweep's mailbox.",
+        "By applying it in daily actions and helping Mr. Fausto with his flour."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What does Elara do to dissolve the fierce dispute that suddenly breaks out in the market square?",
+      "a": [
+        "She holds the golden seed high while reciting Silvan's words.",
+        "She hands out wildflowers among the neighbors until their anger calms down.",
+        "She trips and falls face first into a puddle, sparking a shared laugh.",
+        "She shouts for the guardian to stop the fight between the merchants."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "What happens to the garden's ivy wall at the end of the story as Silvan shows Elara?",
+      "a": [
+        "It had completely collapsed due to the growth of the ancient tree.",
+        "It had become covered in golden flowers that illuminated the entire path.",
+        "It had turned into a wide-open door for the whole town.",
+        "It had become almost transparent because the garden no longer needed to hide."
+      ],
+      "correct": 3
+    }
+  ]
+}

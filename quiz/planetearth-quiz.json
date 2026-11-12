@@ -1,0 +1,108 @@
+{
+  "titulo": "Planet Earth",
+  "generado": "2026-11-12T05:21:15.201Z",
+  "es": [
+    {
+      "q": "¿Cómo utiliza el joven león Kito las rutas de los elefantes guiados por la matriarca Nala en el delta del Okavango?",
+      "a": [
+        "Esconde a su manada detrás de ellos para emboscar a las crías de kudu que huyen.",
+        "Los guía hacia las zonas más profundas del delta para facilitarles la búsqueda de alimento.",
+        "Los ataca directamente para expulsarlos de su territorio y quedarse con los canales de agua.",
+        "No caza a los gigantes, sino que sigue sus rutas para aprovecharse de las ramas derribadas y los peces o aves atraídos por el barro."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Qué estrategia de supervivencia emplea la colonia de pingüinos emperador en el mar de Weddell para mantener una temperatura adecuada?",
+      "a": [
+        "Excavan túneles profundos bajo el hielo marino donde el viento no puede penetrar.",
+        "Se turnan para nadar constantemente en las aguas heladas para generar calor corporal.",
+        "Rotan su posición ofreciendo sus espaldas a la escarcha para que el centro del grupo mantenga un microclima de calor biológico.",
+        "Construyen nidos elevados con hielo y nieve compactada para aislarse del suelo."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Qué desencadena el fenómeno de desove sincronizado en la Gran Barrera de Coral tras la luna llena?",
+      "a": [
+        "El sonido emitido por el chasquido de los camarones pistola y el roce de los peces loro.",
+        "El coral libera millones de células que ascienden como una tormenta de nieve invertida hacia la superficie.",
+        "La subida repentina de la temperatura del agua provocada por el paso de las corrientes cálidas.",
+        "La llegada masiva de larvas de peces y cangrejos procedentes del mar abierto."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Qué decisión crucial toma el viejo toro ñu al llegar a las orillas del río Mara en el Serengeti?",
+      "a": [
+        "Espera pacientemente en la orilla hasta que baje el nivel del agua y los depredadores se marchen.",
+        "Decide guiar a la manada río arriba para buscar un vado menos profundo y sin cocodrilos.",
+        "Ordena a las cebras y gacelas cruzar primero para comprobar la peligrosidad del agua.",
+        "Se pluriemplea y se pliega a la corriente, sumergiéndose para que la masa de animales lo siga hacia la otra orilla."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Qué conecta simbólicamente los diferentes paisajes del planeta al final de la historia en el delta del Okavango?",
+      "a": [
+        "El paso del leopardo de las nieves Tenzin liderando a los animales del desierto y la tundra.",
+        "La crecida final de las aguas impulsada por el deshielo de los volcanes de Kamchatka.",
+        "La llegada de bandadas de grullas migratorias que descienden para descansar, reflejando la unión entre la montaña, el hielo, el bosque y el arrecife.",
+        "El regreso de la leona Nala a su antiguo territorio después de cruzar la sabana africana."
+      ],
+      "correct": 2
+    }
+  ],
+  "en": [
+    {
+      "q": "How does the young lion Kito use the elephant routes led by the matriarch Nala in the Okavango Delta?",
+      "a": [
+        "He hides his pride behind them to ambush fleeing kudu calves.",
+        "He guides them toward the deepest areas of the delta to make it easier for them to find food.",
+        "He attacks them directly to expel them from his territory and keep the water channels.",
+        "He does not hunt the giants; he follows their routes to take advantage of the fallen branches and the fish or birds attracted by the mud."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What survival strategy does the emperor penguin colony employ in the Weddell Sea to maintain an adequate temperature?",
+      "a": [
+        "They dig deep tunnels under the sea ice where the wind cannot penetrate.",
+        "They take turns swimming constantly in freezing waters to generate body heat.",
+        "They rotate position, offering their backs to the frost so that the center of the group maintains a microclimate of biological heat.",
+        "They build elevated nests with ice and compacted snow to insulate themselves from the ground."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "What triggers the synchronized spawning phenomenon in the Great Barrier Reef after the full moon?",
+      "a": [
+        "The sound emitted by the snapping of pistol shrimp and the scraping of parrotfish.",
+        "The coral releases millions of cells that rise like an inverted snowstorm toward the surface.",
+        "The sudden rise in water temperature caused by the passage of warm currents.",
+        "The massive arrival of fish and crab larvae coming from the open sea."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "What crucial decision does the old wildebeest bull make upon reaching the banks of the Mara River in the Serengeti?",
+      "a": [
+        "He waits patiently on the bank until the water level drops and the predators leave.",
+        "He decides to lead the herd upstream to look for a shallower ford without crocodiles.",
+        "He orders the zebras and gazelles to cross first to test the danger of the water.",
+        "He plunges into the current, and the mass follows him toward the opposite shore."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What symbolically connects the different landscapes of the planet at the end of the story in the Okavango Delta?",
+      "a": [
+        "The passage of the snow leopard Tenzin leading the animals of the desert and tundra.",
+        "The final rise of the waters driven by the melting of Kamchatka's volcanoes.",
+        "The arrival of flocks of migrating cranes descending to rest, reflecting the union between the mountain, the ice, the forest, and the reef.",
+        "The return of the lioness Nala to her former territory after crossing the African savanna."
+      ],
+      "correct": 2
+    }
+  ]
+}

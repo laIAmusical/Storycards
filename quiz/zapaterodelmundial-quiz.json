@@ -1,0 +1,108 @@
+{
+  "titulo": "El zapatero del mundial",
+  "generado": "2026-11-12T05:33:42.040Z",
+  "es": [
+    {
+      "q": "¿Qué objeto lleva Mateo en el bolsillo del pecho además de dos fotos desgastadas?",
+      "a": [
+        "Una llave antigua del taller de calzado de Alfajarín",
+        "Una medalla de la Virgen del Pilar que perteneció a su abuelo",
+        "Una carta escrita por su padre antes de fallecer",
+        "Un billete de avión de ida y vuelta para Madrid"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Cómo combate Mateo el frío cortante y la falta de gol en su paso por Canadá?",
+      "a": [
+        "Comprando un abrigo nuevo con los ahorros destinados a la comida",
+        "Refugiadose en una capilla multiconfesional dentro del estadio",
+        "Durmiendo dentro de la estación central de autobuses de Toronto",
+        "Aferrándose a su medalla y recordando el calor humano de otros emigrantes"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Qué decisión toma Mateo en Miami debido a que su bolsillo está al límite?",
+      "a": [
+        "Saltarse algunas comidas para poder pagar el transporte al estadio",
+        "Hacer autostop en lugar de tomar el transporte público",
+        "Vender su bandera de España a otro aficionado para comprar comida",
+        "Dormir en la calle en lugar de buscar un hostal económico"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Qué medio de transporte utiliza Mateo para viajar rumbo a Nueva York hacia la final?",
+      "a": [
+        "El tren directo que conecta las principales ciudades de la Costa Este",
+        "Un autobús de tercera categoría que cruza todo el país",
+        "Una caravana alquilada por un grupo de aficionados de distintas partes de España",
+        "El coche particular de un familiar que vive en los Estados Unidos"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Qué hace Mateo la noche víspera de la final frente al imponente MetLife Stadium?",
+      "a": [
+        "Mira la medalla de su abuelo bajo la luz de las farolas y la aprieta contra su corazón",
+        "Reza un avemaría mientras escucha el ruido ensordecedor de los rascacielos",
+        "Se reúne con el grupo de aficionados de la caravana para cenar una tortilla de patatas",
+        "Enciende una vela en una histórica iglesia de piedra en Manhattan"
+      ],
+      "correct": 0
+    }
+  ],
+  "en": [
+    {
+      "q": "What object does Mateo carry in his breast pocket besides two worn-out photos?",
+      "a": [
+        "An old key to the footwear workshop in Alfajarín",
+        "A medal of the Virgen of the Pillar that belonged to his grandfather",
+        "A letter written by his father before passing away",
+        "A round-trip plane ticket to Madrid"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "How does Mateo combat the biting cold and lack of goals during his time in Canada?",
+      "a": [
+        "Buying a new coat with the savings meant for food",
+        "Taking shelter in a multi-faith chapel inside the stadium",
+        "Sleeping inside the central bus station in Toronto",
+        "Clinging to his medal and remembering the human warmth of other emigrants"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What decision does Mateo make in Miami because his budget is at its limit?",
+      "a": [
+        "Skip some meals in order to pay for transportation to the stadium",
+        "Hitchhike instead of taking public transportation",
+        "Sell his Spain flag to another fan to buy food",
+        "Sleep on the street instead of looking for a cheap hostel"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "What means of transport does Mateo use to travel to New York for the final?",
+      "a": [
+        "The direct train connecting the main cities of the East Coast",
+        "A third-class bus crossing the entire country",
+        "A rented caravan by a group of fans from different parts of Spain",
+        "The private car of a relative living in the United States"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "What does Mateo do the night before the final in front of the imposing MetLife Stadium?",
+      "a": [
+        "He looks at his grandfather's medal under the streetlight and presses it against his heart",
+        "He prays a Hail Mary while listening to the deafening noise of the skyscrapers",
+        "He meets with the caravan fans to eat a potato omelet",
+        "He lights a candle in a historic stone church in Manhattan"
+      ],
+      "correct": 0
+    }
+  ]
+}

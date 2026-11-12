@@ -1,0 +1,108 @@
+{
+  "titulo": "The Price of Land",
+  "generado": "2026-11-12T05:31:17.803Z",
+  "es": [
+    {
+      "q": "¿Cuál era el costo inicial del tratamiento médico experimental en Houston necesario para curar la enfermedad autoinmune de Cody?",
+      "a": [
+        "750,000 dólares",
+        "1,000,000 de dólares",
+        "500,000 dólares",
+        "250,000 dólares"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Cómo se llamaba el producto creado por Walt y Jesse que se vendía exclusivamente a la élite?",
+      "a": [
+        "Lone Star Crystal",
+        "Bluebonnet Pure",
+        "Oklahoman Rain",
+        "Texas Gold"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Quién visitó el rancho de Jesse para exigirles una cuota de 20 libras al mes del producto?",
+      "a": [
+        "Un grupo de agentes encubiertos del Departamento de Seguridad Pública de Texas",
+        "Un par de primos lejanos de Jesse que querían hacer negocios por su cuenta",
+        "Dos hombres corpulentos en una camioneta con matrículas de Oklahoma",
+        "Un grupo de inversores petroleros de Dallas organizadores de fiestas privadas"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Qué acción tomó Walt desesperado al ver que su familia estaba en la mira de un cartel y que nunca sería libre?",
+      "a": [
+        "Aceptó la oferta no negociable del Oklahoman de trasladar la producción a Oklahoma",
+        "Destruyó por completo la granja de pollos usando los químicos para provocar un incendio",
+        "Entregó a Jesse a las autoridades locales a cambio de protección policial para su familia",
+        "Huyó con todo el dinero y su hijo hacia la frontera con México esa misma noche"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Quién realizó la llamada anónima desde una cabina telefónica que reveló la ubicación del laboratorio universitario y entregó a Walt?",
+      "a": [
+        "Jesse Rayburn, en un acto de venganza por haber quemado la granja",
+        "El propio Walt, impulsado por su conciencia",
+        "El Oklahoman, al negarse Walt a trasladar la producción a su territorio",
+        "Sarah Jenkins, tras descubrir todas las mentiras de Walt"
+      ],
+      "correct": 1
+    }
+  ],
+  "en": [
+    {
+      "q": "What was the upfront cost of the experimental medical treatment in Houston needed to cure Cody's autoimmune disease?",
+      "a": [
+        "$750,000",
+        "$1,000,000",
+        "$500,000",
+        "$250,000"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "What was the name of the product created by Walt and Jesse that was sold exclusively to the elite?",
+      "a": [
+        "Lone Star Crystal",
+        "Bluebonnet Pure",
+        "Oklahoman Rain",
+        "Texas Gold"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "Who visited Jesse's ranch to demand a quota of 20 pounds a month of the product?",
+      "a": [
+        "A group of undercover agents from the Texas Department of Public Safety",
+        "A pair of Jesse's distant cousins who wanted to do business on their own",
+        "Two bulky men in a pickup truck with Oklahoma license plates",
+        "A group of Dallas oil investors who organized private parties"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "What desperate action did Walt take when he saw his family was in a cartel's crosshairs and he would never be free?",
+      "a": [
+        "He accepted the Oklahoman's non-negotiable offer to relocate production to Oklahoma",
+        "He completely destroyed the chicken farm, using the chemicals to spark a fire",
+        "He turned Jesse in to local authorities in exchange for police protection for his family",
+        "He fled with all the money and his son toward the Mexican border that same night"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "Who made the anonymous call from a phone booth that revealed the location of the university lab and turned Walt in?",
+      "a": [
+        "Jesse Rayburn, out of revenge for burning down the farm",
+        "Walt himself, driven by his own conscience",
+        "The Oklahoman, when Walt refused to relocate production to his territory",
+        "Sarah Jenkins, after discovering all of Walt's lies"
+      ],
+      "correct": 1
+    }
+  ]
+}

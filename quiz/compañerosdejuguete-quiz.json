@@ -1,0 +1,108 @@
+{
+  "titulo": "Compañeros de juguete",
+  "generado": "2026-11-12T05:14:52.156Z",
+  "es": [
+    {
+      "q": "¿De dónde venía Luma, la muñeca de trapo que llegó en una nueva caja?",
+      "a": [
+        "De un mercado en Marrakech",
+        "De una ciudad cubierta de nieve en el norte",
+        "De una estación de tren de mercancías",
+        "De una tienda de antigüedades en Lisboa"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿A qué medio de transporte se subieron Brico, Luma y Otto al salir de la tienda en Lisboa?",
+      "a": [
+        "A un tren de mercancías en la estación",
+        "A un avión de juguete llamado Nix",
+        "A un coche guiado por un coleccionista",
+        "A un barco en el puerto del norte de Europa"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Qué problema descubrieron Brico, Luma y Otto sobre los juguetes en la ciudad cubierta de nieve?",
+      "a": [
+        "No hablaban ni se movían porque un coleccionista los guardaba",
+        "Habían perdido el mapa dibujado en una vieja etiqueta",
+        "Se habían negado a salir a las calles empedradas",
+        "Estaban atrapados dentro de un tren de mercancías"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Qué le respondió Brico a Otto cuando este dudó en continuar el viaje por haberse pasado tanto tiempo quieto?",
+      "a": [
+        "Que debían regresar a la tienda de antigüedades en Lisboa",
+        "Que ya no necesitaban un mapa para cruzar montañas",
+        "Que el coleccionista volvería a encerrarlos en las vitrinas",
+        "Que nunca es tarde para empezar a vivir"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Qué decidieron hacer los juguetes al final del viaje cuando se detuvieron bajo un cielo lleno de estrellas?",
+      "a": [
+        "Seguir su camino porque querían hacerlo",
+        "Buscar a Otto que se había quedado atrás en las montañas",
+        "Quedarse a vivir para siempre en la ciudad de cristal",
+        "Separarse para volver cada uno a su lugar de origen"
+      ],
+      "correct": 0
+    }
+  ],
+  "en": [
+    {
+      "q": "Where did Luma, the rag doll who arrived in a new box, come from?",
+      "a": [
+        "From a market in Marrakech",
+        "From a snow-covered city in the north",
+        "From a freight train station",
+        "From an antique shop in Lisbon"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "What means of transport did Brico, Luma, and Otto board after leaving the shop in Lisbon?",
+      "a": [
+        "A freight train at the station",
+        "A toy airplane named Nix",
+        "A car driven by a collector",
+        "A ship in the port of northern Europe"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "What problem did Brico, Luma, and Otto discover about the toys in the snow-covered city?",
+      "a": [
+        "They did not speak or move because a collector kept them",
+        "They had lost the map drawn on an old label",
+        "They had refused to go out into the cobblestone streets",
+        "They were trapped inside a freight train"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "What did Brico reply to Otto when Otto hesitated to continue the journey because he had spent so much time still?",
+      "a": [
+        "That they should return to the antique shop in Lisbon",
+        "That they no longer needed a map to cross mountains",
+        "That the collector would lock them back in the display cases",
+        "That it is never too late to start living"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What did the toys decide to do at the end of the journey when they stopped under a sky full of stars?",
+      "a": [
+        "Keep going because they wanted to do so",
+        "Look for Otto who had stayed behind in the mountains",
+        "Stay to live forever in the city of glass",
+        "Separate to return each one to their place of origin"
+      ],
+      "correct": 0
+    }
+  ]
+}

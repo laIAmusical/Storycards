@@ -1,0 +1,108 @@
+{
+  "titulo": "The Language of the World",
+  "generado": "2026-11-12T05:18:56.955Z",
+  "es": [
+    {
+      "q": "¿A qué ciudad le aconsejó Elias a Liam que fuera para aprender el lenguaje del mundo?",
+      "a": [
+        "Shur",
+        "Tarin",
+        "Maera",
+        "Arken"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Qué encontró Liam alineado de manera extraña cerca del puesto de un vendedor en la ciudad de Arken?",
+      "a": [
+        "Unas herramientas de herrero",
+        "Unas frutas exóticas",
+        "Unas túnicas de seda",
+        "Unas monedas caídas"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿A qué personaje encontró Liam sentado sobre una roca pulida por el agua en las afueras de Arken?",
+      "a": [
+        "A Maera",
+        "A Tarin",
+        "A Elara",
+        "A Elias"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Por qué razón se habían arruinado las estructuras de piedra de la ciudad enterrada en el desierto?",
+      "a": [
+        "Por un terremoto violento",
+        "Por una plaga implacable",
+        "Por el olvido de la gente",
+        "Por una guerra devastadora"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Con quién compartió Liam un momento bajo el árbol de almendros al final de su viaje?",
+      "a": [
+        "Con la ermitaña Maera",
+        "Con el ermitaño Tarin",
+        "Con su hermana menor, Elara",
+        "Con el viajero Elias"
+      ],
+      "correct": 2
+    }
+  ],
+  "en": [
+    {
+      "q": "Which city did Elias advise Liam to go to in order to learn the language of the world?",
+      "a": [
+        "Shur",
+        "Tarin",
+        "Maera",
+        "Arken"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What did Liam find strangely aligned near a vendor's stall in the city of Arken?",
+      "a": [
+        "Some blacksmith tools",
+        "Some exotic fruits",
+        "Some silk robes",
+        "Some fallen coins"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "Which character did Liam find sitting on a rock polished by water on the outskirts of Arken?",
+      "a": [
+        "Maera",
+        "Tarin",
+        "Elara",
+        "Elias"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "For what reason had the stone structures of the buried city in the desert fallen into ruin?",
+      "a": [
+        "Due to a violent earthquake",
+        "Due to an implacable plague",
+        "Due to people's oblivion",
+        "Due to a devastating war"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "Who did Liam share a moment with under the almond tree at the end of his journey?",
+      "a": [
+        "With the hermit Maera",
+        "With the hermit Tarin",
+        "With his younger sister, Elara",
+        "With the traveler Elias"
+      ],
+      "correct": 2
+    }
+  ]
+}

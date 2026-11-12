@@ -1,0 +1,108 @@
+{
+  "titulo": "Crónicas de la ciudad flotante",
+  "generado": "2026-11-12T05:14:18.117Z",
+  "es": [
+    {
+      "q": "¿Qué sustrae Maya al comienzo de su viaje en la zona industrial?",
+      "a": [
+        "Un núcleo de energía de color azul eléctrico",
+        "Una llave maestra para la Torre Celestia",
+        "Un conjunto de válvulas de vapor de bronce",
+        "Un prototipo de nave llamada Viento Negro"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Qué profesión tenía Mael antes de convertirse en contrabandista?",
+      "a": [
+        "Guardia de la Cumbre",
+        "Piloto de la guardia áurea",
+        "Técnico de calderas en el estrato bajo",
+        "Artesano del mercado negro"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Quién examina el núcleo en el mercado negro de los barrios bajos?",
+      "a": [
+        "Mael, el antiguo contrabandista",
+        "El anciano artesano Jax",
+        "Un líder anónimo de la resistencia",
+        "Un oficial de la Guardia de la Cumbre"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Qué revela la conexión del dispositivo en el núcleo informático de Aethelgard?",
+      "a": [
+        "Que la superficie de la Tierra florece de vida y la ciudad fue creada para mantener cautiva a la humanidad",
+        "Que la ciudad flotante está a punto de desintegrarse por falta de combustible en los motores",
+        "Que la Guardia de la Cumbre planea destruir los niveles medios para evitar una revolución",
+        "Que el prototipo Viento Negro es la única nave capaz de escapar de la atmósfera"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Cómo concluye la historia tras la rebelión masiva y la liberación de los propulsores?",
+      "a": [
+        "Maya y Mael escapan solos hacia la atmósfera en la nave Viento Negro",
+        "La Torre Celestia es destruida por completo por la Guardia de la Cumbre",
+        "La superficie terrestre resulta ser inhospitalaria y regresan a las nubes",
+        "La ciudad flotante toca tierra por primera vez en siglos"
+      ],
+      "correct": 3
+    }
+  ],
+  "en": [
+    {
+      "q": "What does Maya steal at the beginning of her journey in the industrial zone?",
+      "a": [
+        "An electric blue energy core",
+        "A master key to the Celestia Tower",
+        "A set of bronze steam valves",
+        "A prototype ship named Black Wind"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "What was Mael's profession before becoming a smuggler?",
+      "a": [
+        "Summit Guard",
+        "Pilot of the golden guard",
+        "Boiler technician in the lower stratum",
+        "Black market artisan"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "Who examines the core in the black market of the slums?",
+      "a": [
+        "Mael, the former smuggler",
+        "The elderly artisan Jax",
+        "An anonymous leader of the resistance",
+        "An officer of the Summit Guard"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "What does connecting the device in Aethelgard's computer core reveal?",
+      "a": [
+        "That the Earth's surface is blooming with life and the city was created to keep humanity captive",
+        "That the floating city is about to disintegrate due to a lack of fuel in the engines",
+        "That the Summit Guard plans to destroy the middle levels to prevent a revolution",
+        "That the Black Wind prototype is the only ship capable of escaping the atmosphere"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "How does the story conclude after the mass rebellion and the release of the thrusters?",
+      "a": [
+        "Maya and Mael escape alone into the atmosphere in the Black Wind ship",
+        "The Celestia Tower is completely destroyed by the Summit Guard",
+        "The Earth's surface proves to be inhospitable and they return to the clouds",
+        "The floating city touches down for the first time in centuries"
+      ],
+      "correct": 3
+    }
+  ]
+}

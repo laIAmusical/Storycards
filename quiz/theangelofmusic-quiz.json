@@ -1,0 +1,108 @@
+{
+  "titulo": "The Angel of Music",
+  "generado": "2026-11-12T05:28:56.499Z",
+  "es": [
+    {
+      "q": "¿Qué objeto recibió Eleanor en su atril de partituras durante el primer capítulo?",
+      "a": [
+        "Un ramo de flores frescas dejado por un admirador secreto.",
+        "Una versión más compleja y hermosa de su aria.",
+        "Una partitura original escrita por Arthur Harrington.",
+        "Una carta amenazante de Isabella Ricci."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Qué suceso causó pánico en el teatro durante el ensayo general del cuarto capítulo?",
+      "a": [
+        "La caída de un contrapeso de hierro cerca de Isabella.",
+        "La inundación de las catacumbas bajo el escenario.",
+        "Un incendio provocado en los camerinos de Eleanor.",
+        "La aparición repentina de Julian en el escenario."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Cómo descubrió Arthur la entrada al santuario de Julian?",
+      "a": [
+        "Vio a Julian entrar a través de una trampilla en el escenario.",
+        "Siguió un consejo sobre un reflejo que no era un reflejo.",
+        "Escuchó las instrucciones de los directores del teatro.",
+        "Encontró un mapa oculto dentro del locket de Eleanor."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Qué gesto realizó Eleanor para convencer a Julian de que la dejara ir?",
+      "a": [
+        "Le quitó la máscara y besó su mejilla herida.",
+        "Le prometió que volvería a visitarlo en secreto.",
+        "Le ofreció cantar una última canción para él solo.",
+        "Le entregó el locket que su abuela le había regalado."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Qué ocurrió con el santuario de Julian al final de la historia?",
+      "a": [
+        "Arthur lo convirtió en un museo dedicado a la música.",
+        "La policía lo descubrió y arrestó a todos los ocupantes.",
+        "El teatro fue demolido, destruyendo el santuario para siempre.",
+        "Julian colapsó la entrada al huir o desaparecer."
+      ],
+      "correct": 3
+    }
+  ],
+  "en": [
+    {
+      "q": "What object did Eleanor receive on her music stand during the first chapter?",
+      "a": [
+        "A bouquet of fresh flowers left by a secret admirer.",
+        "A more complex and beautiful version of her aria.",
+        "An original score written by Arthur Harrington.",
+        "A threatening letter from Isabella Ricci."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "What event caused panic in the theater during the dress rehearsal of the fourth chapter?",
+      "a": [
+        "The fall of an iron counterweight near Isabella.",
+        "The flooding of the catacombs under the stage.",
+        "A fire started in Eleanor's dressing room.",
+        "The sudden appearance of Julian on stage."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "How did Arthur discover the entrance to Julian's sanctuary?",
+      "a": [
+        "He saw Julian enter through a trapdoor on the stage.",
+        "He followed a tip about a reflection that was no reflection.",
+        "He heard the instructions from the theater directors.",
+        "He found a hidden map inside Eleanor's locket."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "What gesture did Eleanor perform to convince Julian to let her go?",
+      "a": [
+        "She removed his mask and kissed his wounded cheek.",
+        "She promised she would return to visit him in secret.",
+        "She offered to sing one last song for him alone.",
+        "She handed him the locket her grandmother had given her."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "What happened to Julian's sanctuary at the end of the story?",
+      "a": [
+        "Arthur turned it into a museum dedicated to music.",
+        "The police discovered it and arrested all its occupants.",
+        "The theater was demolished, destroying the sanctuary forever.",
+        "Julian collapsed the entrance as he fled or vanished."
+      ],
+      "correct": 3
+    }
+  ]
+}

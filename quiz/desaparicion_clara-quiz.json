@@ -1,0 +1,108 @@
+{
+  "titulo": "La desaparición de Clara Vance",
+  "generado": "2026-11-12T05:15:30.677Z",
+  "es": [
+    {
+      "q": "¿Qué pista inusual encontró el inspector Daniel Mercer en la puerta de entrada de la residencia Vance al inicio de la investigación?",
+      "a": [
+        "Un viejo abrigo de lana desgarrado y manchado de hollín.",
+        "Una fotografía de Daniel tomada desde lejos en el último mes.",
+        "Un mensaje escrito con pintura roja que decía siete días.",
+        "Una diminuta cruz labrada sobre la pintura fresca."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Qué objeto encontró Daniel dentro de la taquilla número 42 de la estación central de trenes?",
+      "a": [
+        "Una grabadora de cinta antigua y una libreta de notas con nombres de altos cargos.",
+        "Una carpeta de cuero marrón con fotografías del propio Daniel.",
+        "Un teléfono móvil que vibraba sin cesar sobre la superficie de madera.",
+        "Un dispositivo móvil conectado a un escáner portátil de huellas dactilares."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Qué evento del pasado se vinculaba con la red de chantajes que Clara descubrió, según la grabación encontrada?",
+      "a": [
+        "El desvío de fondos realizado por el Departamento de Justicia Federal.",
+        "El secuestro del capitán Miller en la Cantera del Cuervo en 2016.",
+        "La extraña muerte del hermano de Daniel ocurrida diez años atrás.",
+        "La desaparición de varios periodistas de investigación en el Diario Central."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Quién resultó ser el hombre que sostenía un arma apuntando a la nuca de Daniel en el Almacén 9 del puerto?",
+      "a": [
+        "Uno de los guardianes armados que custodiaba a Clara atada a la silla.",
+        "El juez supremo de la ciudad vinculado a la red de chantajes.",
+        "El capitán Miller, su jefe directo y mentor durante más de una década.",
+        "Un agente corrupto del equipo de asalto del Departamento de Justicia."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Qué requisito indispensable se necesitaba para desbloquear el archivo digital con las pruebas definitivas en el servidor seguro?",
+      "a": [
+        "La huella dactilar del capitán Miller.",
+        "La clave numérica grabada en la antigua cinta de audio.",
+        "El código secreto que Clara anotó al margen de su libreta.",
+        "La firma autorizada del juez supremo de la ciudad."
+      ],
+      "correct": 0
+    }
+  ],
+  "en": [
+    {
+      "q": "What unusual clue did Inspector Daniel Mercer find on the front door of the Vance residence at the beginning of the investigation?",
+      "a": [
+        "An old woolen coat torn and stained with soot.",
+        "A photograph of Daniel taken from afar in the last month.",
+        "A message written in red paint saying seven days.",
+        "A tiny cross carved onto the fresh paint."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What object did Daniel find inside locker number 42 at the central train station?",
+      "a": [
+        "An old tape recorder and a notebook filled with names of high-ranking officials.",
+        "A brown leather folder with photographs of Daniel himself.",
+        "A mobile phone vibrating incessantly on the wooden surface.",
+        "A mobile device connected to a portable fingerprint scanner."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "What past event was linked to the blackmail network that Clara uncovered, according to the found recording?",
+      "a": [
+        "The embezzlement of funds carried out by the Federal Department of Justice.",
+        "The kidnapping of Captain Miller at Raven Quarry in 2016.",
+        "The strange death of Daniel's brother that occurred ten years ago.",
+        "The disappearance of several investigative journalists from the Central Daily."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "Who turned out to be the man holding a gun pointing at the back of Daniel's neck in Warehouse 9 of the port?",
+      "a": [
+        "One of the armed guards guarding Clara tied to the chair.",
+        "The city's supreme judge linked to the blackmail network.",
+        "Captain Miller, his direct boss and mentor for over a decade.",
+        "A corrupt agent from the Justice Department's assault team."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "What essential requirement was needed to unlock the digital file with the definitive evidence on the secure server?",
+      "a": [
+        "Captain Miller's fingerprint.",
+        "The numerical password recorded on the old audio tape.",
+        "The secret code Clara wrote on the margin of her notebook.",
+        "The authorized signature of the city's supreme judge."
+      ],
+      "correct": 0
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "titulo": "El gran eclipse",
+  "generado": "2026-11-12T05:16:41.379Z",
+  "es": [
+    {
+      "q": "¿Qué objeto encuentran Kael, Lyra y Dorian en el altar central de las ruinas del Templo del Sol?",
+      "a": [
+        "Una corona de fuego aplastada por una luna de plata",
+        "Un orbe de cristal que aguardaba la sombra total",
+        "Una reliquia de obsidiana que comenzó a pulsar con luz carmesí",
+        "La Espada de Luz Primigenia envuelta en fuego divino"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Qué descubren los protagonistas al inspeccionar el altar de piedra en el Capítulo 2?",
+      "a": [
+        "El relieve de una corona de fuego aplastada por una luna de plata",
+        "El mecanismo de los espejos celestiales totalmente destruido",
+        "La tumba del antiguo Señor de la Penumbra",
+        "La entrada secreta a las Criptas de Cristal donde yacía la reliquia"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Qué problema encuentran los jóvenes al examinar el santuario en el Capítulo 6?",
+      "a": [
+        "Las Criptas de Cristal estaban completamente selladas por magia oscura",
+        "Los Custodios de Umbría habían destruido la Espada de Luz Primigenia",
+        "El Amuleto del Ocaso había desaparecido del altar central",
+        "El mecanismo de los espejos celestiales había sido saboteado deliberadamente"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Quién se lanza hacia el corazón de la penumbra empuñando el Amuleto del Ocaso para interceptar el flujo cósmico en el Capítulo 9?",
+      "a": [
+        "Kael",
+        "Lyra",
+        "Dorian",
+        "Vorath"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Cómo concluye el gran eclipse al final de la historia en el Capítulo 10?",
+      "a": [
+        "El Señor de la Penumbra destruyó por completo el plano terrenal",
+        "Kael y Dorian se convirtieron en los nuevos monarcas de los Reinos Olvidados",
+        "Una noche perpetua cubrió la tierra para siempre tras la explosión",
+        "La luna comenzó su lenta retirada devolviendo los rayos cálidos del sol a los valles"
+      ],
+      "correct": 3
+    }
+  ],
+  "en": [
+    {
+      "q": "What object do Kael, Lyra, and Dorian find on the central altar of the ruins of the Temple of the Sun?",
+      "a": [
+        "A crown of fire crushed by a silver moon",
+        "A crystal orb waiting for the total shadow",
+        "An obsidian relic that began to pulse with crimson light",
+        "The Sword of Pristine Light wrapped in divine fire"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "What do the protagonists discover when inspecting the stone altar in Chapter 2?",
+      "a": [
+        "The relief of a crown of fire crushed by a silver moon",
+        "The mechanism of the celestial mirrors completely destroyed",
+        "The tomb of the ancient Lord of the Penumbra",
+        "The secret entrance to the Crystal Crypts where the relic lay"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "What problem do the youths find when examining the sanctuary in Chapter 6?",
+      "a": [
+        "The Crystal Crypts were completely sealed by dark magic",
+        "The Guardians of Umbra had destroyed the Sword of Pristine Light",
+        "The Amulet of Dusk had disappeared from the central altar",
+        "The mechanism of the celestial mirrors had been deliberately sabotaged"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "Who rushes into the heart of the penumbra wielding the Amulet of Dusk to intercept the cosmic flow in Chapter 9?",
+      "a": [
+        "Kael",
+        "Lyra",
+        "Dorian",
+        "Vorath"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "How does the great eclipse conclude at the end of the story in Chapter 10?",
+      "a": [
+        "The Lord of the Penumbra completely destroyed the earthly plane",
+        "Kael and Dorian became the new monarchs of the Forgotten Realms",
+        "A perpetual night covered the earth forever after the explosion",
+        "The moon began its slow retreat returning the warm rays of the sun to the valleys"
+      ],
+      "correct": 3
+    }
+  ]
+}

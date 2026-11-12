@@ -1,0 +1,108 @@
+{
+  "titulo": "Towards Dawn",
+  "generado": "2026-11-12T05:32:48.955Z",
+  "es": [
+    {
+      "q": "¿Por qué razón Akira fue expulsada de la Academia Imperial antes de unirse a la tripulación de Kaido?",
+      "a": [
+        "Por cartografiar rutas fantasma.",
+        "Por liderar una rebelión contra el Almirante Kageyama.",
+        "Por robar cristales luminosos del gobierno.",
+        "Por contrabandear plantas prohibidas como el Gekkōka."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Cómo ayudó Gantetsu a Kaido y a Akira a infiltrarse en la Torre Central de la Capital de Cristal?",
+      "a": [
+        "Bloqueando el paso de la flota del Almirante Kageyama en el puerto.",
+        "Destruyendo los diques exteriores para inundar las defensas de la ciudad.",
+        "Desafiando y derrotando a toda la guarnición local en un torneo de sumo.",
+        "Activando el Corazón de Cristal para cegar a los guardias con luz."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Qué habilidad especial poseía Hikari, la chica de cabello plateado encontrada en la Isla del Silencio?",
+      "a": [
+        "Podía manipular y crear luz a través de la música de su biwa.",
+        "Podía controlar el clima y desatar tormentas en alta mar.",
+        "Tenía la capacidad de comunicarse mentalmente con las bestias abisales.",
+        "Podía sanar cualquier enfermedad física con el simple toque de sus manos."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Qué decisión tomó Hikari durante la batalla final contra la flota del Almirante Kageyama para ayudar al Akatsuki?",
+      "a": [
+        "Tocó una melodía de silencio absoluto para apagar los cañones enemigos.",
+        "Destruyó el mapa de Akira para evitar que el enemigo conociera la ruta secreta.",
+        "Guió a las bestias abisales directamente hacia el buque insignia de Kageyama.",
+        "Subió al mástil y tocó una poderosa melodía que creó una columna de luz deslumbrante."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Qué descubrió la tripulación del Akatsuki al cruzar la cortina de agua de la gran cascada al final de su viaje?",
+      "a": [
+        "Un vasto imperio gobernado en secreto por el Almirante Kageyama.",
+        "Una ciudad flotante construida totalmente dentro de un gigantesco geode.",
+        "Una isla verde y dorada bajo un sol radiante con campos de Flores de Luz de Luna.",
+        "Un mar oscuro y congelado donde habitaban las bestias sin ojos."
+      ],
+      "correct": 2
+    }
+  ],
+  "en": [
+    {
+      "q": "For what reason was Akira expelled from the Imperial Academy before joining Kaido's crew?",
+      "a": [
+        "For mapping ghost routes.",
+        "For leading a rebellion against Admiral Kageyama.",
+        "For stealing luminous government crystals.",
+        "For smuggling prohibited plants like the Gekkōka."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "How did Gantetsu help Kaido and Akira infiltrate the Central Tower of the Crystal Capital?",
+      "a": [
+        "By blocking Admiral Kageyama's fleet at the port.",
+        "By destroying the outer dikes to flood the city's defenses.",
+        "By challenging and defeating the entire local garrison in a sumo tournament.",
+        "By activating the Crystal Heart to blind the guards with light."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "What special ability did Hikari, the silver-haired girl found on the Island of Silence, possess?",
+      "a": [
+        "She could manipulate and create light through the music of her biwa.",
+        "She could control the weather and unleash storms on the high seas.",
+        "She had the ability to communicate mentally with abyssal beasts.",
+        "She could heal any physical illness with the simple touch of her hands."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "What decision did Hikari make during the final battle against Admiral Kageyama's fleet to help the Akatsuki?",
+      "a": [
+        "She played a melody of absolute silence to shut down the enemy cannons.",
+        "She destroyed Akira's map to prevent the enemy from knowing the secret route.",
+        "She guided the abyssal beasts directly toward Kageyama's flagship.",
+        "She climbed the mast and played a powerful melody that created a dazzling pillar of light."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What did the crew of the Akatsuki discover upon crossing the curtain of water of the great waterfall at the end of their journey?",
+      "a": [
+        "A vast empire secretly ruled by Admiral Kageyama.",
+        "A floating city built entirely inside a giant geode.",
+        "A green and golden island under a radiant sun with fields of Moonlight Flowers.",
+        "A dark and frozen sea inhabited by eyeless beasts."
+      ],
+      "correct": 2
+    }
+  ]
+}

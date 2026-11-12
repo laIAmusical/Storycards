@@ -1,0 +1,108 @@
+{
+  "titulo": "El ascenso del león de arena",
+  "generado": "2026-11-12T05:13:04.596Z",
+  "es": [
+    {
+      "q": "¿Qué facción destruyó la aldea de Kaelen en los confines del Desierto de Ámbar?",
+      "a": [
+        "La Guardia Imperial",
+        "Los jinetes de obsidiana",
+        "La Legión del Sol",
+        "El Escorpión de Hierro"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Cómo se llamaba la bestia mecánica de vapor y bronce contra la que Kaelen tuvo su debut en la arena?",
+      "a": [
+        "El Escorpión de Hierro",
+        "El León de Arena",
+        "La Legión Dorada",
+        "El Sable de Obsidiana"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Qué herramienta utilizó Ziva para dibujar los planos de los túneles subterráneos en la pared?",
+      "a": [
+        "Un sable de obsidiana",
+        "Una daga de bronce",
+        "Un trozo de carbón",
+        "Una espada de madera"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Qué acción realizó Kaelen al entrar al coliseo el día del festival en lugar de atacar a su oponente?",
+      "a": [
+        "Levantó su espada de madera hacia la multitud",
+        "Liberó a los prisioneros de las celdas",
+        "Destruyó los mecanismos de la puerta principal",
+        "Desafió directamente al Canciller Varkas"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Qué arma utilizaba el Canciller Varkas durante su duelo final contra Kaelen en lo alto de la torre?",
+      "a": [
+        "Una espada de madera",
+        "Un aguijón metálico",
+        "Una lanza dorada",
+        "Un sable de obsidiana"
+      ],
+      "correct": 3
+    }
+  ],
+  "en": [
+    {
+      "q": "Which faction destroyed Kaelen's village in the confines of the Amber Desert?",
+      "a": [
+        "The Imperial Guard",
+        "The Obsidian Riders",
+        "The Legion of the Sun",
+        "The Iron Scorpion"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "What was the name of the mechanical steam and bronze beast against which Kaelen had his debut in the arena?",
+      "a": [
+        "The Iron Scorpion",
+        "The Sand Lion",
+        "The Golden Legion",
+        "The Obsidian Saber"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "What tool did Ziva use to draw the maps of the underground tunnels on the wall?",
+      "a": [
+        "An obsidian saber",
+        "A bronze dagger",
+        "A piece of charcoal",
+        "A wooden sword"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "What action did Kaelen take when entering the colosseum on the day of the festival instead of attacking his opponent?",
+      "a": [
+        "He raised his wooden sword toward the crowd",
+        "He released the prisoners from the cells",
+        "He destroyed the main gate mechanisms",
+        "He directly challenged Chancellor Varkas"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "What weapon did Chancellor Varkas use during his final duel against Kaelen at the top of the tower?",
+      "a": [
+        "A wooden sword",
+        "A metallic stinger",
+        "A golden spear",
+        "An obsidian saber"
+      ],
+      "correct": 3
+    }
+  ]
+}

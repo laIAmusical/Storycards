@@ -1,0 +1,108 @@
+{
+  "titulo": "Sin más día que hoy",
+  "generado": "2026-11-12T05:27:23.027Z",
+  "es": [
+    {
+      "q": "¿Qué instrumento vuelve a encender Anja después de conocer a Frida?",
+      "a": [
+        "Una estufa de leña",
+        "Sus sintetizadores",
+        "Una vieja cámara de fotos",
+        "Un altavoz portátil"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Cómo se llama la empresa que envía una carta de desalojo al edificio?",
+      "a": [
+        "Luxus Apartamentos",
+        "Berlín Inmobiliaria",
+        "OmniaCorp",
+        "Kreuzberg Housing"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Qué enfermedad padece Frida que afecta a sus articulaciones y músculos?",
+      "a": [
+        "El Síndrome de Desvanecimiento Crónico",
+        "El Síndrome de Fatiga Invernal",
+        "La dolencia del Fénix de Neón",
+        "La parálisis de los sintetizadores"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Qué decisión toma el grupo tras recibir la oferta económica del representante de OmniaCorp?",
+      "a": [
+        "Aceptar el dinero para pagar el tratamiento de Frida",
+        "Rechazar la oferta económica",
+        "Negociar una ampliación del plazo a 60 días",
+        "Firmar el desalojo inmediato para evitar problemas"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Qué hace el narrador justo al final del relato mientras caminan hacia un futuro incierto?",
+      "a": [
+        "Ayuda a Sascha a pintar el último mural en una pared blanca",
+        "Recoge la estufa de leña de Klaus para llevarla al nuevo hogar",
+        "Levanta su cámara y hace clic para fotografiar a su familia",
+        "Abraza a Frida mientras ella da sus últimos pasos de baile"
+      ],
+      "correct": 2
+    }
+  ],
+  "en": [
+    {
+      "q": "What instrument does Anja turn back on after meeting Frida?",
+      "a": [
+        "A wood-burning stove",
+        "Her synthesizers",
+        "An old camera",
+        "A portable speaker"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "What is the name of the company that sends an eviction letter to the building?",
+      "a": [
+        "Luxus Apartamentos",
+        "Berlín Inmobiliaria",
+        "OmniaCorp",
+        "Kreuzberg Housing"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "What illness does Frida suffer from that affects her joints and muscles?",
+      "a": [
+        "Chronic Fading Syndrome",
+        "Winter Fatigue Syndrome",
+        "The Neon Phoenix ailment",
+        "Synthesizer paralysis"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "What decision does the group make after receiving the financial offer from the OmniaCorp representative?",
+      "a": [
+        "Accept the money to pay for Frida's treatment",
+        "Reject the financial offer",
+        "Negotiate an extension of the deadline to 60 days",
+        "Sign the immediate eviction to avoid trouble"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "What does the narrator do right at the end of the story as they walk toward an uncertain future?",
+      "a": [
+        "Helps Sascha paint the last mural on a white wall",
+        "Picks up Klaus's wood stove to take it to the new home",
+        "Raises his camera and clicks to photograph his family",
+        "Embraces Frida as she takes her final dance steps"
+      ],
+      "correct": 2
+    }
+  ]
+}

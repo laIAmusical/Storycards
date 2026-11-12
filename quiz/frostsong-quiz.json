@@ -1,0 +1,108 @@
+{
+  "titulo": "Frost Song",
+  "generado": "2026-11-12T05:16:51.149Z",
+  "es": [
+    {
+      "q": "¿Qué objeto atado a la pata de un cuervo trajo la hermana de Kaelen, Lyra, la primera noche?",
+      "a": [
+        "Una pluma dorada con el sello de House Valerion.",
+        "Una piedra preciosa extraída de los Grey Ridges.",
+        "Una carta amenazante firmada por Queen Seraphina.",
+        "Un mapa antiguo de la región del sur."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Quién era el líder espiritual y de los guerreros de los Clanes de la Piedra en los Grey Ridges?",
+      "a": [
+        "Kaelen Faelan",
+        "Gorn",
+        "Lord Vorlag Faelan",
+        "Lucian Valerion"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Qué descubrieron los personajes en el centro del pueblo fronterizo de la Marca de Invierno en el capítulo 6?",
+      "a": [
+        "Una estatua de oro enviada por Queen Seraphina.",
+        "Un patrón en espiral sobre la nieve del cual emanaba un sonido vibrante.",
+        "Un cuervo herido con una pluma dorada en la pata.",
+        "El cuerpo sin vida del explorador de la Guardia del Muro."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Qué decidió hacer Lucian Valerion tras recibir el mensaje de su hermana sobre dejar que sus rivales se aniquilaran?",
+      "a": [
+        "Atacar en solitario a los Whisperers con antorchas y aceite.",
+        "Regresar inmediatamente a Caelus para unirse a la flota dorada.",
+        "Ocultar la traición de su casa para negociar mejores condiciones.",
+        "Revelar el plan de Seraphina a Kaelen y a Gorn para formar una alianza."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Qué título concedió Gorn a Kaelen y a Lucian con su último aliento antes de morir?",
+      "a": [
+        "Guardians of the Ecos",
+        "Keepers of the Golden Tide",
+        "Lords of the Winter Domain",
+        "Brothers of the Stone"
+      ],
+      "correct": 3
+    }
+  ],
+  "en": [
+    {
+      "q": "What object tied to a raven's leg did Kaelen's sister, Lyra, bring on the first night?",
+      "a": [
+        "A golden feather with the seal of House Valerion.",
+        "A precious stone extracted from the Grey Ridges.",
+        "A threatening letter signed by Queen Seraphina.",
+        "An ancient map of the southern region."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "Who was the spiritual and warrior leader of the Stone Clans in the Grey Ridges?",
+      "a": [
+        "Kaelen Faelan",
+        "Gorn",
+        "Lord Vorlag Faelan",
+        "Lucian Valerion"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "What did the characters discover in the center of the border village of the Winter Domain in chapter 6?",
+      "a": [
+        "A golden statue sent by Queen Seraphina.",
+        "A spiral pattern on the snow from which a vibrating sound emanated.",
+        "An injured raven with a golden feather on its leg.",
+        "The lifeless body of the Wall Guard scout."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "What did Lucian Valerion decide to do after receiving his sister's message about letting their rivals annihilate one another?",
+      "a": [
+        "Attack the Whisperers alone with torches and oil.",
+        "Return immediately to Caelus to join the golden fleet.",
+        "Hide his house's betrayal to negotiate better terms.",
+        "Reveal Seraphina's plan to Kaelen and Gorn to form an alliance."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What title did Gorn grant to Kaelen and Lucian with his final breath before dying?",
+      "a": [
+        "Guardians of the Ecos",
+        "Keepers of the Golden Tide",
+        "Lords of the Winter Domain",
+        "Brothers of the Stone"
+      ],
+      "correct": 3
+    }
+  ]
+}

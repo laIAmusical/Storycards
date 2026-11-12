@@ -1,0 +1,108 @@
+{
+  "titulo": "El misterio de la cometa perdida",
+  "generado": "2026-11-12T05:20:10.040Z",
+  "es": [
+    {
+      "q": "¿Qué objeto encontró el narrador en la última caja bajo una manta de lana en el apartamento de Van Brunt Street?",
+      "a": [
+        "Una cometa de papel de seda azul con una golondrina.",
+        "Un carrete de madera de haya con hilo rojo enrollado.",
+        "Un cuaderno de tapas verdes de la marca Astor Hardware.",
+        "Una llave oxidada con una etiqueta que decía Mermaid 98."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Qué nombre tenían los dos hermanos que habían inventado el código de las cometas en los proyectos de Red Hook?",
+      "a": [
+        "Tom y el abuelo Luterano.",
+        "Julian y Susan Carter.",
+        "Tom y Julian Carter.",
+        "Thomas y Eleanor Harper."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Dónde descubrió el narrador que había terminado realmente la cometa original de 1992?",
+      "a": [
+        "Colgada en el depósito de la Mermaid Parade en Surf Avenue.",
+        "Escondida en la biblioteca pública de Grand Army Plaza.",
+        "Guardada en un cajón de la cocina de Mrs. Eleanor Harper.",
+        "Flotando en el agua cerca del muelle de Coney Island."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Qué decisión tomó el narrador al elevar la segunda cometa el 12 de agosto, treinta y cuatro años después?",
+      "a": [
+        "Regalársela a un niño que comía helado en el boardwalk.",
+        "Dejar que el viento se la llevara sin cortar el hilo.",
+        "Bajarla con cuidado para guardarla en el apartamento.",
+        "Cortar el hilo a mil cien pies de altura a propósito."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Qué mensaje estaba cosido con hilo blanco en el dobladillo de la tira de tela dentro de la cometa original?",
+      "a": [
+        "Un registro meteorológico con la fecha exacta del 12 de agosto de 1992.",
+        "Una nota del narrador dedicada a su abuelo Thomas Carter.",
+        "Un mensaje de Tom para su hermano Julian pidiéndole que fuera al taller a las seis.",
+        "Una advertencia de la policía sobre la detención cerca del Navy Yard."
+      ],
+      "correct": 2
+    }
+  ],
+  "en": [
+    {
+      "q": "What object did the narrator find in the last box under a wool blanket in the Van Brunt Street apartment?",
+      "a": [
+        "A blue tissue paper kite with a swallow on it.",
+        "A beech wood spool with red thread wound on it.",
+        "A green-covered notebook from the Astor Hardware brand.",
+        "A rusted key with a tag that said Mermaid 98."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "What were the names of the two brothers who had invented the kite code in the Red Hook housing projects?",
+      "a": [
+        "Tom and the Lutheran grandfather.",
+        "Julian and Susan Carter.",
+        "Tom and Julian Carter.",
+        "Thomas and Eleanor Harper."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "Where did the narrator discover that the original 1992 kite had actually ended up?",
+      "a": [
+        "Hanging in the Mermaid Parade warehouse on Surf Avenue.",
+        "Hidden in the Grand Army Plaza public library.",
+        "Stored in a kitchen drawer belonging to Mrs. Eleanor Harper.",
+        "Floating in the water near the Coney Island pier."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "What decision did the narrator make when flying the second kite on August 12, thirty-four years later?",
+      "a": [
+        "To give it as a gift to a child eating ice cream on the boardwalk.",
+        "To let the wind take it away without cutting the thread.",
+        "To bring it down carefully to keep it in the apartment.",
+        "To intentionally cut the thread at eleven hundred feet high."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What message was stitched with white thread in the hem of the fabric strip inside the original kite?",
+      "a": [
+        "A weather log with the exact date of August 12, 1992.",
+        "A note from the narrator dedicated to his grandfather Thomas Carter.",
+        "A message from Tom to his brother Julian asking him to go to the shop at six.",
+        "A police warning about the arrest near the Navy Yard."
+      ],
+      "correct": 2
+    }
+  ]
+}

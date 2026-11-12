@@ -1,0 +1,108 @@
+{
+  "titulo": "Library of Horizons",
+  "generado": "2026-11-12T05:19:09.504Z",
+  "es": [
+    {
+      "q": "¿Qué patrón temporal detectó inicialmente Mira Kovacheva en los datos del agujero negro Acheron-9?",
+      "a": [
+        "Una interferencia estelar aleatoria sin periodicidad fija.",
+        "Una onda gravitacional sutil que se repetía cada 13 horas.",
+        "Un pulso electromagnético que cambiaba cada 24 horas.",
+        "Una melodía de radio que duraba exactamente 7 horas."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Qué medida propuso Zawadi Okoro para combatir la disincronía circadiana y los microtraumas cognitivos de la tripulación cerca de Acheron-9?",
+      "a": [
+        "Aumentar la gravedad artificial de la nave mediante giros en el eje principal.",
+        "Apagar los sistemas de navegación para reducir el estrés electromagnético del entorno.",
+        "Utilizar pulsos de luz coherente de baja frecuencia para sincronizar artificialmente los cerebros.",
+        "Administrar un sedante criogénico para mantener a todos en hibernación profunda temporal."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Cómo planeaba Mira estabilizar la órbita de la Lumen tras el daño sufrido por la tormenta de acreción?",
+      "a": [
+        "Desplegando la vela de plasma auxiliar para capturar el viento estelar de una estrella lejana.",
+        "Encendiendo los propulsores de iones principales para escapar directamente del campo gravitatorio a máxima potencia.",
+        "Realizando un proceso de Penrose mecánico para robar energía del agujero negro usando el espacio-tiempo en rotación.",
+        "Lanzando la sonda Kármán Eye para anclar la nave a un exomoon cercano llamado Tharsis."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Qué pretexto utilizó Mira para salir al exterior y manipular manualmente el Kármán Eye desobedeciendo la orden de Ren?",
+      "a": [
+        "Aseguró que necesitaba rescatar datos vitales atrapados en una antena exterior dañada.",
+        "Afirmó que la calibración del equipo estaba fuera de rango y que los robots no eran lo suficientemente precisos.",
+        "Dijo que debia reparar personalmente una fuga crítica de plasma en la vela principal.",
+        "Argumentó que los sensores médicos indicaban una anomalía biológica fuera de la esclusa."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Cuál fue la consecuencia personal más dura que enfrentó la tripulación al regresar a la Estación Orbital Kármán tras su misión?",
+      "a": [
+        "La estación había sido completamente abandonada debido a una guerra global en la Tierra.",
+        "La dilatación temporal hizo que pasaran diecinueve años, perdiendo sus épocas, seres queridos y conexiones vitales.",
+        "Fueron arrestados inmediatamente por las autoridades espaciales por violar los protocolos de seguridad.",
+        "Perdieron todos los datos recopilados sobre Acheron-9 durante el viaje de regreso."
+      ],
+      "correct": 1
+    }
+  ],
+  "en": [
+    {
+      "q": "What temporal pattern did Mira Kovacheva initially detect in the data from the supermassive black hole Acheron-9?",
+      "a": [
+        "A random stellar interference without a fixed periodicity.",
+        "A subtle gravitational wave that repeated every 13 hours.",
+        "An electromagnetic pulse that changed every 24 hours.",
+        "A radio melody that lasted exactly 7 hours."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "What measure did Zawadi Okoro propose to combat the crew's circadian dysynchrony and cognitive microtraumas near Acheron-9?",
+      "a": [
+        "Increasing the ship's artificial gravity by rotating around the main axis.",
+        "Shutting down navigation systems to reduce the electromagnetic stress of the environment.",
+        "Using low-frequency coherent light pulses to artificially synchronize their brains.",
+        "Administering a cryogenic sedative to keep everyone in temporary deep hibernation."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "How did Mira plan to stabilize the Lumen's orbit after the damage suffered from the accretion storm?",
+      "a": [
+        "Deploying the auxiliary plasma sail to capture stellar wind from a distant star.",
+        "Firing the main ion thrusters to escape the gravitational field directly at maximum power.",
+        "By performing a mechanical Penrose process to steal energy from the black hole using the rotating space-time.",
+        "Launching the Kármán Eye probe to anchor the ship to a nearby exomoon called Tharsis."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "What pretext did Mira use to go outside and manually manipulate the Kármán Eye, disobeying Ren's order?",
+      "a": [
+        "She assured she needed to rescue vital data trapped in a damaged external antenna.",
+        "She claimed the equipment calibration was out of range and the robots were not precise enough.",
+        "She said she needed to personally repair a critical plasma leak in the main sail.",
+        "She argued that medical sensors indicated a biological anomaly outside the airlock."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "What was the harshest personal consequence the crew faced when returning to the Kármán Orbital Station after their mission?",
+      "a": [
+        "The station had been completely abandoned due to a global war back on Earth.",
+        "Time dilation caused nineteen years to pass, making them lose their eras, loved ones, and vital connections.",
+        "They were immediately arrested by space authorities for violating safety protocols.",
+        "They lost all the data collected about Acheron-9 during the return journey."
+      ],
+      "correct": 1
+    }
+  ]
+}

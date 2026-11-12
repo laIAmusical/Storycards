@@ -1,0 +1,108 @@
+{
+  "titulo": "A Funny Jungle",
+  "generado": "2026-11-12T05:12:54.856Z",
+  "es": [
+    {
+      "q": "¿Qué animal de la selva compartió la leyenda olvidada sobre el Corazón de Agua durante el consejo de los animales mayores?",
+      "a": [
+        "Un perezoso llamado Simon",
+        "Un pangolin gigante",
+        "Un tucán llamado Tico",
+        "Un viejo armadillo"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Cómo lograron cruzar el Laberinto de Raíces sin despertar los susurros que los confundían?",
+      "a": [
+        "Siguiendo el vuelo en círculos y desorientado de Tico el tucán",
+        "Moviéndose en un ritmo coordinado y silencioso marcado por dos pequeñas piedras",
+        "Haciendo ruido con las ramas secas para ahuyentar los susurros",
+        "Corriendo muy rápido para escapar de los sonidos confusos"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Qué obstáculo debieron superar en el cañón antes de llegar a la cueva del guardián?",
+      "a": [
+        "Una cascada completamente seca custodiada por estalactitas afiladas",
+        "Un puente de vides parchadas y frágiles con una melodía desafinada del viento",
+        "Un laberinto oscuro donde el sol nunca tocaba el suelo",
+        "Un muro denso de raíces que se movían como serpientes vivas"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Qué decisión tomó Simon en la cueva al descubrir que los ronquidos del pangolin rompían la melodía?",
+      "a": [
+        "Despertar al pangolin a golpes para que dejara de roncar de inmediato",
+        "Pedirle a Tico que golpeara un hongo hueco para silenciar al animal",
+        "Tocar las estalactitas más finas para ahogar el sonido con tonos altos",
+        "Usar los ronquidos del pangolin como la base rítmica o el bajo para la música"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Qué sucedió inmediatamente después de que el grupo logró interpretar la melodía correcta en el litófono?",
+      "a": [
+        "El puente de vides se rompió haciendo que todos cayeran al cañón",
+        "La selva entera se convirtió en piedra debido a la fuerza mágica del sonido",
+        "El pangolin gigante abrió un ojo somnoliento, sonrió perezosamente y se hizo a un lado liberando el agua",
+        "Pipo el mono saltó sobre el pangolin para celebrar la aventura con ruido"
+      ],
+      "correct": 2
+    }
+  ],
+  "en": [
+    {
+      "q": "Which jungle animal shared the forgotten legend about the Water Heart during the council of the oldest animals?",
+      "a": [
+        "A sloth named Simon",
+        "A giant pangolin",
+        "A toucan named Tico",
+        "An old armadillo"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "How did they manage to cross the Labyrinth of Roots without waking up the whispers that confused them?",
+      "a": [
+        "By following Tico the toucan's disoriented, circular flight",
+        "By moving in a coordinated and silent rhythm marked by two small stones",
+        "By making noise with dry branches to scare away the whispers",
+        "By running very fast to escape the confusing sounds"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "What obstacle did they have to overcome in the canyon before reaching the guardian's cave?",
+      "a": [
+        "A completely dry waterfall guarded by sharp stalactites",
+        "An ancient bridge of parched, fragile vines with an out-of-tune wind melody",
+        "A dark labyrinth where the sun never touched the ground",
+        "A dense wall of roots that moved like living snakes"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "What decision did Simon make in the cave upon discovering that the pangolin's snoring broke the melody?",
+      "a": [
+        "To wake the pangolin up by hitting it so it would stop snoring immediately",
+        "To ask Tico to strike a hollow mushroom to silence the animal",
+        "To play the thinnest stalactites to drown out the sound with high tones",
+        "To use the pangolin's snoring as the rhythm foundation or the bass for the music"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What happened immediately after the group managed to play the correct melody on the lithophone?",
+      "a": [
+        "The vine bridge broke causing everyone to fall into the canyon",
+        "The entire jungle turned to stone due to the magical force of the sound",
+        "The giant pangolin opened a sleepy eye, smiled lazily, and stepped aside releasing the water",
+        "Pipo the monkey jumped onto the pangolin to celebrate the adventure with noise"
+      ],
+      "correct": 2
+    }
+  ]
+}

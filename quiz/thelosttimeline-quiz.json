@@ -1,0 +1,108 @@
+{
+  "titulo": "The Lost Timeline",
+  "generado": "2026-11-12T05:30:05.711Z",
+  "es": [
+    {
+      "q": "¿Qué objeto encuentra Nara Vidal escondido entre las capas de ladrillos del Silo 3 de Redpath?",
+      "a": [
+        "Una lata de conserva con una etiqueta de la Cruz Roja.",
+        "Un cuaderno Moleskine negro con notas sobre tipología japonesa.",
+        "Una baldosa de terracota del tamaño de una mano con la inscripción N.S. 74.",
+        "Un plano de refuerzo estructural con el sello de Kansai Doken."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Qué descubre Lyn Kora al analizar la frecuencia de 18.7 Hz en el faro de Peggy's Cove?",
+      "a": [
+        "Que el sonido era causado por la vibración de un dron hexacóptero defectuoso.",
+        "Que es el mismo eco del sistema de ventilación forzada que hubo en el silo de Toronto.",
+        "Que la frecuencia coincidía con la actividad de un barco cisterna de Kansai Doken.",
+        "Que la estructura de granito estaba siendo erosionada por una tubería hidráulica subterránea."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Qué información clave encuentra Lyn Kora en el cuaderno verde de su abuelo, Thomas Kora?",
+      "a": [
+        "Un registro de los pagos realizados por la empresa Kansai Doken en Canadá.",
+        "Una nota sobre la transferencia provisional de 42 familias al almacén del silo 3 de Redpath.",
+        "Un mapa detallado de la ubicación original del mercado de Tobita en Nishinari.",
+        "Una lista de los concejales de Osaka involucrados en la purga de archivos."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Qué decisión toman Nara y Lyn tras reunir todas las pruebas sobre la historia de las familias desplazadas?",
+      "a": [
+        "Demuelen el Silo 3 para exponer las cunas y cocinas de campo utilizadas por las familias.",
+        "Publican un artículo en un periódico de Toronto para denunciar a la empresa Kansai Doken.",
+        "Viajan a Osaka para confrontar al concejal que trabajó como asesor en 1979.",
+        "Envían un dossier completo a las autoridades para solicitar la reinstauración del periodo borrado."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Qué acción simbólica ocurre cada 10 de abril en el faro de Peggy's Cove como consecuencia de la investigación?",
+      "a": [
+        "Se proyecta el calendario dibujado por la hija de Maira Etxebarri sobre la lente.",
+        "Se emite una señal de radio con la frecuencia de 18.7 Hz hacia la ciudad de Osaka.",
+        "El faro mantiene su haz de luz un minuto más de lo habitual, apuntando hacia el oeste.",
+        "El faro se apaga completamente en memoria de las familias que vivieron en el silo."
+      ],
+      "correct": 2
+    }
+  ],
+  "en": [
+    {
+      "q": "What object does Nara Vidal find hidden between the courses of brick in Redpath Silo 3?",
+      "a": [
+        "A food tin with a Red Cross label.",
+        "A black Moleskine notebook with notes on Japanese typology.",
+        "A hand-sized terracotta tile with the inscription N.S. 74.",
+        "A structural reinforcement blueprint with the Kansai Doken stamp."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "What does Lyn Kora discover when analyzing the 18.7 Hz frequency at the Peggy's Cove lighthouse?",
+      "a": [
+        "That the sound was caused by the vibration of a faulty hexacopter drone.",
+        "That it is the same echo of the forced ventilation system that was in the Toronto silo.",
+        "That the frequency matched the activity of a Kansai Doken tanker ship.",
+        "That the granite structure was being eroded by an underground hydraulic pipe."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "What key information does Lyn Kora find in his grandfather Thomas Kora's green notebook?",
+      "a": [
+        "A record of payments made by the Kansai Doken company in Canada.",
+        "A note about the provisional transfer of 42 families to the Redpath silo 3 warehouse.",
+        "A detailed map of the original location of the Tobita market in Nishinari.",
+        "A list of the Osaka councilors involved in the archive purge."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "What decision do Nara and Lyn make after gathering all the evidence about the history of the displaced families?",
+      "a": [
+        "They demolish Silo 3 to expose the cots and field kitchens used by the families.",
+        "They publish an article in a Toronto newspaper to denounce the Kansai Doken company.",
+        "They travel to Osaka to confront the councilor who worked as an advisor in 1979.",
+        "They send a complete dossier to the authorities to request the reinstatement of the erased period."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What symbolic action happens every April 10th at the Peggy's Cove lighthouse as a consequence of the investigation?",
+      "a": [
+        "The calendar drawn by Maira Etxebarri's daughter is projected onto the lens.",
+        "A radio signal with the 18.7 Hz frequency is broadcast toward the city of Osaka.",
+        "The lighthouse holds its beam for one minute longer than usual, pointing due west.",
+        "The lighthouse shuts off completely in memory of the families who lived in the silo."
+      ],
+      "correct": 2
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "titulo": "The Stellar Girl",
+  "generado": "2026-11-12T05:31:36.061Z",
+  "es": [
+    {
+      "q": "¿Qué descubre Adam en lugar de un paquete convencional cuando llega a la abandonada refinería en Cineria?",
+      "a": [
+        "Una caja fuerte con los créditos de pago de su cliente anónimo.",
+        "Un droide de carga averiado que pertenecía al contrabandista Roric.",
+        "Una armadura de la Legión de Hierro junto a un esqueleto.",
+        "Una niña de grandes ojos llamada Elara que lo esperaba en silencio."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Qué debe recuperar Adam en una base militar abandonada en Veridia para conseguir la ayuda de Roric?",
+      "a": [
+        "Una ruta estelar desconocida.",
+        "La armadura de la Legión de Hierro.",
+        "Un estabilizador de energía.",
+        "El haz del tractor de la nave."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Qué revela el holomensaje encontrado junto a la armadura idéntica a la de Adam en la base abandonada?",
+      "a": [
+        "Las coordenadas secretas de la flota fantasma en la Cortina Nebular.",
+        "Los últimos momentos de otro legionario traicionado por el Consorcio Xylos mientras protegía un activo tecno-psíquico.",
+        "Las instrucciones detalladas para reparar los sistemas de soporte vital de 'El Nómada'.",
+        "La ubicación exacta del puerto neutral de Zirconia y sus redes de espías."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Qué decisión toma Adam al encontrarse con el director Valerius en el penthouse de Zirconia?",
+      "a": [
+        "Abre fuego contra los guardias de Valerius y huye con Elara, rompiendo el contrato para protegerla.",
+        "Entrega a la niña a cambio de una gran fortuna y una nueva vida ofrecida por Valerius.",
+        "Desafía a Valerius a un combate singular para decidir el destino de la flota de la República.",
+        "Acepta trabajar como escolta personal de Valerius para cazar a los miembros del Consorcio Xylos."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Qué sucede con Elara al final de la historia después de que Adam neutraliza al cazarrecompensas Jax?",
+      "a": [
+        "Regresa voluntariamente con el director Valerius a la Ciudadela de Zirconia.",
+        "Toma el control de 'El Nómada' para pilotarla de regreso al planeta Khyber.",
+        "Habla por primera vez con voz clara preguntando a dónde van ahora.",
+        "Desactiva por completo todas las naves de la flota fantasma de la República."
+      ],
+      "correct": 2
+    }
+  ],
+  "en": [
+    {
+      "q": "What does Adam find instead of a conventional package when he arrives at the abandoned refinery on Cineria?",
+      "a": [
+        "A safe with the payment credits from his anonymous client.",
+        "A broken cargo droid that belonged to the smuggler Roric.",
+        "A suit of Iron Legion armor next to a skeleton.",
+        "A wide-eyed girl named Elara who was waiting for him in silence."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What must Adam retrieve in an abandoned military base on Veridia to get Roric's help?",
+      "a": [
+        "An unknown star route.",
+        "The Iron Legion armor.",
+        "A power stabilizer.",
+        "The ship's tractor beam."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "What does the holomessage found next to the armor identical to Adam's in the abandoned base reveal?",
+      "a": [
+        "The secret coordinates of the ghost fleet in the Nebular Veil.",
+        "The final moments of another legionnaire betrayed by the Xylos Consortium while protecting a techno-psychic asset.",
+        "Detailed instructions to repair 'The Nomad's' life support systems.",
+        "The exact location of the neutral port of Zirconia and its spy networks."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "What decision does Adam make when meeting Director Valerius in the Zirconia penthouse?",
+      "a": [
+        "He opens fire on Valerius's guards and flees with Elara, breaking the contract to protect her.",
+        "He hands over the girl in exchange for a large fortune and a new life offered by Valerius.",
+        "He challenges Valerius to singular combat to decide the fate of the Republic's fleet.",
+        "He agrees to work as Valerius's personal bodyguard to hunt down the members of the Xylos Consortium."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "What happens to Elara at the end of the story after Adam neutralizes the bounty hunter Jax?",
+      "a": [
+        "She voluntarily returns with Director Valerius to the Citadel of Zirconia.",
+        "She takes control of 'The Nomad' to pilot it back to the planet Khyber.",
+        "She speaks for the first time in a clear voice asking where they are going now.",
+        "She completely deactivates all the ships of the Republic's ghost fleet."
+      ],
+      "correct": 2
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "titulo": "El brillo del pecado",
+  "generado": "2026-11-12T05:15:51.872Z",
+  "es": [
+    {
+      "q": "¿Qué nombre tenía el famoso cabaret parisino al que Lia soñaba con llegar?",
+      "a": [
+        "Le Chat Noir",
+        "Le Serpent Rouge",
+        "La Belle Époque",
+        "Le Moulin Rouge"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Qué valioso regalo le dio el industrial Antoine Lefèvre a la joven Lia?",
+      "a": [
+        "Un vestido de terciopelo",
+        "Una boquilla de marfil",
+        "Una maleta de cartón",
+        "Un collar de perlas"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Quién fue el encargado de construir la estrategia mediática y la gran obra de ficción sobre la inocencia de Lia?",
+      "a": [
+        "La policía de París",
+        "Colette Moreau",
+        "Antoine Lefèvre",
+        "Maître Dubois"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Desde qué lugar comenzó Colette su propia campaña de rumores y contraataque contra Lia?",
+      "a": [
+        "Desde su celda en la prisión de La Santé",
+        "Desde un palco privado en el juicio",
+        "Desde la oficina de Maître Dubois",
+        "Desde el escenario principal de Le Serpent Rouge"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Qué veredicto final emitió el jurado tras el discurso de Maître Dubois?",
+      "a": [
+        "Ambas culpables de asesinato",
+        "Ambas absueltas",
+        "Lia declarada culpable",
+        "Colette condenada a muerte"
+      ],
+      "correct": 1
+    }
+  ],
+  "en": [
+    {
+      "q": "What was the name of the famous Parisian cabaret that Lia dreamed of reaching?",
+      "a": [
+        "Le Chat Noir",
+        "Le Serpent Rouge",
+        "La Belle Époque",
+        "Le Moulin Rouge"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "What valuable gift did the industrialist Antoine Lefèvre give to young Lia?",
+      "a": [
+        "A velvet dress",
+        "An ivory cigarette holder",
+        "A cardboard suitcase",
+        "A pearl necklace"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "Who was in charge of building the media strategy and the great work of fiction regarding Lia's innocence?",
+      "a": [
+        "The Paris police",
+        "Colette Moreau",
+        "Antoine Lefèvre",
+        "Maître Dubois"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "From where did Colette begin her own campaign of rumors and counterattack against Lia?",
+      "a": [
+        "From her cell in La Santé prison",
+        "From a private box at the trial",
+        "From Maître Dubois's office",
+        "From the main stage of Le Serpent Rouge"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "What final verdict did the jury issue after Maître Dubois's speech?",
+      "a": [
+        "Both guilty of murder",
+        "Both acquitted",
+        "Lia declared guilty",
+        "Colette sentenced to death"
+      ],
+      "correct": 1
+    }
+  ]
+}

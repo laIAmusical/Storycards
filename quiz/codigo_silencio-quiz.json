@@ -1,0 +1,108 @@
+{
+  "titulo": "El código del silencio",
+  "generado": "2026-11-12T05:14:41.654Z",
+  "es": [
+    {
+      "q": "¿Qué encuentra Maya Chen en el locker 317 de la estación Hauptbahnhof en Zúrich?",
+      "a": [
+        "Un archivo de audio de cuatro segundos grabado por Viktor Koval y un pasaporte falso.",
+        "Un Nokia antiguo y una llave de hotel para la habitación 404 del Baur au Lac.",
+        "Un pendrive USB con el kill switch y las coordenadas del búnker en Svalbard.",
+        "El expediente de la empresa Argus Phonetics sobre los nueve ingenieros asesinados."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Qué revela el video grabado por Viktor Koval en la cámara anecoica bajo el antiguo cuartel soviético de Praga?",
+      "a": [
+        "Que la empresa suiza planeaba destruir los servidores de datos en Longyearbyen.",
+        "Que el protocolo SILENCE fue creado para interceptar llamadas telefónicas en cables submarinos.",
+        "Que SILENCE fue perfeccionado para borrar la identidad acústica de una persona y dejarla sin existencia legal.",
+        "Que Argus Phonetics utilizaba el sistema únicamente para generar deepfakes de altos mandos."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "Según los registros descubiertos por Jonah en el búnker de Svalbard, ¿dónde ocurrió la primera activación de SILENCE?",
+      "a": [
+        "En la habitación 404 del hotel Baur au Lac durante la reunión de Maya y Jonah.",
+        "En Fort Meade, cuando los logs de la NSA fueron borrados durante tres horas.",
+        "En el aeropuerto de Oslo, donde Marcus Hale intentó detener el proyecto de Argus Phonetics.",
+        "En Berlín durante una protesta en 2021, borrando 14 minutos de audio de toda la ciudad."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Cómo logra Maya hacer entrar en bucle al sistema SILENCE en el búnker de transmisión?",
+      "a": [
+        "Corta el cable submarino principal que conectaba el núcleo del búnker con la ciudad de Zúrich.",
+        "Conecta la llave USB que le dio Marcus Hale para ejecutar directamente el kill switch.",
+        "Reproduce a máximo volumen el archivo de cuatro segundos de silencio puro para que el sistema intente copiar la nada.",
+        "Escribe la frase de activación de siete palabras en la pizarra donde Viktor estaba conectado."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "Tres meses después de los eventos, ¿qué recibe Maya en su cabaña de las Lofoten?",
+      "a": [
+        "Un paquete enviado por la DGSE con la grabación de audio recuperada de la protesta de Berlín.",
+        "Una orden de arresto de la NSA por haber desaparecido de la base de Fort Meade.",
+        "Una llave USB enviada por Jonah Weber con el reportaje completo sobre los nueve ingenieros.",
+        "El teléfono Nokia enviado por Viktor con un mensaje de agradecimiento y las siete palabras de activación grabadas en el plástico."
+      ],
+      "correct": 3
+    }
+  ],
+  "en": [
+    {
+      "q": "What does Maya Chen find in locker 317 at the Hauptbahnhof station in Zurich?",
+      "a": [
+        "A four-second audio file recorded by Viktor Koval and a fake passport.",
+        "An old Nokia and a hotel key for room 404 at the Baur au Lac.",
+        "A USB flash drive with the kill switch and the coordinates of the Svalbard bunker.",
+        "Argus Phonetics' file on the nine murdered engineers."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "What does the video recorded by Viktor Koval reveal in the anechoic chamber under the former Soviet barracks in Prague?",
+      "a": [
+        "That the Swiss company planned to destroy the data servers in Longyearbyen.",
+        "That the SILENCE protocol was created to intercept phone calls in submarine cables.",
+        "That SILENCE was perfected to erase a person's acoustic identity, leaving them without a legal existence.",
+        "That Argus Phonetics used the system solely to generate deepfakes of high-ranking officials."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "According to the records discovered by Jonah in the Svalbard bunker, where did the first activation of SILENCE take place?",
+      "a": [
+        "In room 404 of the Baur au Lac hotel during Maya and Jonah's meeting.",
+        "At Fort Meade, when the NSA logs were erased for three hours.",
+        "At the Oslo airport, where Marcus Hale attempted to stop Argus Phonetics' project.",
+        "In Berlin during a 2021 protest, erasing 14 minutes of audio from the entire city."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "How does Maya cause the SILENCE system to enter a loop in the transmission bunker?",
+      "a": [
+        "She cuts the main submarine cable connecting the bunker's core to the city of Zurich.",
+        "She plugs in the USB key given to her by Marcus Hale to directly execute the kill switch.",
+        "She plays the four-second file of pure silence at maximum volume so the system tries to copy nothingness.",
+        "She writes the seven-word activation phrase on the whiteboard where Viktor was connected."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "Three months after the events, what does Maya receive at her cabin in Lofoten?",
+      "a": [
+        "A package sent by the DGSE containing the recovered audio recording of the Berlin protest.",
+        "An arrest warrant from the NSA for disappearing from the Fort Meade base.",
+        "A USB flash drive sent by Jonah Weber with the full story about the nine engineers.",
+        "The Nokia phone sent by Viktor with a thank-you message and the seven activation words engraved on the plastic."
+      ],
+      "correct": 3
+    }
+  ]
+}

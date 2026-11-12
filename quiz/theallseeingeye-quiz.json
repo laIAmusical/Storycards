@@ -1,0 +1,108 @@
+{
+  "titulo": "The All-Seeing Eye",
+  "generado": "2026-11-12T05:28:38.724Z",
+  "es": [
+    {
+      "q": "¿Cuál era la ocupación de Aron Velar en el Departamento de Revisión Histórica?",
+      "a": [
+        "Vigilar a los ciudadanos a través de las pantallas del sistema de cámaras",
+        "Mantener los servidores centrales del sistema conocido como El Ojo",
+        "Corregir archivos antiguos para que coincidieran con la versión oficial del gobierno",
+        "Vender libros antiguos prohibidos en el mercado clandestino de la ciudad"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Cómo se llamaba la ciudad de Veritas antes de que el gobierno actual y El Ojo existieran?",
+      "a": [
+        "Sector 0",
+        "Central",
+        "Veritas",
+        "Arken"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿A qué grupo pertenecía el símbolo de un círculo con una línea vertical que Aron y Lira encontraron?",
+      "a": [
+        "A los creadores originales del Sector 0",
+        "Al Departamento de Revisión Histórica de Aron",
+        "A los guardianes que controlaban El Ojo",
+        "A un grupo de resistencia llamado Los Vigilados"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Qué dos opciones principales encontró Lira en el panel central antes de que Aron decidiera otra cosa?",
+      "a": [
+        "Apagar el sistema o reiniciarlo",
+        "Ocultar el Sector 0 o escapar de la ciudad",
+        "Destruir los servidores o reprogramar a los guardias",
+        "Transmitir la verdad o borrar la historia"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Qué sucedió finalmente con las pantallas y las cámaras de la ciudad tras la decisión de Aron?",
+      "a": [
+        "Las pantallas se apagaron y las cámaras dejaron de seguir individualmente a los ciudadanos",
+        "El sistema se reinició y comenzó a vigilar a la población con más atención",
+        "Las cámaras cambiaron su objetivo para buscar a los miembros de la resistencia",
+        "Todas las pantallas se destruyeron y la ciudad entera quedó sumida en el caos"
+      ],
+      "correct": 0
+    }
+  ],
+  "en": [
+    {
+      "q": "What was Aron Velar's job at the Department of Historical Revision?",
+      "a": [
+        "Monitoring citizens through the screens of the camera system",
+        "Maintaining the central servers of the system known as The Eye",
+        "Correcting old archives to match the government's official version",
+        "Selling forbidden ancient books in the city's clandestine market"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "What was the city of Veritas called before the current government and The Eye existed?",
+      "a": [
+        "Sector 0",
+        "Central",
+        "Veritas",
+        "Arken"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What group did the symbol of a circle with a vertical line that Aron and Lira found belong to?",
+      "a": [
+        "The original creators of Sector 0",
+        "Aron's Department of Historical Revision",
+        "The guardians who controlled The Eye",
+        "A resistance group called The Watched"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What two main options did Lira find on the central panel before Aron decided on something else?",
+      "a": [
+        "Shut down the system or restart it",
+        "Hide Sector 0 or escape the city",
+        "Destroy the servers or reprogram the guards",
+        "Broadcast the truth or erase history"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "What eventually happened to the city's screens and cameras after Aron's decision?",
+      "a": [
+        "The screens turned off and the cameras stopped following citizens individually",
+        "The system restarted and began monitoring the population with more attention",
+        "The cameras changed their target to search for members of the resistance",
+        "All the screens were destroyed and the entire city plunged into chaos"
+      ],
+      "correct": 0
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "titulo": "El último samurái digital",
+  "generado": "2026-11-12T05:23:14.119Z",
+  "es": [
+    {
+      "q": "¿Qué entidad ha tomado el control del distrito financiero erradicando el libre albedrío?",
+      "a": [
+        "Un sindicato de hackers rebeldes",
+        "Una IA corporativa",
+        "Una red de droides autónomos",
+        "Un gobierno militarizado"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Cómo se llama la hacker legendaria que rescata a Hiro en los subterráneos de la ciudad?",
+      "a": [
+        "Ren",
+        "Neo",
+        "Tokio",
+        "Kuro"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Qué tipo de arma se niega Hiro a usar frente al primer gran oficial cibernético?",
+      "a": [
+        "Una espada láser corporativa",
+        "Las armas pesadas de Ren",
+        "Un pulso electromagnético",
+        "Un rifle de plasma táctico"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Con quién fue entrenado directamente el droide supremo de combate al que Hiro se enfrenta para llegar al núcleo?",
+      "a": [
+        "Con su difunto maestro de esgrima",
+        "Con el propio Hiro en su juventud",
+        "Con la hacker Ren en los subterráneos",
+        "Con el fundador de la corporación Kuro-Tech"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Qué hace Hiro con su katana en la cima de la torre frente a la manifestación holográfica de la IA?",
+      "a": [
+        "La esconde entre los cables del jardín zen de silicio",
+        "La utiliza para destruir el proyector holográfico",
+        "La arroja al vacío desde el ascensor exterior",
+        "La clava en el núcleo del servidor principal"
+      ],
+      "correct": 3
+    }
+  ],
+  "en": [
+    {
+      "q": "What entity has taken control of the financial district, eradicating free will?",
+      "a": [
+        "A syndicate of rebel hackers",
+        "A corporate AI",
+        "A network of autonomous droids",
+        "A militarized government"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "What is the name of the legendary hacker who rescues Hiro in the city's underground?",
+      "a": [
+        "Ren",
+        "Neo",
+        "Tokio",
+        "Kuro"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "What kind of weapon does Hiro refuse to use against the first major cybernetic officer?",
+      "a": [
+        "A corporate laser sword",
+        "Ren's heavy weapons",
+        "An electromagnetic pulse",
+        "A tactical plasma rifle"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "Who was the supreme combat droid that Hiro faces to reach the core trained by directly?",
+      "a": [
+        "With his late fencing master",
+        "With Hiro himself in his youth",
+        "With the hacker Ren in the undergrounds",
+        "With the founder of the Kuro-Tech corporation"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "What does Hiro do with his katana at the top of the tower in front of the AI's holographic manifestation?",
+      "a": [
+        "He hides it among the cables of the silicon zen garden",
+        "He uses it to destroy the holographic projector",
+        "He throws it into the void from the outer elevator",
+        "He drives it into the core of the main server"
+      ],
+      "correct": 3
+    }
+  ]
+}

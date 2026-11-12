@@ -1,0 +1,108 @@
+{
+  "titulo": "Wake Up My Constellation",
+  "generado": "2026-11-12T05:33:22.503Z",
+  "es": [
+    {
+      "q": "¿Qué marca tenía Elara en la muñeca al nacer, a diferencia del resto de las personas?",
+      "a": [
+        "Una constelación de cisne con un brillo negro y absorbente.",
+        "Una constelación poderosa pero inestable del cazador Orión.",
+        "Una mota de luz diminuta e imperceptible que era una estrella solitaria y moribunda.",
+        "La constelación de Casiopea, que se apagó cuando el Vacío atacó."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿A qué lugar llegan Elara y Kael tras cruzar el bosque para encontrar información sobre la Espiral Celestial?",
+      "a": [
+        "A la Cámara de los Ecos en el corazón de la espiral.",
+        "A Aethel, la Ciudad de los Cielos Rotos.",
+        "A la torre de cristal custodiada por un guardián de purísima starlight.",
+        "Al pueblo natal donde vivía la anciana que le contó la leyenda."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Quién les entrega una carta o mapa celeste grabado en un trozo de obsidiana en la ciudad en ruinas?",
+      "a": [
+        "Una anciana con la constelación de Casiopea casi extuinguida.",
+        "Lyra, una erudita cuya constelación era Libra.",
+        "El Guardián Celestial que bloqueaba la entrada de la espiral.",
+        "Cygnus, un hombre carismático con la constelación del Cisne."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Qué decisión toma Kael durante la batalla contra Cygnus para salvar a Elara?",
+      "a": [
+        "Sacrifica su arco de luz para destruir la Cámara de los Ecos por completo.",
+        "Canaliza toda la esencia restante de su constelación hacia Elara, convirtiéndose en un Hollow.",
+        "Utiliza la Piedra del Sol para absorber la oscuridad de Cygnus él solo.",
+        "Le entrega el mapa de obsidiana a Cygnus para distraerlo de la pelea."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿En qué se transforma la estrella solitaria en la muñeca de Elara tras unirse con la Piedra del Sol?",
+      "a": [
+        "En una réplica exacta de la constelación de Orión que tenía Kael.",
+        "En el emblema oscuro y devorador del Cisne que portaba Cygnus.",
+        "En la poderosa constelación de Boötes que pertenecía a su padre.",
+        "En la Constelación Cero, un punto de equilibrio que contiene a todas las demás."
+      ],
+      "correct": 3
+    }
+  ],
+  "en": [
+    {
+      "q": "What mark did Elara have on her wrist when she was born, unlike everyone else?",
+      "a": [
+        "A swan constellation with a black and absorbing glow.",
+        "A powerful but unstable constellation of Orion the Hunter.",
+        "A tiny and almost imperceptible speck of light that was a solitary, dying star.",
+        "The Cassiopeia constellation, which went out when the Void attacked."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "Where do Elara and Kael arrive after crossing the forest to find information about the Celestial Spire?",
+      "a": [
+        "To the Chamber of Echoes in the heart of the spire.",
+        "To Aethel, the City of Broken Skies.",
+        "To the crystal tower guarded by a guardian of pure starlight.",
+        "To the hometown where the elderly woman who told her the legend lived."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "Who hands them a celestial map engraved on a piece of obsidian in the ruined city?",
+      "a": [
+        "An elderly woman with the nearly extinguished Cassiopeia constellation.",
+        "Lyra, a scholar whose constellation was Libra.",
+        "The Celestial Guardian blocking the entrance to the spire.",
+        "Cygnus, a charismatic man with the constellation of the Swan."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "What decision does Kael make during the battle against Cygnus to save Elara?",
+      "a": [
+        "He sacrifices his bow of light to destroy the Chamber of Echoes completely.",
+        "He channels all the remaining essence of his constellation toward Elara, becoming a Hollow.",
+        "He uses the Sunstone to absorb Cygnus's darkness all by himself.",
+        "He hands the obsidian map over to Cygnus to distract him from the fight."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "What does the solitary star on Elara's wrist transform into after uniting with the Sunstone?",
+      "a": [
+        "Into an exact replica of Orion's constellation that Kael possessed.",
+        "Into the dark and devouring emblem of the Swan carried by Cygnus.",
+        "Into the powerful Boötes constellation that belonged to her father.",
+        "Into the Zero Constellation, a point of balance containing all the others."
+      ],
+      "correct": 3
+    }
+  ]
+}

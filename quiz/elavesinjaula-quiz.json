@@ -1,0 +1,108 @@
+{
+  "titulo": "El Ave sin jaula",
+  "generado": "2026-11-12T05:15:41.487Z",
+  "es": [
+    {
+      "q": "¿Qué objeto dejó caer Elara al suelo por accidente cuando se cruzó por primera vez con Leo?",
+      "a": [
+        "Un bote de pintura en aerosol de color negro.",
+        "Un plano arrugado del complejo residencial.",
+        "Una pequeña pluma teñida de un rojo intenso.",
+        "Una fotografía del mural de la alondra."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Cómo se llamaba el lugar donde Leo encontró a Elara bailando y siendo observada por Marco?",
+      "a": [
+        "Alcoria",
+        "La Alondra",
+        "El Puerto",
+        "El Vértigo"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Qué acción tomó Leo para sabotear su propio proyecto arquitectónico en el Puerto por Elara?",
+      "a": [
+        "Incendió el almacén antes de la demolición.",
+        "Compró el edificio donde vivía Sofía.",
+        "Filtró irregularidades urbanísticas a un periódico local.",
+        "Robó todos los botes de pintura de Elara."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Quién buscó a Leo en el Puerto con el corazón roto para suplicarle que volviera a su antigua vida?",
+      "a": [
+        "El director del periódico",
+        "Elara",
+        "Marco",
+        "Sofía"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Qué ocurrió exactamente al final de la historia cuando Leo se abalanzó desesperado sobre Elara en la playa?",
+      "a": [
+        "Sofía apareció de repente para interponerse entre los dos.",
+        "Elara lo esquivó, Leo tropezó y destruyó el corazón del ave de arena al caer.",
+        "Elara se defendió golpeándolo con una estaca de metal.",
+        "Marco intervino y detuvo a Leo antes de que pudiera tocar a Elara."
+      ],
+      "correct": 1
+    }
+  ],
+  "en": [
+    {
+      "q": "What object did Elara accidentally drop on the ground when she first crossed paths with Leo?",
+      "a": [
+        "A can of black spray paint.",
+        "A crumpled blueprint of the residential complex.",
+        "A small feather dyed an intense red.",
+        "A photograph of the lark mural."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "What was the name of the place where Leo found Elara dancing and being watched by Marco?",
+      "a": [
+        "Alcoria",
+        "La Alondra",
+        "El Puerto",
+        "El Vértigo"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What action did Leo take to sabotage his own architectural project in the Port for Elara?",
+      "a": [
+        "He set fire to the warehouse before the demolition.",
+        "He bought the building where Sofia lived.",
+        "He leaked urban planning irregularities to a local newspaper.",
+        "He stole all of Elara's paint cans."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "Who looked for Leo in the Port with a broken heart to beg him to return to his old life?",
+      "a": [
+        "The newspaper director",
+        "Elara",
+        "Marco",
+        "Sofía"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What exactly happened at the end of the story when a desperate Leo lunged at Elara on the beach?",
+      "a": [
+        "Sofia suddenly appeared to stand between the two of them.",
+        "Elara dodged him, Leo tripped and destroyed the heart of the sand bird as he fell.",
+        "Elara defended herself by hitting him with a metal stake.",
+        "Marco intervened and stopped Leo before he could touch Elara."
+      ],
+      "correct": 1
+    }
+  ]
+}

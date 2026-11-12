@@ -1,0 +1,108 @@
+{
+  "titulo": "La vida en una gota de agua",
+  "generado": "2026-11-12T05:17:19.022Z",
+  "es": [
+    {
+      "q": "¿Cómo bautizó Anton van Leeuwenhoek a las formas microscópicas que encontró en la gota de agua estancada?",
+      "a": [
+        "Paramecios",
+        "Animálculos",
+        "Diatomeas",
+        "Tardígrados"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Qué criatura con ocho patas y un andar pausado apareció al examinar gotas depositadas sobre musgo?",
+      "a": [
+        "La hidra",
+        "El tardígrado",
+        "El paramecio",
+        "La vorticela"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Qué organismos destacados por su movimiento ágil navegaban a través de la gota impulsados por miles de cilios?",
+      "a": [
+        "Los rotíferos",
+        "Las diatomeas",
+        "Los paramecios",
+        "Las hidras"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Qué aspecto revelaron las diatomeas al ser observadas más de cerca en la gota de agua?",
+      "a": [
+        "Estructuras en forma de rueda provistas de cilios para generar corrientes",
+        "Una resistencia invencible frente a condiciones extremas de temperatura",
+        "Hermosas arquitecturas vivas fotosintéticas protegidas por complejas paredes de sílice",
+        "Una increíble capacidad de regeneración al perder una parte de su cuerpo"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Qué campo de estudio y práctica humana se vio transformado gracias al descubrimiento del mundo microscópico?",
+      "a": [
+        "La arquitectura, la navegación y el arte",
+        "La agricultura, la ganadería y el comercio",
+        "La astronomía, la geología y la física",
+        "La medicina, la higiene y la ciencia"
+      ],
+      "correct": 3
+    }
+  ],
+  "en": [
+    {
+      "q": "What did Anton van Leeuwenhoek name the microscopic forms he found in the drop of stagnant water?",
+      "a": [
+        "Paramecia",
+        "Animalcules",
+        "Diatoms",
+        "Tardigrades"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "Which creature with eight legs and a leisurely walk appeared when examining drops deposited on moss?",
+      "a": [
+        "The hydra",
+        "The tardigrade",
+        "The paramecium",
+        "The vorticella"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "Which organisms, noted for their agile movement, navigated through the drop propelled by thousands of cilia?",
+      "a": [
+        "The rotifers",
+        "The diatoms",
+        "The paramecia",
+        "The hydras"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "What aspect did diatoms reveal when observed more closely in the water drop?",
+      "a": [
+        "Wheel-like structures provided with cilia to generate currents",
+        "An invincible resistance against extreme temperature conditions",
+        "Beautiful photosynthetic living architectures protected by complex silica walls",
+        "An incredible capacity for regeneration upon losing a part of their body"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "Which field of study and human practice was transformed thanks to the discovery of the microscopic world?",
+      "a": [
+        "Architecture, navigation, and art",
+        "Agriculture, livestock, and commerce",
+        "Astronomy, geology, and physics",
+        "Medicine, hygiene, and science"
+      ],
+      "correct": 3
+    }
+  ]
+}

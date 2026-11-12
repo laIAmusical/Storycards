@@ -1,0 +1,108 @@
+{
+  "titulo": "The Needle of Silence",
+  "generado": "2026-11-12T05:30:23.233Z",
+  "es": [
+    {
+      "q": "¿Cómo planea Leo escalar la Aguja del Silencio en lugar de usar métodos tradicionales?",
+      "a": [
+        "Con la ayuda de un equipo de rescate",
+        "Usando una polea mecánica pesada",
+        "Acompañado por su hermana Clara",
+        "En solitario y sin cuerdas"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Dónde entrena Leo los movimientos más difíciles antes del intento real?",
+      "a": [
+        "En una estructura de búlder casera y de madera construida en el patio trasero de su cabaña",
+        "En la pared menor llamada La Calentura",
+        "En los riscos empinados cerca del Lago del Desierto",
+        "En el gimnasio principal del pueblo de El Chaltén"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Qué ocurre durante la prueba preliminar a 200 metros de altura que hace fallar a Leo?",
+      "a": [
+        "Mateo y Sara interrumpieron su concentración desde el suelo con gritos",
+        "Se le cayó la mochila con todo el equipo de seguridad",
+        "Un anclaje de la cuerda se rompió por completo debido al peso",
+        "Una repentina racha de viento patagónico hizo que su pie resbalara en la roca mojada por la llovizna"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Qué lugar clave y casi liso debe superar Leo a 700 metros de altura para tener éxito?",
+      "a": [
+        "La Calentura",
+        "La Aguja del Silencio",
+        "La Repisa del Cóndor",
+        "El Paso del Suspiro"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Qué hace Leo después de regresar de la cumbre y estar de vuelta en el pueblo?",
+      "a": [
+        "Se sienta a tomar mate con Clara en el porche",
+        "Visita el cementerio local para recordar a su padre",
+        "Revisa las grabaciones de video junto a Mateo y Sara",
+        "Empaca sus cosas para mudarse permanentemente a otro lugar"
+      ],
+      "correct": 0
+    }
+  ],
+  "en": [
+    {
+      "q": "How does Leo plan to climb the Needle of Silence instead of using traditional methods?",
+      "a": [
+        "With the help of a rescue team",
+        "Using a heavy mechanical pulley",
+        "Accompanied by his sister Clara",
+        "Solo and without ropes"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "Where does Leo practice the most difficult movements before the actual attempt?",
+      "a": [
+        "On a homemade wooden bouldering structure built in the backyard of his cabin",
+        "On the minor wall called La Calentura",
+        "On the steep cliffs near Desert Lake",
+        "In the main gym in the town of El Chaltén"
+      ],
+      "correct": 0
+    },
+    {
+      "q": "What happens during the preliminary test at 200 meters up that causes Leo to slip?",
+      "a": [
+        "Mateo and Sara interrupted his concentration from the ground by shouting",
+        "He dropped his backpack containing all his safety equipment",
+        "A rope anchor completely broke due to the weight",
+        "A sudden gust of Patagonian wind made his foot slip on the drizzle-slicked rock"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What key and almost smooth section must Leo overcome 700 meters up to succeed?",
+      "a": [
+        "La Calentura",
+        "The Needle of Silence",
+        "The Condor's Ledge",
+        "The Pass of the Sigh"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What does Leo do after returning from the summit and being back in town?",
+      "a": [
+        "He sits down to drink mate with Clara on the porch",
+        "He visits the local cemetery to remember his father",
+        "He reviews the video footage with Mateo and Sara",
+        "He packs his things to move permanently somewhere else"
+      ],
+      "correct": 0
+    }
+  ]
+}

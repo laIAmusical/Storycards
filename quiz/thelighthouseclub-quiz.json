@@ -1,0 +1,108 @@
+{
+  "titulo": "The Lighthouse Club",
+  "generado": "2026-11-12T05:29:52.102Z",
+  "es": [
+    {
+      "q": "¿Qué objeto utilizó Leo para captar la frecuencia silenciosa durante la noche en el garaje?",
+      "a": [
+        "Una radio Hallicrafters SX-100 rescatada de un desguace.",
+        "Una antena de cobre conectada a un mapa de 1976.",
+        "Un walkman con una cinta grabada por su hermano.",
+        "Un metrónomo sincronizado a 64 pulsaciones por minuto."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Qué información clave descubrió Sofía en el sótano de la biblioteca sobre el 'Proyecto Echo'?",
+      "a": [
+        "Que la frecuencia silenciosa solo aparecía cuando Marco corría por el rompeolas a gran velocidad.",
+        "Que el proyecto intentaba comunicarse con submarinos y que la señal imitaba con un retraso de 1.2 segundos.",
+        "Que Elena era la responsable de enviar las señales infrasónicas desde el faro en 1978.",
+        "Que el faro fue clausurado en 1970 debido a una fuga de gas tóxico en el sistema eléctrico."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Por qué el Echo no pudo imitar con precisión la música que Marco utilizaba en su walkman?",
+      "a": [
+        "Porque la pista tenía un tempo variable y humano, mientras que el Echo solo podía copiar sin sentir fatiga.",
+        "Porque el sonido del motor en la pista interfería con la capacidad del Echo para leer ondas infrasónicas.",
+        "Porque la música estaba grabada en una cinta magnética que el Echo no era capaz de procesar.",
+        "Porque el Echo solo podía imitar sonidos naturales, no composiciones musicales modernas."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Qué decisión tomó el grupo al enfrentarse a la entidad en el interior del faro?",
+      "a": [
+        "Decidieron usar los dibujos de Elena para sellar permanentemente el acceso al vacío sin dejar rastro.",
+        "Decidieron dejar que la entidad saliera del vacío para que pudiera experimentar la vida fuera del faro.",
+        "Decidieron destruir el faro usando los planos de ingeniería que Sofía encontró en la biblioteca.",
+        "Decidieron no luchar contra ella, sino forzarla a seguir un ritmo humano para contenerla."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Cuál es la consecuencia final de las acciones del Club del Faro tras el enfrentamiento?",
+      "a": [
+        "Se mantienen en guardia cada día a las 3:33 AM para vigilar el silencio, sabiendo que el Echo está contenido.",
+        "El Echo logró escapar del faro y ahora recorre el pueblo imitando las voces de los habitantes.",
+        "Elena perdió sus visiones y el grupo dejó de reunirse en el garaje para centrarse en sus estudios.",
+        "La frecuencia desapareció por completo y Puerto Sombrío comenzó a aparecer en todos los mapas nuevos."
+      ],
+      "correct": 0
+    }
+  ],
+  "en": [
+    {
+      "q": "What object did Leo use to pick up the silent frequency during the night in the garage?",
+      "a": [
+        "A Hallicrafters SX-100 radio rescued from a scrapyard.",
+        "A copper antenna connected to a 1976 map.",
+        "A walkman with a tape recorded by his brother.",
+        "A metronome synchronized to 64 beats per minute."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "What key information did Sofía discover in the library basement about 'Project Echo'?",
+      "a": [
+        "That the silent frequency only appeared when Marco ran along the breakwater at high speed.",
+        "That the project was trying to communicate with submarines and that the signal imitated with a 1.2-second delay.",
+        "That Elena was responsible for sending the infrasonic signals from the lighthouse in 1978.",
+        "That the lighthouse was shut down in 1970 due to a toxic gas leak in the electrical system."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "Why couldn't the Echo accurately imitate the music Marco used on his walkman?",
+      "a": [
+        "Because the track had a variable and human tempo, while the Echo could only copy without feeling exhaustion.",
+        "Because the sound of the engine on the track interfered with the Echo's ability to read infrasonic waves.",
+        "Because the music was recorded on a magnetic tape that the Echo was unable to process.",
+        "Because the Echo could only imitate natural sounds, not modern musical compositions."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "What decision did the group make when facing the entity inside the lighthouse?",
+      "a": [
+        "They decided to use Elena's drawings to permanently seal the access to the void without leaving a trace.",
+        "They decided to let the entity leave the void so it could experience life outside the lighthouse.",
+        "They decided to destroy the lighthouse using the engineering blueprints Sofía found in the library.",
+        "They decided not to fight it, but to force it to follow a human rhythm to contain it."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What is the final consequence of the Lighthouse Club's actions after the confrontation?",
+      "a": [
+        "They remain on duty every day at 3:33 AM to watch the silence, knowing the Echo is contained.",
+        "The Echo managed to escape the lighthouse and now roams the town imitating the inhabitants' voices.",
+        "Elena lost her visions and the group stopped meeting in the garage to focus on their studies.",
+        "The frequency disappeared completely and Puerto Sombrío began to appear on all new maps."
+      ],
+      "correct": 0
+    }
+  ]
+}

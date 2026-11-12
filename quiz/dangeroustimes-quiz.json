@@ -1,0 +1,108 @@
+{
+  "titulo": "Dangerous Times",
+  "generado": "2026-11-12T05:15:20.815Z",
+  "es": [
+    {
+      "q": "¿Quién es el propietario del Bar 42 al que acude Daniel con el cuaderno de corrupción?",
+      "a": [
+        "Don Ramiro",
+        "Lucía",
+        "Tomás",
+        "Elías"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Qué tipo de trabajo finge hacer Tomás comprando uniformes en el garaje clandestino para infiltrarse en el banco?",
+      "a": [
+        "Técnico de reparaciones de la central",
+        "Inspector de sanidad municipal",
+        "Electricista de la compañía eléctrica local",
+        "Agente de seguridad privada del banco"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Quién se queda atrás deliberadamente en los contenedores del puerto para retrasar a los atacantes y muere acribillado?",
+      "a": [
+        "Tomás",
+        "Nico",
+        "Marco",
+        "Elías"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Qué le entrega realmente Nico a Daniel y Tomás antes de morir en el almacén apartado?",
+      "a": [
+        "Las llaves del coche de huida de Don Ramiro",
+        "Una llave de una caja de seguridad en el banco central",
+        "Un disco duro con copias de seguridad falsas",
+        "El cuaderno original con los nombres de Salazar"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿A qué se dedica Daniel meses después de la purga institucional que limpia de corrupción la ciudad?",
+      "a": [
+        "Es el nuevo capitán del distrito policial local",
+        "Trabaja en un tranquilo restaurante en un pueblo pequeño",
+        "Administra el dinero de las apuestas de Don Ramiro",
+        "Sigue dirigiendo el bar Blue Comet en Detroit"
+      ],
+      "correct": 1
+    }
+  ],
+  "en": [
+    {
+      "q": "Who is the owner of Bar 42 where Daniel goes with the corruption ledger?",
+      "a": [
+        "Don Ramiro",
+        "Lucía",
+        "Tomás",
+        "Elías"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "What kind of job does Tomás pretend to do by buying uniforms in the clandestine garage to infiltrate the bank?",
+      "a": [
+        "Central repair technician",
+        "Municipal health inspector",
+        "Electricist for the local electric utility company",
+        "Private security agent for the bank"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "Who deliberately stays behind in the port containers to delay the attackers and dies riddled with bullets?",
+      "a": [
+        "Tomás",
+        "Nico",
+        "Marco",
+        "Elías"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What does Nico actually hand over to Daniel and Tomás before dying in the secluded warehouse?",
+      "a": [
+        "Don Ramiro's getaway car keys",
+        "A key to a safe deposit box at the central bank",
+        "A hard drive with fake backups",
+        "The original notebook with Salazar's names"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "What does Daniel do months after the institutional purge that cleanses the city of corruption?",
+      "a": [
+        "He is the new captain of the local police district",
+        "He works at a quiet diner in a small town",
+        "He manages Don Ramiro's betting money",
+        "He still runs the Blue Comet bar in Detroit"
+      ],
+      "correct": 1
+    }
+  ]
+}

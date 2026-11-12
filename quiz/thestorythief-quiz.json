@@ -1,0 +1,108 @@
+{
+  "titulo": "The Story Thief",
+  "generado": "2026-11-12T05:31:47.260Z",
+  "es": [
+    {
+      "q": "¿Qué artefacto le muestra Silas Vane a Finn en su biblioteca que le permite absorber la esencia de una historia?",
+      "a": [
+        "Una pluma dorada.",
+        "Una lira de cristal.",
+        "Un mapa descolorido.",
+        "Un tintero antiguo."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Quién es el piloto de la aeronave 'El Nómada del Viento' que transporta a Finn y a Elara hacia el desierto?",
+      "a": [
+        "Silas Vane",
+        "Aethelburg",
+        "Zahar",
+        "Jax"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Qué artefacto encuentran el trío en las ruinas de la ciudad sumergida de Lyra?",
+      "a": [
+        "Un mapa secreto hacia la Biblioteca Silenciosa.",
+        "Un tintero antiguo que absorbe memorias olvidadas.",
+        "Una lira de cristal que contiene la 'Música de la Creación'.",
+        "Una antigua crónica sobre la Niebla del Olvido."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Cuál es la verdad revelada por Silas Vane sobre la destrucción del hogar de infancia de Finn?",
+      "a": [
+        "Desapareció de forma natural debido a un cataclismo en el desierto.",
+        "La 'Niebla del Olvido' fue un intento fallido suyo de robar la historia primitiva de la isla.",
+        "Fue destruida por un ataque de los Cartógrafos de la Remembranza.",
+        "El propio Finn la destruyó sin querer con el poder de sus historias."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Qué decide hacer Finn tras rechazar la oferta de unirse a los Cartógrafos de la Remembranza al final de la historia?",
+      "a": [
+        "Regresar al desierto de Zahar para vivir de forma nómada con las tribus locales.",
+        "Convertirse en el nuevo guardián de la Biblioteca Silenciosa en los Picos de Hielo.",
+        "Fundar un taller en Aethelburg abierto a todos para enseñar a leer, escribir y contar historias.",
+        "Viajar en el dirigible de Jax para buscar más ciudades sumergidas en el mar."
+      ],
+      "correct": 2
+    }
+  ],
+  "en": [
+    {
+      "q": "What artifact does Silas Vane show Finn in his library that allows him to absorb the essence of a story?",
+      "a": [
+        "A golden quill.",
+        "A crystal lyre.",
+        "A faded map.",
+        "An ancient inkwell."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "Who is the pilot of the airship 'The Wind Nomad' that transports Finn and Elara toward the desert?",
+      "a": [
+        "Silas Vane",
+        "Aethelburg",
+        "Zahar",
+        "Jax"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What artifact do the trio find in the ruins of the sunken city of Lyra?",
+      "a": [
+        "A secret map to the Silent Library.",
+        "An ancient inkwell that absorbs forgotten memories.",
+        "A crystal lyre containing the 'Music of Creation'.",
+        "An old chronicle about the Mist of Oblivion."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "What is the truth revealed by Silas Vane about the destruction of Finn's childhood home?",
+      "a": [
+        "It vanished naturally due to a cataclysm in the desert.",
+        "The 'Mist of Oblivion' was a failed attempt by him to steal the island's primeval history.",
+        "It was destroyed by an attack from the Cartographers of Remembrance.",
+        "Finn himself accidentally destroyed it with the power of his stories."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "What does Finn decide to do after turning down the offer to join the Cartographers of Remembrance at the end of the story?",
+      "a": [
+        "Return to the Zahar desert to live a nomadic life with the local tribes.",
+        "Become the new guardian of the Silent Library in the Ice Peaks.",
+        "Found a workshop in Aethelburg open to everyone to teach reading, writing, and storytelling.",
+        "Travel on Jax's airship to search for more sunken cities in the sea."
+      ],
+      "correct": 2
+    }
+  ]
+}

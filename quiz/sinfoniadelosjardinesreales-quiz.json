@@ -1,0 +1,108 @@
+{
+  "titulo": "Sinfonía de los jardines reales",
+  "generado": "2026-11-12T05:27:06.786Z",
+  "es": [
+    {
+      "q": "¿Qué instrumento tocaba Rodrigo cuando conoció a Isabel en el Jardíncipe?",
+      "a": [
+        "Un violonchelo",
+        "Un violín",
+        "Una guitarra",
+        "Una flauta"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Qué delicioso tentempié compartió Isabel con Rodrigo cerca de la Fuente de Hércules?",
+      "a": [
+        "Pasteles y uvas frescas",
+        "Fruta y vino tinto",
+        "Olivas y pan blanco",
+        "Pan, queso y fresas"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿A qué ciudad del norte tenía que regresar Isabel tras recibir la carta de sus padres?",
+      "a": [
+        "A Madrid",
+        "A Florencia",
+        "A Aranjuez",
+        "A casa, al norte"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Qué le pidió Isabel a Rodrigo como promesa antes de marchar definitivamente?",
+      "a": [
+        "Que nunca volviera a pisar los jardines reales sin ella",
+        "Que abandonara la música para buscarla en el norte",
+        "Que terminara su sinfonía y tocara para ella todo lo vivido",
+        "Que viajara a Italia para estudiar a los maestros del Renacimiento"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Dónde escuchó Isabel por primera vez el 'Concierto de Aranjuez' años después?",
+      "a": [
+        "En el estreno oficial de la Orquesta Nacional en Madrid",
+        "En un teatro en el norte de España",
+        "En un gramófono en su propia casa en Aranjuez",
+        "En la radio, en un pequeño café de Florencia"
+      ],
+      "correct": 3
+    }
+  ],
+  "en": [
+    {
+      "q": "What instrument was Rodrigo playing when he met Isabel in the Prince's Garden?",
+      "a": [
+        "A cello",
+        "A violin",
+        "A guitar",
+        "A flute"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "What delicious snack did Isabel share with Rodrigo near the Fountain of Hercules?",
+      "a": [
+        "Pastries and fresh grapes",
+        "Fruit and red wine",
+        "Olives and white bread",
+        "Bread, cheese, and strawberries"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "To which northern city did Isabel have to return after receiving the letter from her parents?",
+      "a": [
+        "To Madrid",
+        "To Florence",
+        "To Aranjuez",
+        "Home, to the north"
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What did Isabel ask Rodrigo to promise her before leaving for good?",
+      "a": [
+        "That he never set foot in the royal gardens again without her",
+        "That he abandon music to look for her in the north",
+        "That he finish his symphony and play everything they had lived for her",
+        "That he travel to Italy to study the Renaissance masters"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "Where did Isabel first hear the 'Concierto de Aranjuez' years later?",
+      "a": [
+        "At the official premiere of the National Orchestra in Madrid",
+        "In a theater in northern Spain",
+        "On a gramophone in her own home in Aranjuez",
+        "On the radio, in a small café in Florence"
+      ],
+      "correct": 3
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "titulo": "The Ninth Symphony of the New World",
+  "generado": "2026-11-12T05:27:36.108Z",
+  "es": [
+    {
+      "q": "¿Qué sonido compara inicialmente el Sr. Abernathy con la sinfonía de la nueva nación?",
+      "a": [
+        "El ruido de los martillos contra el acero y los silbatos de vapor.",
+        "El murmullo de los bosques de Bohemia.",
+        "El canto de los trabajadores en Harlem.",
+        "El eco de una polca distante en su apartamento."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Cómo describe Elara el sentimiento detrás de su música cuando habla con Klaus?",
+      "a": [
+        "Como una técnica operística aprendida en el conservatorio.",
+        "Como el sonido del viento sobre las llanuras de Iowa.",
+        "Como una melodía alegre sobre la libertad absoluta.",
+        "Como el 'blues', la memoria de un hogar que nunca tuvieron realmente."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Qué instrumento utiliza el anciano lakota llamado Chayton para mostrarle su música a Klaus?",
+      "a": [
+        "Un piano de salón.",
+        "Una flauta de madera.",
+        "Un martillo metálico rítmico.",
+        "Un violín de la región de Bohemia."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Qué decisión toma Klaus tras su experiencia en Iowa para componer el movimiento final de su sinfonía?",
+      "a": [
+        "Incorporar exclusivamente la técnica de la flauta de Chayton para evitar el ruido industrial.",
+        "Eliminar todas las influencias de los espirituales de Elara para volver al estilo clásico.",
+        "Escribir una pieza dedicada exclusivamente a la paz de los campos de Spillville.",
+        "Fusionar los ritmos frenéticos de Nueva York con una danza folclórica bohemia."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Qué sucede en el Carnegie Hall cuando se interpreta el Largo de la sinfonía?",
+      "a": [
+        "Los críticos salen de la sala al no reconocer la melodía de su tierra natal.",
+        "La audiencia abuchea la obra por su falta de técnica tradicional.",
+        "El Sr. Abernathy interrumpe la orquesta para criticar el uso de los espirituales.",
+        "El público guarda un silencio absoluto y muchas personas lloran."
+      ],
+      "correct": 3
+    }
+  ],
+  "en": [
+    {
+      "q": "What sound does Mr. Abernathy initially compare to the symphony of the new nation?",
+      "a": [
+        "The noise of hammers against steel and steam horns.",
+        "The whisper of the Bohemian woods.",
+        "The singing of workers in Harlem.",
+        "The echo of a distant polka in his apartment."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "How does Elara describe the feeling behind her music when she speaks with Klaus?",
+      "a": [
+        "As an operatic technique learned at the conservatory.",
+        "As the sound of the wind over the plains of Iowa.",
+        "As a cheerful melody about absolute freedom.",
+        "As the 'blues', the memory of a home they never quite had."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What instrument does the Lakota elder named Chayton use to show his music to Klaus?",
+      "a": [
+        "A parlor piano.",
+        "A wooden flute.",
+        "A rhythmic metal hammer.",
+        "A violin from the Bohemian region."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "What decision does Klaus make after his experience in Iowa to compose the final movement of his symphony?",
+      "a": [
+        "To incorporate exclusively Chayton's flute technique to avoid industrial noise.",
+        "To remove all influences of Elara's spirituals to return to the classical style.",
+        "To write a piece dedicated exclusively to the peace of the Spillville fields.",
+        "To fuse the frantic rhythms of New York with a Bohemian folk dance."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What happens at Carnegie Hall when the Largo of the symphony is performed?",
+      "a": [
+        "The critics leave the hall upon failing to recognize the melody of their homeland.",
+        "The audience boos the work for its lack of traditional technique.",
+        "Mr. Abernathy interrupts the orchestra to criticize the use of spirituals.",
+        "The audience falls into an absolute silence and many people weep."
+      ],
+      "correct": 3
+    }
+  ]
+}

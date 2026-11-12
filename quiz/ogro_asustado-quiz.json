@@ -1,0 +1,108 @@
+{
+  "titulo": "El ogro que no quería ser asustado",
+  "generado": "2026-11-12T05:20:40.125Z",
+  "es": [
+    {
+      "q": "¿Qué provocó que Brum cayera de rodillas la primera noche descrita en la historia?",
+      "a": [
+        "Un cuervo imitó la voz de su madre desde los arbustos oscuros.",
+        "Aldric apareció repentinamente agitando una campanilla sin badajo.",
+        "El viento tiró una olla vieja por el desfiladero produciendo un estruendo metálico.",
+        "Mireia subió a la cueva gritando '¡Buuu, Brum!' envuelta en una sábana."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Qué objetos encontró Mireia dentro de la caja de madera que Brum guardaba en su cueva?",
+      "a": [
+        "Una sábana con cuernos, un mapa de Vallequieto, una capa de piel y una olla vieja.",
+        "Una campanilla sin badajo, un espejo roto, una pluma de cuervo y una máscara de carnaval.",
+        "Un cuaderno con hilo azul, una linterna de lata, pan duro y trozos de carbón.",
+        "Un barril de entrenamiento, una piedra marcada con hollín, un colmillo y un silbato."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Qué sonido inesperado emitió Brum cuando Mireia tropezó y lo salpicó de barro?",
+      "a": [
+        "El grito agudo que solía usar para asustar a los mercaderes.",
+        "Un rugido feroz que hizo correr a los niños de Vallequieto.",
+        "Una carcajada ronca y rota que tardó tres segundos en formarse.",
+        "Un susurro idéntico al de los abedules del Bosque de los Susurros."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Cómo reaccionó Brum la noche que el cazador Aldric y el pueblo llegaron con trampas y antorchas?",
+      "a": [
+        "Rugió tan fuerte que tiró la montaña y obligó al alcalde a huir despavorido.",
+        "Huyó hacia el Bosque de los Susurros y se escondió detrás de los abedules.",
+        "Sacó su espejo roto y empezó a practicar caras feroces para intimidarlos.",
+        "Se sentó en el suelo, temblando, y pidió que se quedaran un rato porque tenía miedo."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Qué hizo Brum al final de la historia cuando el viento volvió a tirar una olla vieja en la roca?",
+      "a": [
+        "Se encogió de miedo y se tapó las orejas con las manos del tamaño de cacerolas.",
+        "Infló el pecho y dio un rugido ensordecedor siguiendo las reglas del manual del Gremio.",
+        "Encendió la linterna de lata para ahuyentar las sombras y corrió a esconderse en su cueva.",
+        "Miró hacia el sonido, sonrió con sus colmillos torcidos y preguntó en voz alta quién andaba ahí."
+      ],
+      "correct": 3
+    }
+  ],
+  "en": [
+    {
+      "q": "What caused Brum to fall to his knees on the first night described in the story?",
+      "a": [
+        "A raven imitated his mother's voice from the dark bushes.",
+        "Aldric suddenly appeared shaking a bell without a clapper.",
+        "The wind threw an old pot down the gorge producing a metallic crash.",
+        "Mireia climbed up to the cave shouting 'Boo, Brum!' wrapped in a sheet."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "What objects did Mireia find inside the wooden box that Brum kept in his cave?",
+      "a": [
+        "A sheet with horns, a map of Vallequieto, a fur cape, and an old pot.",
+        "A bell without a clapper, a broken mirror, a raven feather, and a carnival mask.",
+        "A notebook with blue thread, a tin lantern, stale bread, and pieces of charcoal.",
+        "A training barrel, a stone marked with soot, a fang, and a whistle."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "What unexpected sound did Brum make when Mireia tripped and splashed him with mud?",
+      "a": [
+        "The high-pitched scream he usually used to scare merchants.",
+        "A fierce roar that made the children of Vallequieto run away.",
+        "A hoarse, broken laugh that took three seconds to form.",
+        "A whisper identical to the birches in the Whispering Forest."
+      ],
+      "correct": 2
+    },
+    {
+      "q": "How did Brum react the night the hunter Aldric and the villagers arrived with traps and torches?",
+      "a": [
+        "He roared so loudly that he knocked down the mountain and forced the mayor to flee in terror.",
+        "He fled into the Whispering Forest and hid behind the birches.",
+        "He took out his broken mirror and began practicing fierce faces to intimidate them.",
+        "He sat on the ground, trembling, and asked them to stay a while because he was afraid."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What did Brum do at the end of the story when the wind threw an old pot on the rock again?",
+      "a": [
+        "He shrank in fear and covered his ears with his pot-sized hands.",
+        "He puffed out his chest and let out a deafening roar following the rules of the Guild's manual.",
+        "He turned on the tin lantern to chase away the shadows and ran to hide in his cave.",
+        "He looked toward the sound, smiled with his crooked fangs, and asked out loud who was there."
+      ],
+      "correct": 3
+    }
+  ]
+}

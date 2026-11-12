@@ -1,0 +1,108 @@
+{
+  "titulo": "La tienda de sueños olvidados",
+  "generado": "2026-11-12T05:32:02.463Z",
+  "es": [
+    {
+      "q": "¿Qué objeto lleva Nora Ellis consigo cuando llega a Brumeville al comienzo de la historia?",
+      "a": [
+        "Un frasco de cristal",
+        "Una maleta rota",
+        "Una llave de hueso",
+        "Un abrigo de lana"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Qué le deja Tomas, el farolero, a cambio del sueño que le da a su nieto Milo?",
+      "a": [
+        "Una llave de hueso antiguo",
+        "El recuerdo de su primer beso",
+        "El frasco madre del sótano",
+        "Un mapa dibujado sobre piel"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Qué objeto secreto encuentra Nora dentro del cajón cerrado con una llave de hueso?",
+      "a": [
+        "Un contrato de ilustración cancelado en la ciudad de Aerion",
+        "El primer sueño que Alden recogió cuando tenía doce años",
+        "Un mapa dibujado sobre piel con lugares que no existen",
+        "El inventario completo de los frascos de la Oficina del Orden"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Qué sucede en Brumeville después de que el Sr. Vane rechaza el frasco que le ofrece Alden?",
+      "a": [
+        "La puerta verde desaparece y aparece en otra ciudad",
+        "Alden envejece diez años en una sola noche",
+        "Todos los relojes se paran a las 3:33 y la gente deja de soñar",
+        "Nora toma el mostrador y atiende a los nuevos clientes"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "¿Cómo termina la historia para Nora Ellis al final del relato?",
+      "a": [
+        "Viajando en el tren de cristal junto a Alden hacia la ciudad de Aerion",
+        "Atendiendo la tienda en otra ciudad y ordenando frascos para un nuevo cliente",
+        "Trabajando en la Oficina del Orden bajo las órdenes del Sr. Vane",
+        "Regresando a su antiguo trabajo como ilustradora tras cerrar la tienda"
+      ],
+      "correct": 1
+    }
+  ],
+  "en": [
+    {
+      "q": "What object does Nora Ellis carry with her when she arrives in Brumeville at the beginning of the story?",
+      "a": [
+        "A crystal jar",
+        "A broken suitcase",
+        "A bone key",
+        "A woolen coat"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "What does Tomas the lamplighter leave in exchange for the dream he gives his grandson Milo?",
+      "a": [
+        "An ancient bone key",
+        "The memory of his first kiss",
+        "The mother jar from the basement",
+        "A map drawn on skin"
+      ],
+      "correct": 1
+    },
+    {
+      "q": "What secret object does Nora find inside the drawer locked with a bone key?",
+      "a": [
+        "A cancelled illustration contract in the city of Aerion",
+        "The first dream Alden collected when he was twelve years old",
+        "A map drawn on skin showing places that do not exist",
+        "The complete inventory of the Order Office jars"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "What happens in Brumeville after Mr. Vane rejects the jar offered by Alden?",
+      "a": [
+        "The green door disappears and appears in another city",
+        "Alden ages ten years in a single night",
+        "All clocks stop at 3:33 and people stop dreaming",
+        "Nora takes over the counter and serves new customers"
+      ],
+      "correct": 2
+    },
+    {
+      "q": "How does the story end for Nora Ellis at the conclusion of the tale?",
+      "a": [
+        "Traveling on the crystal train with Alden toward the city of Aerion",
+        "Running the shop in another city and organizing jars for a new client",
+        "Working at the Order Office under Mr. Vane's orders",
+        "Returning to her old job as an illustrator after closing the shop"
+      ],
+      "correct": 1
+    }
+  ]
+}

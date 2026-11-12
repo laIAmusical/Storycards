@@ -1,0 +1,108 @@
+{
+  "titulo": "La llave de las sombras",
+  "generado": "2026-11-12T05:19:58.763Z",
+  "es": [
+    {
+      "q": "¿Dónde encuentra Elena Blanco el Manuscrito de Ámbar por primera vez?",
+      "a": [
+        "En el estudio caótico de Mateo en Lavapiés.",
+        "En una mansión decrépita situada en Chamberí.",
+        "En una cripta subterránea bajo una iglesia medieval.",
+        "En el sótano de una antigua relojería abandonada."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Qué ve Elena en los espejos de la mansión en Chamberí?",
+      "a": [
+        "Al Profesor Aris pidiendo ayuda desesperadamente.",
+        "A Mateo intentando descifrar el código medieval.",
+        "Su propia imagen con el rostro marcado por el cansancio.",
+        "A la criatura de sombras del Retiro multiplicada."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Qué revela Mateo sobre la verdadera intención detrás de la llave y el manuscrito?",
+      "a": [
+        "Que el Profesor Aris los dejó para que Elena obtuviera poder sobre la percepción mortal.",
+        "Que son herramientas alquímicas necesarias para encontrar la ubicación de la Hermandad.",
+        "Que sirven para abrir un portal al pasado donde Aris está escondido.",
+        "Que la Hermandad quiere romper la barrera entre las sombras y nuestro mundo."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Qué mensaje recibe Elena poco antes de la confrontación final cerca de la Plaza Mayor?",
+      "a": [
+        "Una amenaza escrita que decía 'DETÉNTE O MUERE'.",
+        "Un aviso de Mateo advirtiéndole que no debe ir a la cripta.",
+        "Una advertencia de la Hermandad sobre el poder de la llave de bronce.",
+        "Una carta del Profesor Aris explicando cómo sellar la puerta."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Qué descubre Elena sobre la naturaleza de sus perseguidores al final de la historia?",
+      "a": [
+        "Que las sombras eran solo proyecciones de una energía antigua buscando un anfitrión.",
+        "Que eran alquimistas mortales que querían gobernar la ciudad de Madrid.",
+        "Que eran ilusiones creadas por los espejos de la mansión en Chamberí.",
+        "Que eran guardianes del tiempo enviados por el Profesor Aris para probarla."
+      ],
+      "correct": 0
+    }
+  ],
+  "en": [
+    {
+      "q": "Where does Elena Blanco find the Amber Manuscript for the first time?",
+      "a": [
+        "In Mateo's chaotic studio in Lavapiés.",
+        "In a decrepit mansion located in Chamberí.",
+        "In an underground crypt beneath a medieval church.",
+        "In the basement of an old abandoned clock shop."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What does Elena see in the mirrors of the mansion in Chamberí?",
+      "a": [
+        "Professor Aris desperately asking for help.",
+        "Mateo trying to decipher the medieval code.",
+        "Her own image with a face marked by exhaustion.",
+        "The shadow creature from the Retiro, multiplied."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What does Mateo reveal about the true intention behind the key and the manuscript?",
+      "a": [
+        "That Professor Aris left them so Elena could gain power over mortal perception.",
+        "That they are alchemical tools needed to find the Brotherhood's location.",
+        "That they serve to open a portal to the past where Aris is hidden.",
+        "That the Brotherhood wants to break the barrier between the shadows and our world."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "What message does Elena receive shortly before the final confrontation near the Plaza Mayor?",
+      "a": [
+        "A written threat that said 'STOP OR DIE'.",
+        "A warning from Mateo telling her not to go to the crypt.",
+        "A warning from the Brotherhood about the power of the bronze key.",
+        "A letter from Professor Aris explaining how to seal the door."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "What does Elena discover about the nature of her pursuers at the end of the story?",
+      "a": [
+        "That the shadows were just projections of an ancient energy seeking a host.",
+        "That they were mortal alchemists who wanted to rule the city of Madrid.",
+        "That they were illusions created by the mirrors in the mansion in Chamberí.",
+        "That they were time guardians sent by Professor Aris to test her."
+      ],
+      "correct": 0
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "titulo": "The Echo of Freedom",
+  "generado": "2026-11-12T05:29:06.950Z",
+  "es": [
+    {
+      "q": "¿Por qué fue condenado Tomás a cinco años de trabajos forzados en el capítulo 1?",
+      "a": [
+        "Por robar una panadería para conseguir medicina para su hermana enferma.",
+        "Por liderar una revuelta estudiantil en las calles de Puerto Escondido.",
+        "Por escapar de la ciudad portuaria con el dinero del juez Baldomero.",
+        "Por robar los salarios de los trabajadores en la fábrica de los hermanos Dubois."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Qué labor desempeñaba Clara en la ciudad textil de Hilandia antes de conocer a Mateo?",
+      "a": [
+        "Era una joven costurera que trabajaba en la fábrica de los hermanos Dubois.",
+        "Era una modesta artesana que vendía pan en el mercado principal.",
+        "Era una oradora carismática que lideraba a los estudiantes en la capital.",
+        "Era la enfermera personal del inspector Ramiro en la comisaría local."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "¿Quién descubrió a Mateo ejecutando su plan en la caja fuerte de la fábrica de los hermanos Dubois?",
+      "a": [
+        "Elías, el joven orador que preparaba un levantamiento social.",
+        "Gaspar, un astuto niño huérfano que vivía de pequeños hurtos.",
+        "El inspector Ramiro, que la vigilaba obsesivamente por orden del juez.",
+        "Mr. Baldomero, el cruel dueño de la panadería de Puerto Escondido."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "¿Cuál fue la decisión de Mateo tras el fallecimiento de Clara con respecto a Lila?",
+      "a": [
+        "Enviarla a la capital para que se uniera al movimiento estudiantil de Elías.",
+        "Entregársela a los hermanos Dubois para que trabajara en la fábrica textil.",
+        "Dejarla bajo el cuidado de Inspector Ramiro para protegerla de la policía.",
+        "Tomar la custodia de la pequeña, proporcionándole un hogar seguro y una familia."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "¿Cómo reaccionó el inspector Ramiro al final de la historia cuando vio a Mateo arriesgar su vida para salvar a Gaspar?",
+      "a": [
+        "Lo desafió a un duelo en las barricadas para demostrar quién cumplía mejor las reglas.",
+        "Lo arrestó inmediatamente para enviarlo de vuelta a los años de trabajos forzados.",
+        "Le ofreció un puesto en la policía de la capital para colaborar en la justicia.",
+        "Decidió dejar ir a Tomás al comprender que era un hombre noble y valiente."
+      ],
+      "correct": 3
+    }
+  ],
+  "en": [
+    {
+      "q": "Why was Tomás sentenced to five years of forced labor in chapter 1?",
+      "a": [
+        "For stealing from a bakery to get medicine for his sick sister.",
+        "For leading a student uprising in the streets of Puerto Escondido.",
+        "For escaping from the port city with Judge Baldomero's money.",
+        "For stealing the workers' wages at the Dubois brothers' factory."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "What job did Clara do in the textile city of Hilandia before meeting Mateo?",
+      "a": [
+        "She was a young seamstress who worked at the Dubois brothers' factory.",
+        "She was a modest artisan who sold bread in the main market.",
+        "She was a charismatic orator who led the students in the capital.",
+        "She was Inspector Ramiro's personal nurse at the local police station."
+      ],
+      "correct": 0
+    },
+    {
+      "q": "Who caught Mateo executing his plan at the Dubois brothers' factory safe?",
+      "a": [
+        "Elías, the young orator who was preparing a social uprising.",
+        "Gaspar, a clever orphan boy who lived off petty theft.",
+        "Inspector Ramiro, who was obsessively watching it by order of the judge.",
+        "Mr. Baldomero, the cruel owner of the bakery in Puerto Escondido."
+      ],
+      "correct": 1
+    },
+    {
+      "q": "What was Mateo's decision regarding Lila after Clara's passing?",
+      "a": [
+        "To send her to the capital to join Elías's student movement.",
+        "To hand her over to the Dubois brothers to work in the textile factory.",
+        "To leave her in the care of Inspector Ramiro to protect her from the police.",
+        "To take custody of the little girl, providing her with a safe home and a family."
+      ],
+      "correct": 3
+    },
+    {
+      "q": "How did Inspector Ramiro react at the end of the story when he saw Mateo risk his life to save Gaspar?",
+      "a": [
+        "He challenged him to a duel on the barricades to prove who followed the rules better.",
+        "He arrested him immediately to send him back to the years of forced labor.",
+        "He offered him a position in the capital police to collaborate in justice.",
+        "He decided to let Tomás go, understanding that he was a noble and brave man."
+      ],
+      "correct": 3
+    }
+  ]
+}

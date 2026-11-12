@@ -1,0 +1,53 @@
+name: Crear quiz de storycards (preguntas solo de la historia)
+
+on:
+  workflow_dispatch:
+    inputs:
+      storycards:
+        description: 'Nombres de las storycards, separados por espacios (ej: eldestino elavesinjaula elcantoprohibidodeaethelgard). Escribe "todas" para revisar todas: crea el quiz de las que no lo tienen y rehace las que tienen preguntas genéricas.'
+        required: true
+        default: 'todas'
+      regenerar:
+        description: 'Regenerar aunque ya tengan un quiz válido solo de la historia'
+        type: boolean
+        default: false
+
+jobs:
+  quiz:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: write
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Crear el quiz con Gemini
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          PAUSA_MS: 4000
+          STORYCARDS: ${{ github.event.inputs.storycards }}
+          REGENERAR: ${{ github.event.inputs.regenerar }}
+        run: |
+          if [ "$REGENERAR" = "true" ]; then EXTRA="--force"; else EXTRA=""; fi
+          node scripts/generar_quiz.js "$STORYCARDS" $EXTRA
+
+      # Se guarda SIEMPRE lo que se haya creado, aunque alguna storycard haya fallado
+      - name: Guardar cambios
+        if: always()
+        run: |
+          git config user.name "Bot Automático de Storycards"
+          git config user.email "bot@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No hay cambios que guardar."
+            exit 0
+          fi
+          git commit -m "❓ Quiz de storycards (preguntas solo de la historia): ${{ github.event.inputs.storycards }}"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push

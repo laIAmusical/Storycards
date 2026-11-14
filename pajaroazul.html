@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Pájaro azul</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Text:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream: #f8f3ea; --cream-dark: #ede5d4; --ink: #2a1f14;
+    --ink-light: #6b5a47; --gold: #c8a96e; --spine: #8b6e50;
+  }
+  html, body { height: 100%; height: 100dvh; overflow: hidden; }
+  body {
+    background: radial-gradient(ellipse at center, #1c2d3d 0%, #0b1520 100%);
+    min-height: 100dvh; display: flex; flex-direction: column;
+    align-items: center; justify-content: flex-start;
+    font-family: 'Crimson Text', Georgia, serif; overflow: hidden; position: relative; padding: 0;
+  }
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0;
+  }
+  .ui-wrapper { display: flex; flex-direction: column; align-items: center; width: 100%; height: 100dvh; position: relative; z-index: 10; padding: 10px 10px 8px; gap: 8px; }
+  .top-bar { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 440px; flex-shrink: 0; }
+  .book-title-header { color: var(--gold); font-family: 'Playfair Display', serif; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.75; white-space: nowrap; flex-shrink: 0; }
+  .audio-bar { display: flex; align-items: center; gap: 5px; opacity: 0; transition: opacity 0.5s; pointer-events: none; flex-wrap: nowrap; }
+  .audio-bar.visible { opacity: 1; pointer-events: all; }
+  .audio-btn { background: rgba(200,169,110,0.12); border: 1px solid rgba(200,169,110,0.3); border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.2s; color: var(--gold); padding: 0; flex-shrink: 0; -webkit-tap-highlight-color: transparent; }
+  .audio-btn:active { background: rgba(200,169,110,0.25); }
+  .audio-btn svg { width: 12px; height: 12px; flex-shrink: 0; }
+  .audio-label { font-family: 'Playfair Display', serif; font-size: 0.46rem; letter-spacing: 0.10em; text-transform: uppercase; color: rgba(200,169,110,0.55); white-space: nowrap; flex-shrink: 0; }
+  .audio-divider { width: 1px; height: 18px; background: rgba(200,169,110,0.2); flex-shrink: 0; margin: 0 2px; }
+  .voice-indicator { display: flex; align-items: center; gap: 3px; height: 14px; flex-shrink: 0; }
+  .voice-indicator span { display: block; width: 3px; border-radius: 2px; background: var(--gold); opacity: 0; animation: none; }
+  .voice-indicator.playing span { opacity: 0.7; animation: voiceBar 1s ease-in-out infinite; }
+  .voice-indicator.playing span:nth-child(1) { animation-delay: 0s; }
+  .voice-indicator.playing span:nth-child(2) { animation-delay: 0.15s; }
+  .voice-indicator.playing span:nth-child(3) { animation-delay: 0.3s; }
+  .voice-indicator.playing span:nth-child(4) { animation-delay: 0.15s; }
+  @keyframes voiceBar { 0%, 100% { height: 4px; } 50% { height: 13px; } }
+  #musicVolume { width: 44px; accent-color: var(--gold); cursor: pointer; vertical-align: middle; flex-shrink: 0; }
+  .book-wrapper { position: relative; flex: 1; width: 100%; max-width: 440px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 0; overflow: hidden; }
+  .open-hint-badge { position: absolute; top: -6px; left: 50%; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 8px; background: rgba(200,169,110,0.15); border: 1px solid rgba(200,169,110,0.35); backdrop-filter: blur(6px); border-radius: 30px; padding: 6px 16px; color: var(--gold); font-family: 'Playfair Display', serif; font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; animation: pulseHint 2.4s ease-in-out infinite; transition: opacity 0.4s; z-index: 30; white-space: nowrap; }
+  .open-hint-badge.hidden { opacity: 0; pointer-events: none; }
+  .open-hint-badge svg { opacity: 0.7; flex-shrink: 0; }
+  @keyframes pulseHint { 0%, 100% { box-shadow: 0 0 0 0 rgba(200,169,110,0); } 50% { box-shadow: 0 0 0 6px rgba(200,169,110,0.12); } }
+  .book-card { width: 100%; height: 100%; border-radius: 14px; box-shadow: 0 8px 32px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.05), inset -3px 0 8px rgba(0,0,0,0.15); position: relative; overflow: hidden; background: var(--cream); -webkit-tap-highlight-color: transparent; perspective: 1400px; }
+  .book-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 8px; background: linear-gradient(to right, var(--spine), rgba(139,110,80,0.3)); z-index: 20; pointer-events: none; }
+  .cover-page { width: 100%; height: 100%; position: relative; cursor: pointer; overflow: hidden; }
+  .cover-page img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cover-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 55%); display: flex; flex-direction: column; justify-content: flex-end; padding: 28px 24px; }
+  .cover-overlay h1 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #fff; line-height: 1.2; text-shadow: 0 2px 16px rgba(0,0,0,0.8); margin-bottom: 8px; }
+  .cover-overlay .author { font-family: 'Crimson Text', serif; font-size: 1rem; color: rgba(255,255,255,0.70); letter-spacing: 0.1em; }
+  .cover-page::after { content: ''; position: absolute; inset: 0; background: rgba(200,169,110,0); transition: background 0.3s; pointer-events: none; }
+  .cover-page:active::after { background: rgba(200,169,110,0.08); }
+  .story-page { width: 100%; height: 100%; display: flex; flex-direction: column; position: relative; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; background: var(--cream); }
+  .page-illustration { width: 100%; flex-shrink: 0; position: relative; background: var(--cream-dark); line-height: 0; }
+  .page-illustration img { width: 100%; height: auto; display: block; object-fit: contain; }
+  .page-illustration::before { content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none; box-shadow: inset 0 30px 22px -8px var(--cream), inset 0 -42px 28px -8px var(--cream), inset 28px 0 22px -8px var(--cream), inset -28px 0 22px -8px var(--cream); }
+  .page-illustration::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 55px; z-index: 3; background: linear-gradient(to bottom, transparent, var(--cream)); pointer-events: none; }
+  .page-text-section { flex-shrink: 0; display: flex; flex-direction: column; padding: 16px 22px 20px 26px; position: relative; background: var(--cream); }
+  .page-text-section::before { content: ''; position: absolute; inset: 0; background-image: repeating-linear-gradient(transparent, transparent 31px, rgba(180,160,130,0.13) 31px, rgba(180,160,130,0.13) 32px); background-position: 0 52px; pointer-events: none; }
+  .chapter-label { font-family: 'Playfair Display', serif; font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 14px; opacity: 0.6; flex-shrink: 0; position: relative; z-index: 1; }
+  .drop-cap { font-family: 'Playfair Display', serif; font-size: 4.4rem; font-weight: 700; line-height: 0.75; float: left; margin-right: 6px; margin-top: 4px; color: var(--ink); }
+  .page-text { font-family: 'Crimson Text', serif; font-size: 1.12rem; line-height: 1.7; color: var(--ink); text-align: justify; position: relative; z-index: 1; }
+  .page-text p { margin-bottom: 0.8em; }
+  .page-text p::after { content: ''; display: table; clear: both; }
+  .page-number { margin-top: 10px; text-align: right; font-family: 'Playfair Display', serif; font-size: 0.72rem; color: var(--ink-light); opacity: 0.5; position: relative; z-index: 2; }
+  .swipe-hint { display: flex; align-items: center; justify-content: center; gap: 5px; padding: 14px 0 16px; color: var(--ink-light); font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; font-family: 'Playfair Display', serif; opacity: 0.4; flex-shrink: 0; background: var(--cream); }
+  @keyframes arrowPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(200,169,110,0.55), 0 0 10px 2px rgba(200,169,110,0.25); background: rgba(200,169,110,0.22); border-color: rgba(200,169,110,0.7); }
+    50% { box-shadow: 0 0 0 8px rgba(200,169,110,0), 0 0 18px 4px rgba(200,169,110,0.45); background: rgba(200,169,110,0.42); border-color: var(--gold); }
+  }
+  .nav-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 25; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; background: rgba(200,169,110,0.22); border: 1.5px solid rgba(200,169,110,0.7); border-radius: 50%; color: var(--gold); cursor: pointer; transition: background 0.2s, opacity 0.3s; -webkit-tap-highlight-color: transparent; backdrop-filter: blur(6px); animation: arrowPulse 1.5s ease-in-out infinite; }
+  .nav-arrow:active { background: rgba(200,169,110,0.55); }
+  .nav-arrow.hidden { opacity: 0; pointer-events: none; animation: none; }
+  .nav-arrow svg { width: 18px; height: 18px; filter: drop-shadow(0 0 3px rgba(200,169,110,0.6)); }
+  .nav-arrow-left { left: 6px; } .nav-arrow-right { right: 6px; }
+  .end-page { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: var(--cream); }
+  .end-page-content { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 30px; text-align: center; }
+  .end-page-content .ornament { color: var(--gold); font-size: 1.8rem; opacity: 0.6; }
+  .end-page-content h2 { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--ink); }
+  .end-page-content p { font-family: 'Crimson Text', serif; font-size: 0.95rem; color: var(--ink-light); opacity: 0.7; letter-spacing: 0.1em; }
+  .back-btn { margin-top: 6px; padding: 10px 24px; border: 1px solid var(--gold); background: none; color: var(--ink-light); font-family: 'Playfair Display', serif; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; border-radius: 2px; transition: all 0.2s; -webkit-tap-highlight-color: transparent; }
+  .back-btn:active { background: var(--gold); color: var(--cream); }
+  .nav-dots { display: flex; gap: 8px; flex-shrink: 0; padding: 2px 0; z-index: 10; position: relative; flex-wrap: wrap; justify-content: center; max-width: 440px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(200,169,110,0.3); cursor: pointer; transition: all 0.3s; border: 1px solid rgba(200,169,110,0.4); -webkit-tap-highlight-color: transparent; }
+  .dot.active { background: var(--gold); transform: scale(1.3); }
+  @keyframes pageFlipInForward { 0% { transform: perspective(1400px) rotateY(-88deg); transform-origin: left center; opacity: 0.4; filter: brightness(0.6); } 40% { opacity: 0.85; filter: brightness(0.85); } 100% { transform: perspective(1400px) rotateY(0deg); transform-origin: left center; opacity: 1; filter: brightness(1); } }
+  @keyframes pageFlipInBackward { 0% { transform: perspective(1400px) rotateY(88deg); transform-origin: right center; opacity: 0.4; filter: brightness(0.6); } 40% { opacity: 0.85; filter: brightness(0.85); } 100% { transform: perspective(1400px) rotateY(0deg); transform-origin: right center; opacity: 1; filter: brightness(1); } }
+  @keyframes pageFlipOutForward { 0% { transform: perspective(1400px) rotateY(0deg); transform-origin: left center; opacity: 1; filter: brightness(1); } 60% { opacity: 0.5; filter: brightness(0.7); } 100% { transform: perspective(1400px) rotateY(-88deg); transform-origin: left center; opacity: 0; filter: brightness(0.4); } }
+  @keyframes pageFlipOutBackward { 0% { transform: perspective(1400px) rotateY(0deg); transform-origin: right center; opacity: 1; filter: brightness(1); } 60% { opacity: 0.5; filter: brightness(0.7); } 100% { transform: perspective(1400px) rotateY(88deg); transform-origin: right center; opacity: 0; filter: brightness(0.4); } }
+  .anim-in-forward   { animation: pageFlipInForward   0.42s cubic-bezier(0.25,0.46,0.45,0.94) both; }
+  .anim-in-backward  { animation: pageFlipInBackward  0.42s cubic-bezier(0.25,0.46,0.45,0.94) both; }
+  .anim-out-forward  { animation: pageFlipOutForward  0.22s cubic-bezier(0.4,0,1,1) both; }
+  .anim-out-backward { animation: pageFlipOutBackward 0.22s cubic-bezier(0.4,0,1,1) both; }
+  .page-shadow-overlay { position: absolute; inset: 0; pointer-events: none; z-index: 15; opacity: 0; background: linear-gradient(to right, rgba(0,0,0,0.18) 0%, transparent 40%); animation: shadowSweepForward 0.55s ease-out forwards; }
+  .page-shadow-overlay.backward { background: linear-gradient(to left, rgba(0,0,0,0.18) 0%, transparent 40%); animation: shadowSweepBackward 0.55s ease-out forwards; }
+  @keyframes shadowSweepForward  { 0% { opacity: 0.8; } 100% { opacity: 0; } }
+  @keyframes shadowSweepBackward { 0% { opacity: 0.8; } 100% { opacity: 0; } }
+</style>
+</head>
+<body>
+<div class="ui-wrapper">
+  <div class="top-bar">
+    <p class="book-title-header">✦ Pájaro azul ✦</p>
+    <div class="audio-bar" id="audioBar">
+      <div class="voice-indicator" id="voiceIndicator"><span></span><span></span><span></span><span></span></div>
+      <span class="audio-label">NARRADOR</span>
+      <button class="audio-btn" title="Pausar/Reanudar narración" onclick="toggleVoicePause()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" id="iconVoicePause"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      </button>
+      <button class="audio-btn" title="Detener narración" onclick="stopVoice()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="4" y="4" width="16" height="16" rx="1"/></svg>
+      </button>
+      <div class="audio-divider"></div>
+      <span class="audio-label">MÚSICA</span>
+      <button class="audio-btn" title="Pausar/Reanudar música" onclick="toggleMusicPause()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" id="iconMusicPause"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      </button>
+      <button class="audio-btn" title="Silenciar música" onclick="toggleMusic()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" id="iconMusic">
+          <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+        </svg>
+      </button>
+      <input type="range" id="musicVolume" min="0" max="1" step="0.05" value="0.4" title="Volumen música" oninput="setMusicVolume(this.value)">
+    </div>
+  </div>
+  <div class="book-wrapper" id="bookWrapper">
+    <div class="open-hint-badge" id="openHintBadge">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+      </svg>
+      Toca para abrir
+    </div>
+    <div class="nav-arrow nav-arrow-left hidden" id="navLeft" onclick="prevPage()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+    </div>
+    <div class="nav-arrow nav-arrow-right hidden" id="navRight" onclick="nextPage()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+    </div>
+    <div class="book-card" id="bookCard"></div>
+  </div>
+  <div class="nav-dots" id="navDots"></div>
+</div>
+
+<script>
+const MUSIC_SRC = 'storycard/pajaroazul.mp3';
+
+const pages = [
+  {
+    type: 'cover',
+    coverImg: 'storycard/pajaroazul/portada.png',
+    title:    'Pájaro azul',
+    author:   'De LaIAmusical'
+  },
+  {
+    type: 'story', pageNum: 1,
+    chapterTitle: 'Capítulo 1: El Chico del Silencio',
+    illustrationSrc: 'storycard/pajaroazul/imagen1.png',
+    voiceSrc:        'storycard/pajaroazul/audio1.wav',
+    text: `En la Aldea Oculta de la Cascada Silenciosa (Shizutaki), un pueblo ninja enclavado entre montañas escarpadas y una cascada que caía sin emitir sonido alguno, vivía Hibiki. Era un joven genin de cabello oscuro y ojos de un azul tan profundo que parecían absorber la luz. A diferencia de sus compañeros, Hibiki era callado, casi un fantasma. Los aldeanos lo miraban con una mezcla de lástima y recelo, susurrando a su paso. Llevaba una carga que nadie comprendía: dentro de él estaba sellado Aoitori, el "Pájaro Azul", un ser de chakra puro con el poder de crear genjutsu (técnicas ilusorias) a través del sonido. No era una bestia de destrucción, sino una entidad de melancolía y poder etéreo.`
+  },
+  {
+    type: 'story', pageNum: 2,
+    chapterTitle: 'Capítulo 2: Equipo Siete',
+    illustrationSrc: 'storycard/pajaroazul/imagen2.png',
+    voiceSrc:        'storycard/pajaroazul/audio2.wav',
+    text: `Como todos los genin, Hibiki fue asignado a un equipo de tres. Su líder era Jin, un jōnin veterano, tuerto y con una paciencia infinita. Sus compañeros eran Rina, una prodigio del clan Fūma, maestra en el uso de hilos de chakra afilados como cuchillas, y Kenji, un estratega robusto y bonachón especializado en jutsus de tierra defensivos. Rina veía a Hibiki como un lastre, incapaz de controlar su chakra. Kenji, en cambio, sentía una curiosidad genuina por el chico silencioso. Su primera misión fue simple: escoltar a un constructor de puentes.`
+  },
+  {
+    type: 'story', pageNum: 3,
+    chapterTitle: 'Capítulo 3: La Primera Melodía',
+    illustrationSrc: 'storycard/pajaroazul/imagen3.png',
+    voiceSrc:        'storycard/pajaroazul/audio3.wav',
+    text: `La misión se torció cuando fueron emboscados por ninjas renegados de la Aldea de la Roca. Superados en número, el equipo luchó con valentía. Jin se enfrentó al líder, mientras Rina y Kenji contenían a los demás. Hibiki, paralizado por el miedo, fue acorralado. Fue entonces cuando, en su desesperación, una nota pura y cristalina escapó de sus labios. El sonido se expandió, y los ninjas enemigos se detuvieron, atrapados en una ilusión de un cielo estrellado infinito. La distracción fue suficiente para que Jin y los demás los derrotaran. Rina miró a Hibiki con una nueva expresión: asombro.`
+  },
+  {
+    type: 'story', pageNum: 4,
+    chapterTitle: 'Capítulo 4: El Susurro del Pájaro Azul',
+    illustrationSrc: 'storycard/pajaroazul/imagen4.png',
+    voiceSrc:        'storycard/pajaroazul/audio4.wav',
+    text: `Tras la misión, Jin llevó a Hibiki a un campo de entrenamiento secreto. Le explicó la verdad que solo los ancianos y él conocían: Aoitori no era una maldición, sino un guardián. Su poder no era para la batalla, sino para la protección y la sanación. "Su canto puede romper las mentes más fuertes o curar las heridas más profundas, Hibiki. Pero si no controlas su tristeza, te consumirá a ti primero". Jin comenzó a entrenarlo, no en ninjutsu de combate, sino en meditación y control emocional. Hibiki debía aprender a escuchar al Pájaro Azul sin ahogarse en su melancolía.`
+  },
+  {
+    type: 'story', pageNum: 5,
+    chapterTitle: 'Capítulo 5: Los Ojos del Cuervo',
+    illustrationSrc: 'storycard/pajaroazul/imagen5.png',
+    voiceSrc:        'storycard/pajaroazul/audio5.wav',
+    text: `Una organización conocida como "Akatsuki no Karasu" (Cuervos del Amanecer) comenzó a moverse en las sombras. Buscaban a los portadores de seres de chakra como Aoitori, creyendo que al reunirlos podrían crear un genjutsu de alcance mundial para imponer su propia versión de la paz. Su líder, un hombre enmascarado que se hacía llamar "Yatagarasu", envió a dos de sus miembros a Shizutaki con la misión de capturar a Hibiki.`
+  },
+  {
+    type: 'story', pageNum: 6,
+    chapterTitle: 'Capítulo 6: Vínculos Inesperados',
+    illustrationSrc: 'storycard/pajaroazul/imagen6.png',
+    voiceSrc:        'storycard/pajaroazul/audio6.wav',
+    text: `Durante un entrenamiento, Rina desafió a Hibiki a un duelo. No fue por arrogancia, sino para entender su poder. Mientras luchaban, ella usó sus hilos de chakra para inmovilizarlo, pero él respondió con una melodía defensiva que creaba escudos de luz. Kenji observaba, analizando cada movimiento. En medio del combate, se dieron cuenta de que sus habilidades se complementaban: los hilos de Rina podían guiar el sonido de Hibiki, y los muros de Kenji podían contenerlo y amplificarlo. Por primera vez, no eran tres individuos, sino un equipo.`
+  },
+  {
+    type: 'story', pageNum: 7,
+    chapterTitle: 'Capítulo 7: El Ataque de los Cuervos',
+    illustrationSrc: 'storycard/pajaroazul/imagen7.png',
+    voiceSrc:        'storycard/pajaroazul/audio7.wav',
+    text: `Los dos miembros de Akatsuki no Karasu atacaron la aldea. Uno era un titiritero macabro que controlaba marionetas humanas; la otra, una experta en venenos. El caos se apoderó de Shizutaki. El Equipo Siete se enfrentó al titiritero, pero sus marionetas eran implacables. Kenji creaba barreras que eran destrozadas, y los hilos de Rina no podían cortar todos los flancos. El peso de la batalla recayó sobre Hibiki.`
+  },
+  {
+    type: 'story', pageNum: 8,
+    chapterTitle: 'Capítulo 8: El Canto de la Esperanza',
+    illustrationSrc: 'storycard/pajaroazul/imagen8.png',
+    voiceSrc:        'storycard/pajaroazul/audio8.wav',
+    text: `Recordando las palabras de Jin, Hibiki cerró los ojos y se concentró. En lugar de una nota de miedo, liberó una melodía compleja y armoniosa. No era una ilusión de estrellas, sino de recuerdos felices: los enemigos vieron a sus seres queridos, momentos de paz, sueños olvidados. Las marionetas cayeron al suelo cuando el titiritero, con lágrimas en los ojos, quedó paralizado por la nostalgia. La miembro del veneno, que observaba desde lejos, dudó por primera vez de su misión.`
+  },
+  {
+    type: 'story', pageNum: 9,
+    chapterTitle: 'Capítulo 9: La Verdad de la Máscara',
+    illustrationSrc: 'storycard/pajaroazul/imagen9.png',
+    voiceSrc:        'storycard/pajaroazul/audio9.wav',
+    text: `Jin, luchando contra la experta en venenos, la reconoció. Era una antigua camarada que creía muerta. Ella le reveló que Yatagarasu, el líder de los Cuervos, era el antiguo héroe de Shizutaki, un hombre que perdió a su familia en la guerra y ahora buscaba una paz forzada para evitar que otros sufrieran su mismo destino. Su objetivo no era la destrucción, sino un ideal torcido nacido del dolor. Al oír el canto de Hibiki, la mujer abandonó la lucha, eligiendo la esperanza sobre el control.`
+  },
+  {
+    type: 'story', pageNum: 10,
+    chapterTitle: 'Capítulo 10: El Vuelo del Pájaro Azul',
+    illustrationSrc: 'storycard/pajaroazul/imagen10.png',
+    voiceSrc:        'storycard/pajaroazul/audio10.wav',
+    text: `Con los enemigos retirados y la aldea a salvo, Hibiki ya no era el chico del silencio. Su poder, una vez motivo de aislamiento, se había convertido en el símbolo de la esperanza de Shizutaki. Rina y Kenji lo veían como un igual, un pilar fundamental de su equipo. Hibiki finalmente había aceptado a Aoitori no como su jaula, sino como sus alas. Sabía que los Cuervos del Amanecer regresarían, pero ya no les tenía miedo. Miró al cielo, y por primera vez en años, sonrió. La leyenda del ninja cuyo canto podía cambiar el corazón de los hombres acababa de comenzar.`
+  },
+  { type: 'end' }
+];
+
+const musicAudio = new Audio();
+musicAudio.loop = true; musicAudio.volume = 0.4;
+if (MUSIC_SRC) musicAudio.src = MUSIC_SRC;
+let voiceAudio = null, voicePaused = false, musicMuted = false, musicPaused = false, bookOpened = false;
+
+function startMusic() { if (!MUSIC_SRC || musicMuted) return; musicAudio.currentTime = 0; musicAudio.play().catch(()=>{}); updateMusicPauseIcon(true); }
+function stopAllAudio() { if (voiceAudio) { voiceAudio.pause(); voiceAudio.currentTime = 0; } voicePaused = false; setVoiceIndicator(false); updateVoicePauseIcon(false); }
+function playPageVoice(src) {
+  stopAllAudio(); if (!src) return;
+  voiceAudio = new Audio(src); voiceAudio.volume = 1; voiceAudio.play().catch(()=>{});
+  voiceAudio.onplay  = () => { setVoiceIndicator(true);  updateVoicePauseIcon(true); };
+  voiceAudio.onended = () => { setVoiceIndicator(false); updateVoicePauseIcon(false); voicePaused = false; };
+  voiceAudio.onpause = () => { setVoiceIndicator(false); };
+}
+function setVoiceIndicator(p) { const el = document.getElementById('voiceIndicator'); if (el) el.className = 'voice-indicator' + (p ? ' playing' : ''); }
+function updateVoicePauseIcon(p) { const i = document.getElementById('iconVoicePause'); if (!i) return; i.innerHTML = p ? '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>' : '<polygon points="5 3 19 12 5 21 5 3"/>'; }
+function toggleVoicePause() { if (!voiceAudio) return; if (voicePaused) { voiceAudio.play().catch(()=>{}); voicePaused=false; setVoiceIndicator(true); updateVoicePauseIcon(true); } else { voiceAudio.pause(); voicePaused=true; setVoiceIndicator(false); updateVoicePauseIcon(false); } }
+function stopVoice() { if (voiceAudio) { voiceAudio.pause(); voiceAudio.currentTime=0; voicePaused=false; setVoiceIndicator(false); updateVoicePauseIcon(false); } }
+function updateMusicPauseIcon(p) { const i = document.getElementById('iconMusicPause'); if (!i) return; i.innerHTML = p ? '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>' : '<polygon points="5 3 19 12 5 21 5 3"/>'; }
+function toggleMusicPause() { if (musicMuted) return; if (musicPaused) { musicAudio.play().catch(()=>{}); musicPaused=false; updateMusicPauseIcon(true); } else { musicAudio.pause(); musicPaused=true; updateMusicPauseIcon(false); } }
+function setMusicVolume(val) {
+  musicAudio.volume = parseFloat(val);
+  if (parseFloat(val) === 0) { musicMuted=true; document.getElementById('iconMusic').innerHTML='<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/><line x1="1" y1="1" x2="23" y2="23" stroke-width="2"/>'; musicAudio.pause(); updateMusicPauseIcon(false); }
+  else if (musicMuted) { musicMuted=false; document.getElementById('iconMusic').innerHTML='<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>'; musicAudio.play().catch(()=>{}); updateMusicPauseIcon(true); }
+}
+function toggleMusic() {
+  musicMuted = !musicMuted;
+  const icon = document.getElementById('iconMusic'), slider = document.getElementById('musicVolume');
+  if (musicMuted) { musicAudio.pause(); musicPaused=false; icon.innerHTML='<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/><line x1="1" y1="1" x2="23" y2="23" stroke-width="2"/>'; if(slider)slider.value=0; updateMusicPauseIcon(false); }
+  else { musicAudio.volume=0.4; musicAudio.play().catch(()=>{}); icon.innerHTML='<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>'; if(slider)slider.value=0.4; updateMusicPauseIcon(true); }
+}
+
+let currentPage = 0, animating = false;
+const bookCard = document.getElementById('bookCard');
+const navDotsEl = document.getElementById('navDots');
+const navLeft = document.getElementById('navLeft');
+const navRight = document.getElementById('navRight');
+
+function withDropCap(text) { const t = text.trimStart(); if (!t.length) return text; return `<span class="drop-cap">${t.charAt(0)}</span>${t.slice(1)}`; }
+function buildDots() { navDotsEl.innerHTML = ''; pages.forEach((_,i) => { const d = document.createElement('div'); d.className = 'dot' + (i===currentPage?' active':''); d.onclick = () => goToPage(i); navDotsEl.appendChild(d); }); }
+function updateArrows() { const p = pages[currentPage]; navLeft.classList.toggle('hidden', !bookOpened || currentPage<=0); navRight.classList.toggle('hidden', !bookOpened || p.type==='end' || currentPage>=pages.length-1); }
+
+function buildPageElement(p) {
+  const el = document.createElement('div');
+  if (p.type === 'cover') {
+    el.className = 'cover-page';
+    el.innerHTML = p.coverImg ? `<img src="${p.coverImg}" alt="Portada: ${p.title}">` : `<div class="cover-bg-placeholder">🦅</div>`;
+    el.innerHTML += `<div class="cover-overlay"><h1>${p.title}</h1><p class="author">${p.author}</p></div>`;
+    el.onclick = openBook;
+  } else if (p.type === 'end') {
+    el.className = 'end-page';
+    el.innerHTML = `<div class="end-page-content"><div class="ornament">✦ ✦ ✦</div><h2>Fin de la historia</h2><p>LaIAmusical</p><button class="back-btn" onclick="goToPage(0)">Volver al inicio</button></div>`;
+    stopAllAudio();
+  } else {
+    const imgHtml = p.illustrationSrc ? `<img src="${p.illustrationSrc}" alt="${p.chapterTitle || 'Ilustración de la página'}">` : `<div class="img-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 15l5-5 4 4 3-3 6 6"/><circle cx="8.5" cy="8.5" r="1.5"/></svg></div>`;
+    el.className = 'story-page';
+    el.innerHTML = `<div class="page-illustration">${imgHtml}</div><div class="page-text-section"><div class="chapter-label">${p.chapterTitle||'Capítulo '+p.pageNum}</div><div class="page-text"><p>${withDropCap(p.text)}</p></div><div class="page-number">${p.pageNum}</div></div><div class="swipe-hint"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Desliza para pasar</div>`;
+  }
+  return el;
+}
+
+function renderBook(direction) {
+  const p = pages[currentPage];
+  const headerTitle = p.type==='cover' ? p.title : p.type==='end' ? 'Fin de la historia' : (p.chapterTitle||'Capítulo '+p.pageNum);
+  const headerEl = document.querySelector('.book-title-header');
+  if (headerEl) headerEl.textContent = headerTitle;
+  const newEl = buildPageElement(p);
+  if (direction && bookOpened) {
+    const inClass  = direction==='forward' ? 'anim-in-forward'  : 'anim-in-backward';
+    const outClass = direction==='forward' ? 'anim-out-forward' : 'anim-out-backward';
+    newEl.style.position='absolute'; newEl.style.inset='0'; newEl.style.zIndex='2';
+    const oldEl = bookCard.firstElementChild;
+    if (oldEl && !oldEl.classList.contains('page-shadow-overlay')) { oldEl.style.position='absolute'; oldEl.style.inset='0'; oldEl.style.zIndex='1'; oldEl.classList.add(outClass); }
+    const shadow = document.createElement('div');
+    shadow.className = 'page-shadow-overlay' + (direction==='backward' ? ' backward' : '');
+    shadow.style.zIndex = '5'; bookCard.appendChild(shadow);
+    setTimeout(() => { bookCard.appendChild(newEl); newEl.classList.add(inClass); }, 80);
+    setTimeout(() => { while (bookCard.children.length > 1) bookCard.removeChild(bookCard.firstChild); newEl.style.position=''; newEl.style.inset=''; newEl.style.zIndex=''; }, 520);
+  } else { bookCard.innerHTML=''; bookCard.appendChild(newEl); }
+  buildDots(); updateArrows();
+}
+
+function openBook() { if (!bookOpened) { bookOpened=true; document.getElementById('openHintBadge').classList.add('hidden'); document.getElementById('audioBar').classList.add('visible'); startMusic(); } nextPage(); }
+function nextPage() { if (currentPage < pages.length-1) goToPage(currentPage+1,'forward'); }
+function prevPage() { if (currentPage > 0) goToPage(currentPage-1,'backward'); }
+function goToPage(target, dir) {
+  if (animating || target===currentPage || target<0 || target>=pages.length) return;
+  const forward = dir ? dir==='forward' : target>currentPage;
+  animating=true; stopAllAudio(); currentPage=target;
+  renderBook(forward?'forward':'backward');
+  setTimeout(() => { animating=false; const p=pages[currentPage]; if(p&&p.voiceSrc) playPageVoice(p.voiceSrc); }, 540);
+}
+
+let touchStartX=0, touchStartY=0;
+bookCard.addEventListener('touchstart', e => { touchStartX=e.touches[0].clientX; touchStartY=e.touches[0].clientY; }, {passive:true});
+bookCard.addEventListener('touchend', e => {
+  if (!bookOpened) return;
+  const dx=e.changedTouches[0].clientX-touchStartX, dy=e.changedTouches[0].clientY-touchStartY;
+  if (Math.abs(dx)>Math.abs(dy)*1.2 && Math.abs(dx)>45) { if(dx<0) nextPage(); else prevPage(); }
+}, {passive:true});
+document.addEventListener('keydown', e => { if(e.key==='ArrowRight'||e.key==='ArrowDown') nextPage(); if(e.key==='ArrowLeft'||e.key==='ArrowUp') prevPage(); });
+renderBook();
+</script>
+</body>
+</html>

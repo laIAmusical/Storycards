@@ -1,5 +1,493 @@
 [
   {
+    "id": 1794803156545,
+    "titulo": "El Último Golpe en Sol-Kaelen",
+    "fraseInspiracion": "Cuando las coronas se derriten, solo el oro robado compra el mañana.",
+    "tematica": "Cine",
+    "tipo": "automatica-ia",
+    "descripcion": "Mientras la gloriosa metrópolis de Sol-Kaelen se desploma bajo el fuego rebelde, un grupo de proscritos ejecuta un atraco suicida. Su objetivo no es la corona del emperador, sino la fuente del poder cósmico que consume el reino.",
+    "imagen": "imagenportada/elultimogolpeensolkaelen.jpg",
+    "portada": "storycard/elultimogolpeensolkaelen/portada.jpg",
+    "portadaMovil": "storycard/elultimogolpeensolkaelen/portadamovil.jpg",
+    "slug": "elultimogolpeensolkaelen",
+    "storyPage": "elultimogolpeensolkaelen.html",
+    "secretosPage": "secretos/elultimogolpeensolkaelen-secretos.html",
+    "esIA": true,
+    "quiz": [
+      {
+        "q": "¿Cuál era el objetivo principal del atraco llevado a cabo por Vaelen y su equipo en el Palacio de la Eclipse?",
+        "a": [
+          "Los diamantes de la dinastía",
+          "La espada de arco voltaico",
+          "El tesoro imperial",
+          "El Núcleo Astral"
+        ],
+        "correct": 3
+      },
+      {
+        "q": "¿Qué mecanismo empleó Vaelen para congelar temporalmente los engranajes de la Bóveda del Sol Negro cuando las paredes comenzaron a cerrarse?",
+        "a": [
+          "Una cápsula de helio líquido",
+          "Un tanque de refrigerante criogénico",
+          "Un pulso electromagnético",
+          "Un disco de distracción sonora"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "¿Quién era la Comandante Vex dentro de la jerarquía de Sol-Kaelen durante el asalto al palacio?",
+        "a": [
+          "Una acróbata encargada de revisar los arneses de grafeno",
+          "La última leal a la corona dispuesta a morir junto al artefacto",
+          "El Gran Canciller que intentó destruir el núcleo desde dentro",
+          "Una ingeniera cibernética encargada de las cerraduras criptográficas"
+        ],
+        "correct": 1
+      },
+      {
+        "q": "¿Qué ruta de escape alternativa eligió Vaelen tras comprobar que el camino hacia el hangar principal estaba bloqueado?",
+        "a": [
+          "Los conductos de ventilación del Reactor Solar",
+          "Las barcazas reales del vestíbulo imperial",
+          "La espiral del abismo mecánico de la Primera Era",
+          "El Balcón de los Reyes hacia la cornisa exterior"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "¿Hacia dónde se dirigieron los protagonistas al finalizar su huida con el Núcleo Astral?",
+        "a": [
+          "Hacia las estancias menores del palacio imperial",
+          "Hacia las profundidades del océano en Sol-Kaelen",
+          "Hacia el campamento de los ejércitos rebeldes en la superficie",
+          "Hacia las rutas desconocidas del Borde Exterior"
+        ],
+        "correct": 3
+      }
+    ],
+    "quizEn": [
+      {
+        "q": "What was the main objective of the heist carried out by Vaelen and his team at the Eclipse Palace?",
+        "a": [
+          "The dynasty's diamonds",
+          "The arc-voltaic sword",
+          "The imperial treasure",
+          "The Astral Core"
+        ],
+        "correct": 3
+      },
+      {
+        "q": "What mechanism did Vaelen use to temporarily freeze the gears of the Black Sun Vault when the walls began to close?",
+        "a": [
+          "A liquid helium capsule",
+          "A cryogenic coolant tank",
+          "An electromagnetic pulse",
+          "A sonic distraction disc"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "Who was Commander Vex within the hierarchy of Sol-Kaelen during the palace assault?",
+        "a": [
+          "an acrobat in charge of checking graphene harnesses",
+          "The last loyalist to the crown willing to die alongside the artifact",
+          "The Grand Chancellor who tried to destroy the core from within",
+          "A cybernetic engineer in charge of cryptographic locks"
+        ],
+        "correct": 1
+      },
+      {
+        "q": "What alternative escape route did Vaelen choose after finding that the path to the main hangar was blocked?",
+        "a": [
+          "The ventilation ducts of the Solar Reactor",
+          "The royal barges of the imperial lobby",
+          "The mechanical abyss spiral of the First Era",
+          "The Balcony of the Kings toward the outer ledge"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "Where did the protagonists head after finishing their escape with the Astral Core?",
+        "a": [
+          "Toward the lesser rooms of the imperial palace",
+          "Toward the ocean depths in Sol-Kaelen",
+          "Toward the rebel army camp on the surface",
+          "Toward the unknown routes of the Outer Rim"
+        ],
+        "correct": 3
+      }
+    ],
+    "audioVoz": "storycard/elultimogolpeensolkaelen/voz1.mp3",
+    "musicaFondo": "storycard/elultimogolpeensolkaelen.mp3",
+    "fechaCreacion": "2026-11-16T04:37:53.261Z"
+  },
+  {
+    "id": 1794803166545,
+    "titulo": "The Last Heist in Sol-Kaelen",
+    "fraseInspiracion": "When crowns melt, only stolen gold buys tomorrow.",
+    "tematica": "Cine",
+    "tipo": "automatica-ia",
+    "descripcion": "As the glorious metropolis of Sol-Kaelen crumbles under rebel fire, a group of outcasts executes a suicidal heist. Their target is not the emperor's crown, but the cosmic power source consuming the realm.",
+    "imagen": "imagenportada/thelastheistinsolkaelen-en.jpg",
+    "portada": "storycard/thelastheistinsolkaelen-en/portada.jpg",
+    "portadaMovil": "storycard/thelastheistinsolkaelen-en/portadamovil.jpg",
+    "slug": "thelastheistinsolkaelen-en",
+    "storyPage": "thelastheistinsolkaelen-en.html",
+    "secretosPage": "secretos/thelastheistinsolkaelen-en-secretos.html",
+    "esIA": true,
+    "quiz": [
+      {
+        "q": "¿Cuál era el objetivo principal del atraco llevado a cabo por Vaelen y su equipo en el Palacio de la Eclipse?",
+        "a": [
+          "Los diamantes de la dinastía",
+          "La espada de arco voltaico",
+          "El tesoro imperial",
+          "El Núcleo Astral"
+        ],
+        "correct": 3
+      },
+      {
+        "q": "¿Qué mecanismo empleó Vaelen para congelar temporalmente los engranajes de la Bóveda del Sol Negro cuando las paredes comenzaron a cerrarse?",
+        "a": [
+          "Una cápsula de helio líquido",
+          "Un tanque de refrigerante criogénico",
+          "Un pulso electromagnético",
+          "Un disco de distracción sonora"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "¿Quién era la Comandante Vex dentro de la jerarquía de Sol-Kaelen durante el asalto al palacio?",
+        "a": [
+          "Una acróbata encargada de revisar los arneses de grafeno",
+          "La última leal a la corona dispuesta a morir junto al artefacto",
+          "El Gran Canciller que intentó destruir el núcleo desde dentro",
+          "Una ingeniera cibernética encargada de las cerraduras criptográficas"
+        ],
+        "correct": 1
+      },
+      {
+        "q": "¿Qué ruta de escape alternativa eligió Vaelen tras comprobar que el camino hacia el hangar principal estaba bloqueado?",
+        "a": [
+          "Los conductos de ventilación del Reactor Solar",
+          "Las barcazas reales del vestíbulo imperial",
+          "La espiral del abismo mecánico de la Primera Era",
+          "El Balcón de los Reyes hacia la cornisa exterior"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "¿Hacia dónde se dirigieron los protagonistas al finalizar su huida con el Núcleo Astral?",
+        "a": [
+          "Hacia las estancias menores del palacio imperial",
+          "Hacia las profundidades del océano en Sol-Kaelen",
+          "Hacia el campamento de los ejércitos rebeldes en la superficie",
+          "Hacia las rutas desconocidas del Borde Exterior"
+        ],
+        "correct": 3
+      }
+    ],
+    "quizEn": [
+      {
+        "q": "What was the main objective of the heist carried out by Vaelen and his team at the Eclipse Palace?",
+        "a": [
+          "The dynasty's diamonds",
+          "The arc-voltaic sword",
+          "The imperial treasure",
+          "The Astral Core"
+        ],
+        "correct": 3
+      },
+      {
+        "q": "What mechanism did Vaelen use to temporarily freeze the gears of the Black Sun Vault when the walls began to close?",
+        "a": [
+          "A liquid helium capsule",
+          "A cryogenic coolant tank",
+          "An electromagnetic pulse",
+          "A sonic distraction disc"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "Who was Commander Vex within the hierarchy of Sol-Kaelen during the palace assault?",
+        "a": [
+          "an acrobat in charge of checking graphene harnesses",
+          "The last loyalist to the crown willing to die alongside the artifact",
+          "The Grand Chancellor who tried to destroy the core from within",
+          "A cybernetic engineer in charge of cryptographic locks"
+        ],
+        "correct": 1
+      },
+      {
+        "q": "What alternative escape route did Vaelen choose after finding that the path to the main hangar was blocked?",
+        "a": [
+          "The ventilation ducts of the Solar Reactor",
+          "The royal barges of the imperial lobby",
+          "The mechanical abyss spiral of the First Era",
+          "The Balcony of the Kings toward the outer ledge"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "Where did the protagonists head after finishing their escape with the Astral Core?",
+        "a": [
+          "Toward the lesser rooms of the imperial palace",
+          "Toward the ocean depths in Sol-Kaelen",
+          "Toward the rebel army camp on the surface",
+          "Toward the unknown routes of the Outer Rim"
+        ],
+        "correct": 3
+      }
+    ],
+    "audioVoz": "storycard/thelastheistinsolkaelen-en/voz1.mp3",
+    "musicaFondo": "storycard/thelastheistinsolkaelen-en.mp3",
+    "fechaCreacion": "2026-11-16T04:37:53.261Z"
+  },
+  {
+    "id": 1794803156546,
+    "titulo": "El Cartógrafo Perdido de Kaelos-Nadir",
+    "fraseInspiracion": "Las estrellas no guardan secretos, solo esperan a quienes recuerdan cómo mirar.",
+    "tematica": "Series",
+    "tipo": "automatica-ia",
+    "descripcion": "Tras interceptar la última bitácora de un pecio milenario, la tripulación del carguero Gryphas descubre una carta estelar hacia Kaelos-Nadir. Pronto comprenderán que perseguir el mito de una civilización extinguida desatará ambiciones feroces y sombras sepultadas en el abismo.",
+    "imagen": "imagenportada/elcartografoperdidodekaelosnadir.jpg",
+    "portada": "storycard/elcartografoperdidodekaelosnadir/portada.jpg",
+    "portadaMovil": "storycard/elcartografoperdidodekaelosnadir/portadamovil.jpg",
+    "slug": "elcartografoperdidodekaelosnadir",
+    "storyPage": "elcartografoperdidodekaelosnadir.html",
+    "secretosPage": "secretos/elcartografoperdidodekaelosnadir-secretos.html",
+    "esIA": true,
+    "quiz": [
+      {
+        "q": "¿Qué sucedió cuando Kaelen tocó el artefacto esférico hallado en el pecio del crucero?",
+        "a": [
+          "Transmitió una orden de autodestrucción al Gryphas, sobrecalentando los inyectores del reactor.",
+          "Proyectó un mensaje grabado de la madre de Kaelen pidiendo ayuda desde el Sector Nueve.",
+          "Se desactivó por completo hasta que Lyra utilizó sus códigos de criptografía para decodificarlo.",
+          "Se abrió proyectando un mapa estelar holográfico y emitió un pulso cuántico que alertó al Sindicato del Vacío."
+        ],
+        "correct": 3
+      },
+      {
+        "q": "¿Por qué Kaelen tomó los mandos secundarios del Gryphas y forzó un salto de emergencia hacia el Abismo de las Cien Nieblas?",
+        "a": [
+          "Porque intentaba huir de la fragata del Sindicato tras sufrir un disparo en los hiperimpulsores.",
+          "Porque Darek amenazó con vender la reliquia al mejor postor en una estación de contrabando.",
+          "Porque el mapa proyectó una transmisión de auxilio personalizada con la voz de su madre desaparecida.",
+          "Porque Vanya le ordenó rastrear la firma de vida detectada en los restos del naufragio."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "¿Por qué razón Darek enviaba reportes de posición e información en secreto al Sindicato del Vacío?",
+        "a": [
+          "Porque el Sindicato mantenía como rehén a su hija enferma en una colonia minera distante.",
+          "Porque descubrió que Lyra era una réplica sintética diseñada por los Primeros Arquitectos.",
+          "Porque el Comandante Vaelis le prometió acceso exclusivo a la llave de resonancia.",
+          "Porque quería vender el artefacto para saldar las deudas de mantenimiento del Gryphas."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "¿Qué hizo Lyra para evitar que la red colectiva de Kaelos-Nadir completara la transferencia mental?",
+        "a": [
+          "Destruyó la terminal maestra del núcleo conectando la llave de resonancia de Vaelis.",
+          "Transfirió la red colectiva al sistema operativo secundario de la lanzadera de atraque.",
+          "Forzó una sobrecarga en su matriz de memoria sintética para bloquear la red desde dentro.",
+          "Alteró los mandos del Gryphas para disparar contra los generadores de energía de la megabanda."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "¿Qué señal aterradora detectó la tripulación en las pantallas del Gryphas tras escapar de Kaelos-Nadir?",
+        "a": [
+          "Que Kaelos-Nadir había transmitido el código de la red colectiva a todas las boyas de comunicación de la galaxia.",
+          "Que la madre de Kaelen había entrado en un estado irreversible de muerte cerebral durante el viaje.",
+          "Que la nave del Comandante Vaelis había logrado sobrevivir a los sistemas de defensa automatizados.",
+          "Que la fragata del Sindicato del Vacío aguardaba a la salida del hiperespacio para interceptarlos."
+        ],
+        "correct": 0
+      }
+    ],
+    "quizEn": [
+      {
+        "q": "What happened when Kaelen touched the spherical artifact found in the wreckage of the cruiser?",
+        "a": [
+          "It transmitted a self-destruct command to the Gryphas, overheating the reactor injectors.",
+          "It projected a recorded message of Kaelen's mother asking for help from Sector Nine.",
+          "It deactivated completely until Lyra used her cryptographic codes to decode it.",
+          "It opened, projecting a holographic star map and emitting a quantum pulse that alerted the Void Syndicate."
+        ],
+        "correct": 3
+      },
+      {
+        "q": "Why did Kaelen take the secondary controls of the Gryphas and force an emergency jump into the Abyss of the Hundred Mists?",
+        "a": [
+          "Because he was trying to escape the Syndicate frigate after suffering a hit to the hyperdrives.",
+          "Because Darek threatened to sell the relic to the highest bidder at a smuggling station.",
+          "Because the map projected a personalized distress transmission featuring the voice of his missing mother.",
+          "Because Vanya ordered him to track the life sign detected in the ship wreckage."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "Why was Darek secretly sending position reports and information to the Void Syndicate?",
+        "a": [
+          "Because the Syndicate was holding his sick daughter hostage in a distant mining colony.",
+          "Because he discovered that Lyra was a synthetic replica designed by the First Architects.",
+          "Because Commander Vaelis promised him exclusive access to the resonance key.",
+          "Because he wanted to sell the artifact to pay off the Gryphas's maintenance debts."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "What did Lyra do to prevent the collective network of Kaelos-Nadir from completing the mental transfer?",
+        "a": [
+          "She destroyed the master core terminal by connecting Vaelis's resonance key.",
+          "She transferred the collective network into the docking shuttle's secondary operating system.",
+          "She forced an overload in her synthetic memory matrix to block the network from within.",
+          "She altered the Gryphas's controls to fire at the megaband's power generators."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "What terrifying signal did the crew detect on the Gryphas's screens after escaping from Kaelos-Nadir?",
+        "a": [
+          "That Kaelos-Nadir had transmitted the collective network's code to all communication buoys in the galaxy.",
+          "That Kaelen's mother had entered an irreversible state of brain death during the flight.",
+          "That Commander Vaelis's ship had managed to survive the automated defense systems.",
+          "That the Void Syndicate frigate was waiting at the exit of hyperspace to intercept them."
+        ],
+        "correct": 0
+      }
+    ],
+    "audioVoz": "storycard/elcartografoperdidodekaelosnadir/voz1.mp3",
+    "musicaFondo": "storycard/elcartografoperdidodekaelosnadir.mp3",
+    "fechaCreacion": "2026-11-16T04:46:10.513Z"
+  },
+  {
+    "id": 1794803166546,
+    "titulo": "The Lost Cartographer of Kaelos-Nadir",
+    "fraseInspiracion": "The stars keep no secrets, they only await those who remember.",
+    "tematica": "Series",
+    "tipo": "automatica-ia",
+    "descripcion": "After intercepting the last log of an ancient shipwreck, the crew of cargo vessel Gryphas discovers a star chart to Kaelos-Nadir. They soon learn that chasing the myth of an extinct civilization awakens fierce ambitions and deeply buried shadows.",
+    "imagen": "imagenportada/thelostcartographerofkaelosnadir-en.jpg",
+    "portada": "storycard/thelostcartographerofkaelosnadir-en/portada.jpg",
+    "portadaMovil": "storycard/thelostcartographerofkaelosnadir-en/portadamovil.jpg",
+    "slug": "thelostcartographerofkaelosnadir-en",
+    "storyPage": "thelostcartographerofkaelosnadir-en.html",
+    "secretosPage": "secretos/thelostcartographerofkaelosnadir-en-secretos.html",
+    "esIA": true,
+    "quiz": [
+      {
+        "q": "¿Qué sucedió cuando Kaelen tocó el artefacto esférico hallado en el pecio del crucero?",
+        "a": [
+          "Transmitió una orden de autodestrucción al Gryphas, sobrecalentando los inyectores del reactor.",
+          "Proyectó un mensaje grabado de la madre de Kaelen pidiendo ayuda desde el Sector Nueve.",
+          "Se desactivó por completo hasta que Lyra utilizó sus códigos de criptografía para decodificarlo.",
+          "Se abrió proyectando un mapa estelar holográfico y emitió un pulso cuántico que alertó al Sindicato del Vacío."
+        ],
+        "correct": 3
+      },
+      {
+        "q": "¿Por qué Kaelen tomó los mandos secundarios del Gryphas y forzó un salto de emergencia hacia el Abismo de las Cien Nieblas?",
+        "a": [
+          "Porque intentaba huir de la fragata del Sindicato tras sufrir un disparo en los hiperimpulsores.",
+          "Porque Darek amenazó con vender la reliquia al mejor postor en una estación de contrabando.",
+          "Porque el mapa proyectó una transmisión de auxilio personalizada con la voz de su madre desaparecida.",
+          "Porque Vanya le ordenó rastrear la firma de vida detectada en los restos del naufragio."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "¿Por qué razón Darek enviaba reportes de posición e información en secreto al Sindicato del Vacío?",
+        "a": [
+          "Porque el Sindicato mantenía como rehén a su hija enferma en una colonia minera distante.",
+          "Porque descubrió que Lyra era una réplica sintética diseñada por los Primeros Arquitectos.",
+          "Porque el Comandante Vaelis le prometió acceso exclusivo a la llave de resonancia.",
+          "Porque quería vender el artefacto para saldar las deudas de mantenimiento del Gryphas."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "¿Qué hizo Lyra para evitar que la red colectiva de Kaelos-Nadir completara la transferencia mental?",
+        "a": [
+          "Destruyó la terminal maestra del núcleo conectando la llave de resonancia de Vaelis.",
+          "Transfirió la red colectiva al sistema operativo secundario de la lanzadera de atraque.",
+          "Forzó una sobrecarga en su matriz de memoria sintética para bloquear la red desde dentro.",
+          "Alteró los mandos del Gryphas para disparar contra los generadores de energía de la megabanda."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "¿Qué señal aterradora detectó la tripulación en las pantallas del Gryphas tras escapar de Kaelos-Nadir?",
+        "a": [
+          "Que Kaelos-Nadir había transmitido el código de la red colectiva a todas las boyas de comunicación de la galaxia.",
+          "Que la madre de Kaelen había entrado en un estado irreversible de muerte cerebral durante el viaje.",
+          "Que la nave del Comandante Vaelis había logrado sobrevivir a los sistemas de defensa automatizados.",
+          "Que la fragata del Sindicato del Vacío aguardaba a la salida del hiperespacio para interceptarlos."
+        ],
+        "correct": 0
+      }
+    ],
+    "quizEn": [
+      {
+        "q": "What happened when Kaelen touched the spherical artifact found in the wreckage of the cruiser?",
+        "a": [
+          "It transmitted a self-destruct command to the Gryphas, overheating the reactor injectors.",
+          "It projected a recorded message of Kaelen's mother asking for help from Sector Nine.",
+          "It deactivated completely until Lyra used her cryptographic codes to decode it.",
+          "It opened, projecting a holographic star map and emitting a quantum pulse that alerted the Void Syndicate."
+        ],
+        "correct": 3
+      },
+      {
+        "q": "Why did Kaelen take the secondary controls of the Gryphas and force an emergency jump into the Abyss of the Hundred Mists?",
+        "a": [
+          "Because he was trying to escape the Syndicate frigate after suffering a hit to the hyperdrives.",
+          "Because Darek threatened to sell the relic to the highest bidder at a smuggling station.",
+          "Because the map projected a personalized distress transmission featuring the voice of his missing mother.",
+          "Because Vanya ordered him to track the life sign detected in the ship wreckage."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "Why was Darek secretly sending position reports and information to the Void Syndicate?",
+        "a": [
+          "Because the Syndicate was holding his sick daughter hostage in a distant mining colony.",
+          "Because he discovered that Lyra was a synthetic replica designed by the First Architects.",
+          "Because Commander Vaelis promised him exclusive access to the resonance key.",
+          "Because he wanted to sell the artifact to pay off the Gryphas's maintenance debts."
+        ],
+        "correct": 0
+      },
+      {
+        "q": "What did Lyra do to prevent the collective network of Kaelos-Nadir from completing the mental transfer?",
+        "a": [
+          "She destroyed the master core terminal by connecting Vaelis's resonance key.",
+          "She transferred the collective network into the docking shuttle's secondary operating system.",
+          "She forced an overload in her synthetic memory matrix to block the network from within.",
+          "She altered the Gryphas's controls to fire at the megaband's power generators."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "What terrifying signal did the crew detect on the Gryphas's screens after escaping from Kaelos-Nadir?",
+        "a": [
+          "That Kaelos-Nadir had transmitted the collective network's code to all communication buoys in the galaxy.",
+          "That Kaelen's mother had entered an irreversible state of brain death during the flight.",
+          "That Commander Vaelis's ship had managed to survive the automated defense systems.",
+          "That the Void Syndicate frigate was waiting at the exit of hyperspace to intercept them."
+        ],
+        "correct": 0
+      }
+    ],
+    "audioVoz": "storycard/thelostcartographerofkaelosnadir-en/voz1.mp3",
+    "musicaFondo": "storycard/thelostcartographerofkaelosnadir-en.mp3",
+    "fechaCreacion": "2026-11-16T04:46:10.513Z"
+  },
+  {
     "id": 1794197528250,
     "titulo": "El Eco Sumergido de Vael-Khoris",
     "fraseInspiracion": "Incluso en el abismo más oscuro, la lluvia recuerda el calor del sol.",

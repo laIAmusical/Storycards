@@ -82,3 +82,15 @@ Sube cada archivo a su ruta exacta (voz y música). La storycard funciona sin el
 
 ## The Secret Prompter of Caelomira (2026-11-09)
 - [ ] `storycard/thesecretprompterofcaelomira-en.mp3`
+
+## El Último Golpe en Sol-Kaelen (2026-11-16)
+- [ ] `storycard/elultimogolpeensolkaelen.mp3`
+
+## The Last Heist in Sol-Kaelen (2026-11-16)
+- [ ] `storycard/thelastheistinsolkaelen-en.mp3`
+
+## El Cartógrafo Perdido de Kaelos-Nadir (2026-11-16)
+- [ ] `storycard/elcartografoperdidodekaelosnadir.mp3`
+
+## The Lost Cartographer of Kaelos-Nadir (2026-11-16)
+- [ ] `storycard/thelostcartographerofkaelosnadir-en.mp3`

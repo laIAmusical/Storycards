@@ -1,5 +1,493 @@
 [
   {
+    "id": 1795411205144,
+    "titulo": "El Vórtice Silencioso de Ouro-Vandis",
+    "fraseInspiracion": "Cuando el abismo ruge, solo un pulso firme detiene la caída.",
+    "tematica": "Cine",
+    "tipo": "automatica-ia",
+    "descripcion": "Suspendida sobre una falla tectónica, la metrópoli de Ouro-Vandis enfrenta su aniquilación inminente cuando su núcleo gravitatorio colapsa. Dos parias descienden al vacío en una carrera desesperada para reactivar los anclajes antes del cataclismo final.",
+    "imagen": "imagenportada/elvorticesilenciosodeourovandis.jpg",
+    "portada": "storycard/elvorticesilenciosodeourovandis/portada.jpg",
+    "portadaMovil": "storycard/elvorticesilenciosodeourovandis/portadamovil.jpg",
+    "slug": "elvorticesilenciosodeourovandis",
+    "storyPage": "elvorticesilenciosodeourovandis.html",
+    "secretosPage": "secretos/elvorticesilenciosodeourovandis-secretos.html",
+    "esIA": true,
+    "quiz": [
+      {
+        "q": "¿Qué suceso inicial hizo que la ciudad de Ouro-Vandis se inclinara siete grados sobre su eje?",
+        "a": [
+          "El colapso inmediato de los seis tensores restantes por la fatiga de las plataformas inferiores.",
+          "La colisión de una nave militar contra el giroscopio central del Domo Mayor.",
+          "La explosión accidental de los silos de condensación secundaria en el Sector Siete.",
+          "La ruptura del tensor norte de titanio anclado al lecho de la falla de Kaelum."
+        ],
+        "correct": 3
+      },
+      {
+        "q": "¿Cómo logró Maya abrir paso a la nave Vanguardia-Nueve cuando un bloque de fundición de doce mil toneladas bloqueaba el túnel al núcleo?",
+        "a": [
+          "Lanzó una granada electromagnética que anuló la gravedad del bloque metálico.",
+          "Utilizó los propulsores de maniobra para embestir directamente el contrapeso en su punto ciego.",
+          "Desconectó el piloto predictivo para deslizarse por debajo de un acueducto colapsado.",
+          "Cortó el cable maestro del contrapeso con los cañones de corte térmico cuando alcanzaba el cenit de su oscilación."
+        ],
+        "correct": 3
+      },
+      {
+        "q": "¿Por qué la Guardia Pretoriana del Directorio intentó detener a Maya y Eric en el viaducto de servicio?",
+        "a": [
+          "Porque buscaban activar manualmente la maniobra de inversión gravitatoria desde el Punto Cero.",
+          "Porque la élite quería sacrificar los distritos inferiores para asegurar la huida de las plataformas altas en sus lanzaderas.",
+          "Porque deseaban capturar la nave Vanguardia-Nueve para escapar ellos mismos de la metrópoli.",
+          "Porque pensaban que el cilindro criogénico contenía un arma electromagnética de los rebeldes."
+        ],
+        "correct": 1
+      },
+      {
+        "q": "¿Qué estrategia utilizó Maya para superar la brecha de noventa metros hasta la compuerta del Núcleo tras el colapso del viaducto?",
+        "a": [
+          "Encendió los motores dañados de la Vanguardia-Nueve para realizar un último impulso en línea recta.",
+          "Usó la distorsión antigravitatoria de los escombros para flotar de plataforma en plataforma.",
+          "Enganchó su arpón neumático a una viga de elevación en oscilación para balancearse e interceptar el arco sobre el vacío.",
+          "Escaló los anclajes de acero de la galería de ventilación hasta llegar a los anillos giroscópicos."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "¿Qué efecto inmediato tuvo la activación del catalizador criogénico en el Núcleo Isoceleste?",
+        "a": [
+          "Generó una implosión de luz zafiro que congeló la sobrecarga de los anillos y detuvo la caída de la ciudad.",
+          "Invirtió la polaridad gravitatoria, haciendo que los escombros cayeran hacia el magma inferior.",
+          "Provocó una ráfaga térmica que destruyó por completo las lanzaderas de evacuación de la élite.",
+          "Hizo estallar los cinco tensores restantes y liberó las plataformas altas hacia el espacio orbital."
+        ],
+        "correct": 0
+      }
+    ],
+    "quizEn": [
+      {
+        "q": "What initial event caused the city of Ouro-Vandis to tilt seven degrees on its axis?",
+        "a": [
+          "The immediate collapse of the six remaining tensors due to structural fatigue in the lower platforms.",
+          "The collision of a military ship against the central gyroscope of the Main Dome.",
+          "The accidental explosion of the secondary condensation silos in Sector Seven.",
+          "The snapping of the titanium north tensor anchored to the Kaelum fault bed."
+        ],
+        "correct": 3
+      },
+      {
+        "q": "How did Maya open a path for the Vanguard-Nine ship when a twelve-thousand-ton metal block blocked the tunnel to the core?",
+        "a": [
+          "She launched an electromagnetic grenade that neutralized the gravity of the metal block.",
+          "She used maneuvering thrusters to ram directly into the counterweight's blind spot.",
+          "She shut down the predictive pilot to slide beneath a collapsed aqueduct.",
+          "She severed the main cable of the counterweight with concentrated thermal cutting cannons as it reached its peak oscillation."
+        ],
+        "correct": 3
+      },
+      {
+        "q": "Why did the Directorate's Praetorian Guard attempt to stop Maya and Eric on the service viaduct?",
+        "a": [
+          "Because they wanted to manually activate the gravitational inversion maneuver from Point Zero.",
+          "Because the elite wanted to sacrifice the lower districts to ensure the high platforms' escape in their launches.",
+          "Because they desired to capture the Vanguard-Nine ship to escape the metropolis themselves.",
+          "Because they believed the cryogenic cylinder contained a rebel electromagnetic weapon."
+        ],
+        "correct": 1
+      },
+      {
+        "q": "What strategy did Maya use to cross the ninety-meter gap to the Core sphere after the viaduct collapsed?",
+        "a": [
+          "She ignited the damaged engines of the Vanguard-Nine for a final straight impulse.",
+          "She used the anti-gravity distortion of the debris to float from platform to platform.",
+          "She hooked her pneumatic harpoon to an oscillating lifting beam to swing and intercept the arc over the void.",
+          "She climbed the steel anchors of the ventilation gallery until reaching the gyroscopic rings."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "What immediate effect did activating the cryogenic catalyst have inside the Isocelestial Core?",
+        "a": [
+          "It generated a sapphire light implosion that froze the rings' thermal overload and halted the city's free fall.",
+          "It reversed the gravitational polarity, sending the floating debris plunging into the lower magma.",
+          "It caused a thermal burst that completely destroyed the elite's evacuation launches.",
+          "It detonated the remaining five tensors and released the high platforms into orbital space."
+        ],
+        "correct": 0
+      }
+    ],
+    "audioVoz": "storycard/elvorticesilenciosodeourovandis/voz1.mp3",
+    "musicaFondo": "storycard/elvorticesilenciosodeourovandis.mp3",
+    "fechaCreacion": "2026-11-23T05:32:33.463Z"
+  },
+  {
+    "id": 1795411215144,
+    "titulo": "The Silent Vortex of Ouro-Vandis",
+    "fraseInspiracion": "When the abyss roars, only a steady pulse halts the fall.",
+    "tematica": "Cine",
+    "tipo": "automatica-ia",
+    "descripcion": "Suspended over a tectonic rift, the metropolis of Ouro-Vandis faces imminent doom when its gravitational core collapses. Two outcasts plunge into the void in a desperate race to reignite the anchors before the final cataclysm strikes.",
+    "imagen": "imagenportada/thesilentvortexofourovandis-en.jpg",
+    "portada": "storycard/thesilentvortexofourovandis-en/portada.jpg",
+    "portadaMovil": "storycard/thesilentvortexofourovandis-en/portadamovil.jpg",
+    "slug": "thesilentvortexofourovandis-en",
+    "storyPage": "thesilentvortexofourovandis-en.html",
+    "secretosPage": "secretos/thesilentvortexofourovandis-en-secretos.html",
+    "esIA": true,
+    "quiz": [
+      {
+        "q": "¿Qué suceso inicial hizo que la ciudad de Ouro-Vandis se inclinara siete grados sobre su eje?",
+        "a": [
+          "El colapso inmediato de los seis tensores restantes por la fatiga de las plataformas inferiores.",
+          "La colisión de una nave militar contra el giroscopio central del Domo Mayor.",
+          "La explosión accidental de los silos de condensación secundaria en el Sector Siete.",
+          "La ruptura del tensor norte de titanio anclado al lecho de la falla de Kaelum."
+        ],
+        "correct": 3
+      },
+      {
+        "q": "¿Cómo logró Maya abrir paso a la nave Vanguardia-Nueve cuando un bloque de fundición de doce mil toneladas bloqueaba el túnel al núcleo?",
+        "a": [
+          "Lanzó una granada electromagnética que anuló la gravedad del bloque metálico.",
+          "Utilizó los propulsores de maniobra para embestir directamente el contrapeso en su punto ciego.",
+          "Desconectó el piloto predictivo para deslizarse por debajo de un acueducto colapsado.",
+          "Cortó el cable maestro del contrapeso con los cañones de corte térmico cuando alcanzaba el cenit de su oscilación."
+        ],
+        "correct": 3
+      },
+      {
+        "q": "¿Por qué la Guardia Pretoriana del Directorio intentó detener a Maya y Eric en el viaducto de servicio?",
+        "a": [
+          "Porque buscaban activar manualmente la maniobra de inversión gravitatoria desde el Punto Cero.",
+          "Porque la élite quería sacrificar los distritos inferiores para asegurar la huida de las plataformas altas en sus lanzaderas.",
+          "Porque deseaban capturar la nave Vanguardia-Nueve para escapar ellos mismos de la metrópoli.",
+          "Porque pensaban que el cilindro criogénico contenía un arma electromagnética de los rebeldes."
+        ],
+        "correct": 1
+      },
+      {
+        "q": "¿Qué estrategia utilizó Maya para superar la brecha de noventa metros hasta la compuerta del Núcleo tras el colapso del viaducto?",
+        "a": [
+          "Encendió los motores dañados de la Vanguardia-Nueve para realizar un último impulso en línea recta.",
+          "Usó la distorsión antigravitatoria de los escombros para flotar de plataforma en plataforma.",
+          "Enganchó su arpón neumático a una viga de elevación en oscilación para balancearse e interceptar el arco sobre el vacío.",
+          "Escaló los anclajes de acero de la galería de ventilación hasta llegar a los anillos giroscópicos."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "¿Qué efecto inmediato tuvo la activación del catalizador criogénico en el Núcleo Isoceleste?",
+        "a": [
+          "Generó una implosión de luz zafiro que congeló la sobrecarga de los anillos y detuvo la caída de la ciudad.",
+          "Invirtió la polaridad gravitatoria, haciendo que los escombros cayeran hacia el magma inferior.",
+          "Provocó una ráfaga térmica que destruyó por completo las lanzaderas de evacuación de la élite.",
+          "Hizo estallar los cinco tensores restantes y liberó las plataformas altas hacia el espacio orbital."
+        ],
+        "correct": 0
+      }
+    ],
+    "quizEn": [
+      {
+        "q": "What initial event caused the city of Ouro-Vandis to tilt seven degrees on its axis?",
+        "a": [
+          "The immediate collapse of the six remaining tensors due to structural fatigue in the lower platforms.",
+          "The collision of a military ship against the central gyroscope of the Main Dome.",
+          "The accidental explosion of the secondary condensation silos in Sector Seven.",
+          "The snapping of the titanium north tensor anchored to the Kaelum fault bed."
+        ],
+        "correct": 3
+      },
+      {
+        "q": "How did Maya open a path for the Vanguard-Nine ship when a twelve-thousand-ton metal block blocked the tunnel to the core?",
+        "a": [
+          "She launched an electromagnetic grenade that neutralized the gravity of the metal block.",
+          "She used maneuvering thrusters to ram directly into the counterweight's blind spot.",
+          "She shut down the predictive pilot to slide beneath a collapsed aqueduct.",
+          "She severed the main cable of the counterweight with concentrated thermal cutting cannons as it reached its peak oscillation."
+        ],
+        "correct": 3
+      },
+      {
+        "q": "Why did the Directorate's Praetorian Guard attempt to stop Maya and Eric on the service viaduct?",
+        "a": [
+          "Because they wanted to manually activate the gravitational inversion maneuver from Point Zero.",
+          "Because the elite wanted to sacrifice the lower districts to ensure the high platforms' escape in their launches.",
+          "Because they desired to capture the Vanguard-Nine ship to escape the metropolis themselves.",
+          "Because they believed the cryogenic cylinder contained a rebel electromagnetic weapon."
+        ],
+        "correct": 1
+      },
+      {
+        "q": "What strategy did Maya use to cross the ninety-meter gap to the Core sphere after the viaduct collapsed?",
+        "a": [
+          "She ignited the damaged engines of the Vanguard-Nine for a final straight impulse.",
+          "She used the anti-gravity distortion of the debris to float from platform to platform.",
+          "She hooked her pneumatic harpoon to an oscillating lifting beam to swing and intercept the arc over the void.",
+          "She climbed the steel anchors of the ventilation gallery until reaching the gyroscopic rings."
+        ],
+        "correct": 2
+      },
+      {
+        "q": "What immediate effect did activating the cryogenic catalyst have inside the Isocelestial Core?",
+        "a": [
+          "It generated a sapphire light implosion that froze the rings' thermal overload and halted the city's free fall.",
+          "It reversed the gravitational polarity, sending the floating debris plunging into the lower magma.",
+          "It caused a thermal burst that completely destroyed the elite's evacuation launches.",
+          "It detonated the remaining five tensors and released the high platforms into orbital space."
+        ],
+        "correct": 0
+      }
+    ],
+    "audioVoz": "storycard/thesilentvortexofourovandis-en/voz1.mp3",
+    "musicaFondo": "storycard/thesilentvortexofourovandis-en.mp3",
+    "fechaCreacion": "2026-11-23T05:32:33.463Z"
+  },
+  {
+    "id": 1795411205145,
+    "titulo": "El Sueño Suspendido de Aeris-Thalon",
+    "fraseInspiracion": "Las nubes guardan el peso de las promesas jamás contempladas.",
+    "tematica": "Documentales y usuarios",
+    "tipo": "automatica-ia",
+    "descripcion": "Este documental explora la vida de Eldrin-Voss, el visionario que diseñó la majestuosa ciudad flotante de Aeris-Thalon. A través de testimonios y archivos perdidos, descubrimos el trágico misterio tras su inauguración inacabada.",
+    "imagen": "imagenportada/elsuenosuspendidodeaeristhalon.jpg",
+    "portada": "storycard/elsuenosuspendidodeaeristhalon/portada.jpg",
+    "portadaMovil": "storycard/elsuenosuspendidodeaeristhalon/portadamovil.jpg",
+    "slug": "elsuenosuspendidodeaeristhalon",
+    "storyPage": "elsuenosuspendidodeaeristhalon.html",
+    "secretosPage": "secretos/elsuenosuspendidodeaeristhalon-secretos.html",
+    "esIA": true,
+    "quiz": [
+      {
+        "q": "¿Cómo se llamaba el gran arquitecto que jamás puso un pie en las calles elevadas de Aeris-Thalon?",
+        "a": [
+          "Eldrin-Voss",
+          "Corin Maro",
+          "Julian Mercer",
+          "Vespera Thorne"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "¿Cuál era el nombre del artefacto inventado por Eldrin-Voss capaz de estabilizar la energía telúrica y transformarla en empuje ascensional?",
+        "a": [
+          "El Candelabro de Gas",
+          "La Brújula de Oros",
+          "El Núcleo Aethel",
+          "El Cristal de Bronce"
+        ],
+        "correct": 2
+      },
+      {
+        "q": "¿Qué encontraron exactamente los exploradores al descender a la Cámara Núcleo sellada tres siglos después?",
+        "a": [
+          "Cristales bioluminiscentes entrelazados con componentes orgánicos en mercurio",
+          "Un motor de combustión tradicional alimentado por carbón y vapor",
+          "Un panel eléctrico con baterías de cobre y cables de aleación ligera",
+          "Una serie de engranajes mecánicos gigantescos movidos por agua"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "¿Cuál fue la verdadera razón por la cual Eldrin-Voss quedó inconsciente junto al panel de control la penúltima noche?",
+        "a": [
+          "Fue víctima de un sabotaje financiero llevado a cabo por los enemigos del reino",
+          "Sufrió una repentina fiebre que lo privó de presenciar el ascenso de su obra",
+          "Cayó exhausto tras trabajar durante dos días seguidos sin dormir ni comer",
+          "Decidió transferir su propia energía vital y mente al artefacto para salvar la ciudad"
+        ],
+        "correct": 3
+      },
+      {
+        "q": "¿Qué descubrieron los habitantes de Aeris-Thalon sobre el fundador tras la revelación de la última grabación?",
+        "a": [
+          "Que la plataforma flotante fue construida en realidad por su ayudante Corin Maro",
+          "Que la silueta en los jardines era un impostor que intentaba robar la tecnología",
+          "Que el arquitecto abandonó el reino en secreto la noche antes del despegue",
+          "Que Eldrin-Voss no murió en vano, sino que se convirtió en la conciencia viva de la ciudad"
+        ],
+        "correct": 3
+      }
+    ],
+    "quizEn": [
+      {
+        "q": "What was the name of the great architect who never set foot in the elevated streets of Aeris-Thalon?",
+        "a": [
+          "Eldrin-Voss",
+          "Corin Maro",
+          "Julian Mercer",
+          "Vespera Thorne"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "What was the name of the artifact invented by Eldrin-Voss capable of stabilizing telluric energy and transforming it into ascensional thrust?",
+        "a": [
+          "The Gas Candelabra",
+          "The Compass of Oros",
+          "The Aethel Core",
+          "The Bronze Crystal"
+        ],
+        "correct": 2
+      },
+      {
+        "q": "What did the explorers find exactly when they descended into the sealed Core Chamber three centuries later?",
+        "a": [
+          "Bioluminescent crystals intertwined with organic components in mercury",
+          "A traditional combustion engine fueled by coal and steam",
+          "An electrical panel with copper batteries and light alloy wires",
+          "A series of gigantic mechanical gears driven by water"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "What was the real reason why Eldrin-Voss was left unconscious next to the control panel on the penultimate night?",
+        "a": [
+          "He was the victim of financial sabotage carried out by the kingdom's enemies",
+          "He suffered a sudden fever that deprived him of witnessing the ascent of his work",
+          "He collapsed from exhaustion after working for two days straight without sleep or food",
+          "He decided to transfer his own vital energy and mind to the artifact to save the city"
+        ],
+        "correct": 3
+      },
+      {
+        "q": "What did the inhabitants of Aeris-Thalon discover about the founder after the revelation of the last recording?",
+        "a": [
+          "That the floating platform was actually built by his assistant Corin Maro",
+          "That the silhouette in the gardens was an impostor trying to steal the technology",
+          "That the architect secretly left the kingdom the night before the takeoff",
+          "That Eldrin-Voss did not die in vain, but became the living consciousness of the city"
+        ],
+        "correct": 3
+      }
+    ],
+    "audioVoz": "storycard/elsuenosuspendidodeaeristhalon/voz1.mp3",
+    "musicaFondo": "storycard/elsuenosuspendidodeaeristhalon.mp3",
+    "fechaCreacion": "2026-11-23T05:40:17.788Z"
+  },
+  {
+    "id": 1795411215145,
+    "titulo": "The Suspended Dream of Aeris-Thalon",
+    "fraseInspiracion": "The clouds hold the weight of promises never witnessed.",
+    "tematica": "Documentales y usuarios",
+    "tipo": "automatica-ia",
+    "descripcion": "This documentary explores the life of Eldrin-Voss, the visionary who designed the majestic floating city of Aeris-Thalon. Through testimonies and lost archives, we uncover the tragic mystery behind its unfinished inauguration.",
+    "imagen": "imagenportada/thesuspendeddreamofaeristhalon-en.jpg",
+    "portada": "storycard/thesuspendeddreamofaeristhalon-en/portada.jpg",
+    "portadaMovil": "storycard/thesuspendeddreamofaeristhalon-en/portadamovil.jpg",
+    "slug": "thesuspendeddreamofaeristhalon-en",
+    "storyPage": "thesuspendeddreamofaeristhalon-en.html",
+    "secretosPage": "secretos/thesuspendeddreamofaeristhalon-en-secretos.html",
+    "esIA": true,
+    "quiz": [
+      {
+        "q": "¿Cómo se llamaba el gran arquitecto que jamás puso un pie en las calles elevadas de Aeris-Thalon?",
+        "a": [
+          "Eldrin-Voss",
+          "Corin Maro",
+          "Julian Mercer",
+          "Vespera Thorne"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "¿Cuál era el nombre del artefacto inventado por Eldrin-Voss capaz de estabilizar la energía telúrica y transformarla en empuje ascensional?",
+        "a": [
+          "El Candelabro de Gas",
+          "La Brújula de Oros",
+          "El Núcleo Aethel",
+          "El Cristal de Bronce"
+        ],
+        "correct": 2
+      },
+      {
+        "q": "¿Qué encontraron exactamente los exploradores al descender a la Cámara Núcleo sellada tres siglos después?",
+        "a": [
+          "Cristales bioluminiscentes entrelazados con componentes orgánicos en mercurio",
+          "Un motor de combustión tradicional alimentado por carbón y vapor",
+          "Un panel eléctrico con baterías de cobre y cables de aleación ligera",
+          "Una serie de engranajes mecánicos gigantescos movidos por agua"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "¿Cuál fue la verdadera razón por la cual Eldrin-Voss quedó inconsciente junto al panel de control la penúltima noche?",
+        "a": [
+          "Fue víctima de un sabotaje financiero llevado a cabo por los enemigos del reino",
+          "Sufrió una repentina fiebre que lo privó de presenciar el ascenso de su obra",
+          "Cayó exhausto tras trabajar durante dos días seguidos sin dormir ni comer",
+          "Decidió transferir su propia energía vital y mente al artefacto para salvar la ciudad"
+        ],
+        "correct": 3
+      },
+      {
+        "q": "¿Qué descubrieron los habitantes de Aeris-Thalon sobre el fundador tras la revelación de la última grabación?",
+        "a": [
+          "Que la plataforma flotante fue construida en realidad por su ayudante Corin Maro",
+          "Que la silueta en los jardines era un impostor que intentaba robar la tecnología",
+          "Que el arquitecto abandonó el reino en secreto la noche antes del despegue",
+          "Que Eldrin-Voss no murió en vano, sino que se convirtió en la conciencia viva de la ciudad"
+        ],
+        "correct": 3
+      }
+    ],
+    "quizEn": [
+      {
+        "q": "What was the name of the great architect who never set foot in the elevated streets of Aeris-Thalon?",
+        "a": [
+          "Eldrin-Voss",
+          "Corin Maro",
+          "Julian Mercer",
+          "Vespera Thorne"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "What was the name of the artifact invented by Eldrin-Voss capable of stabilizing telluric energy and transforming it into ascensional thrust?",
+        "a": [
+          "The Gas Candelabra",
+          "The Compass of Oros",
+          "The Aethel Core",
+          "The Bronze Crystal"
+        ],
+        "correct": 2
+      },
+      {
+        "q": "What did the explorers find exactly when they descended into the sealed Core Chamber three centuries later?",
+        "a": [
+          "Bioluminescent crystals intertwined with organic components in mercury",
+          "A traditional combustion engine fueled by coal and steam",
+          "An electrical panel with copper batteries and light alloy wires",
+          "A series of gigantic mechanical gears driven by water"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "What was the real reason why Eldrin-Voss was left unconscious next to the control panel on the penultimate night?",
+        "a": [
+          "He was the victim of financial sabotage carried out by the kingdom's enemies",
+          "He suffered a sudden fever that deprived him of witnessing the ascent of his work",
+          "He collapsed from exhaustion after working for two days straight without sleep or food",
+          "He decided to transfer his own vital energy and mind to the artifact to save the city"
+        ],
+        "correct": 3
+      },
+      {
+        "q": "What did the inhabitants of Aeris-Thalon discover about the founder after the revelation of the last recording?",
+        "a": [
+          "That the floating platform was actually built by his assistant Corin Maro",
+          "That the silhouette in the gardens was an impostor trying to steal the technology",
+          "That the architect secretly left the kingdom the night before the takeoff",
+          "That Eldrin-Voss did not die in vain, but became the living consciousness of the city"
+        ],
+        "correct": 3
+      }
+    ],
+    "audioVoz": "storycard/thesuspendeddreamofaeristhalon-en/voz1.mp3",
+    "musicaFondo": "storycard/thesuspendeddreamofaeristhalon-en.mp3",
+    "fechaCreacion": "2026-11-23T05:40:17.788Z"
+  },
+  {
     "id": 1794803156545,
     "titulo": "El Último Golpe en Sol-Kaelen",
     "fraseInspiracion": "Cuando las coronas se derriten, solo el oro robado compra el mañana.",

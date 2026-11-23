@@ -94,3 +94,15 @@ Sube cada archivo a su ruta exacta (voz y música). La storycard funciona sin el
 
 ## The Lost Cartographer of Kaelos-Nadir (2026-11-16)
 - [ ] `storycard/thelostcartographerofkaelosnadir-en.mp3`
+
+## El Vórtice Silencioso de Ouro-Vandis (2026-11-23)
+- [ ] `storycard/elvorticesilenciosodeourovandis.mp3`
+
+## The Silent Vortex of Ouro-Vandis (2026-11-23)
+- [ ] `storycard/thesilentvortexofourovandis-en.mp3`
+
+## El Sueño Suspendido de Aeris-Thalon (2026-11-23)
+- [ ] `storycard/elsuenosuspendidodeaeristhalon.mp3`
+
+## The Suspended Dream of Aeris-Thalon (2026-11-23)
+- [ ] `storycard/thesuspendeddreamofaeristhalon-en.mp3`

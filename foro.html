@@ -1,0 +1,2010 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LaIAmusical · Foro</title>
+<link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+<style>
+  :root {
+    --orange:       #e8820c;
+    --orange-dark:  #c96e08;
+    --orange-light: #ffd98a;
+    --row-alt:      #fff8e1;
+    --row-base:     #fffde7;
+    --border:       #e0a840;
+    --text-dark:    #2c1a00;
+    --text-mid:     #5a3a00;
+    --text-link:    #b85500;
+    --hot:          #d44000;
+    --teal:         #006e6e;
+    --teal-dark:    #004f4f;
+    --teal-mid:     #005a5a;
+    --bg:           #004f4f;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    font-size: 13.5px;
+    background: var(--bg);
+    color: var(--text-dark);
+    min-height: 100vh;
+  }
+
+  /* ── TOP NAV ──────────────────────────────── */
+  .topbar {
+    background: var(--teal-dark);
+    padding: 0 18px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    border-bottom: 3px solid var(--orange);
+    position: sticky; top: 0; z-index: 50;
+    flex-wrap: nowrap;
+  }
+  .topbar .logo {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 14px; margin-right: 6px; border-radius: 8px;
+    background: linear-gradient(to right, #0d9488, #0891b2);
+    text-decoration: none; white-space: nowrap;
+    transition: all .3s ease; flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  .topbar .logo:hover {
+    background: linear-gradient(to right, #059669, #0284c7);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+  }
+  .topbar .logo i {
+    color: #fff; font-size: 18px;
+  }
+  .topbar .logo span {
+    font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700;
+    color: #fff; letter-spacing: 0.5px;
+  }
+  .topbar-nav { display: flex; align-items: center; gap: 2px; flex-shrink: 0; }
+  .tab-btn {
+    font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700;
+    color: rgba(255,255,255,.75); background: none; border: none;
+    padding: 12px 14px; cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: color .2s, border-color .2s; letter-spacing: .3px;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { color: #fff; }
+  .tab-btn.active { color: var(--orange-light); border-bottom-color: var(--orange-light); }
+  .btn-normas {
+    font-family: 'Nunito', sans-serif; font-size: 12px; font-weight: 700;
+    color: var(--orange-light); background: rgba(232,130,12,.15);
+    border: 1px solid rgba(232,130,12,.4);
+    padding: 6px 11px; cursor: pointer; border-radius: 3px;
+    transition: background .2s, color .2s; letter-spacing: .2px;
+    white-space: nowrap; display: flex; align-items: center; gap: 5px; flex-shrink: 0;
+  }
+  .btn-normas:hover { background: rgba(232,130,12,.3); color: #fff; }
+  .topbar-spacer { flex: 1; min-width: 4px; }
+  .user-area {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: rgba(255,255,255,.8);
+    padding: 6px 0; margin-left: 8px;
+    border-left: 1px solid rgba(255,255,255,.2); padding-left: 14px; flex-shrink: 0;
+  }
+  .user-area .username-tag {
+    font-weight: 700; color: var(--orange-light);
+    max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .btn-topbar {
+    background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.25);
+    color: #fff; font-size: 11px; font-weight: 700; padding: 4px 10px;
+    border-radius: 3px; cursor: pointer; font-family: 'Nunito', sans-serif;
+    transition: background .15s; white-space: nowrap;
+  }
+  .btn-topbar:hover { background: rgba(255,255,255,.22); }
+  .btn-topbar.logout { background: rgba(200,50,30,.3); border-color: rgba(255,100,80,.4); }
+  .btn-topbar.logout:hover { background: rgba(200,50,30,.5); }
+  .hamburger {
+    display: none; background: none; border: none; color: rgba(255,255,255,.8);
+    font-size: 20px; cursor: pointer; padding: 8px 6px; flex-shrink: 0; margin-left: 4px;
+  }
+
+  /* Mobile nav drawer */
+  .mobile-nav-drawer { display: none; position: fixed; top:0;left:0;right:0;bottom:0; z-index: 200; }
+  .mobile-nav-drawer.open { display: block; }
+  .mobile-nav-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.55); }
+  .mobile-nav-panel {
+    position: absolute; top:0;left:0; width: 240px; height: 100%;
+    background: var(--teal-dark); border-right: 2px solid var(--orange);
+    display: flex; flex-direction: column; animation: slideInLeft .2s ease; overflow-y: auto;
+  }
+  @keyframes slideInLeft { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+  .mobile-nav-header {
+    padding: 16px 18px 12px; border-bottom: 1px solid rgba(255,255,255,.15);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .mobile-nav-logo { font-family: 'Teko', sans-serif; font-size: 22px; font-weight: 600; color: #fff; text-decoration: none; }
+  .mobile-nav-logo span { color: var(--orange-light); }
+  .mobile-nav-close { background: none; border: none; color: rgba(255,255,255,.6); font-size: 20px; cursor: pointer; padding: 4px; }
+  .mobile-nav-close:hover { color: #fff; }
+  .mobile-nav-items { padding: 8px 0; flex: 1; }
+  .mobile-tab-btn {
+    display: flex; align-items: center; gap: 10px; width: 100%; background: none; border: none;
+    color: rgba(255,255,255,.75); font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700;
+    padding: 13px 20px; cursor: pointer; text-align: left; border-left: 3px solid transparent;
+    transition: background .15s, color .15s;
+  }
+  .mobile-tab-btn:hover { background: rgba(255,255,255,.07); color: #fff; }
+  .mobile-tab-btn.active { color: var(--orange-light); border-left-color: var(--orange-light); background: rgba(255,217,138,.06); }
+  .mobile-tab-btn i { width: 18px; text-align: center; }
+  .mobile-nav-divider { border: none; border-top: 1px solid rgba(255,255,255,.1); margin: 8px 0; }
+  .mobile-normas-btn {
+    display: flex; align-items: center; gap: 10px; width: 100%;
+    background: rgba(232,130,12,.12); border: none; border-left: 3px solid var(--orange);
+    color: var(--orange-light); font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700;
+    padding: 13px 20px; cursor: pointer; text-align: left; transition: background .15s;
+  }
+  .mobile-normas-btn:hover { background: rgba(232,130,12,.25); }
+  .mobile-normas-btn i { width: 18px; text-align: center; }
+
+  /* ── WRAPPER ──────────────────────────────── */
+  .wrapper { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
+
+  /* ── PAGE TITLE ───────────────────────────── */
+  .page-title {
+    font-family: 'Teko', sans-serif; font-size: 30px; font-weight: 600;
+    color: #fff; letter-spacing: .5px; margin-bottom: 14px;
+    display: flex; align-items: center; gap: 10px;
+    justify-content: space-between;
+  }
+  .page-title-left { display: flex; align-items: center; gap: 10px; }
+  .page-title i { color: var(--orange-light); font-size: 26px; }
+
+  /* Normas button inside page title (mobile only) */
+  .btn-normas-title {
+    display: none;
+    font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 700;
+    color: var(--orange-light); background: rgba(232,130,12,.2);
+    border: 1px solid rgba(232,130,12,.5);
+    padding: 5px 10px; cursor: pointer; border-radius: 4px;
+    transition: background .2s, color .2s; letter-spacing: .2px;
+    white-space: nowrap; align-items: center; gap: 5px; flex-shrink: 0;
+  }
+  .btn-normas-title:hover { background: rgba(232,130,12,.35); color: #fff; }
+  .btn-normas-title i { font-size: 11px; }
+
+  /* ── FORUM TABLES — DESKTOP ───────────────── */
+  .table-wrap { margin-bottom: 18px; width: 100%; }
+  .forum-table {
+    width: 100%; border-collapse: collapse;
+    border: 1px solid var(--border); border-radius: 4px;
+    overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,.18);
+  }
+  .forum-table thead tr th {
+    background: var(--orange); color: #fff; font-weight: 700;
+    font-size: 12px; letter-spacing: .8px; text-transform: uppercase;
+    padding: 9px 14px; border-right: 1px solid rgba(255,255,255,.18);
+  }
+  .forum-table thead tr th:first-child { text-align: left; }
+  .forum-table thead tr th:not(:first-child) { text-align: center; }
+  .forum-table tbody tr {
+    background: var(--row-base); border-bottom: 1px solid var(--border); transition: background .15s;
+  }
+  .forum-table tbody tr:nth-child(even) { background: var(--row-alt); }
+  .forum-table tbody tr:hover { background: #ffecb3; }
+
+  /* foro-row */
+  .foro-row td { padding: 10px 14px; vertical-align: middle; }
+  .foro-row .icon-cell { text-align: center; width: 50px; }
+  .foro-row .icon-cell i { font-size: 20px; color: var(--orange); }
+  .foro-row .name-cell .f-name { font-weight: 700; font-size: 15px; color: var(--text-link); text-decoration: none; }
+  .foro-row .name-cell .f-name:hover { text-decoration: underline; }
+  .foro-row .name-cell .f-desc { color: var(--text-mid); font-size: 12.5px; margin-top: 2px; }
+  .foro-row .num-cell { text-align: center; font-weight: 700; color: var(--text-dark); }
+  .foro-row .last-cell { font-size: 12px; color: var(--text-mid); line-height: 1.5; }
+  .foro-row .last-cell a { color: var(--text-link); font-weight: 700; text-decoration: none; }
+  .foro-row .last-cell a:hover { text-decoration: underline; }
+
+  /* toolbar */
+  .toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; flex-wrap: wrap; gap: 8px; }
+  .btn-new {
+    background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.3); color: #fff;
+    font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700;
+    padding: 6px 16px; border-radius: 3px; cursor: pointer;
+    display: flex; align-items: center; gap: 6px; transition: background .15s;
+  }
+  .btn-new:hover { background: rgba(255,255,255,.22); }
+  .pagination { display: flex; align-items: center; gap: 3px; font-size: 12.5px; color: rgba(255,255,255,.65); }
+
+  /* tema-row desktop */
+  .tema-row td { padding: 9px 14px; vertical-align: middle; }
+  .tema-row .t-icon { text-align: center; width: 44px; }
+  .tema-row .t-icon i { color: var(--orange); font-size: 18px; }
+  .tema-row .t-main .t-title { font-weight: 700; font-size: 14px; color: var(--text-link); text-decoration: none; cursor: pointer;}
+  .tema-row .t-main .t-title:hover { text-decoration: underline; }
+  .tema-row .t-main .t-by { font-size: 11.5px; color: var(--text-mid); margin-top: 2px; }
+  .tema-row .t-main .t-by a { color: var(--orange-dark); font-weight: 700; text-decoration: none; }
+  .tema-row .num-cell { text-align: center; font-weight: 700; }
+  .tema-row .last-cell { font-size: 12px; color: var(--text-mid); line-height: 1.5; }
+  .tema-row .last-cell a { color: var(--text-link); font-weight: 700; text-decoration: none; }
+
+  /* reply link clickable */
+  .reply-link { color: inherit; text-decoration: none; cursor: pointer; transition: color .15s; }
+  .reply-link:hover { color: var(--orange-dark); text-decoration: underline; }
+
+  /* section-sep */
+  .section-sep td {
+    background: var(--orange-dark); color: #fff; font-weight: 700;
+    font-size: 12px; letter-spacing: .6px; text-transform: uppercase; padding: 5px 14px;
+  }
+
+  /* ── DELETE TOPIC BUTTON ── */
+  .t-main { position: relative; }
+  .delete-col { position: relative; width: 50px; text-align: center; }
+  .delete-btn {
+    background: rgba(212,64,0,.15); color: #d44000; border: 1px solid rgba(212,64,0,.4);
+    width: 32px; height: 32px; border-radius: 6px; cursor: pointer; font-size: 13px;
+    display: inline-flex; align-items: center; justify-content: center; margin: 0 auto;
+    transition: all .2s ease; opacity: .6; box-shadow: 0 1px 4px rgba(0,0,0,.15);
+  }
+  .delete-btn:hover { 
+    background: rgba(212,64,0,.9); color: #fff; opacity: 1; 
+    transform: translateY(-1px) scale(1.05); box-shadow: 0 3px 10px rgba(212,64,0,.4);
+  }
+  .delete-btn:active { transform: scale(.98); }
+  .tema-row:hover .delete-btn { opacity: 1; }
+  @media (max-width: 768px) {
+    .delete-btn { width: 36px; height: 36px; font-size: 14px; }
+  }
+  .delete-toast {
+    position: fixed; top: 20px; right: 20px; background: rgba(50,180,100,.95);
+    color: #fff; padding: 12px 20px; border-radius: 6px; font-weight: 700;
+    font-size: 13px; z-index: 500; opacity: 0; transform: translateX(100%);
+    transition: all .3s; box-shadow: 0 4px 12px rgba(0,0,0,.3);
+  }
+  .delete-toast.show { opacity: 1; transform: translateX(0); }
+  .delete-toast.error { background: rgba(212,64,0,.95); }
+
+  /* mobile-stats — hidden on desktop */
+  .mobile-stats { display: none; }
+
+  /* empty / loading states */
+  .empty-topics { text-align: center; padding: 28px 16px; color: var(--text-mid); font-size: 13px; }
+  .empty-topics i { font-size: 26px; color: var(--orange); margin-bottom: 8px; display: block; }
+  .topics-loading {
+    text-align: center; padding: 22px; color: var(--text-mid); font-size: 13px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .spin-sm {
+    width: 16px; height: 16px; border: 2px solid rgba(184,85,0,.2);
+    border-top-color: var(--orange); border-radius: 50%;
+    animation: spin .7s linear infinite; flex-shrink: 0;
+  }
+
+  /* Animación intermitente para iconos de recargar */
+  @keyframes blinkIntermittent {
+    0%, 45% { opacity: 1; }
+    55%, 100% { opacity: 0.35; }
+  }
+  #refreshScBtn i, #refreshAmBtn i {
+    animation: blinkIntermittent 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  #refreshScBtn:hover i, #refreshAmBtn:hover i,
+  #refreshScBtn:active i, #refreshAmBtn:active i {
+    animation-play-state: paused;
+  }
+
+  /* ── TAB PANELS ── */
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ── AMIGOS LAYOUT ── */
+  .amigos-layout { display: grid; grid-template-columns: 280px 1fr; gap: 18px; align-items: start; }
+  @media (max-width: 820px) { .amigos-layout { grid-template-columns: 1fr; } }
+
+  /* ── FRIENDS PANEL ── */
+  .friends-panel {
+    background: var(--teal-dark); border: 1px solid rgba(0,160,160,.4);
+    border-radius: 4px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,.18);
+    position: sticky; top: 64px;
+  }
+  .friends-panel-header { background: var(--teal-mid); padding: 9px 14px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(255,255,255,.12); }
+  .friends-panel-header h3 { font-family: 'Teko', sans-serif; font-size: 18px; font-weight: 600; color: var(--orange-light); letter-spacing: .4px; }
+  .friends-panel-header i { color: var(--orange-light); font-size: 16px; }
+  .fpanel-tabs { display: flex; border-bottom: 1px solid rgba(255,255,255,.1); background: rgba(0,0,0,.15); }
+  .fpanel-tab {
+    flex: 1; background: none; border: none; cursor: pointer;
+    font-family: 'Nunito', sans-serif; font-size: 12px; font-weight: 700;
+    color: rgba(255,255,255,.55); padding: 8px 4px;
+    display: flex; align-items: center; justify-content: center; gap: 5px;
+    border-bottom: 2px solid transparent; transition: color .15s, border-color .15s;
+  }
+  .fpanel-tab:hover { color: rgba(255,255,255,.85); }
+  .fpanel-tab.active { color: var(--orange-light); border-bottom-color: var(--orange-light); }
+  .fpanel-tab i { font-size: 13px; }
+  .fpanel-body { padding: 10px 12px; min-height: 160px; max-height: 440px; overflow-y: auto; }
+  .fpanel-body::-webkit-scrollbar { width: 5px; }
+  .fpanel-body::-webkit-scrollbar-thumb { background: var(--teal-mid); border-radius: 3px; }
+  .fpanel-container { display: none; }
+  .fpanel-container.active { display: block; }
+  .friend-item { display: flex; align-items: center; gap: 9px; padding: 8px 6px; border-radius: 6px; border-bottom: 1px solid rgba(255,255,255,.06); cursor: pointer; transition: background .15s; }
+  .friend-item:last-child { border-bottom: none; }
+  .friend-item:hover { background: rgba(255,255,255,.08); }
+  .friend-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--teal-mid); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #fff; font-weight: 700; overflow: hidden; border: 2px solid rgba(255,200,100,.3); }
+  .friend-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .friend-info { flex: 1; min-width: 0; }
+  .friend-name { font-weight: 700; font-size: 13px; color: #d4f0e8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .friend-sub { font-size: 11px; color: rgba(255,255,255,.4); margin-top: 1px; }
+  .friend-badge { font-size: 10px; padding: 2px 7px; border-radius: 10px; white-space: nowrap; font-weight: 700; }
+  .badge-chat { background: rgba(232,130,12,.2); color: var(--orange-light); }
+  .badge-ok { background: rgba(50,180,100,.15); color: #7ee8a2; }
+  .fpanel-empty { text-align: center; padding: 28px 10px; color: rgba(255,255,255,.35); font-size: 12px; line-height: 1.8; }
+  .fpanel-empty i { font-size: 28px; margin-bottom: 8px; display: block; }
+  .fpanel-login-msg { text-align: center; padding: 24px 12px; color: rgba(255,255,255,.5); font-size: 12.5px; line-height: 1.8; }
+  .fpanel-login-msg i { font-size: 26px; display: block; margin-bottom: 8px; color: var(--orange-light); }
+  .fpanel-loading { display: flex; justify-content: center; padding: 20px; }
+  .spinner { width: 22px; height: 22px; border: 3px solid rgba(255,255,255,.1); border-top-color: var(--orange-light); border-radius: 50%; animation: spin .7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── PRIVATE CHAT ── */
+  .pchat-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 200; align-items: flex-end; justify-content: flex-end; padding: 0; }
+  .pchat-overlay.open { display: flex; }
+  .pchat-panel { width: 360px; height: 100vh; max-height: 100vh; background: #0c2a36; border-left: 2px solid rgba(0,160,160,.35); display: flex; flex-direction: column; box-shadow: -4px 0 20px rgba(0,0,0,.35); animation: slideInRight .2s ease; }
+  @keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
+  @media (max-width: 500px) { .pchat-panel { width: 100%; } }
+  .pchat-header { background: var(--teal-dark); padding: 14px 16px; display: flex; align-items: center; gap: 10px; border-bottom: 2px solid var(--orange); }
+  .pchat-header .pchat-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--teal-mid); display: flex; align-items: center; justify-content: center; font-size: 14px; color: #fff; flex-shrink: 0; border: 2px solid var(--orange-light); overflow: hidden; }
+  .pchat-header .pchat-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .pchat-header .pchat-name { flex: 1; font-weight: 700; font-size: 14px; color: var(--orange-light); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pchat-header .pchat-close { background: none; border: none; color: rgba(255,255,255,.6); font-size: 18px; cursor: pointer; padding: 4px; transition: color .15s; }
+  .pchat-header .pchat-close:hover { color: #fff; }
+  .pchat-messages { flex: 1; overflow-y: auto; padding: 14px 12px; display: flex; flex-direction: column; gap: 8px; }
+  .pchat-messages::-webkit-scrollbar { width: 5px; }
+  .pchat-messages::-webkit-scrollbar-thumb { background: var(--teal-mid); border-radius: 3px; }
+  .pchat-bubble-wrap { display: flex; flex-direction: column; max-width: 80%; }
+  .pchat-bubble-wrap.mine { align-self: flex-end; align-items: flex-end; }
+  .pchat-bubble-wrap.theirs { align-self: flex-start; align-items: flex-start; }
+  .pchat-bubble { padding: 8px 12px; border-radius: 12px; font-size: 13px; line-height: 1.45; word-break: break-word; }
+  .mine .pchat-bubble { background: var(--orange-dark); color: #fff; border-bottom-right-radius: 3px; }
+  .theirs .pchat-bubble { background: var(--teal-mid); color: #d4f0e8; border-bottom-left-radius: 3px; }
+  .pchat-bubble-time { font-size: 10px; color: rgba(255,255,255,.3); margin-top: 2px; padding: 0 4px; }
+  .pchat-sender-name { font-size: 10.5px; font-weight: 700; margin-bottom: 2px; padding: 0 4px; color: rgba(255,255,255,.4); }
+  .pchat-footer { padding: 12px; border-top: 1px solid rgba(255,255,255,.1); display: flex; gap: 8px; align-items: flex-end; background: rgba(0,0,0,.15); }
+  .pchat-footer textarea { flex: 1; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.15); border-radius: 8px; color: #d4f0e8; font-family: 'Nunito', sans-serif; font-size: 13px; padding: 8px 10px; resize: none; max-height: 80px; outline: none; line-height: 1.4; transition: border-color .15s; }
+  .pchat-footer textarea:focus { border-color: var(--orange); }
+  .pchat-send { background: var(--orange); border: none; color: #fff; width: 36px; height: 36px; border-radius: 8px; cursor: pointer; font-size: 14px; transition: background .15s; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+  .pchat-send:hover { background: var(--orange-dark); }
+  .pchat-send:disabled { background: rgba(255,255,255,.1); color: rgba(255,255,255,.3); cursor: not-allowed; }
+  .pchat-empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: rgba(255,255,255,.25); font-size: 12.5px; text-align: center; gap: 8px; }
+  .pchat-empty i { font-size: 30px; }
+
+  /* ── NORMAS MODAL ── */
+  .normas-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.7); z-index: 400; align-items: center; justify-content: center; padding: 16px; }
+  .normas-overlay.open { display: flex; }
+  .normas-modal { background: #0c2a36; border: 1px solid rgba(0,160,160,.4); border-radius: 10px; width: 100%; max-width: 520px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 10px 40px rgba(0,0,0,.5); animation: fadeInUp .22s ease; }
+  @keyframes fadeInUp { from { opacity:0; transform: translateY(16px); } to { opacity:1; transform: translateY(0); } }
+  .normas-header { background: var(--teal-mid); padding: 16px 20px; border-radius: 10px 10px 0 0; border-bottom: 2px solid var(--orange); display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+  .normas-header h2 { font-family: 'Teko', sans-serif; font-size: 24px; font-weight: 600; color: var(--orange-light); letter-spacing: .5px; flex: 1; }
+  .normas-header i { color: var(--orange-light); font-size: 20px; }
+  .normas-body { padding: 20px 22px; overflow-y: auto; flex: 1; -webkit-overflow-scrolling: touch; }
+  .normas-body::-webkit-scrollbar { width: 5px; }
+  .normas-body::-webkit-scrollbar-thumb { background: var(--teal-mid); border-radius: 3px; }
+  .normas-subtitle { font-family: 'Teko', sans-serif; font-size: 17px; font-weight: 600; color: #fff; letter-spacing: .4px; margin-bottom: 14px; text-transform: uppercase; }
+  .norma-item { display: flex; flex-direction: column; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,.08); }
+  .norma-item:last-child { border-bottom: none; }
+  .norma-title { font-weight: 700; font-size: 13.5px; color: var(--orange-light); display: flex; align-items: center; gap: 7px; margin-bottom: 3px; }
+  .norma-title i { font-size: 12px; color: var(--orange); }
+  .norma-desc { font-size: 12.5px; color: rgba(255,255,255,.6); line-height: 1.55; padding-left: 18px; }
+  .norma-sanciones { margin-top: 14px; padding: 12px 16px; background: rgba(232,130,12,.1); border: 1px solid rgba(232,130,12,.3); border-radius: 6px; }
+  .norma-sanciones .norma-title { color: #fff; }
+  .norma-sanciones .norma-desc { color: rgba(255,255,255,.7); }
+  .normas-footer { padding: 14px 20px; border-top: 1px solid rgba(255,255,255,.1); display: flex; justify-content: center; flex-shrink: 0; }
+  .btn-cerrar-normas { background: var(--orange); border: none; color: #fff; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700; padding: 10px 36px; border-radius: 6px; cursor: pointer; transition: background .15s; display: flex; align-items: center; gap: 8px; }
+  .btn-cerrar-normas:hover { background: var(--orange-dark); }
+
+  /* ── AUTH MODAL ── */
+  .auth-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.65); z-index: 300; align-items: center; justify-content: center; padding: 16px; }
+  .auth-modal-overlay.open { display: flex; }
+  .auth-modal { background: #0c2a36; border: 1px solid rgba(0,160,160,.4); border-radius: 8px; padding: 28px 24px; width: 340px; max-width: 95vw; box-shadow: 0 8px 32px rgba(0,0,0,.4); }
+  .auth-modal h3 { font-family: 'Teko', sans-serif; font-size: 22px; font-weight: 600; color: var(--orange-light); margin-bottom: 18px; text-align: center; }
+  .auth-field { margin-bottom: 12px; }
+  .auth-field label { display: block; font-size: 12px; font-weight: 700; color: rgba(255,255,255,.5); margin-bottom: 4px; letter-spacing: .5px; }
+  .auth-field input, .auth-field textarea.auth-ta {
+    width: 100%; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.15); border-radius: 6px;
+    color: #d4f0e8; font-family: 'Nunito', sans-serif; font-size: 13.5px; padding: 9px 12px; outline: none; transition: border-color .15s;
+  }
+  .auth-field input:focus, .auth-field textarea.auth-ta:focus { border-color: var(--orange); }
+  .auth-field textarea.auth-ta { resize: vertical; min-height: 72px; }
+  .auth-modal .btn-auth { width: 100%; margin-top: 6px; padding: 10px; background: var(--orange); border: none; border-radius: 6px; color: #fff; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: background .15s; }
+  .auth-modal .btn-auth:hover { background: var(--orange-dark); }
+  .auth-modal .btn-auth:disabled { background: rgba(232,130,12,.4); cursor: not-allowed; }
+  .auth-modal .btn-auth-sec { width: 100%; margin-top: 8px; padding: 8px; background: transparent; border: 1px solid rgba(255,255,255,.2); border-radius: 6px; color: rgba(255,255,255,.6); font-family: 'Nunito', sans-serif; font-size: 12.5px; font-weight: 700; cursor: pointer; transition: all .15s; }
+  .auth-modal .btn-auth-sec:hover { border-color: var(--orange-light); color: var(--orange-light); }
+  .auth-error { background: rgba(200,50,30,.2); border: 1px solid rgba(200,50,30,.4); border-radius: 5px; padding: 7px 10px; margin-bottom: 12px; color: #ffaa99; font-size: 12px; display: none; }
+
+  /* ── NUEVO TEMA MODAL ── */
+  .nuevo-tema-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.7); z-index: 350; align-items: center; justify-content: center; padding: 16px; }
+  .nuevo-tema-overlay.open { display: flex; }
+  .nuevo-tema-modal { background: #0c2a36; border: 1px solid rgba(0,160,160,.4); border-radius: 10px; width: 100%; max-width: 480px; box-shadow: 0 10px 40px rgba(0,0,0,.5); animation: fadeInUp .22s ease; }
+  .nuevo-tema-header { background: var(--teal-mid); padding: 14px 18px; border-radius: 10px 10px 0 0; border-bottom: 2px solid var(--orange); display: flex; align-items: center; gap: 10px; }
+  .nuevo-tema-header h2 { font-family: 'Teko', sans-serif; font-size: 22px; font-weight: 600; color: var(--orange-light); letter-spacing: .5px; flex: 1; }
+  .nuevo-tema-header i { color: var(--orange-light); font-size: 18px; }
+  .nuevo-tema-close { background: none; border: none; color: rgba(255,255,255,.5); font-size: 18px; cursor: pointer; padding: 4px; transition: color .15s; }
+  .nuevo-tema-close:hover { color: #fff; }
+  .nuevo-tema-body { padding: 20px 20px 14px; }
+  .nuevo-tema-footer { padding: 14px 20px; border-top: 1px solid rgba(255,255,255,.1); display: flex; gap: 10px; justify-content: flex-end; }
+  .btn-cancel-tema { background: transparent; border: 1px solid rgba(255,255,255,.2); color: rgba(255,255,255,.6); font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700; padding: 8px 18px; border-radius: 6px; cursor: pointer; transition: all .15s; }
+  .btn-cancel-tema:hover { border-color: rgba(255,255,255,.4); color: #fff; }
+  .btn-submit-tema { background: var(--orange); border: none; color: #fff; font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700; padding: 8px 22px; border-radius: 6px; cursor: pointer; transition: background .15s; display: flex; align-items: center; gap: 6px; }
+  .btn-submit-tema:hover { background: var(--orange-dark); }
+  .btn-submit-tema:disabled { background: rgba(232,130,12,.4); cursor: not-allowed; }
+  .tema-error { background: rgba(200,50,30,.2); border: 1px solid rgba(200,50,30,.4); border-radius: 5px; padding: 7px 10px; margin-bottom: 12px; color: #ffaa99; font-size: 12px; display: none; }
+
+  /* ── VER TEMA / RESPONDER MODAL ── */
+  .topic-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.7); z-index: 450; align-items: center; justify-content: center; padding: 16px; }
+  .topic-modal-overlay.open { display: flex; }
+  .topic-modal { background: #0c2a36; border: 1px solid rgba(0,160,160,.4); border-radius: 10px; width: 100%; max-width: 650px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 10px 40px rgba(0,0,0,.5); animation: fadeInUp .22s ease; }
+  .topic-header { background: var(--teal-mid); padding: 14px 18px; border-radius: 10px 10px 0 0; border-bottom: 2px solid var(--orange); display: flex; align-items: center; gap: 10px; }
+  .topic-header h2 { font-family: 'Teko', sans-serif; font-size: 22px; font-weight: 600; color: var(--orange-light); letter-spacing: .5px; flex: 1; word-break: break-word; }
+  .topic-close { background: none; border: none; color: rgba(255,255,255,.5); font-size: 18px; cursor: pointer; padding: 4px; transition: color .15s; }
+  .topic-close:hover { color: #fff; }
+  .topic-body { padding: 16px; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 12px; }
+  .topic-body::-webkit-scrollbar { width: 5px; }
+  .topic-body::-webkit-scrollbar-thumb { background: var(--teal-mid); border-radius: 3px; }
+  .topic-post { background: rgba(255,255,255,.05); border-radius: 8px; padding: 12px; border-left: 3px solid var(--teal); }
+  .topic-post.main-post { border-left-color: var(--orange); background: rgba(232,130,12,.05); }
+  .topic-post-header { display: flex; justify-content: space-between; font-size: 11.5px; color: rgba(255,255,255,.65); margin-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,.1); padding-bottom: 4px; }
+  .topic-post-content { font-size: 13.5px; color: #d4f0e8; line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
+  .topic-footer { padding: 14px; border-top: 1px solid rgba(255,255,255,.1); display: flex; gap: 10px; align-items: flex-end; background: rgba(0,0,0,.15); border-radius: 0 0 10px 10px; }
+  .topic-footer textarea { flex: 1; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.15); border-radius: 8px; color: #d4f0e8; font-family: 'Nunito', sans-serif; font-size: 13px; padding: 10px; resize: none; min-height: 40px; max-height: 120px; outline: none; line-height: 1.4; transition: border-color .15s; writing-mode: horizontal-tb !important; direction: ltr !important; }
+  .topic-footer textarea:focus { border-color: var(--orange); }
+
+  /* ── FOOTER ── */
+  .site-footer { text-align: center; padding: 24px 16px; font-size: 12px; color: rgba(255,255,255,.45); border-top: 2px solid rgba(255,255,255,.15); margin-top: 30px; }
+  .site-footer a { color: var(--orange-light); text-decoration: none; font-weight: 700; }
+  .site-footer .socials { margin-bottom: 6px; display: flex; justify-content: center; gap: 14px; font-size: 18px; }
+  .site-footer .socials a { color: rgba(255,255,255,.45); transition: color .15s; }
+  .site-footer .socials a:hover { color: var(--orange-light); }
+  .notif-dot { display: inline-block; width: 8px; height: 8px; background: var(--orange); border-radius: 50%; margin-left: 3px; vertical-align: middle; }
+
+  /* ════════════════════════════════════════════
+     MOBILE — tablas como tarjetas
+  ════════════════════════════════════════════ */
+  @media (max-width: 768px) {
+    .topbar { padding: 0 12px; }
+    .topbar .logo { font-size: 19px; padding: 8px 10px 8px 0; margin-right: 4px; }
+    .topbar-nav { display: none; }
+    .btn-normas { display: none; }
+    .user-area { padding-left: 10px; margin-left: 4px; gap: 6px; }
+    .user-area .username-tag { max-width: 70px; }
+    .hamburger { display: block; }
+    .wrapper { margin: 16px auto; padding: 0 10px; }
+    .page-title { font-size: 24px; margin-bottom: 10px; }
+    .page-title i { font-size: 20px; }
+    .btn-topbar { font-size: 10px; padding: 4px 8px; }
+    .table-wrap { margin-bottom: 14px; overflow-x: visible; }
+
+    /* ─ Tabla resumen foro (foro-row) en mobile ─ */
+    .sum-table { border: none; box-shadow: none; width: 100%; }
+    .sum-table thead { display: none; }
+    .sum-table tr.foro-row {
+      display: flex; flex-wrap: wrap; align-items: center;
+      background: var(--row-base); border: 1px solid var(--border);
+      border-radius: 8px; padding: 12px 14px; gap: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,.12);
+    }
+    .sum-table td { display: block; border: none; padding: 0; }
+    .sum-table .icon-cell { order: 1; margin-right: 6px; }
+    .sum-table .icon-cell i { font-size: 22px; color: var(--orange); }
+    .sum-table .name-cell { order: 2; flex: 1; min-width: 0; }
+    .sum-table .name-cell .f-name { font-size: 15px; }
+    .sum-table .num-cell { order: 3; width: auto; padding: 0 8px; }
+    .sum-table .num-cell::before {
+      content: attr(data-label) ': ';
+      font-weight: 700; color: var(--orange); font-size: 11px;
+    }
+    .sum-table .last-cell { display: none; }
+
+    /* ─ Tabla temas en mobile: tarjetas verticales ─ */
+    .temas-table { border: none; box-shadow: none; background: transparent; width: 100%; }
+    .temas-table thead { display: none; }
+
+    .temas-table tr.tema-row {
+      display: flex;
+      flex-direction: column;
+      background: var(--row-base);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,.1);
+      width: 100%;
+    }
+    .temas-table tr.tema-row:nth-child(even) { background: var(--row-alt); }
+    .temas-table tr.tema-row td { display: block; border: none; padding: 0; width: 100%; }
+
+    /* Ocultar columnas de escritorio innecesarias en mobile */
+    .temas-table tr.tema-row td.num-cell,
+    .temas-table tr.tema-row td.last-cell { display: none !important; }
+
+    /* Papelera visible */
+    .temas-table tr.tema-row td.delete-col { display: block !important; }
+
+    /* Icono del tema: visible y centrado en mobile */
+    .temas-table tr.tema-row td.t-icon {
+      display: block !important;
+      text-align: center;
+      padding-bottom: 6px;
+    }
+    .temas-table tr.tema-row td.t-icon i { font-size: 22px; color: var(--orange); }
+
+    /* Mostrar botón normas en el título en móvil */
+    .btn-normas-title { display: inline-flex; }
+
+    /* Título y autor */
+    .temas-table .t-main {
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(224,168,64,.3);
+      margin-bottom: 8px;
+    }
+    .temas-table .t-main .t-title { font-size: 14px; line-height: 1.35; display: block; }
+    .temas-table .t-main .t-by { margin-top: 4px; }
+
+    /* Stats visibles en mobile */
+    .mobile-stats {
+      display: flex !important; gap: 14px; align-items: center; flex-wrap: wrap;
+      margin-top: 4px;
+    }
+    .stat-chip { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 700; color: var(--text-mid); }
+    .stat-chip i { color: var(--orange); font-size: 11px; }
+
+    /* Section-sep en mobile */
+    .temas-table tr.section-sep { display: block; width: 100%; }
+    .temas-table tr.section-sep td {
+      display: block; width: 100%;
+      background: var(--orange-dark); color: #fff; font-weight: 700;
+      font-size: 12px; letter-spacing: .6px; text-transform: uppercase;
+      padding: 6px 12px; border-radius: 6px; margin-bottom: 8px;
+    }
+
+    /* ─ Panel de respuesta en modal: botón debajo del textarea ─ */
+    .topic-footer {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 8px;
+      padding: 12px;
+    }
+    .topic-footer textarea {
+      width: 100%;
+      min-height: 70px;
+      max-height: 140px;
+      font-size: 14px;
+      writing-mode: horizontal-tb !important;
+      direction: ltr !important;
+    }
+    .topic-footer #btnSubmitReply {
+      width: 100%;
+      justify-content: center;
+      padding: 11px;
+      font-size: 14px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .page-title { font-size: 22px; }
+    .friend-sub { display: none; }
+    .normas-modal, .nuevo-tema-modal, .topic-modal { border-radius: 8px; }
+    .normas-header h2, .topic-header h2 { font-size: 20px; }
+    .nuevo-tema-footer { flex-direction: column; }
+    .btn-cancel-tema, .btn-submit-tema { width: 100%; justify-content: center; }
+    .topic-footer { flex-direction: column; align-items: stretch; gap: 8px; padding: 10px; }
+    .topic-footer textarea { width: 100%; min-height: 70px; writing-mode: horizontal-tb !important; direction: ltr !important; }
+    .topic-footer #btnSubmitReply { width: 100%; justify-content: center; }
+  }
+</style>
+
+<script>
+// ============================================================
+// SINCRONIZACIÓN DE IDIOMA CON index.html — foro.html
+// Lee el mismo localStorage key: 'selectedLanguage'
+// Sin botones de cambio aquí — se controla desde index.html
+// ============================================================
+const i18nForo = {
+  es: {
+    "page.title":          "LaIAmusical · Foro",
+    "app.title":           "La IA Musical",
+    "nav.storycards":      "Storycards",
+    "nav.amigos":          "Amigos",
+    "nav.normas":          "Normas del foro",
+    "topbar.nocon":        "No conectado",
+    "topbar.entrar":       "Entrar",
+    "topbar.salir":        "Salir",
+    // Forum summary table
+    "tbl.foro":            "Foro",
+    "tbl.temas":           "Temas",
+    "tbl.mensajes":        "Mensajes",
+    "tbl.ultimo":          "Último mensaje",
+    "tbl.respuestas":      "Respuestas",
+    // Section titles and descriptions
+    "sc.name":             "Storycards",
+    "sc.desc":             "Todos los títulos originales de LaIAmusical — debates, letras y análisis",
+    "am.name":             "Amigos",
+    "am.desc":             "Presentaciones, conversaciones libres y todo lo que quieras compartir con la comunidad",
+    "tbl.temas_sc":        "Temas — Storycards",
+    "tbl.temas_am":        "Temas — Amigos",
+    // Page titles
+    "pg.storycards":       "Storycards",
+    "pg.amigos":           "Amigos",
+    "btn.normas_title":    "Normas del foro",
+    // Buttons
+    "btn.nuevo_tema":      "Nuevo Tema",
+    "btn.reload":          "Recargar",
+    // Loading / empty
+    "load.temas":          "Cargando temas…",
+    "load.mis_temas":      "Cargando tus temas…",
+    "empty.no_temas":      "No tienes temas creados. Crea el primero con \"Nuevo Tema\".",
+    "empty.no_temas_sec":  "No tienes temas creados en esta sección. ¡Crea el primero!",
+    "count.temas":         "temas",
+    "count.respuestas":    "respuestas",
+    "last.por":            "por",
+    // Friends panel
+    "fp.comunidad":        "Mi Comunidad",
+    "fp.invitados":        "Invitados",
+    "fp.amigos":           "Amigos",
+    "fp.login":            "Inicia sesión para ver tu lista de amigos e invitados.",
+    "fp.no_invitados":     "Aún no tienes invitados.<br><small>Comparte tu enlace de invitación desde tu perfil.</small>",
+    "fp.no_amigos":        "Aún no tienes amigos.<br><small>Se agregan automáticamente cuando alguien acepta tu invitación.</small>",
+    "fp.error":            "Error al cargar.",
+    "fp.invitado_sub":     "Invitado",
+    "fp.amigo_sub":        "Amigo",
+    "fp.reciente":         "Reciente",
+    // Nuevo Tema modal
+    "nt.titulo_sc":        "Nuevo Tema — Storycards",
+    "nt.titulo_am":        "Nuevo Tema — Amigos",
+    "nt.label_titulo":     "TÍTULO DEL TEMA *",
+    "nt.ph_titulo":        "Escribe el título del tema…",
+    "nt.label_desc":       "DESCRIPCIÓN (opcional)",
+    "nt.ph_desc":          "Añade un mensaje inicial para el tema…",
+    "nt.cancelar":         "Cancelar",
+    "nt.publicar":         "Publicar tema",
+    "nt.publicando":       "Publicando…",
+    "nt.err_login":        "Debes iniciar sesión primero.",
+    "nt.err_titulo":       "El título del tema es obligatorio.",
+    "nt.err_corto":        "El título debe tener al menos 4 caracteres.",
+    // Topic modal
+    "tm.responder":        "Responder",
+    "tm.ph_respuesta":     "Escribe tu respuesta...",
+    "tm.publicando":       "Publicando…",
+    "tm.err_respuesta":    "Error al enviar la respuesta.",
+    // Private chat
+    "pc.inicia":           "Inicia la conversación",
+    "pc.cargando":         "Cargando mensajes…",
+    "pc.primero":          "Sé el primero en escribir algo 👋",
+    "pc.ph":               "Escribe un mensaje...",
+    // Auth modal
+    "auth.login_title":    "Iniciar sesión",
+    "auth.email":          "CORREO ELECTRÓNICO",
+    "auth.password":       "CONTRASEÑA",
+    "auth.ph_email":       "tu@email.com",
+    "auth.ph_pass":        "••••••••",
+    "auth.btn_entrar":     "Entrar",
+    "auth.btn_registro":   "¿Sin cuenta? Registrarse",
+    "auth.username":       "NOMBRE DE USUARIO",
+    "auth.ph_username":    "tunombre",
+    "auth.ph_pass_min":    "mínimo 6 caracteres",
+    "auth.btn_crear":      "Crear cuenta",
+    "auth.btn_volver":     "← Volver al acceso",
+    "auth.err_campos":     "Rellena todos los campos.",
+    "auth.err_pass_short": "La contraseña debe tener al menos 6 caracteres.",
+    // Auth errors
+    "auth.err_email":      "Correo inválido.",
+    "auth.err_notfound":   "No existe cuenta con ese correo.",
+    "auth.err_wrongpass":  "Contraseña incorrecta.",
+    "auth.err_inuse":      "Ese correo ya está registrado.",
+    "auth.err_weak":       "Contraseña demasiado débil.",
+    "auth.err_network":    "Error de red. Comprueba tu conexión.",
+    "auth.err_creds":      "Credenciales incorrectas.",
+    "auth.err_generic":    "Error de autenticación. Inténtalo de nuevo.",
+    // Normas modal
+    "nm.titulo":           "Normas del Chat",
+    "nm.subtitle":         "Comportamientos sancionables:",
+    "nm.spam_t":           "Hacer SPAM",
+    "nm.spam_d":           "Envío repetitivo de mensajes o enlaces irrelevantes.",
+    "nm.inap_t":           "Contenido inapropiado",
+    "nm.inap_d":           "Desnudos, racismo, violencia, política, religión o contenido con menores.",
+    "nm.tema_t":           "Mensajes fuera de tema",
+    "nm.tema_d":           "Respuestas no relacionadas con el tema tratado.",
+    "nm.acoso_t":          "Acoso e insultos",
+    "nm.acoso_d":          "Insultar, acosar, difamar o molestar a otros usuarios.",
+    "nm.bucle_t":          "Discusiones en bucle",
+    "nm.bucle_d":          "Debates repetitivos en chat público.",
+    "nm.obs_t":            "Lenguaje obsceno reiterado",
+    "nm.obs_d":            "Uso excesivo de palabras obscenas o falta de respeto.",
+    "nm.info_t":           "Información personal",
+    "nm.info_d":           "Publicar datos personales propios o de terceros.",
+    "nm.supl_t":           "Suplantación de identidad",
+    "nm.supl_d":           "Hacerse pasar por otra persona de forma engañosa.",
+    "nm.multi_t":          "Múltiples cuentas",
+    "nm.multi_d":          "Usar varias cuentas está prohibido y es rastreable. Se debe mantener la igualdad de condiciones para todo el que participa.",
+    "nm.sanc_t":           "Sobre las sanciones",
+    "nm.sanc_d":           "Desde advertencias hasta expulsión permanente según gravedad.",
+    "nm.cerrar":           "Cerrar",
+    // Delete
+    "del.confirm":         "¿Eliminar este tema permanentemente?",
+    "del.ok":              "✅ Tema eliminado correctamente",
+    "del.err":             "❌ Error al eliminar. Revisa consola (F12)",
+    // Reply error
+    "rep.err":             "Error al enviar la respuesta.",
+    // Footer
+    "footer.copy":         "© 2026 <strong>LaIAmusical</strong> · Música original generada con Inteligencia Artificial",
+    // fmtDate locale
+    "date.locale":         "es-ES"
+  },
+  en: {
+    "page.title":          "The Musical AI · Forum",
+    "app.title":           "The Musical AI",
+    "nav.storycards":      "Storycards",
+    "nav.amigos":          "Friends",
+    "nav.normas":          "Forum rules",
+    "topbar.nocon":        "Not connected",
+    "topbar.entrar":       "Sign in",
+    "topbar.salir":        "Logout",
+    "tbl.foro":            "Forum",
+    "tbl.temas":           "Topics",
+    "tbl.mensajes":        "Messages",
+    "tbl.ultimo":          "Last message",
+    "tbl.respuestas":      "Replies",
+    "sc.name":             "Storycards",
+    "sc.desc":             "All original The Musical AI titles — debates, lyrics and analysis",
+    "am.name":             "Friends",
+    "am.desc":             "Introductions, free conversations and everything you want to share with the community",
+    "tbl.temas_sc":        "Topics — Storycards",
+    "tbl.temas_am":        "Topics — Friends",
+    "pg.storycards":       "Storycards",
+    "pg.amigos":           "Friends",
+    "btn.normas_title":    "Forum rules",
+    "btn.nuevo_tema":      "New Topic",
+    "btn.reload":          "Reload",
+    "load.temas":          "Loading topics…",
+    "load.mis_temas":      "Loading your topics…",
+    "empty.no_temas":      "You have no topics yet. Create the first one with \"New Topic\".",
+    "empty.no_temas_sec":  "You have no topics in this section. Create the first one!",
+    "count.temas":         "topics",
+    "count.respuestas":    "replies",
+    "last.por":            "by",
+    "fp.comunidad":        "My Community",
+    "fp.invitados":        "Invited",
+    "fp.amigos":           "Friends",
+    "fp.login":            "Sign in to see your friends and invited list.",
+    "fp.no_invitados":     "No invited users yet.<br><small>Share your invitation link from your profile.</small>",
+    "fp.no_amigos":        "No friends yet.<br><small>They are added automatically when someone accepts your invitation.</small>",
+    "fp.error":            "Error loading.",
+    "fp.invitado_sub":     "Invited",
+    "fp.amigo_sub":        "Friend",
+    "fp.reciente":         "Recent",
+    "nt.titulo_sc":        "New Topic — Storycards",
+    "nt.titulo_am":        "New Topic — Friends",
+    "nt.label_titulo":     "TOPIC TITLE *",
+    "nt.ph_titulo":        "Write the topic title…",
+    "nt.label_desc":       "DESCRIPTION (optional)",
+    "nt.ph_desc":          "Add an opening message for the topic…",
+    "nt.cancelar":         "Cancel",
+    "nt.publicar":         "Publish topic",
+    "nt.publicando":       "Publishing…",
+    "nt.err_login":        "You must be signed in first.",
+    "nt.err_titulo":       "The topic title is required.",
+    "nt.err_corto":        "The title must be at least 4 characters.",
+    "tm.responder":        "Reply",
+    "tm.ph_respuesta":     "Write your reply...",
+    "tm.publicando":       "Publishing…",
+    "tm.err_respuesta":    "Error sending the reply.",
+    "pc.inicia":           "Start the conversation",
+    "pc.cargando":         "Loading messages…",
+    "pc.primero":          "Be the first to write something 👋",
+    "pc.ph":               "Write a message...",
+    "auth.login_title":    "Sign in",
+    "auth.email":          "EMAIL ADDRESS",
+    "auth.password":       "PASSWORD",
+    "auth.ph_email":       "you@email.com",
+    "auth.ph_pass":        "••••••••",
+    "auth.btn_entrar":     "Sign in",
+    "auth.btn_registro":   "No account? Register",
+    "auth.username":       "USERNAME",
+    "auth.ph_username":    "yourname",
+    "auth.ph_pass_min":    "minimum 6 characters",
+    "auth.btn_crear":      "Create account",
+    "auth.btn_volver":     "← Back to sign in",
+    "auth.err_campos":     "Please fill in all fields.",
+    "auth.err_pass_short": "Password must be at least 6 characters.",
+    "auth.err_email":      "Invalid email.",
+    "auth.err_notfound":   "No account found with that email.",
+    "auth.err_wrongpass":  "Incorrect password.",
+    "auth.err_inuse":      "That email is already registered.",
+    "auth.err_weak":       "Password too weak.",
+    "auth.err_network":    "Network error. Check your connection.",
+    "auth.err_creds":      "Incorrect credentials.",
+    "auth.err_generic":    "Authentication error. Please try again.",
+    "nm.titulo":           "Chat Rules",
+    "nm.subtitle":         "Sanctionable behaviours:",
+    "nm.spam_t":           "SPAM",
+    "nm.spam_d":           "Repeatedly sending messages or irrelevant links.",
+    "nm.inap_t":           "Inappropriate content",
+    "nm.inap_d":           "Nudity, racism, violence, politics, religion or content involving minors.",
+    "nm.tema_t":           "Off-topic messages",
+    "nm.tema_d":           "Replies unrelated to the topic being discussed.",
+    "nm.acoso_t":          "Harassment and insults",
+    "nm.acoso_d":          "Insulting, harassing, defaming or bothering other users.",
+    "nm.bucle_t":          "Repetitive discussions",
+    "nm.bucle_d":          "Repetitive debates in public chat.",
+    "nm.obs_t":            "Repeated obscene language",
+    "nm.obs_d":            "Excessive use of obscene words or disrespectful behaviour.",
+    "nm.info_t":           "Personal information",
+    "nm.info_d":           "Publishing personal data of yourself or others.",
+    "nm.supl_t":           "Identity impersonation",
+    "nm.supl_d":           "Pretending to be another person in a deceptive way.",
+    "nm.multi_t":          "Multiple accounts",
+    "nm.multi_d":          "Using multiple accounts is prohibited and traceable. Equal conditions must be maintained for all participants.",
+    "nm.sanc_t":           "About sanctions",
+    "nm.sanc_d":           "From warnings to permanent expulsion depending on severity.",
+    "nm.cerrar":           "Close",
+    "del.confirm":         "Permanently delete this topic?",
+    "del.ok":              "✅ Topic deleted successfully",
+    "del.err":             "❌ Error deleting. Check console (F12)",
+    "rep.err":             "Error sending the reply.",
+    "footer.copy":         "© 2026 <strong>The Musical AI</strong> · Original music generated with Artificial Intelligence",
+    "date.locale":         "en-GB"
+  }
+};
+
+function getLangF() { return localStorage.getItem('selectedLanguage') || 'es'; }
+
+function trF(key) {
+  const l = getLangF();
+  return (i18nForo[l] && i18nForo[l][key]) || (i18nForo['es'] && i18nForo['es'][key]) || key;
+}
+
+function applyLangForo() {
+  const lang = getLangF();
+  document.documentElement.lang = lang;
+  document.title = trF('page.title');
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const val = trF(el.getAttribute('data-i18n'));
+    if (val) el.innerHTML = val;
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    el.placeholder = trF(el.getAttribute('data-i18n-ph'));
+  });
+  // Update data-label attrs used in mobile CSS (content: attr(data-label))
+  document.querySelectorAll('[data-label="Temas"], [data-label="Topics"]').forEach(el => {
+    el.setAttribute('data-label', trF('tbl.temas'));
+  });
+  document.querySelectorAll('[data-label="Mensajes"], [data-label="Messages"]').forEach(el => {
+    el.setAttribute('data-label', trF('tbl.mensajes'));
+  });
+}
+
+document.addEventListener('DOMContentLoaded', applyLangForo);
+
+window.addEventListener('storage', e => {
+  if (e.key === 'selectedLanguage') applyLangForo();
+});
+</script>
+
+</head>
+<body>
+
+<!-- ══ TOP NAV ══════════════════════════════ -->
+<nav class="topbar">
+  <a href="index.html" class="logo">
+    <i class="fa-solid fa-music"></i>
+    <span data-i18n="app.title">La IA Musical</span>
+  </a>
+  <div class="topbar-nav">
+    <button class="tab-btn active" onclick="switchTab('storycards',this)" data-i18n="nav.storycards">Storycards</button>
+    <button class="tab-btn" onclick="switchTab('amigos',this)" data-i18n="nav.amigos">Amigos</button>
+  </div>
+  <button class="btn-normas" onclick="openNormas()">
+    <i class="fa-solid fa-scale-balanced"></i> Normas del foro
+  </button>
+  <div class="topbar-spacer"></div>
+  <div class="user-area" id="userArea">
+    <span id="topbarUser" style="color:rgba(255,255,255,.4);font-size:12px" data-i18n="topbar.nocon">No conectado</span>
+    <button class="btn-topbar" id="topbarAuthBtn" onclick="openAuthModal()" data-i18n="topbar.entrar">Entrar</button>
+  </div>
+  <button class="hamburger" onclick="openMobileNav()" aria-label="Menú">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+</nav>
+
+<!-- ══ MOBILE NAV DRAWER ══════════════════════ -->
+<div class="mobile-nav-drawer" id="mobileNavDrawer">
+  <div class="mobile-nav-backdrop" onclick="closeMobileNav()"></div>
+  <div class="mobile-nav-panel">
+    <div class="mobile-nav-header">
+      <a href="temas.html" class="mobile-nav-logo" data-i18n="app.title">La IA Musical</a>
+      <button class="mobile-nav-close" onclick="closeMobileNav()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="mobile-nav-items">
+      <button class="mobile-tab-btn active" id="mob-btn-storycards" onclick="mobileSwitchTab('storycards')">
+        <i class="fa-solid fa-headphones"></i> Storycards
+      </button>
+      <button class="mobile-tab-btn" id="mob-btn-amigos" onclick="mobileSwitchTab('amigos')">
+        <i class="fa-solid fa-users"></i> <span data-i18n="nav.amigos">Amigos</span>
+      </button>
+      <hr class="mobile-nav-divider">
+      <button class="mobile-normas-btn" onclick="closeMobileNav(); openNormas();">
+        <i class="fa-solid fa-scale-balanced"></i> <span data-i18n="nav.normas">Normas del foro</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="wrapper">
+
+<!-- ══════════════════════════════════════════
+     TAB: Storycards
+══════════════════════════════════════════════ -->
+<div id="tab-storycards" class="tab-panel active">
+<div class="page-title"><div class="page-title-left"><i class="fa-solid fa-headphones"></i> <span data-i18n="pg.storycards">Storycards</span></div><button class="btn-normas-title" onclick="openNormas()"><i class="fa-solid fa-scale-balanced"></i> <span data-i18n="btn.normas_title">Normas del foro</span></button></div>
+
+  <!-- Resumen -->
+  <div class="table-wrap">
+    <table class="forum-table sum-table">
+      <thead><tr>
+        <th colspan="2" data-i18n="tbl.foro">Foro</th><th data-i18n="tbl.temas">Temas</th><th data-i18n="tbl.mensajes">Mensajes</th><th data-i18n="tbl.ultimo">Último mensaje</th>
+      </tr></thead>
+      <tbody>
+        <tr class="foro-row">
+          <td class="icon-cell"><i class="fa-regular fa-folder-open"></i></td>
+          <td class="name-cell">
+            <a href="#" class="f-name">Storycards</a>
+            <div class="f-desc" data-i18n="sc.desc">Todos los títulos originales de LaIAmusical — debates, letras y análisis</div>
+          </td>
+          <td class="num-cell" data-label="Temas" id="sc-topic-count">0</td>
+          <td class="num-cell" data-label="Mensajes" id="sc-reply-count">0</td>
+          <td class="last-cell" id="sc-last-msg">—</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="toolbar">
+    <button class="btn-new" onclick="openNewTopicModal('storycards')">
+      <i class="fa-solid fa-pen"></i> <span data-i18n="btn.nuevo_tema">Nuevo Tema</span>
+    </button>
+    <button class="btn-new" id="refreshScBtn" onclick="refreshTopics('storycards')" style="margin-left:8px" title="Recargar">
+      <i class="fa-solid fa-refresh"></i>
+    </button>
+    <div class="pagination">
+      <span id="sc-count-label">0 temas</span>
+    </div>
+  </div>
+
+  <!-- Temas Storycards -->
+  <div class="table-wrap">
+    <table class="forum-table temas-table">
+      <thead><tr>
+        <th colspan="2" data-i18n="tbl.temas_sc">Temas — Storycards</th>
+        <th style="width:50px"></th>
+        <th data-i18n="tbl.respuestas">Respuestas</th>
+        <th data-i18n="tbl.ultimo">Último mensaje</th>
+      </tr></thead>
+      <tbody id="sc-topics-body">
+        <tr><td colspan="5">
+          <div class="topics-loading"><div class="spin-sm"></div> Cargando temas…</div>
+        </td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     TAB: Amigos
+══════════════════════════════════════════════ -->
+<div id="tab-amigos" class="tab-panel">
+<div class="page-title"><i class="fa-solid fa-users"></i> <span data-i18n="pg.amigos">Amigos</span></div>
+
+  <div class="amigos-layout">
+
+    <!-- Friends Panel -->
+    <div class="friends-panel">
+      <div class="friends-panel-header">
+        <i class="fa-solid fa-user-group"></i>
+        <h3 data-i18n="fp.comunidad">Mi Comunidad</h3>
+      </div>
+      <div class="fpanel-tabs">
+        <button class="fpanel-tab active" id="ftab-invitados" onclick="switchFpanel('invitados')">
+          <i class="fa-solid fa-user-plus"></i> <span data-i18n="fp.invitados">Invitados</span>
+        </button>
+        <button class="fpanel-tab" id="ftab-amigos" onclick="switchFpanel('amigos')">
+          <i class="fa-solid fa-users"></i> <span data-i18n="fp.amigos">Amigos</span>
+        </button>
+      </div>
+      <div class="fpanel-body">
+        <div class="fpanel-container active" id="fpanel-invitados">
+          <div class="fpanel-loading"><div class="spinner"></div></div>
+        </div>
+        <div class="fpanel-container" id="fpanel-amigos">
+          <div class="fpanel-loading"><div class="spinner"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Forum content Amigos -->
+    <div>
+      <div class="table-wrap">
+        <table class="forum-table sum-table">
+          <thead><tr>
+            <th colspan="2" data-i18n="tbl.foro">Foro</th><th data-i18n="tbl.temas">Temas</th><th data-i18n="tbl.mensajes">Mensajes</th><th data-i18n="tbl.ultimo">Último mensaje</th>
+          </tr></thead>
+          <tbody>
+            <tr class="foro-row">
+              <td class="icon-cell"><i class="fa-regular fa-folder-open"></i></td>
+              <td class="name-cell">
+                <a href="#" class="f-name" data-i18n="am.name">Amigos</a>
+                <div class="f-desc" data-i18n="am.desc">Presentaciones, conversaciones libres y todo lo que quieras compartir con la comunidad</div>
+              </td>
+              <td class="num-cell" data-label="Temas" id="am-topic-count">0</td>
+              <td class="num-cell" data-label="Mensajes" id="am-reply-count">0</td>
+              <td class="last-cell" id="am-last-msg">—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+  <div class="toolbar">
+        <button class="btn-new" onclick="openNewTopicModal('amigos')">
+          <i class="fa-solid fa-pen"></i> <span data-i18n="btn.nuevo_tema">Nuevo Tema</span>
+        </button>
+        <button class="btn-new" id="refreshAmBtn" onclick="refreshTopics('amigos')" style="margin-left:8px" title="Recargar">
+          <i class="fa-solid fa-refresh"></i>
+        </button>
+        <div class="pagination">
+          <span id="am-count-label">0 temas</span>
+        </div>
+      </div>
+
+      <!-- Temas Amigos -->
+      <div class="table-wrap">
+        <table class="forum-table temas-table">
+          <thead><tr>
+            <th colspan="2" data-i18n="tbl.temas_am">Temas — Amigos</th>
+            <th style="width:50px"></th>
+            <th data-i18n="tbl.respuestas">Respuestas</th>
+            <th data-i18n="tbl.ultimo">Último mensaje</th>
+          </tr></thead>
+          <tbody id="am-topics-body">
+            <tr><td colspan="5">
+              <div class="topics-loading"><div class="spin-sm"></div> <span data-i18n="load.temas">Cargando temas…</span></div>
+            </td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</div><!-- /wrapper -->
+
+<!-- ══ FOOTER ═══════════════════════════════ -->
+<footer class="site-footer">
+  <div class="socials">
+    <a href="#" title="Spotify"><i class="fa-brands fa-spotify"></i></a>
+    <a href="https://youtube.com/@laiamusical1978?si=AszlK7AyzCIk8H0a" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+    <a href="https://www.tiktok.com/@laiamusical1978?is_from_webapp=1&sender_device=pc" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+    <a href="#" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+    <a href="https://www.facebook.com/profile.php?id=61567957016250&locale=es_ES" title="Facebook"><i class="fa-brands fa-facebook"></i></a>
+    <a href="https://x.com/LaIAmusical1978" title="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
+  </div>
+  <p data-i18n="footer.copy">© 2026 <strong>LaIAmusical</strong> · Música original generada con Inteligencia Artificial</p>
+</footer>
+
+<!-- ══ MODAL DE LECTURA Y RESPUESTA DE TEMAS ══ -->
+<div class="topic-modal-overlay" id="topicModalOverlay" onclick="handleTopicOverlayClick(event)">
+  <div class="topic-modal" id="topicModal">
+    <div class="topic-header">
+      <h2 id="topicModalTitle">Título del Tema</h2>
+      <button class="topic-close" onclick="closeTopicModal()" title="Cerrar"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="topic-body" id="topicModalBody">
+      <!-- Mensaje Inicial -->
+      <div id="topicOriginalPost" class="topic-post main-post"></div>
+      <!-- Respuestas -->
+      <div id="topicReplies" class="topic-replies"></div>
+    </div>
+    <div class="topic-footer">
+      <textarea id="topicReplyInput" placeholder="Escribe tu respuesta..." data-i18n-ph="tm.ph_respuesta" rows="2" oninput="autoResizeTextarea(this)"></textarea>
+      <button class="btn-submit-tema" id="btnSubmitReply" onclick="submitReply()">
+        <i class="fa-solid fa-reply"></i> Responder
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ NORMAS DEL FORO MODAL ═════════════════ -->
+<div class="normas-overlay" id="normasOverlay" onclick="handleNormasOverlayClick(event)">
+  <div class="normas-modal" id="normasModal">
+    <div class="normas-header">
+      <i class="fa-solid fa-scale-balanced"></i>
+      <h2 data-i18n="nm.titulo">Normas del Chat</h2>
+    </div>
+    <div class="normas-body">
+      <div class="normas-subtitle" data-i18n="nm.subtitle">Comportamientos sancionables:</div>
+      <div class="norma-item"><div class="norma-title"><i class="fa-solid fa-circle-exclamation"></i> <span data-i18n="nm.spam_t">Hacer SPAM</span></div><div class="norma-desc"><span data-i18n="nm.spam_d">Envío repetitivo de mensajes o enlaces irrelevantes.</span></div></div>
+      <div class="norma-item"><div class="norma-title"><i class="fa-solid fa-circle-exclamation"></i> <span data-i18n="nm.inap_t">Contenido inapropiado</span></div><div class="norma-desc"><span data-i18n="nm.inap_d">Desnudos, racismo, violencia, política, religión o contenido con menores.</span></div></div>
+      <div class="norma-item"><div class="norma-title"><i class="fa-solid fa-circle-exclamation"></i> <span data-i18n="nm.tema_t">Mensajes fuera de tema</span></div><div class="norma-desc"><span data-i18n="nm.tema_d">Respuestas no relacionadas con el tema tratado.</span></div></div>
+      <div class="norma-item"><div class="norma-title"><i class="fa-solid fa-circle-exclamation"></i> <span data-i18n="nm.acoso_t">Acoso e insultos</span></div><div class="norma-desc"><span data-i18n="nm.acoso_d">Insultar, acosar, difamar o molestar a otros usuarios.</span></div></div>
+      <div class="norma-item"><div class="norma-title"><i class="fa-solid fa-circle-exclamation"></i> <span data-i18n="nm.bucle_t">Discusiones en bucle</span></div><div class="norma-desc"><span data-i18n="nm.bucle_d">Debates repetitivos en chat público.</span></div></div>
+      <div class="norma-item"><div class="norma-title"><i class="fa-solid fa-circle-exclamation"></i> <span data-i18n="nm.obs_t">Lenguaje obsceno reiterado</span></div><div class="norma-desc"><span data-i18n="nm.obs_d">Uso excesivo de palabras obscenas o falta de respeto.</span></div></div>
+      <div class="norma-item"><div class="norma-title"><i class="fa-solid fa-circle-exclamation"></i> <span data-i18n="nm.info_t">Información personal</span></div><div class="norma-desc"><span data-i18n="nm.info_d">Publicar datos personales propios o de terceros.</span></div></div>
+      <div class="norma-item"><div class="norma-title"><i class="fa-solid fa-circle-exclamation"></i> <span data-i18n="nm.supl_t">Suplantación de identidad</span></div><div class="norma-desc"><span data-i18n="nm.supl_d">Hacerse pasar por otra persona de forma engañosa.</span></div></div>
+      <div class="norma-item"><div class="norma-title"><i class="fa-solid fa-circle-exclamation"></i> <span data-i18n="nm.multi_t">Múltiples cuentas</span></div><div class="norma-desc"><span data-i18n="nm.multi_d">Usar varias cuentas está prohibido y es rastreable. Se debe mantener la igualdad de condiciones para todo el que participa.</span></div></div>
+      <div class="norma-sanciones"><div class="norma-title"><i class="fa-solid fa-gavel"></i> <span data-i18n="nm.sanc_t">Sobre las sanciones</span></div><div class="norma-desc"><span data-i18n="nm.sanc_d">Desde advertencias hasta expulsión permanente según gravedad.</span></div></div>
+    </div>
+    <div class="normas-footer">
+      <button class="btn-cerrar-normas" onclick="closeNormas()"><i class="fa-solid fa-xmark"></i> <span data-i18n="nm.cerrar">Cerrar</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ NUEVO TEMA MODAL ═══════════════════════ -->
+<div class="nuevo-tema-overlay" id="nuevoTemaOverlay" onclick="handleNuevoTemaOverlayClick(event)">
+  <div class="nuevo-tema-modal" id="nuevoTemaModal">
+    <div class="nuevo-tema-header">
+      <i class="fa-solid fa-pen-to-square"></i>
+      <h2 id="nuevoTemaTitle" data-i18n="btn.nuevo_tema">Nuevo Tema</h2>
+      <button class="nuevo-tema-close" onclick="closeNewTopicModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="nuevo-tema-body">
+      <div class="tema-error" id="temaError"></div>
+      <div class="auth-field">
+        <label data-i18n="nt.label_titulo">TÍTULO DEL TEMA *</label>
+        <input type="text" id="temaTitulo" placeholder="Escribe el título del tema…" data-i18n-ph="nt.ph_titulo" maxlength="120"
+          onkeydown="if(event.key==='Enter') submitNewTopic()">
+      </div>
+      <div class="auth-field">
+        <label data-i18n="nt.label_desc">DESCRIPCIÓN (opcional)</label>
+        <textarea class="auth-ta" id="temaDescripcion" placeholder="Añade un mensaje inicial para el tema…" data-i18n-ph="nt.ph_desc" rows="3"></textarea>
+      </div>
+    </div>
+    <div class="nuevo-tema-footer">
+      <button class="btn-cancel-tema" onclick="closeNewTopicModal()" data-i18n="nt.cancelar">Cancelar</button>
+      <button class="btn-submit-tema" id="btnSubmitTema" onclick="submitNewTopic()">
+        <i class="fa-solid fa-paper-plane"></i> Publicar tema
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PRIVATE CHAT PANEL ════════════════════ -->
+<div class="pchat-overlay" id="pchatOverlay" onclick="handlePchatOverlayClick(event)">
+  <div class="pchat-panel" id="pchatPanel">
+    <div class="pchat-header">
+      <div class="pchat-avatar" id="pchatAvatar"><i class="fa-solid fa-user"></i></div>
+      <div class="pchat-name" id="pchatName">Usuario</div>
+      <button class="pchat-close" onclick="closePchat()" title="Cerrar"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="pchat-messages" id="pchatMessages">
+      <div class="pchat-empty"><i class="fa-regular fa-comments"></i><span data-i18n="pc.inicia">Inicia la conversación</span></div>
+    </div>
+    <div class="pchat-footer">
+      <textarea id="pchatInput" placeholder="Escribe un mensaje..." data-i18n-ph="pc.ph" rows="1"
+        onkeydown="pchatKeydown(event)" oninput="autoResizeTextarea(this)"></textarea>
+      <button class="pchat-send" id="pchatSendBtn" onclick="sendPchatMessage()" title="Enviar">
+        <i class="fa-solid fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ AUTH MODAL ════════════════════════════ -->
+<div class="auth-modal-overlay" id="authModalOverlay" onclick="handleAuthOverlayClick(event)">
+  <div class="auth-modal" id="authModal">
+    <h3><i class="fa-solid fa-music" style="color:var(--orange);margin-right:8px"></i><span data-i18n="auth.login_title">Iniciar sesión</span></h3>
+    <div class="auth-error" id="authError"></div>
+    <div id="authLoginForm">
+      <div class="auth-field">
+        <label>CORREO ELECTRÓNICO</label>
+        <input type="email" id="authEmail" placeholder="tu@email.com" autocomplete="email">
+      </div>
+      <div class="auth-field">
+        <label>CONTRASEÑA</label>
+        <input type="password" id="authPassword" placeholder="••••••••" autocomplete="current-password"
+          onkeydown="if(event.key==='Enter') doLogin()">
+      </div>
+      <button class="btn-auth" onclick="doLogin()" data-i18n="auth.btn_entrar">Entrar</button>
+      <button class="btn-auth-sec" onclick="showRegisterForm()" data-i18n="auth.btn_registro">¿Sin cuenta? Registrarse</button>
+    </div>
+    <div id="authRegisterForm" style="display:none">
+      <div class="auth-field">
+        <label>NOMBRE DE USUARIO</label>
+        <input type="text" id="authUsername" placeholder="tunombre">
+      </div>
+      <div class="auth-field">
+        <label>CORREO ELECTRÓNICO</label>
+        <input type="email" id="authEmailReg" placeholder="tu@email.com">
+      </div>
+      <div class="auth-field">
+        <label>CONTRASEÑA</label>
+        <input type="password" id="authPasswordReg" placeholder="mínimo 6 caracteres"
+          onkeydown="if(event.key==='Enter') doRegister()">
+      </div>
+      <button class="btn-auth" onclick="doRegister()" data-i18n="auth.btn_crear">Crear cuenta</button>
+      <button class="btn-auth-sec" onclick="showLoginForm()" data-i18n="auth.btn_volver">← Volver al acceso</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ JAVASCRIPT ════════════════════════════ -->
+<script>
+// ── Firebase init ──────────────────────────────────────────────────
+const firebaseConfig = {
+  apiKey: "AIzaSyDW3Yv0AQAVlf3zTuxlqNq6dkZ6kQtpysM",
+  authDomain: "laiamusical-4fba7.firebaseapp.com",
+  projectId: "laiamusical-4fba7",
+  storageBucket: "laiamusical-4fba7.firebasestorage.app",
+  messagingSenderId: "49783369602",
+  appId: "1:49783369602:web:91e287c094a8f2403d699b"
+};
+if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db   = firebase.firestore();
+
+// ── State ──────────────────────────────────────────────────────────
+let currentUser         = null;
+let currentUsername     = '';
+let pchatUserId         = null;
+let pchatUsername       = '';
+let pchatListener       = null;
+let currentTopicSection = 'storycards';
+
+let currentTopicId = null;
+let topicRepliesListener = null;
+
+// ── Tab switching ───────────────────────────────────────────────────
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+  if (name === 'amigos') refreshFriendsPanels();
+}
+
+// ── Mobile nav ──────────────────────────────────────────────────────
+function openMobileNav() {
+  document.getElementById('mobileNavDrawer').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeMobileNav() {
+  document.getElementById('mobileNavDrawer').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function mobileSwitchTab(name) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.mobile-tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('mob-btn-' + name).classList.add('active');
+  if (name === 'amigos') refreshFriendsPanels();
+  closeMobileNav();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── Normas Modal ────────────────────────────────────────────────────
+function openNormas() {
+  document.getElementById('normasOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeNormas() {
+  document.getElementById('normasOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function handleNormasOverlayClick(e) {
+  if (e.target === document.getElementById('normasOverlay')) closeNormas();
+}
+
+// ── Nuevo Tema Modal ────────────────────────────────────────────────
+function openNewTopicModal(section) {
+  if (!currentUser) { openAuthModal(); return; }
+  currentTopicSection = section;
+  document.getElementById('nuevoTemaTitle').textContent =
+    section === 'storycards' ? trF('nt.titulo_sc') : trF('nt.titulo_am');
+  document.getElementById('temaTitulo').value = '';
+  document.getElementById('temaDescripcion').value = '';
+  document.getElementById('temaError').style.display = 'none';
+  const btn = document.getElementById('btnSubmitTema');
+  btn.disabled = false;
+  btn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> ${trF('nt.publicar')}`;
+  document.getElementById('nuevoTemaOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => document.getElementById('temaTitulo').focus(), 100);
+}
+function closeNewTopicModal() {
+  document.getElementById('nuevoTemaOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function handleNuevoTemaOverlayClick(e) {
+  if (e.target === document.getElementById('nuevoTemaOverlay')) closeNewTopicModal();
+}
+
+async function submitNewTopic() {
+  console.log('submitNewTopic called. Section:', currentTopicSection, 'User:', currentUser?.uid);
+  const titulo = document.getElementById('temaTitulo').value.trim();
+  const desc   = document.getElementById('temaDescripcion').value.trim();
+  const errEl  = document.getElementById('temaError');
+  const btn    = document.getElementById('btnSubmitTema');
+
+  if (!currentUser) {
+    errEl.textContent = 'Debes iniciar sesión primero.';
+    errEl.style.display = '';
+    openAuthModal();
+    return;
+  }
+
+  errEl.style.display = 'none';
+  if (!titulo) {
+    errEl.textContent = 'El título del tema es obligatorio.';
+    errEl.style.display = '';
+    document.getElementById('temaTitulo').focus();
+    return;
+  }
+  if (titulo.length < 4) {
+    errEl.textContent = 'El título debe tener al menos 4 caracteres.';
+    errEl.style.display = '';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Publicando…';
+
+  try {
+    const docRef = await db.collection('forumTopics').add({
+      section:     currentTopicSection,
+      title:       titulo,
+      description: desc || '',
+      authorId:    currentUser.uid,
+      authorName:  currentUsername,
+      replies:     0,
+      createdAt:   firebase.firestore.FieldValue.serverTimestamp(),
+      lastAt:      firebase.firestore.FieldValue.serverTimestamp(),
+    });
+    console.log('Topic created successfully. Doc ID:', docRef.id, 'Section:', currentTopicSection);
+    
+    // Verify write by querying all user topics
+    const verifySnap = await db.collection('forumTopics')
+      .where('authorId', '==', currentUser.uid)
+      .get();
+    console.log('User total topics after create:', verifySnap.size);
+    
+    closeNewTopicModal();
+    // Auto-refresh current section
+    setTimeout(() => refreshTopics(currentTopicSection), 500);
+  } catch(e) {
+    console.error('submitNewTopic error:', e);
+    errEl.textContent = `Error: ${e.message}. Verifica consola (F12).`;
+    errEl.style.display = '';
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Publicar tema';
+  }
+}
+
+// ── Ver Tema / Responder Modal ──────────────────────────────────────
+async function openTopicModal(e, topicId) {
+  e.preventDefault();
+  if (!currentUser) { openAuthModal(); return; }
+  currentTopicId = topicId;
+
+  const btn = document.getElementById('btnSubmitReply');
+  btn.disabled = false;
+  btn.innerHTML = '<i class="fa-solid fa-reply"></i> Responder';
+
+  try {
+    const topicDoc = await db.collection('forumTopics').doc(topicId).get();
+    if (!topicDoc.exists) return;
+    const topic = topicDoc.data();
+
+    document.getElementById('topicModalTitle').textContent = topic.title;
+    
+    const date = topic.createdAt ? fmtDate(topic.createdAt.toDate()) : '';
+    
+    let descContent = '';
+    let headerStyle = '';
+
+    // Si hay descripción, la mostramos. Si no, ocultamos el bloque por completo[cite: 2]
+    if (topic.description && topic.description.trim() !== '') {
+      descContent = `<div class="topic-post-content">${escHtml(topic.description)}</div>`;
+    } else {
+      headerStyle = 'border-bottom: none; margin-bottom: 0; padding-bottom: 0;';
+    }
+    
+    document.getElementById('topicOriginalPost').innerHTML = `
+      <div class="topic-post-header" style="${headerStyle}">
+        <span class="author"><i class="fa-solid fa-user"></i> ${escHtml(topic.authorName || 'Usuario')}</span>
+        <span>${date}</span>
+      </div>
+      ${descContent}
+    `;
+
+    document.getElementById('topicModalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+
+    // Iniciar el listener de respuestas
+    if (topicRepliesListener) topicRepliesListener();
+    topicRepliesListener = db.collection('forumTopics').doc(topicId).collection('replies')
+      .orderBy('createdAt', 'asc')
+      .onSnapshot(snap => {
+        const repliesContainer = document.getElementById('topicReplies');
+        repliesContainer.innerHTML = '';
+        snap.docs.forEach(doc => {
+          const rep = doc.data();
+          const repDate = rep.createdAt ? fmtDate(rep.createdAt.toDate()) : '';
+          const div = document.createElement('div');
+          div.className = 'topic-post';
+          div.innerHTML = `
+            <div class="topic-post-header">
+              <span class="author"><i class="fa-regular fa-comment"></i> ${escHtml(rep.authorName || 'Usuario')}</span>
+              <span>${repDate}</span>
+            </div>
+            <div class="topic-post-content">${escHtml(rep.text)}</div>
+          `;
+          repliesContainer.appendChild(div);
+        });
+        
+        // Auto-scroll para ver la última respuesta
+        const body = document.getElementById('topicModalBody');
+        body.scrollTop = body.scrollHeight;
+      });
+
+  } catch (error) {
+    console.error('Error opening topic:', error);
+  }
+}
+
+function closeTopicModal() {
+  document.getElementById('topicModalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+  if (topicRepliesListener) { topicRepliesListener(); topicRepliesListener = null; }
+  currentTopicId = null;
+}
+
+function handleTopicOverlayClick(e) {
+  if (e.target === document.getElementById('topicModalOverlay')) closeTopicModal();
+}
+
+async function submitReply() {
+  if (!currentUser || !currentTopicId) return;
+  const input = document.getElementById('topicReplyInput');
+  const text = input.value.trim();
+  if (!text) return;
+
+  const btn = document.getElementById('btnSubmitReply');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Publicando…';
+  
+  try {
+    const batch = db.batch();
+    
+    // Crear la respuesta en la subcolección
+    const replyRef = db.collection('forumTopics').doc(currentTopicId).collection('replies').doc();
+    batch.set(replyRef, {
+      text: text,
+      authorId: currentUser.uid,
+      authorName: currentUsername,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    // Actualizar el contador del tema principal
+    const topicRef = db.collection('forumTopics').doc(currentTopicId);
+    batch.update(topicRef, {
+      replies: firebase.firestore.FieldValue.increment(1),
+      lastAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    await batch.commit();
+    input.value = '';
+    input.style.height = 'auto'; // Resetear tamaño
+    
+    // Cerramos el modal como solicitaste[cite: 2]
+    closeTopicModal(); 
+  } catch(e) {
+    console.error('Error submitting reply:', e);
+    alert('Error al enviar la respuesta.');
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-reply"></i> Responder';
+  } 
+}
+
+
+// ── Load Topics (realtime) ─────────────────────────────────────────
+function loadUserTopics(section) {
+  const bodyId     = section === 'storycards' ? 'sc-topics-body'  : 'am-topics-body';
+  const countLblId = section === 'storycards' ? 'sc-count-label'  : 'am-count-label';
+  const topicCntId = section === 'storycards' ? 'sc-topic-count'  : 'am-topic-count';
+  const replyCntId = section === 'storycards' ? 'sc-reply-count'  : 'am-reply-count';
+  const lastMsgId  = section === 'storycards' ? 'sc-last-msg'     : 'am-last-msg';
+
+  const tbody = document.getElementById(bodyId);
+  tbody.innerHTML = `<tr><td colspan="5"><div class="topics-loading"><div class="spin-sm"></div> ${trF('load.mis_temas')}</div></td></tr>`;
+
+  if (!currentUser) {
+    tbody.innerHTML = `<tr><td colspan="5">
+      <div class="empty-topics">
+        <i class="fa-solid fa-folder-open"></i>
+        <p>${trF('empty.no_temas')}</p>
+      </div>
+    </td></tr>`;
+    document.getElementById(countLblId).textContent = `0 ${trF('count.temas')}`;
+    document.getElementById(topicCntId).textContent = '0';
+    document.getElementById(replyCntId).textContent = '0';
+    document.getElementById(lastMsgId).textContent = '—';
+    return;
+  }
+
+  console.log('loadUserTopics snapshot for section:', section, 'user:', currentUser?.uid);
+  const unsubscribe = db.collection('forumTopics')
+    .where('section', '==', section)
+    .where('authorId', '==', currentUser.uid)
+    .orderBy('createdAt', 'desc')
+    .onSnapshot(snap => {
+      console.log(`Snapshot ${section}:`, snap.docs.length, 'docs');
+      
+      // Store unsubscribe to avoid multiples
+      window[`unsub_${section}`] = unsubscribe;
+
+      const topics       = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      const totalTopics  = topics.length;
+      const totalReplies = topics.reduce((s, t) => s + (t.replies || 0), 0);
+
+      // Actualizar resumen
+      document.getElementById(topicCntId).textContent = totalTopics;
+      document.getElementById(replyCntId).textContent = totalReplies;
+      document.getElementById(countLblId).textContent = `${totalTopics} ${trF('count.temas')}`;
+
+      if (topics.length > 0) {
+        const last = topics[0];
+        const date = last.createdAt ? fmtDate(last.createdAt.toDate()) : '';
+        document.getElementById(lastMsgId).innerHTML =
+          `${trF('last.por')} <a href="#">${escHtml(last.authorName || 'Usuario')}</a><br>${date}`;
+      } else {
+        document.getElementById(lastMsgId).textContent = '—';
+      }
+
+      // Renderizar filas
+      if (topics.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5">
+          <div class="empty-topics">
+            <i class="fa-regular fa-folder-open"></i>
+            ${trF('empty.no_temas_sec')}
+          </div>
+        </td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = '';
+      topics.forEach(topic => {
+        const date = topic.createdAt ? fmtDate(topic.createdAt.toDate()) : '';
+        const tr = document.createElement('tr');
+        tr.className = 'tema-row';
+        tr.innerHTML = `
+          <td class="t-icon"><i class="fa-regular fa-comment-dots"></i></td>
+          <td class="t-main">
+            <a href="#" class="t-title" onclick="openTopicModal(event, '${topic.id}')">${escHtml(topic.title)}</a>
+            <div class="t-by">por <a href="#">${escHtml(topic.authorName || 'Usuario')}</a> » ${date}</div>
+            <div class="mobile-stats">
+              <span class="stat-chip"><i class="fa-regular fa-comments"></i> <a href="#" class="reply-link" onclick="openTopicModal(event, '${topic.id}')">${topic.replies || 0} ${trF('count.respuestas')}</a></span>
+              <span class="stat-chip"><i class="fa-regular fa-user"></i> ${escHtml(topic.authorName || 'Usuario')}</span>
+            </div>
+          </td>
+          <td class="delete-col">
+            ${currentUser && topic.authorId === currentUser.uid ? `<button class="delete-btn" onclick="confirmDelete('${topic.id}')" title="Eliminar">
+              <i class="fa-solid fa-trash"></i>
+            </button>` : ''}
+          </td>
+          <td class="num-cell"><a href="#" class="reply-link" title="Ver mensajes" onclick="openTopicModal(event, '${topic.id}')">${topic.replies || 0}</a></td>
+          <td class="last-cell">${trF('last.por')} <a href="#">${escHtml(topic.authorName || 'Usuario')}</a><br>${date}</td>`;
+        tbody.appendChild(tr);
+      });
+    }, err => {
+      console.error(`loadUserTopics(${section}) error:`, err);
+      tbody.innerHTML = `<tr><td colspan="5">
+        <div class="empty-topics" style="color:#d44000">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          Error al cargar temas: ${err.message}.<br>
+          <small>Pulsa F12 → Console para detalles.</small>
+        </div>
+      </td></tr>`;
+    });
+}
+
+function fmtDate(date) {
+  return date.toLocaleDateString(trF('date.locale'), {
+    day: '2-digit', month: 'short', year: 'numeric',
+    hour: '2-digit', minute: '2-digit'
+  });
+}
+
+// ── Friends panel sub-tab ───────────────────────────────────────────
+function switchFpanel(tab) {
+  document.querySelectorAll('.fpanel-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.fpanel-container').forEach(c => c.classList.remove('active'));
+  document.getElementById('ftab-' + tab).classList.add('active');
+  document.getElementById('fpanel-' + tab).classList.add('active');
+}
+
+function refreshFriendsPanels() {
+  if (!currentUser) {
+    renderLoginPrompt('fpanel-invitados');
+    renderLoginPrompt('fpanel-amigos');
+    return;
+  }
+  loadInvitados();
+  loadAmigos();
+}
+
+function renderLoginPrompt(containerId) {
+  document.getElementById(containerId).innerHTML = `
+    <div class="fpanel-login-msg">
+      <i class="fa-solid fa-lock"></i>
+      ${trF('fp.login')}
+    </div>`;
+}
+
+function avatarHtml(username, imageUrl) {
+  if (imageUrl) return `<div class="friend-avatar"><img src="${imageUrl}" alt="${username}"></div>`;
+  const initials = username ? username.slice(0, 2).toUpperCase() : '??';
+  return `<div class="friend-avatar">${initials}</div>`;
+}
+
+async function loadInvitados() {
+  const container = document.getElementById('fpanel-invitados');
+  container.innerHTML = '<div class="fpanel-loading"><div class="spinner"></div></div>';
+  try {
+    const snap = await db.collection('invitations')
+      .where('inviterId', '==', currentUser.uid)
+      .where('status', '==', 'completed').get();
+
+    if (snap.empty) {
+      container.innerHTML = `<div class="fpanel-empty"><i class="fa-solid fa-user-plus"></i>${trF('fp.no_invitados')}</div>`;
+      return;
+    }
+
+    container.innerHTML = '';
+    for (const doc of snap.docs) {
+      const data = doc.data();
+      const inviteeId = data.inviteeId;
+      if (!inviteeId) continue;
+      let uname = 'Usuario', imgUrl = null;
+      try {
+        const uDoc = await db.collection('users').doc(inviteeId).get();
+        if (uDoc.exists) {
+          const ud = uDoc.data();
+          uname = ud.username || (ud.email ? ud.email.split('@')[0] : 'Usuario');
+          imgUrl = ud.profileImageUrl || null;
+        }
+      } catch(e) {}
+
+      const date = data.completedAt
+        ? new Date(data.completedAt).toLocaleDateString('es-ES', { day:'numeric', month:'short', year:'2-digit' })
+        : trF('fp.reciente');
+
+      const div = document.createElement('div');
+      div.className = 'friend-item';
+      div.innerHTML = `${avatarHtml(uname, imgUrl)}
+        <div class="friend-info">
+          <div class="friend-name">${escHtml(uname)}</div>
+          <div class="friend-sub">${trF('fp.invitado_sub')} · ${date}</div>
+        </div>
+        <span class="friend-badge badge-ok"><i class="fa-solid fa-check"></i></span>`;
+      div.title = `Chat privado con ${uname}`;
+      div.addEventListener('click', () => openPchat(inviteeId, uname, imgUrl));
+      container.appendChild(div);
+    }
+  } catch(e) {
+    container.innerHTML = `<div class="fpanel-empty" style="color:#ff9988"><i class="fa-solid fa-triangle-exclamation"></i>Error al cargar.</div>`;
+    console.error(e);
+  }
+}
+
+async function loadAmigos() {
+  const container = document.getElementById('fpanel-amigos');
+  container.innerHTML = '<div class="fpanel-loading"><div class="spinner"></div></div>';
+  try {
+    const snap = await db.collection('friends')
+      .where('userId', '==', currentUser.uid)
+      .where('status', '==', 'accepted').get();
+
+    if (snap.empty) {
+      container.innerHTML = `<div class="fpanel-empty"><i class="fa-solid fa-users"></i>${trF('fp.no_amigos')}</div>`;
+      return;
+    }
+
+    container.innerHTML = '';
+    const seen = new Set();
+    for (const doc of snap.docs) {
+      const data = doc.data();
+      const friendId = data.friendId;
+      if (!friendId || seen.has(friendId)) continue;
+      seen.add(friendId);
+      let fname = 'Amigo', imgUrl = null;
+      try {
+        const fDoc = await db.collection('users').doc(friendId).get();
+        if (fDoc.exists) {
+          const fd = fDoc.data();
+          fname = fd.username || (fd.email ? fd.email.split('@')[0] : 'Amigo');
+          imgUrl = fd.profileImageUrl || null;
+        }
+      } catch(e) {}
+
+      const div = document.createElement('div');
+      div.className = 'friend-item';
+      div.innerHTML = `${avatarHtml(fname, imgUrl)}
+        <div class="friend-info">
+          <div class="friend-name">${escHtml(fname)}</div>
+          <div class="friend-sub">${trF('fp.amigo_sub')}</div>
+        </div>
+        <span class="friend-badge badge-chat"><i class="fa-regular fa-comment"></i></span>`;
+      div.title = `Chat privado con ${fname}`;
+      div.addEventListener('click', () => openPchat(friendId, fname, imgUrl));
+      container.appendChild(div);
+    }
+  } catch(e) {
+    container.innerHTML = `<div class="fpanel-empty" style="color:#ff9988"><i class="fa-solid fa-triangle-exclamation"></i>Error al cargar.</div>`;
+    console.error(e);
+  }
+}
+
+async function processInviteParam() {
+  const params = new URLSearchParams(window.location.search);
+  const inviterId = params.get('inviterId');
+  if (!inviterId || !currentUser || inviterId === currentUser.uid) return;
+  try {
+    const existingInv = await db.collection('invitations')
+      .where('inviterId', '==', inviterId).where('inviteeId', '==', currentUser.uid).get();
+    if (existingInv.empty) {
+      await db.collection('invitations').add({
+        inviterId, inviteeId: currentUser.uid,
+        status: 'completed', completedAt: new Date().toISOString()
+      });
+    } else {
+      for (const d of existingInv.docs)
+        if (d.data().status !== 'completed')
+          await d.ref.update({ status: 'completed', completedAt: new Date().toISOString() });
+    }
+    await ensureFriendship(inviterId, currentUser.uid);
+    window.history.replaceState({}, document.title, window.location.pathname);
+  } catch(e) { console.error('processInviteParam error:', e); }
+}
+
+async function ensureFriendship(uid1, uid2) {
+  const q1 = await db.collection('friends').where('userId','==',uid1).where('friendId','==',uid2).get();
+  if (q1.empty) await db.collection('friends').add({ userId:uid1, friendId:uid2, status:'accepted', addedAt:new Date() });
+  const q2 = await db.collection('friends').where('userId','==',uid2).where('friendId','==',uid1).get();
+  if (q2.empty) await db.collection('friends').add({ userId:uid2, friendId:uid1, status:'accepted', addedAt:new Date() });
+}
+
+// ── Private Chat ────────────────────────────────────────────────────
+function chatRoomId(uid1, uid2) { return [uid1, uid2].sort().join('_'); }
+
+function openPchat(userId, username, imageUrl) {
+  if (!currentUser) { openAuthModal(); return; }
+  if (userId === currentUser.uid) return;
+  pchatUserId = userId; pchatUsername = username;
+  document.getElementById('pchatName').textContent = username;
+  const avatarEl = document.getElementById('pchatAvatar');
+  avatarEl.innerHTML = imageUrl
+    ? `<img src="${imageUrl}" alt="${username}">`
+    : `<span style="font-size:13px;font-weight:700;color:#fff">${username.slice(0,2).toUpperCase()}</span>`;
+  document.getElementById('pchatMessages').innerHTML =
+`<div class="pchat-empty"><i class="fa-regular fa-comments"></i>${trF('pc.cargando')}</div>`;
+  document.getElementById('pchatOverlay').classList.add('open');
+  if (pchatListener) { pchatListener(); pchatListener = null; }
+  const roomId = chatRoomId(currentUser.uid, userId);
+  pchatListener = db.collection('privateChats').doc(roomId)
+    .collection('messages').orderBy('createdAt','asc').limit(60)
+    .onSnapshot(snap => renderPchatMessages(snap), err => console.error(err));
+}
+
+function renderPchatMessages(snap) {
+  const container = document.getElementById('pchatMessages');
+  if (snap.empty) {
+    container.innerHTML = `<div class="pchat-empty"><i class="fa-regular fa-comments"></i>${trF('pc.primero')}</div>`;
+    return;
+  }
+  container.innerHTML = '';
+  snap.docs.forEach(doc => {
+    const d = doc.data();
+    const mine = d.senderId === currentUser.uid;
+    const wrap = document.createElement('div');
+    wrap.className = `pchat-bubble-wrap ${mine ? 'mine' : 'theirs'}`;
+    const ts = d.createdAt ? new Date(d.createdAt.toDate()).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'}) : '';
+    if (!mine) wrap.innerHTML += `<div class="pchat-sender-name">${escHtml(d.senderName||'Usuario')}</div>`;
+    wrap.innerHTML += `<div class="pchat-bubble">${escHtml(d.text)}</div><div class="pchat-bubble-time">${ts}</div>`;
+    container.appendChild(wrap);
+  });
+  container.scrollTop = container.scrollHeight;
+}
+
+async function sendPchatMessage() {
+  if (!currentUser || !pchatUserId) return;
+  const input = document.getElementById('pchatInput');
+  const text = input.value.trim();
+  if (!text) return;
+  const btn = document.getElementById('pchatSendBtn');
+  btn.disabled = true; input.value = ''; input.style.height = '';
+  try {
+    const roomId = chatRoomId(currentUser.uid, pchatUserId);
+    await db.collection('privateChats').doc(roomId).collection('messages').add({
+      text, senderId: currentUser.uid, senderName: currentUsername,
+      receiverId: pchatUserId, createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    await db.collection('privateChats').doc(roomId).set({
+      participants: [currentUser.uid, pchatUserId],
+      lastMessage: text, lastAt: firebase.firestore.FieldValue.serverTimestamp()
+    }, { merge: true });
+  } catch(e) { console.error('sendPchatMessage error:', e); }
+  finally { btn.disabled = false; input.focus(); }
+}
+
+function closePchat() {
+  document.getElementById('pchatOverlay').classList.remove('open');
+  if (pchatListener) { pchatListener(); pchatListener = null; }
+  pchatUserId = null;
+}
+function handlePchatOverlayClick(e) {
+  if (e.target === document.getElementById('pchatOverlay')) closePchat();
+}
+function pchatKeydown(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendPchatMessage(); }
+}
+function autoResizeTextarea(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 80) + 'px';
+}
+
+// ── Auth Modal ──────────────────────────────────────────────────────
+function openAuthModal() {
+  showLoginForm();
+  document.getElementById('authError').style.display = 'none';
+  document.getElementById('authModalOverlay').classList.add('open');
+}
+function closeAuthModal() { document.getElementById('authModalOverlay').classList.remove('open'); }
+function handleAuthOverlayClick(e) {
+  if (e.target === document.getElementById('authModalOverlay')) closeAuthModal();
+}
+function showLoginForm() {
+  document.getElementById('authLoginForm').style.display = '';
+  document.getElementById('authRegisterForm').style.display = 'none';
+  document.getElementById('authError').style.display = 'none';
+}
+function showRegisterForm() {
+  document.getElementById('authLoginForm').style.display = 'none';
+  document.getElementById('authRegisterForm').style.display = '';
+  document.getElementById('authError').style.display = 'none';
+}
+
+async function doLogin() {
+  const email = document.getElementById('authEmail').value.trim();
+  const pass  = document.getElementById('authPassword').value;
+  if (!email || !pass) return;
+  try { await auth.signInWithEmailAndPassword(email, pass); closeAuthModal(); }
+  catch(e) { showAuthError(friendlyAuthError(e.code)); }
+}
+
+async function doRegister() {
+  const username = document.getElementById('authUsername').value.trim();
+  const email    = document.getElementById('authEmailReg').value.trim();
+  const pass     = document.getElementById('authPasswordReg').value;
+  if (!username || !email || !pass) { showAuthError(trF('auth.err_campos')); return; }
+  if (pass.length < 6) { showAuthError(trF('auth.err_pass_short')); return; }
+  try {
+    const cred = await auth.createUserWithEmailAndPassword(email, pass);
+    await db.collection('users').doc(cred.user.uid).set({
+      username, email, totalStars: 0, createdAt: new Date(), profileImageUrl: null
+    });
+    closeAuthModal();
+  } catch(e) { showAuthError(friendlyAuthError(e.code)); }
+}
+
+function showAuthError(msg) {
+  const el = document.getElementById('authError');
+  el.textContent = msg; el.style.display = '';
+}
+function friendlyAuthError(code) {
+  const map = {
+    'auth/invalid-email':          trF('auth.err_email'),
+    'auth/user-not-found':         trF('auth.err_notfound'),
+    'auth/wrong-password':         trF('auth.err_wrongpass'),
+    'auth/email-already-in-use':   trF('auth.err_inuse'),
+    'auth/weak-password':          trF('auth.err_weak'),
+    'auth/network-request-failed': trF('auth.err_network'),
+    'auth/invalid-credential':     trF('auth.err_creds'),
+  };
+  return map[code] || trF('auth.err_generic');
+}
+
+async function doLogout() { await auth.signOut(); }
+
+// ── Auth observer ───────────────────────────────────────────────────
+auth.onAuthStateChanged(async user => {
+  currentUser = user;
+  if (user) {
+    try {
+      const doc = await db.collection('users').doc(user.uid).get();
+      currentUsername = doc.exists ? (doc.data().username || user.email.split('@')[0]) : user.email.split('@')[0];
+    } catch(e) { currentUsername = user.email.split('@')[0]; }
+
+    document.getElementById('topbarUser').innerHTML =
+      `<i class="fa-solid fa-circle-user" style="color:var(--orange-light);margin-right:4px"></i>
+       <span class="username-tag">${escHtml(currentUsername)}</span>`;
+    const btn = document.getElementById('topbarAuthBtn');
+    btn.textContent = trF('topbar.salir'); btn.className = 'btn-topbar logout'; btn.onclick = doLogout;
+
+    await processInviteParam();
+    if (document.getElementById('tab-amigos').classList.contains('active')) refreshFriendsPanels();
+  } else {
+    currentUsername = '';
+    document.getElementById('topbarUser').textContent = 'No conectado';
+    const btn = document.getElementById('topbarAuthBtn');
+    btn.textContent = 'Entrar'; btn.className = 'btn-topbar'; btn.onclick = openAuthModal;
+    renderLoginPrompt('fpanel-invitados');
+    renderLoginPrompt('fpanel-amigos');
+  }
+});
+
+// ── Refresh Topics Function ────────────────────────────────────────
+function refreshTopics(section) {
+  console.log('Manual refresh for section:', section);
+  if (window[`unsub_${section}`]) {
+    window[`unsub_${section}`]();
+    delete window[`unsub_${section}`];
+  }
+  loadUserTopics(section);
+}
+
+// ── Delete Topic ────────────────────────────────────────────────────
+let deleteToast = null;
+function showToast(message, isError = false) {
+  if (deleteToast) deleteToast.remove();
+  deleteToast = document.createElement('div');
+  deleteToast.className = `delete-toast ${isError ? 'error' : ''}`;
+  deleteToast.textContent = message;
+  document.body.appendChild(deleteToast);
+  deleteToast.classList.add('show');
+  setTimeout(() => {
+    deleteToast.classList.remove('show');
+    setTimeout(() => deleteToast.remove(), 300);
+  }, 2500);
+}
+
+async function confirmDelete(topicId) {
+  if (!confirm(trF('del.confirm'))) return;
+  
+  try {
+    await db.collection('forumTopics').doc(topicId).delete();
+    showToast(trF('del.ok'));
+    console.log('Topic deleted:', topicId);
+  } catch (error) {
+    console.error('Delete error:', error);
+    showToast(trF('del.err'), true);
+  }
+}
+
+// ── Init ────────────────────────────────────────────────────────────
+loadUserTopics('storycards');
+loadUserTopics('amigos');
+
+// ── Helpers ─────────────────────────────────────────────────────────
+function escHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>

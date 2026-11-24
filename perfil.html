@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil - La IA Musical</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #0f172a;
+            background-image: url('./images/fondo3.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            color: white;
+            padding-bottom: 3rem;
+        }
+
+        /* Rank progress bar animation */
+        .rank-progress {
+            transition: width 0.8s ease-in-out;
+        }
+
+        /* Marker card hover */
+        .marker-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .marker-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(13, 148, 136, 0.3);
+        }
+
+        /* Rank container glow */
+        .rank-container {
+            background: linear-gradient(135deg, rgba(13,148,136,0.15) 0%, rgba(15,23,42,0.9) 100%);
+            border: 1px solid rgba(45, 212, 191, 0.3);
+        }
+
+        /* Tier badge */
+        .tier-badge {
+            display: inline-block;
+            padding: 2px 14px;
+            border-radius: 9999px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+        .tier-novato     { background: rgba(45,212,191,0.15); color: #2dd4bf; border: 1px solid #2dd4bf44; }
+        .tier-aprendiz   { background: rgba(74,222,128,0.15); color: #4ade80; border: 1px solid #4ade8044; }
+        .tier-melomano   { background: rgba(96,165,250,0.15); color: #60a5fa; border: 1px solid #60a5fa44; }
+        .tier-virtuoso   { background: rgba(192,132,252,0.15); color: #c084fc; border: 1px solid #c084fc44; }
+        .tier-maestro    { background: rgba(251,191,36,0.15);  color: #fbbf24; border: 1px solid #fbbf2444; }
+        .tier-leyenda    { background: rgba(248,113,113,0.15); color: #f87171; border: 1px solid #f8717144; }
+        .tier-legend     { background: rgba(253,224,71,0.2);   color: #fde047; border: 1px solid #fde04744; }
+
+        /* ─── ACTIVIDAD RECIENTE ─── */
+        .activity-item {
+            animation: slideIn 0.3s ease-out both;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-16px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+        #activityPanel {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.45s cubic-bezier(0.4,0,0.2,1), opacity 0.35s ease;
+            opacity: 0;
+        }
+        #activityPanel.open {
+            max-height: 900px;
+            opacity: 1;
+        }
+        .badge-act {
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 1px 8px; border-radius: 4px;
+            font-size: 9px; font-weight: 800; letter-spacing: 0.08em;
+            text-transform: uppercase; color: #fff; flex-shrink: 0;
+        }
+        .badge-voto   { background: #0d9488; }
+        .badge-prize  { background: #d97706; }
+        .badge-quiz   { background: #0891b2; }
+        .badge-canje  { background: #16a34a; }
+        .badge-mision { background: #7c3aed; }
+        .badge-reset  { background: #be123c; }
+        .badge-descarte { background: #b91c1c; }
+
+        /* ─── Tooltip informativo en marcadores de estrellas / diamantes ─── */
+        .marker-info {
+            position: relative;
+            display: inline-flex;
+            margin-left: 2px;
+        }
+        .marker-info .marker-info-icon {
+            font-size: 9px;
+            color: #64748b;
+            cursor: pointer;
+        }
+        .marker-info:hover .marker-info-icon,
+        .marker-info.open .marker-info-icon { color: #2dd4bf; }
+        .marker-info-tooltip {
+            position: absolute;
+            top: 130%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 240px;
+            max-width: 60vw;
+            background: #0f172a;
+            border: 1px solid #134e4a;
+            border-radius: 10px;
+            padding: 0.6rem 0.7rem;
+            font-size: 10px;
+            line-height: 1.5;
+            color: #cbd5e1;
+            text-align: left;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease;
+            z-index: 60;
+        }
+        .marker-info:hover .marker-info-tooltip,
+        .marker-info.open .marker-info-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ══════════════════════════════════════════ HEADER ══════════════════════════════════════════ -->
+    <header class="bg-slate-900/80 backdrop-blur-sm border-b border-slate-700 px-4 py-3 sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <a href="index.html"
+               class="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-teal-600 to-cyan-600
+                      hover:from-teal-500 hover:to-cyan-500 transition-all duration-300 shadow-lg hover:-translate-y-0.5">
+                <i class="fas fa-music text-xl text-white"></i>
+                <span class="font-bold tracking-wide text-white uppercase" data-i18n="header.title">La IA Musical</span>
+            </a>
+            <button onclick="logout()"
+                    class="text-gray-400 hover:text-white transition flex items-center gap-2 py-1 px-3 rounded-md bg-slate-800 hover:bg-slate-700"
+                    data-i18n="header.salir">
+                <i class="fas fa-sign-out-alt"></i> Salir
+            </button>
+        </div>
+    </header>
+
+    <!-- ══════════════════════════════════════════ MAIN ══════════════════════════════════════════ -->
+    <main class="max-w-4xl mx-auto p-4 mt-6 space-y-6">
+
+        <!-- ── USER CARD + MARKERS ── -->
+        <div class="bg-slate-800 p-6 rounded-2xl shadow-2xl border border-teal-700/60">
+
+            <!-- Username & Email -->
+            <h2 id="userNameDisplay"
+                class="text-3xl font-bold text-teal-200 mb-1 italic">
+                <span class="opacity-40">...</span>
+            </h2>
+            <p id="userEmailDisplay" class="text-gray-400 text-sm mb-5">...</p>
+
+            <!-- MARKERS GRID -->
+            <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 bg-slate-900/70 p-3 rounded-xl border border-teal-800/50">
+
+                <!-- STARS -->
+                <div class="marker-card text-center bg-slate-800/60 rounded-lg p-2 flex flex-col items-center gap-1">
+                    <i class="fas fa-star text-yellow-400 text-xl"></i>
+                    <p id="userStarsDisplay" class="text-base font-bold leading-none">0</p>
+                    <span class="text-[10px] text-gray-400 uppercase tracking-wide flex items-center justify-center">
+                        <span data-i18n="perfil.label_estrellas">Estrellas</span>
+                        <span class="marker-info" onclick="event.stopPropagation(); this.classList.toggle('open')">
+                            <i class="fas fa-circle-info marker-info-icon"></i>
+                            <span class="marker-info-tooltip normal-case" data-i18n="perfil.ranking_info"></span>
+                        </span>
+                    </span>
+                </div>
+
+                <!-- DIAMONDS -->
+                <div class="marker-card text-center bg-slate-800/60 rounded-lg p-2 flex flex-col items-center gap-1">
+                    <i class="fas fa-gem text-blue-400 text-xl"></i>
+                    <p id="userDiamondsDisplay" class="text-base font-bold leading-none">0</p>
+                    <span class="text-[10px] text-gray-400 uppercase tracking-wide flex items-center justify-center">
+                        <span data-i18n="perfil.label_diamantes">Diamantes</span>
+                        <span class="marker-info" onclick="event.stopPropagation(); this.classList.toggle('open')">
+                            <i class="fas fa-circle-info marker-info-icon"></i>
+                            <span class="marker-info-tooltip normal-case" data-i18n="perfil.ranking_info"></span>
+                        </span>
+                    </span>
+                </div>
+
+                <!-- COINS -->
+                <div class="marker-card text-center bg-slate-800/60 rounded-lg p-2 flex flex-col items-center gap-1">
+                    <i class="fas fa-coins text-amber-500 text-xl"></i>
+                    <p id="userCoinsDisplay" class="text-base font-bold leading-none">0</p>
+                    <span class="text-[10px] text-gray-400 uppercase tracking-wide" data-i18n="perfil.label_monedas">Monedas</span>
+                </div>
+
+                <!-- VOTES -->
+                <div class="marker-card text-center bg-slate-800/60 rounded-lg p-2 flex flex-col items-center gap-1">
+                    <i class="fas fa-vote-yea text-teal-400 text-xl"></i>
+                    <p id="votesUsedDisplay" class="text-base font-bold leading-none">0</p>
+                    <span class="text-[10px] text-gray-400 uppercase tracking-wide" data-i18n="perfil.label_votos">Votos</span>
+                </div>
+
+                <!-- RANK BADGE -->
+                <div class="marker-card text-center bg-slate-800/60 rounded-lg p-2 flex flex-col items-center gap-1">
+                    <i id="userRankIcon" class="fas fa-medal text-teal-400 text-xl"></i>
+                    <p id="userRankLevel" class="text-base font-bold leading-none">1</p>
+                    <span id="userRankName" class="text-[10px] text-gray-400 uppercase tracking-wide">Rank</span>
+                </div>
+
+                <!-- BONUSES -->
+                <div class="marker-card text-center bg-slate-800/60 rounded-lg p-2 flex flex-col items-center gap-1">
+                    <i class="fas fa-ticket text-orange-400 text-xl"></i>
+                    <p id="userBonosDisplay" class="text-base font-bold leading-none">0</p>
+                    <span class="text-[10px] text-gray-400 uppercase tracking-wide" data-i18n="perfil.label_bonos">Bonos</span>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ── MY RANK ── -->
+        <section>
+            <h3 class="text-2xl font-bold mb-4 text-teal-300 flex items-center uppercase tracking-tighter">
+                <i class="fas fa-award mr-3"></i>
+                <span data-i18n="perfil.mi_rango">Mi Rango</span>
+            </h3>
+
+            <div id="userRankContainer" class="rank-container rounded-2xl p-6 shadow-xl">
+                <div class="text-center text-gray-500 text-sm py-4">
+                    <i class="fas fa-spinner fa-spin mr-2"></i>
+                    <span data-i18n="perfil.cargando">Cargando...</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════ ACTIVIDAD RECIENTE ══════════════════ -->
+        <section>
+            <!-- Toggle button — fully i18n -->
+            <button id="btnActivity"
+                    onclick="toggleActivity()"
+                    class="w-full flex items-center justify-between px-5 py-4 rounded-2xl
+                           bg-gradient-to-r from-teal-700/40 to-cyan-800/30
+                           border border-teal-600/50 hover:border-teal-400/70
+                           transition-all duration-300 hover:shadow-lg hover:shadow-teal-900/40
+                           group">
+                <span class="flex items-center gap-3 text-teal-200 font-bold text-lg uppercase tracking-tight">
+                    <i class="fas fa-history text-teal-400 text-xl group-hover:rotate-[-20deg] transition-transform duration-300"></i>
+                    <span data-i18n="activity.titulo">Mi Actividad Reciente</span>
+                </span>
+                <span class="flex items-center gap-2">
+                    <span id="activityCount"
+                          class="text-[11px] bg-teal-600/30 text-teal-300 border border-teal-600/40
+                                 px-2 py-0.5 rounded-full font-bold hidden">
+                        0
+                    </span>
+                    <i id="activityChevron"
+                       class="fas fa-chevron-down text-teal-400 transition-transform duration-300"></i>
+                </span>
+            </button>
+
+            <!-- Collapsible panel -->
+            <div id="activityPanel">
+                <div class="bg-slate-800/80 border border-teal-700/40 rounded-2xl mt-2 p-5 shadow-xl">
+                    <h3 class="flex items-center gap-2 text-teal-300 font-black text-sm uppercase tracking-widest mb-4">
+                        <i class="fas fa-clock-rotate-left"></i>
+                        <span data-i18n="activity.subtitulo">Últimas 10 actividades</span>
+                    </h3>
+                    <div id="activityLogContainer" class="space-y-2">
+                        <p class="text-gray-500 text-xs py-4 text-center">
+                            <i class="fas fa-spinner fa-spin mr-2"></i>
+                            <span data-i18n="perfil.cargando">Cargando...</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ══════════════════════════════════════════ SCRIPTS ══════════════════════════════════════════ -->
+    <script>
+
+        // ════════════════════════════════════════════════════════════
+        //  i18n — bilingual ES / EN
+        //  Language is persisted in localStorage('selectedLanguage')
+        //  and set by index.html via the same key.
+        // ════════════════════════════════════════════════════════════
+        const translations = {
+            es: {
+                // ── Header ──
+                "header.title":              "La IA Musical",
+                "header.salir":              "Salir",
+                // ── Markers ──
+                "perfil.label_estrellas":    "Estrellas",
+                "perfil.label_diamantes":    "Diamantes",
+                "perfil.label_monedas":      "Monedas",
+                "perfil.label_votos":        "Votos ↓",
+                // ── Rank section ──
+                "perfil.mi_rango":           "Mi Rango",
+                "perfil.cargando":           "Cargando...",
+                "rank.ver_mapa":             "Ver mapa",
+                "rank.estrellas":            "estrellas",
+                "rank.proximo":              "Próximo",
+                "rank.restantes":            "restantes",
+                "rank.maximo":               "¡Máximo rango alcanzado!",
+                "rank.nota":                 "Intercambiar estrellas reduce el rango",
+                // ── Tier labels ──
+                "tier.novato":               "NOVATO",
+                "tier.aprendiz":             "APRENDIZ",
+                "tier.melomano":             "MELÓMANO",
+                "tier.virtuoso":             "VIRTUOSO",
+                "tier.maestro":              "MAESTRO",
+                "tier.leyenda":              "LEYENDA MUSICAL",
+                "tier.legend":               "LEYENDA MUSICAL",
+                // ── Actividad Reciente ──
+                "activity.titulo":           "Mi Actividad Reciente",
+                "activity.subtitulo":        "Últimas 10 actividades",
+                "activity.vacia":            "Sin actividad reciente registrada.",
+                // Badge labels
+                "activity.badge.voto":       "VOTO",
+                "activity.badge.premio":     "PREMIO",
+                "activity.badge.quiz":       "QUIZ",
+                "activity.badge.canje":      "CANJE",
+                "activity.badge.mision":     "MISIÓN",
+                "activity.badge.reset":      "RESET SEMANAL",
+                "activity.badge.descarte":   "DESECHO",
+                // Time strings
+                "activity.time.ahora":       "Ahora",
+                "activity.time.hace":        "Hace",
+                "activity.time.min":         "m",
+                "activity.time.hora":        "h",
+                "activity.time.dia":         "d",
+                "activity.time.momento":     "Hace un momento",
+                // Activity descriptions
+                "activity.desc.actividad":   "Actividad registrada",
+                "activity.desc.quiz":        "Quiz completado",
+                "activity.desc.quiz_cancion":"Canción",
+                "activity.desc.voto":        "Votaste por",
+                "activity.desc.voto_con":    "con",
+                "activity.desc.reset":       "Reset semanal completado",
+                "activity.desc.descarte":    "Storycard desechada",
+                "activity.reset.sin_ranking":"Puesto #4+ / sin ranking",
+                "activity.reset.desechada":  "Desechada — sin puntos",
+                // ── Tooltip de estrellas/diamantes (mismo texto que miscartas.html) ──
+                "perfil.ranking_info":       "Al finalizar la semana se otorgarán estrellas y diamantes adicionales por cada storycard que tengas en \"Mis storycards votadas esta semana\", según la posición EXACTA que ocupe esa semana en la Clasificación (storycardsranking.html). 🥇 Puesto #1: el triple (×3) de estrellas de esa carta + 3💎 fijos. 🥈 Puesto #2: el doble (×2) de estrellas + 2💎 fijos. 🥉 Puesto #3: la mitad de estrellas + 1💎 fijo. Desde el puesto #4 en adelante, o si la carta no está en el ranking, suma +10⭐ fijas (sin diamantes)."
+            },
+            en: {
+                // ── Header ──
+                "header.title":              "The Musical AI",
+                "header.salir":              "Logout",
+                // ── Markers ──
+                "perfil.label_estrellas":    "Stars",
+                "perfil.label_diamantes":    "Diamonds",
+                "perfil.label_monedas":      "Coins",
+                "perfil.label_votos":        "Votes ↓",
+                "perfil.label_rank":         "Rank",
+                "perfil.label_bonos":        "Bonuses",
+                // ── Rank section ──
+                "perfil.mi_rango":           "My Rank",
+                "perfil.cargando":           "Loading...",
+                "rank.ver_mapa":             "View map",
+                "rank.estrellas":            "stars",
+                "rank.proximo":              "Next",
+                "rank.restantes":            "remaining",
+                "rank.maximo":               "Maximum rank reached!",
+                "rank.nota":                 "Exchanging stars reduces your rank",
+                // ── Tier labels ──
+                "tier.novato":               "NOVICE",
+                "tier.aprendiz":             "APPRENTICE",
+                "tier.melomano":             "MUSIC LOVER",
+                "tier.virtuoso":             "VIRTUOSO",
+                "tier.maestro":              "MAESTRO",
+                "tier.leyenda":              "MUSICAL LEGEND",
+                "tier.legend":               "MUSICAL LEGEND",
+                // ── Recent Activity ──
+                "activity.titulo":           "My Recent Activity",
+                "activity.subtitulo":        "Last 10 activities",
+                "activity.vacia":            "No recent activity recorded.",
+                // Badge labels
+                "activity.badge.voto":       "VOTE",
+                "activity.badge.premio":     "PRIZE",
+                "activity.badge.quiz":       "QUIZ",
+                "activity.badge.canje":      "REDEEM",
+                "activity.badge.mision":     "MISSION",
+                "activity.badge.reset":      "WEEKLY RESET",
+                "activity.badge.descarte":   "DISCARD",
+                // Time strings
+                "activity.time.ahora":       "Now",
+                "activity.time.hace":        "",
+                "activity.time.min":         "m ago",
+                "activity.time.hora":        "h ago",
+                "activity.time.dia":         "d ago",
+                "activity.time.momento":     "Just now",
+                // Activity descriptions
+                "activity.desc.actividad":   "Activity registered",
+                "activity.desc.quiz":        "Quiz completed",
+                "activity.desc.quiz_cancion":"Song",
+                "activity.desc.voto":        "You voted for",
+                "activity.desc.voto_con":    "with",
+                "activity.desc.reset":       "Weekly reset completed",
+                "activity.desc.descarte":    "Storycard discarded",
+                "activity.reset.sin_ranking":"Position #4+ / not ranked",
+                "activity.reset.desechada":  "Discarded — no points",
+                // ── Stars/diamonds tooltip (same text as miscartas.html) ──
+                "perfil.ranking_info":       "At the end of the week, additional stars and diamonds will be awarded for each storycard you have in \"My storycards voted this week\", based on the EXACT position it holds that week in the Leaderboard (storycardsranking.html). 🥇 Position #1: triple (×3) stars from that card + 3💎 fixed. 🥈 Position #2: double (×2) stars + 2💎 fixed. 🥉 Position #3: half the stars + 1💎 fixed. From position #4 onward, or if the card isn't ranked, it earns a fixed +10⭐ (no diamonds)."
+            }
+        };
+
+        function getCurrentLanguage() {
+            return localStorage.getItem('selectedLanguage') || 'es';
+        }
+
+        function t(key, lang) {
+            const l = lang || getCurrentLanguage();
+            return (translations[l]?.[key]) ?? (translations['es']?.[key]) ?? key;
+        }
+
+        function applyLanguage(lang) {
+            document.documentElement.lang = lang;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                const val = t(key, lang);
+                if (val) el.innerHTML = val;
+            });
+            // Re-render rank block
+            if (window._lastRankData) renderUserRank(window._lastRankData, lang);
+            // Re-render activity log (descriptions change with language)
+            if (window._lastActivityLog) renderActivity(window._lastActivityLog);
+        }
+
+        // Sync language whenever index.html (or any tab) changes it
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'selectedLanguage') applyLanguage(e.newValue || 'es');
+        });
+
+        // Also listen for in-page custom event (same-page calls)
+        window.addEventListener('languageChanged', (e) => {
+            applyLanguage(e.detail?.lang || getCurrentLanguage());
+        });
+
+        document.addEventListener('DOMContentLoaded', () => applyLanguage(getCurrentLanguage()));
+
+
+        // ════════════════════════════════════════════════════════════
+        //  Firebase
+        // ════════════════════════════════════════════════════════════
+        const firebaseConfig = {
+            apiKey:            "AIzaSyDW3Yv0AQAVlf3zTuxlqNq6dkZ6kQtpysM",
+            authDomain:        "laiamusical-4fba7.firebaseapp.com",
+            projectId:         "laiamusical-4fba7",
+            storageBucket:     "laiamusical-4fba7.firebasestorage.app",
+            messagingSenderId: "49783369602",
+            appId:             "1:49783369602:web:91e287c094a8f2403d699b",
+            measurementId:     "G-WC2JT6DRF4"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db   = firebase.firestore();
+
+
+        // ════════════════════════════════════════════════════════════
+        //  Rank system — 50 levels, fully bilingual
+        // ════════════════════════════════════════════════════════════
+        const rankingSystem = [
+            // NOVATO (1-8)
+            { name: "Oyente Curioso",            nameEn: "Curious Listener",        minStars: 0,     maxStars: 50,    icon: "fa-ear-listen",          color: "text-teal-400",   tier: "novato"   },
+            { name: "Explorador de Ritmos",       nameEn: "Rhythm Explorer",         minStars: 51,    maxStars: 100,   icon: "fa-compass",             color: "text-teal-400",   tier: "novato"   },
+            { name: "Tarareador Aficionado",      nameEn: "Amateur Hummer",          minStars: 101,   maxStars: 150,   icon: "fa-music",               color: "text-teal-400",   tier: "novato"   },
+            { name: "Escucha Entusiasta",         nameEn: "Enthusiastic Listener",   minStars: 151,   maxStars: 200,   icon: "fa-headphones",          color: "text-teal-400",   tier: "novato"   },
+            { name: "Buscador de Sonidos",        nameEn: "Sound Seeker",            minStars: 201,   maxStars: 300,   icon: "fa-magnifying-glass",    color: "text-teal-400",   tier: "novato"   },
+            { name: "Aficionado del Ritmo",       nameEn: "Rhythm Fan",              minStars: 301,   maxStars: 400,   icon: "fa-drum",                color: "text-teal-400",   tier: "novato"   },
+            { name: "Coleccionista de Notas",     nameEn: "Note Collector",          minStars: 401,   maxStars: 500,   icon: "fa-record-vinyl",        color: "text-teal-400",   tier: "novato"   },
+            { name: "Descubridor Musical",        nameEn: "Music Discoverer",        minStars: 501,   maxStars: 700,   icon: "fa-map",                 color: "text-teal-400",   tier: "novato"   },
+            // APRENDIZ (9-16)
+            { name: "Aprendiz de Acordes",        nameEn: "Chord Apprentice",        minStars: 701,   maxStars: 900,   icon: "fa-guitar",              color: "text-green-400",  tier: "aprendiz" },
+            { name: "Conocedor de Géneros",       nameEn: "Genre Connoisseur",       minStars: 901,   maxStars: 1100,  icon: "fa-list-music",          color: "text-green-400",  tier: "aprendiz" },
+            { name: "Melómano Emergente",         nameEn: "Emerging Music Lover",    minStars: 1101,  maxStars: 1300,  icon: "fa-music",               color: "text-green-400",  tier: "aprendiz" },
+            { name: "Cazador de Beats",           nameEn: "Beat Hunter",             minStars: 1301,  maxStars: 1500,  icon: "fa-bolt",                color: "text-green-400",  tier: "aprendiz" },
+            { name: "Artista en Formación",       nameEn: "Artist in Training",      minStars: 1501,  maxStars: 1700,  icon: "fa-palette",             color: "text-green-400",  tier: "aprendiz" },
+            { name: "Explorador de Escenarios",   nameEn: "Stage Explorer",          minStars: 1701,  maxStars: 1900,  icon: "fa-theater-masks",       color: "text-green-400",  tier: "aprendiz" },
+            { name: "Intérprete Novato",          nameEn: "Novice Performer",        minStars: 1901,  maxStars: 2100,  icon: "fa-microphone",          color: "text-green-400",  tier: "aprendiz" },
+            { name: "Músico en Desarrollo",       nameEn: "Developing Musician",     minStars: 2101,  maxStars: 2400,  icon: "fa-piano",               color: "text-green-400",  tier: "aprendiz" },
+            // MELÓMANO (17-24)
+            { name: "Melómano Consagrado",        nameEn: "Established Music Lover", minStars: 2401,  maxStars: 2600,  icon: "fa-compact-disc",        color: "text-blue-400",   tier: "melomano" },
+            { name: "Crítico Musical",            nameEn: "Music Critic",            minStars: 2601,  maxStars: 2800,  icon: "fa-fingerprint",         color: "text-blue-400",   tier: "melomano" },
+            // VIRTUOSO (25-32)
+            { name: "Virtuoso en Escena",         nameEn: "Stage Virtuoso",          minStars: 2801,  maxStars: 3100,  icon: "fa-masks-theater",       color: "text-purple-400", tier: "virtuoso" },
+            { name: "Ejecutante Brillante",       nameEn: "Brilliant Performer",     minStars: 3101,  maxStars: 3400,  icon: "fa-wand-magic-sparkles", color: "text-purple-400", tier: "virtuoso" },
+            { name: "Maestro del Instrumento",    nameEn: "Instrument Master",       minStars: 3401,  maxStars: 3700,  icon: "fa-guitar",              color: "text-purple-400", tier: "virtuoso" },
+            { name: "Prodigio de la Mezcla",      nameEn: "Mixing Prodigy",          minStars: 3701,  maxStars: 4000,  icon: "fa-sliders",             color: "text-purple-400", tier: "virtuoso" },
+            { name: "Talento Consagrado",         nameEn: "Established Talent",      minStars: 4001,  maxStars: 4300,  icon: "fa-award",               color: "text-purple-400", tier: "virtuoso" },
+            { name: "Arquitecto de Sonidos",      nameEn: "Sound Architect",         minStars: 4301,  maxStars: 4600,  icon: "fa-hammer",              color: "text-purple-400", tier: "virtuoso" },
+            { name: "Solista de Élite",           nameEn: "Elite Soloist",           minStars: 4601,  maxStars: 4900,  icon: "fa-microphone-lines",    color: "text-purple-400", tier: "virtuoso" },
+            { name: "Genio Armónico",             nameEn: "Harmonic Genius",         minStars: 4901,  maxStars: 5200,  icon: "fa-brain",               color: "text-purple-400", tier: "virtuoso" },
+            // MAESTRO (33-40)
+            { name: "Maestro de Orquesta",        nameEn: "Orchestra Master",        minStars: 5201,  maxStars: 5600,  icon: "fa-music",               color: "text-amber-400",  tier: "maestro"  },
+            { name: "Compositor de Épicas",       nameEn: "Epic Composer",           minStars: 5601,  maxStars: 6000,  icon: "fa-feather-pointed",     color: "text-amber-400",  tier: "maestro"  },
+            { name: "Director de Sinfonías",      nameEn: "Symphony Director",       minStars: 6001,  maxStars: 6400,  icon: "fa-wand-magic",          color: "text-amber-400",  tier: "maestro"  },
+            { name: "Mentor de Talentos",         nameEn: "Talent Mentor",           minStars: 6401,  maxStars: 6800,  icon: "fa-chalkboard-user",     color: "text-amber-400",  tier: "maestro"  },
+            { name: "Visionario del Pentagrama",  nameEn: "Staff Visionary",         minStars: 6801,  maxStars: 7200,  icon: "fa-eye",                 color: "text-amber-400",  tier: "maestro"  },
+            { name: "Eminencia Musical",          nameEn: "Musical Eminence",        minStars: 7201,  maxStars: 7600,  icon: "fa-crown",               color: "text-amber-400",  tier: "maestro"  },
+            { name: "Gran Orquestador",           nameEn: "Grand Orchestrator",      minStars: 7601,  maxStars: 8000,  icon: "fa-music",               color: "text-amber-400",  tier: "maestro"  },
+            { name: "Filántropo del Sonido",      nameEn: "Sound Philanthropist",    minStars: 8001,  maxStars: 8500,  icon: "fa-hand-holding-heart",  color: "text-amber-400",  tier: "maestro"  },
+            // LEYENDA (41-50)
+            { name: "Leyenda del Escenario",      nameEn: "Stage Legend",            minStars: 8501,  maxStars: 9000,  icon: "fa-star",                color: "text-red-400",    tier: "leyenda"  },
+            { name: "Icono de la Historia",       nameEn: "Historical Icon",         minStars: 9001,  maxStars: 9500,  icon: "fa-book-skull",          color: "text-red-400",    tier: "leyenda"  },
+            { name: "Inmortal del Ritmo",         nameEn: "Immortal of Rhythm",      minStars: 9501,  maxStars: 10000, icon: "fa-infinity",            color: "text-red-400",    tier: "leyenda"  },
+            { name: "Deidad de la Melodía",       nameEn: "Melody Deity",            minStars: 10001, maxStars: 10500, icon: "fa-ghost",               color: "text-red-400",    tier: "leyenda"  },
+            { name: "Mito del Espectáculo",       nameEn: "Showbiz Myth",            minStars: 10501, maxStars: 11000, icon: "fa-mask-face",           color: "text-red-400",    tier: "leyenda"  },
+            { name: "Patrimonio de la IA Musical",nameEn: "Musical AI Heritage",     minStars: 11001, maxStars: 11500, icon: "fa-landmark",            color: "text-red-400",    tier: "leyenda"  },
+            { name: "Oráculo Sonoro",             nameEn: "Sound Oracle",            minStars: 11501, maxStars: 12000, icon: "fa-wand-magic",          color: "text-red-400",    tier: "leyenda"  },
+            { name: "Eterno del Arte",            nameEn: "Eternal of Art",          minStars: 12001, maxStars: 12500, icon: "fa-hourglass-half",      color: "text-red-400",    tier: "leyenda"  },
+            { name: "Soberano de la Armonía",     nameEn: "Sovereign of Harmony",    minStars: 12501, maxStars: 13000, icon: "fa-shield-halved",       color: "text-red-400",    tier: "leyenda"  },
+            { name: "DIOS DE LA IA MUSICAL",      nameEn: "GOD OF THE MUSICAL AI",   minStars: 13001, maxStars: 999999,icon: "fa-sun",                 color: "text-yellow-400", tier: "legend"   }
+        ];
+
+        function getUserRank(stars) {
+            for (let i = 0; i < rankingSystem.length; i++) {
+                if (stars >= rankingSystem[i].minStars && stars <= rankingSystem[i].maxStars) {
+                    return { current: rankingSystem[i], next: rankingSystem[i + 1] || null, level: i + 1 };
+                }
+            }
+            return { current: rankingSystem[rankingSystem.length - 1], next: null, level: rankingSystem.length };
+        }
+
+
+        // ════════════════════════════════════════════════════════════
+        //  Render rank block (bilingual)
+        // ════════════════════════════════════════════════════════════
+        function renderUserRank(data, lang) {
+            lang = lang || getCurrentLanguage();
+            window._lastRankData = data;
+
+            const stars = data.userStars || 0;
+            const rank  = getUserRank(stars);
+            const r     = rank.current;
+
+            const rankName  = (lang === 'en' && r.nameEn) ? r.nameEn : r.name;
+            const tierLabel = t('tier.' + r.tier, lang);
+            const tierClass = 'tier-' + r.tier;
+
+            const range    = r.maxStars - r.minStars;
+            const progress = range > 0 ? Math.min(100, Math.max(0, ((stars - r.minStars) / range) * 100)) : 100;
+
+            let nextHtml = '';
+            if (rank.next) {
+                const nextName    = (lang === 'en' && rank.next.nameEn) ? rank.next.nameEn : rank.next.name;
+                const starsNeeded = rank.next.minStars - stars;
+                nextHtml = `
+                    <p class="text-xs text-teal-400 mt-2">
+                        ${t('rank.proximo', lang)}: <strong>${nextName}</strong>
+                        (${starsNeeded} ⭐ ${t('rank.restantes', lang)})
+                    </p>`;
+            } else {
+                nextHtml = `<p class="text-xs text-yellow-400 mt-2">🏆 ${t('rank.maximo', lang)}</p>`;
+            }
+
+            document.getElementById('userRankContainer').innerHTML = `
+                <div class="text-center relative">
+                    <a href="maparanking.html"
+                       class="absolute top-0 right-0 text-teal-400 hover:text-teal-300 text-xs font-bold underline">
+                        ${t('rank.ver_mapa', lang)}
+                    </a>
+                    <i class="fas ${r.icon} ${r.color} text-5xl mb-3 block"></i>
+                    <h3 class="text-2xl font-bold text-white mb-1">${rankName}</h3>
+                    <span class="tier-badge ${tierClass} mb-4 inline-block">${tierLabel}</span>
+                    <div class="bg-slate-700/70 rounded-full h-3 mt-4 mb-2 overflow-hidden">
+                        <div class="rank-progress bg-gradient-to-r from-teal-500 to-cyan-400 h-3 rounded-full"
+                             style="width: ${progress}%"></div>
+                    </div>
+                    <p class="text-xs text-gray-400">
+                        ${stars} / ${r.maxStars} ${t('rank.estrellas', lang)}
+                    </p>
+                    ${nextHtml}
+                    <p class="text-xs text-gray-500 mt-3 italic">${t('rank.nota', lang)}</p>
+                </div>
+            `;
+        }
+
+
+        // ════════════════════════════════════════════════════════════
+        //  Update markers display
+        // ════════════════════════════════════════════════════════════
+        function updateUserDisplay(data) {
+            document.getElementById('userNameDisplay').textContent     = data.username || 'Usuario';
+            document.getElementById('userEmailDisplay').textContent    = auth.currentUser.email;
+            document.getElementById('userStarsDisplay').textContent    = data.userStars    || 0;
+            document.getElementById('userDiamondsDisplay').textContent = data.userDiamonds || 0;
+            document.getElementById('userCoinsDisplay').textContent    = data.userCoins    || 0;
+            document.getElementById('votesUsedDisplay').textContent    = data.votesRemaining !== undefined ? data.votesRemaining : 5;
+            document.getElementById('userBonosDisplay').textContent    = data.userBonos    || 0;
+
+            const rank = getUserRank(data.userStars || 0);
+            const lang = getCurrentLanguage();
+            document.getElementById('userRankIcon').className    = `fas ${rank.current.icon} ${rank.current.color} text-xl`;
+            document.getElementById('userRankLevel').textContent = rank.level;
+            document.getElementById('userRankName').textContent  =
+                (lang === 'en' && rank.current.nameEn) ? rank.current.nameEn : rank.current.name;
+        }
+
+
+        // ════════════════════════════════════════════════════════════
+        //  Auth + Firestore listener
+        // ════════════════════════════════════════════════════════════
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                db.collection(usersCollectionName()).doc(user.uid).onSnapshot((doc) => {
+                    if (doc.exists) {
+                        const data = doc.data();
+                        updateUserDisplay(data);
+                        renderUserRank(data);
+                        renderActivity(data.activityLog || []);
+                    } else {
+                        db.collection(usersCollectionName()).doc(user.uid).set({
+                            username:       user.displayName || user.email.split('@')[0],
+                            userStars:      0,
+                            userDiamonds:   0,
+                            userCoins:      0,
+                            userBonos:      0,
+                            votesRemaining: 5,
+                            voteLog:        {},
+                            quizLog:        {},
+                            activityLog:    [],
+                            discardedCards: [],
+                            createdAt:      new Date().toISOString()
+                        });
+                    }
+                });
+            } else {
+                window.location.href = 'index.html';
+            }
+        });
+
+
+        // ════════════════════════════════════════════════════════════
+        //  Logout
+        // ════════════════════════════════════════════════════════════
+        function logout() {
+            auth.signOut()
+                .then(() => { window.location.href = 'index.html'; })
+                .catch(console.error);
+        }
+
+
+        // ════════════════════════════════════════════════════════════
+        //  Cierra los tooltips de "info" de Estrellas/Diamantes al
+        //  tocar fuera de ellos (útil en móvil, donde se activan con tap)
+        // ════════════════════════════════════════════════════════════
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.marker-info.open').forEach(el => el.classList.remove('open'));
+        });
+
+        // ════════════════════════════════════════════════════════════
+        //  ACTIVIDAD RECIENTE — toggle
+        // ════════════════════════════════════════════════════════════
+        let activityOpen = false;
+
+        function toggleActivity() {
+            activityOpen = !activityOpen;
+            const panel   = document.getElementById('activityPanel');
+            const chevron = document.getElementById('activityChevron');
+            panel.classList.toggle('open', activityOpen);
+            chevron.style.transform = activityOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+        }
+
+
+        // ════════════════════════════════════════════════════════════
+        //  Bilingual "time ago" helper
+        // ════════════════════════════════════════════════════════════
+        function getTimeAgo(timestamp) {
+            const lang = getCurrentLanguage();
+            if (!timestamp) return t('activity.time.momento', lang);
+
+            const now       = new Date();
+            const past      = new Date(timestamp);
+            const diffMins  = Math.floor((now - past) / 60000);
+            const diffHours = Math.floor(diffMins  / 60);
+            const diffDays  = Math.floor(diffHours / 24);
+
+            if (diffMins < 1)   return t('activity.time.ahora', lang);
+
+            if (lang === 'en') {
+                // English: "5m ago", "2h ago", "3d ago"
+                if (diffMins  < 60)  return `${diffMins}${t('activity.time.min',  lang)}`;
+                if (diffHours < 24)  return `${diffHours}${t('activity.time.hora', lang)}`;
+                return `${diffDays}${t('activity.time.dia',  lang)}`;
+            } else {
+                // Spanish: "Hace 5m", "Hace 2h", "Hace 3d"
+                const hace = t('activity.time.hace', lang);
+                if (diffMins  < 60)  return `${hace} ${diffMins}${t('activity.time.min',  lang)}`;
+                if (diffHours < 24)  return `${hace} ${diffHours}${t('activity.time.hora', lang)}`;
+                return `${hace} ${diffDays}${t('activity.time.dia',  lang)}`;
+            }
+        }
+
+
+        // ════════════════════════════════════════════════════════════
+        //  CAPA DE SERVIDOR (independiente del idioma)
+        //  El servidor activo se elige en index.html ('currentServerId'):
+        //    server1 = Español · server2 = Inglés · server3 = Privado
+        //  Cada servidor es una CUENTA INDEPENDIENTE (users | users_server2 | users_server3):
+        //  estrellas, diamantes, actividad y votos son propios de cada servidor.
+        // ════════════════════════════════════════════════════════════
+        function normalizeServerId(value) {
+            if (!value) return null;
+            if (value === 'server1' || value === 'server2' || value === 'server3') return value;
+            const s = String(value).toLowerCase();
+            if (/espa|spanish/.test(s)) return 'server1';
+            if (/ingl|english/.test(s)) return 'server2';
+            if (/priv/.test(s)) return 'server3';
+            return null;
+        }
+        function getServerId() {
+            let id = normalizeServerId(localStorage.getItem('currentServerId'))
+                  || normalizeServerId(localStorage.getItem('currentServer'));
+            if (!id) id = (localStorage.getItem('selectedLanguage') === 'en') ? 'server2' : 'server1'; // solo la 1ª vez
+            localStorage.setItem('currentServerId', id);
+            return id;
+        }
+        function usersCollectionName(id) { id = id || getServerId(); return 'users' + (id === 'server1' ? '' : '_' + id); }  // users | users_server2 | users_server3
+        window.addEventListener('storage', (e) => { if (e.key === 'currentServerId') location.reload(); });
+
+        // ════════════════════════════════════════════════════════════
+        //  Render activity log — fully bilingual
+        // ════════════════════════════════════════════════════════════
+        function renderActivity(log) {
+            const container  = document.getElementById('activityLogContainer');
+            const countBadge = document.getElementById('activityCount');
+            if (!container) return;
+
+            // Cache log so applyLanguage() can re-render on language change
+            window._lastActivityLog = log;
+
+            const lang    = getCurrentLanguage();
+            const entries = [...(log || [])].reverse().slice(0, 10);
+
+            // Update count badge
+            if (entries.length > 0) {
+                countBadge.textContent = entries.length;
+                countBadge.classList.remove('hidden');
+            } else {
+                countBadge.classList.add('hidden');
+            }
+
+            if (entries.length === 0) {
+                container.innerHTML = `<p class="text-gray-500 text-xs py-4 text-center italic">${t('activity.vacia', lang)}</p>`;
+                return;
+            }
+
+            container.innerHTML = '';
+
+            entries.forEach((entry, index) => {
+
+                // ── Defaults ──
+                let iconClass   = 'fa-star text-yellow-400';
+                let badgeClass  = 'badge-voto';
+                let badgeLabel  = t('activity.badge.voto', lang);
+                let description = entry.description || t('activity.desc.actividad', lang);
+
+                // ── Type-specific overrides ──
+                switch (entry.type) {
+
+                    case 'reward':
+                        iconClass   = 'fa-gift text-amber-500';
+                        badgeClass  = 'badge-prize';
+                        badgeLabel  = t('activity.badge.premio', lang);
+                        // Keep entry.description if available; already translated in the source
+                        description = entry.description || t('activity.desc.actividad', lang);
+                        break;
+
+                    case 'quiz': {
+                        iconClass   = 'fa-circle-question text-cyan-400';
+                        badgeClass  = 'badge-quiz';
+                        badgeLabel  = t('activity.badge.quiz', lang);
+                        const song  = entry.songTitle || t('activity.desc.quiz_cancion', lang);
+                        const score = entry.score || 0;
+                        description = `${t('activity.desc.quiz', lang)}: ${song} (${score}/5)`;
+                        break;
+                    }
+
+                    case 'vote': {
+                        iconClass   = 'fa-star text-yellow-400';
+                        badgeClass  = 'badge-voto';
+                        badgeLabel  = t('activity.badge.voto', lang);
+                        const song  = entry.songTitle || t('activity.desc.quiz_cancion', lang);
+                        const stars = entry.starsGiven || 0;
+                        description = `${t('activity.desc.voto', lang)} "${song}" ${t('activity.desc.voto_con', lang)} ${stars}★`;
+                        break;
+                    }
+
+                    case 'exchange':
+                        iconClass   = 'fa-right-left text-green-400';
+                        badgeClass  = 'badge-canje';
+                        badgeLabel  = t('activity.badge.canje', lang);
+                        description = entry.description || t('activity.desc.actividad', lang);
+                        break;
+
+                    case 'card_discard':
+                        iconClass   = 'fa-trash-alt text-red-400';
+                        badgeClass  = 'badge-descarte';
+                        badgeLabel  = t('activity.badge.descarte', lang);
+                        // El description ya viene compuesto desde miscartas.html
+                        // (p. ej. `Desechaste "Título"`), se respeta si existe.
+                        description = entry.description || t('activity.desc.descarte', lang);
+                        break;
+
+                    case 'mission':
+                        iconClass   = 'fa-trophy text-purple-400';
+                        badgeClass  = 'badge-mision';
+                        badgeLabel  = t('activity.badge.mision', lang);
+                        description = entry.description || t('activity.desc.actividad', lang);
+                        break;
+
+                    case 'weekly_reset': {
+                        iconClass   = 'fa-rotate text-rose-400';
+                        badgeClass  = 'badge-reset';
+                        badgeLabel  = t('activity.badge.reset', lang);
+                        if (entry.description) {
+                            description = entry.description;
+                        } else {
+                            const stars    = entry.starsEarned    || 0;
+                            const diamonds = entry.diamondsEarned || 0;
+                            description = `${t('activity.desc.reset', lang)}: +${stars}⭐` + (diamonds > 0 ? ` +${diamonds}💎` : '');
+                        }
+                        break;
+                    }
+                }
+
+                // ── Desglose detallado por storycard (solo para weekly_reset) ──
+                // Muestra, sin ambigüedad, la posición EXACTA que tuvo cada carta
+                // en el ranking de esa semana (la misma que storycardsranking.html)
+                // y cuántas estrellas/diamantes aportó cada una.
+                let breakdownHTML = '';
+                if (entry.type === 'weekly_reset' && Array.isArray(entry.breakdown) && entry.breakdown.length > 0) {
+                    const rows = entry.breakdown.map(item => {
+                        if (item.discarded) {
+                            return `<div class="flex items-center justify-between gap-2 py-0.5">
+                                        <span class="text-gray-500 text-[10px] truncate flex-1">${item.songTitle}</span>
+                                        <span class="text-red-400 text-[9px] font-bold whitespace-nowrap">${t('activity.reset.desechada', lang)}</span>
+                                    </div>`;
+                        }
+                        let posLabel, posColor;
+                        if (item.pos === 1)      { posLabel = '#1 🥇'; posColor = 'text-yellow-400'; }
+                        else if (item.pos === 2) { posLabel = '#2 🥈'; posColor = 'text-gray-300'; }
+                        else if (item.pos === 3) { posLabel = '#3 🥉'; posColor = 'text-amber-500'; }
+                        else if (item.pos > 3)   { posLabel = `#${item.pos}`; posColor = 'text-teal-400'; }
+                        else                      { posLabel = t('activity.reset.sin_ranking', lang); posColor = 'text-teal-400'; }
+
+                        const diamondsPart = item.diamonds > 0 ? ` <span class="text-blue-400">+${item.diamonds}💎</span>` : '';
+                        return `<div class="flex items-center justify-between gap-2 py-0.5">
+                                    <span class="text-gray-400 text-[10px] truncate flex-1">${item.songTitle}</span>
+                                    <span class="text-[9px] font-bold whitespace-nowrap">
+                                        <span class="${posColor}">${posLabel}</span>
+                                        <span class="text-yellow-400 ml-1">+${item.stars}⭐</span>${diamondsPart}
+                                    </span>
+                                </div>`;
+                    }).join('');
+
+                    breakdownHTML = `
+                        <div class="mt-2 pt-2 border-t border-slate-700/50 space-y-0.5">
+                            ${rows}
+                        </div>`;
+                }
+
+                const timeAgo = getTimeAgo(entry.timestamp);
+
+                const div = document.createElement('div');
+                div.className  = 'activity-item flex items-center gap-3 p-3 bg-slate-900/60 rounded-xl border border-slate-700/40 hover:bg-slate-700/40 transition-colors';
+                div.style.animationDelay = `${index * 0.05}s`;
+                div.innerHTML = `
+                    <i class="fas ${iconClass} text-lg w-5 text-center flex-shrink-0"></i>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 mb-0.5">
+                            <span class="badge-act ${badgeClass}">${badgeLabel}</span>
+                            <span class="text-gray-500 text-[9px]">${timeAgo}</span>
+                        </div>
+                        <p class="text-gray-300 text-[11px] leading-snug ${breakdownHTML ? '' : 'truncate'}">${description}</p>
+                        ${breakdownHTML}
+                    </div>`;
+                container.appendChild(div);
+            });
+        }
+
+    </script>
+</body>
+</html>

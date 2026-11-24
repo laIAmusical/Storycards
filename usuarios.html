@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clasificaciones - La IA Musical</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #0f172a;
+            background-image: url('./images/fondo3.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: white;
+            padding-bottom: 3rem;
+        }
+
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(20, 184, 166, 0.3);
+            border-radius: 1.5rem;
+        }
+
+        .podium-card {
+            transition: transform 0.3s ease;
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(20, 184, 166, 0.2);
+        }
+        .podium-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(20, 184, 166, 0.6);
+        }
+
+        .user-row {
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(30, 41, 59, 0.5);
+        }
+        .user-row:hover {
+            background: rgba(20, 184, 166, 0.1);
+        }
+
+        .rank-badge {
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .gold   { background: linear-gradient(135deg, #fbbf24, #d97706); box-shadow: 0 0 18px rgba(251,191,36,0.45); }
+        .silver { background: linear-gradient(135deg, #cbd5e1, #64748b); }
+        .bronze { background: linear-gradient(135deg, #d97706, #78350f); }
+
+        /* Reset countdown chip */
+        .reset-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(15,23,42,0.85);
+            border: 1px solid #334155;
+            border-radius: 9999px;
+            padding: 0.28rem 0.85rem;
+            font-size: 0.72rem;
+            color: #94a3b8;
+        }
+
+        /* Weekly podium glow for #1 */
+        .podium-first {
+            border-color: rgba(251,191,36,0.45) !important;
+            background: rgba(41,35,15,0.55) !important;
+            box-shadow: 0 0 30px rgba(251,191,36,0.12);
+        }
+
+        /* General rank badge inline */
+        .rank-tag {
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            background: rgba(20,184,166,0.12);
+            border: 1px solid rgba(20,184,166,0.3);
+            color: #2dd4bf;
+            font-weight: 700;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #0d9488; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <!-- ══════════════════════════ HEADER ══════════════════════════ -->
+    <header class="p-4 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50 shadow-lg border-b border-teal-800">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <a href="index.html"
+               class="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-teal-600 to-cyan-600
+                      hover:from-teal-500 hover:to-cyan-500 transition-all duration-300 shadow-lg">
+                <i class="fas fa-music text-xl text-white"></i>
+                <span class="font-bold tracking-wide text-white uppercase" data-i18n="header.title">La IA Musical</span>
+            </a>
+            <div class="flex items-center gap-4">
+                <a href="perfil.html" class="text-teal-400 hover:text-teal-200 transition font-medium text-sm uppercase">
+                    <i class="fas fa-user-circle mr-1"></i>
+                    <span data-i18n="nav.perfil">Mi Perfil</span>
+                </a>
+                <button onclick="logout()"
+                        class="text-gray-400 hover:text-white transition flex items-center gap-2 py-1 px-3 rounded-md bg-slate-800 hover:bg-slate-700"
+                        data-i18n="header.salir">
+                    <i class="fas fa-sign-out-alt"></i> Salir
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ══════════════════════════ MAIN ══════════════════════════ -->
+    <main class="max-w-5xl mx-auto p-4 mt-8">
+
+        <!-- Título (sin subtítulo) -->
+        <div class="text-center mb-10">
+            <h2 class="text-4xl font-black text-white uppercase tracking-tighter mb-2 italic">
+                <i class="fas fa-trophy text-amber-500 mr-3"></i>
+                <span data-i18n="rankings.global_title">Ranking de Usuarios</span>
+            </h2>
+        </div>
+
+        <!-- ══════════════════ TOP 3 DE LA SEMANA ══════════════════ -->
+        <section class="mb-12">
+            <!-- Header con countdown -->
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+                <h3 class="text-xl font-bold text-teal-300 uppercase flex items-center gap-2">
+                    <i class="fas fa-calendar-week"></i>
+                    <span data-i18n="rankings.top_week">Top 3 de la Semana</span>
+                </h3>
+                <span class="reset-chip">
+                    <i class="fas fa-clock text-teal-400"></i>
+                    <span data-i18n="rankings.reset_en">Reset en</span>:&nbsp;
+                    <span id="weeklyCountdown" class="text-teal-300 font-bold tabular-nums">—</span>
+                </span>
+            </div>
+
+            <!-- Podio semanal -->
+            <div id="podium-container" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="col-span-full text-center py-10 text-gray-500">
+                    <i class="fas fa-spinner fa-spin mr-2"></i>
+                    <span data-i18n="rankings.cargando">Cargando...</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════ RANKING GENERAL ══════════════════ -->
+        <section>
+            <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+                <h3 class="text-xl font-bold text-teal-300 uppercase flex items-center gap-2">
+                    <i class="fas fa-list-ol"></i>
+                    <span data-i18n="rankings.top_general">Clasificación General</span>
+                </h3>
+
+                <!-- Criteria switcher -->
+                <div class="flex gap-2 p-1 bg-slate-900/50 rounded-full border border-teal-900/50">
+                    <button onclick="changeCriteria('userStars')" id="btn-stars"
+                            class="px-4 py-1.5 rounded-full text-xs font-bold transition-all">
+                        <i class="fas fa-star mr-1"></i>
+                        <span data-i18n="perfil.label_estrellas">Estrellas</span>
+                    </button>
+                    <button onclick="changeCriteria('userDiamonds')" id="btn-diamonds"
+                            class="px-4 py-1.5 rounded-full text-xs font-bold transition-all text-gray-400">
+                        <i class="fas fa-gem mr-1"></i>
+                        <span data-i18n="perfil.label_diamantes">Diamantes</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="glass-panel overflow-hidden">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-900/50 text-teal-300 text-[10px] uppercase tracking-widest border-b border-teal-900">
+                            <th class="p-4 w-20 text-center" data-i18n="rankings.pos">Pos</th>
+                            <th class="p-4" data-i18n="rankings.user">Usuario</th>
+                            <th class="p-4 hidden md:table-cell" data-i18n="perfil.label_rank">Rango</th>
+                            <th class="p-4 text-right" data-i18n="rankings.score">Puntos</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ranking-body">
+                        <tr>
+                            <td colspan="4" class="text-center py-10 text-gray-500">
+                                <i class="fas fa-spinner fa-spin mr-2"></i>
+                                <span data-i18n="rankings.cargando">Cargando...</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- ══════════════════════════ SCRIPTS ══════════════════════════ -->
+    <script>
+
+    // ════════════════════════════════════════════════════════════
+    //  Firebase
+    // ════════════════════════════════════════════════════════════
+    const firebaseConfig = {
+        apiKey:            "AIzaSyDW3Yv0AQAVlf3zTuxlqNq6dkZ6kQtpysM",
+        authDomain:        "laiamusical-4fba7.firebaseapp.com",
+        projectId:         "laiamusical-4fba7",
+        storageBucket:     "laiamusical-4fba7.firebasestorage.app",
+        messagingSenderId: "49783369602",
+        appId:             "1:49783369602:web:91e287c094a8f2403d699b"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db   = firebase.firestore();
+    const auth = firebase.auth();
+
+
+    // ════════════════════════════════════════════════════════════
+    //  i18n
+    // ════════════════════════════════════════════════════════════
+    const translations = {
+        es: {
+            "header.title":          "La IA Musical",
+            "header.salir":          "Salir",
+            "nav.perfil":            "Mi Perfil",
+            "rankings.global_title": "Ranking de Usuarios",
+            "rankings.top_week":     "Top 3 de la Semana",
+            "rankings.top_general":  "Clasificación General",
+            "rankings.reset_en":     "Reset en",
+            "rankings.pos":          "Pos",
+            "rankings.user":         "Usuario",
+            "rankings.score":        "Puntos",
+            "rankings.cargando":     "Cargando...",
+            "rankings.sin_datos":    "Sin datos esta semana",
+            "perfil.label_estrellas":"Estrellas",
+            "perfil.label_diamantes":"Diamantes",
+            "perfil.label_rank":     "Rango",
+            "rankings.anonimo":      "Anónimo"
+        },
+        en: {
+            "header.title":          "The Musical AI",
+            "header.salir":          "Logout",
+            "nav.perfil":            "My Profile",
+            "rankings.global_title": "User Rankings",
+            "rankings.top_week":     "Weekly Top 3",
+            "rankings.top_general":  "General Standing",
+            "rankings.reset_en":     "Reset in",
+            "rankings.pos":          "Rank",
+            "rankings.user":         "User",
+            "rankings.score":        "Score",
+            "rankings.cargando":     "Loading...",
+            "rankings.sin_datos":    "No data this week",
+            "perfil.label_estrellas":"Stars",
+            "perfil.label_diamantes":"Diamonds",
+            "perfil.label_rank":     "Rank",
+            "rankings.anonimo":      "Anonymous"
+        }
+    };
+
+    function getLang() { return localStorage.getItem('selectedLanguage') || 'es'; }
+
+    // ══════════════════════════════════════════════════════════════
+    //  CAPA DE SERVIDOR (independiente del idioma)
+    //  El servidor activo se elige en index.html y se guarda por ID en localStorage ('currentServerId'):
+    //    server1 = Español · server2 = Inglés · server3 = Privado
+    //  Cada servidor es una CUENTA INDEPENDIENTE: su propia colección de usuarios
+    //  (users | users_server2 | users_server3) y su propio ranking (stars | stars_server2 | stars_server3).
+    //  server1 conserva los nombres originales para mantener los datos actuales.
+    // ══════════════════════════════════════════════════════════════
+    function normalizeServerId(value) {
+        if (!value) return null;
+        if (value === 'server1' || value === 'server2' || value === 'server3') return value;
+        const s = String(value).toLowerCase();
+        if (/espa|spanish/.test(s)) return 'server1';
+        if (/ingl|english/.test(s)) return 'server2';
+        if (/priv/.test(s)) return 'server3';
+        return null;
+    }
+    function getServerId() {
+        let id = normalizeServerId(localStorage.getItem('currentServerId'))
+              || normalizeServerId(localStorage.getItem('currentServer'));
+        if (!id) id = (localStorage.getItem('selectedLanguage') === 'en') ? 'server2' : 'server1'; // solo la 1ª vez
+        localStorage.setItem('currentServerId', id);
+        return id;
+    }
+    function serverSuffix(id) { id = id || getServerId(); return id === 'server1' ? '' : '_' + id; }
+    function usersCollectionName(id) { return 'users' + serverSuffix(id); }   // users | users_server2 | users_server3
+    function rankingDocId(id) { return 'stars' + serverSuffix(id); }          // stars | stars_server2 | stars_server3
+    window.addEventListener('storage', (e) => { if (e.key === 'currentServerId') location.reload(); });
+    function t(key)    { return translations[getLang()]?.[key] ?? translations['es']?.[key] ?? key; }
+
+    function applyTranslations() {
+        const lang = getLang();
+        document.documentElement.lang = lang;
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            const val = translations[lang]?.[key];
+            if (val) el.innerHTML = val;
+        });
+    }
+
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'selectedLanguage') { applyTranslations(); loadRankings(); }
+    });
+    window.addEventListener('languageChanged', () => { applyTranslations(); loadRankings(); });
+
+
+    // ════════════════════════════════════════════════════════════
+    //  Rank name helper
+    // ════════════════════════════════════════════════════════════
+    function getRankName(stars) {
+        if (stars > 13000) return "DIOS IA";
+        if (stars > 8500)  return "Leyenda";
+        if (stars > 5200)  return "Maestro";
+        if (stars > 2800)  return "Virtuoso";
+        if (stars > 1200)  return "Melómano";
+        if (stars > 400)   return "Aprendiz";
+        return "Novato";
+    }
+
+    // ── Resolve the display name from all possible Firestore fields ──
+    // Fields tried in order: username · userName · displayName · email prefix
+    function resolveUsername(user, lang) {
+        return user.username
+            || user.userName
+            || user.displayName
+            || (user.email ? user.email.split('@')[0] : null)
+            || t('rankings.anonimo');
+    }
+
+
+    // ════════════════════════════════════════════════════════════
+    //  Weekly reset helpers
+    // ════════════════════════════════════════════════════════════
+    function getCurrentMondayISO() {
+        const now  = new Date();
+        const day  = now.getDay(); // 0=Sun
+        const diff = day === 0 ? -6 : 1 - day;
+        const mon  = new Date(now);
+        mon.setDate(now.getDate() + diff);
+        mon.setHours(0, 0, 0, 0);
+        return mon.toISOString().split('T')[0]; // "YYYY-MM-DD"
+    }
+
+    // Check if weekly stats need resetting, do so via batch if needed
+    async function checkAndResetWeeklyStars(users) {
+        const currentWeek = getCurrentMondayISO();
+
+        // Read reset config doc
+        let resetDoc;
+        try {
+            resetDoc = await db.collection('config').doc('weeklyReset' + serverSuffix()).get();
+        } catch (e) { return; }
+
+        const lastReset = resetDoc.exists ? resetDoc.data().lastReset : null;
+
+        if (lastReset === currentWeek) return; // already reset this week
+
+        // Perform batch reset of weeklyStars for all loaded users
+        const batch = db.batch();
+        users.forEach(u => {
+            const ref = db.collection(usersCollectionName()).doc(u.id);
+            batch.update(ref, { weeklyStars: 0 });
+        });
+        // Update config doc
+        batch.set(db.collection('config').doc('weeklyReset' + serverSuffix()), { lastReset: currentWeek });
+
+        try {
+            await batch.commit();
+            // Reload rankings after reset
+            loadRankings();
+        } catch (e) {
+            console.warn('Weekly reset skipped (permissions):', e.message);
+        }
+    }
+
+    // ════════════════════════════════════════════════════════════
+    //  Countdown to next Monday 00:00
+    // ════════════════════════════════════════════════════════════
+    function updateCountdown() {
+        const now = new Date();
+        const day = now.getDay(); // 0=Sun, 1=Mon…
+        const daysUntilMon = day === 1 ? 7 : (8 - day) % 7 || 7;
+        const nextMon = new Date(now);
+        nextMon.setDate(now.getDate() + daysUntilMon);
+        nextMon.setHours(0, 0, 0, 0);
+
+        const diff = nextMon - now;
+        const d = Math.floor(diff / 86400000);
+        const h = String(Math.floor((diff % 86400000) / 3600000)).padStart(2, '0');
+        const m = String(Math.floor((diff % 3600000)  / 60000)).padStart(2, '0');
+        const s = String(Math.floor((diff % 60000)    / 1000)).padStart(2, '0');
+
+        const el = document.getElementById('weeklyCountdown');
+        if (el) el.textContent = d > 0 ? `${d}d ${h}:${m}:${s}` : `${h}:${m}:${s}`;
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+
+    // ════════════════════════════════════════════════════════════
+    //  Criteria state
+    // ════════════════════════════════════════════════════════════
+    let currentCriteria = 'userStars';
+
+    function changeCriteria(c) {
+        currentCriteria = c;
+        updateButtonsUI();
+        loadRankings();
+    }
+
+    function updateButtonsUI() {
+        const starBtn = document.getElementById('btn-stars');
+        const gemBtn  = document.getElementById('btn-diamonds');
+        if (currentCriteria === 'userStars') {
+            starBtn.className = "px-4 py-1.5 rounded-full text-xs font-bold bg-teal-600 text-white shadow-lg transition-all";
+            gemBtn.className  = "px-4 py-1.5 rounded-full text-xs font-bold text-gray-400 hover:text-white transition-all";
+        } else {
+            gemBtn.className  = "px-4 py-1.5 rounded-full text-xs font-bold bg-blue-600 text-white shadow-lg transition-all";
+            starBtn.className = "px-4 py-1.5 rounded-full text-xs font-bold text-gray-400 hover:text-white transition-all";
+        }
+    }
+
+
+    // ════════════════════════════════════════════════════════════
+    //  Load rankings
+    // ════════════════════════════════════════════════════════════
+    async function loadRankings() {
+        const podiumContainer = document.getElementById('podium-container');
+        const rankingBody     = document.getElementById('ranking-body');
+
+        updateButtonsUI();
+
+        try {
+            // ── General ranking ──
+            const snapshot = await db.collection(usersCollectionName())
+                .orderBy(currentCriteria, 'desc')
+                .limit(50)
+                .get();
+
+            const users = [];
+            snapshot.forEach(doc => users.push({ id: doc.id, ...doc.data() }));
+
+            // ── Check / trigger weekly reset ──
+            await checkAndResetWeeklyStars(users);
+
+            // ── Weekly top 3: order by weeklyStars ──
+            const weeklySnapshot = await db.collection(usersCollectionName())
+                .orderBy('weeklyStars', 'desc')
+                .limit(3)
+                .get();
+
+            const weeklyTop3 = [];
+            weeklySnapshot.forEach(doc => weeklyTop3.push({ id: doc.id, ...doc.data() }));
+
+            // ────────────────────────────────────────
+            //  RENDER WEEKLY PODIUM
+            // ────────────────────────────────────────
+            podiumContainer.innerHTML = '';
+
+            if (weeklyTop3.length === 0) {
+                podiumContainer.innerHTML = `
+                    <div class="col-span-full text-center py-10 text-gray-500 text-sm">
+                        <i class="fas fa-info-circle mr-2 text-teal-600"></i>${t('rankings.sin_datos')}
+                    </div>`;
+            } else {
+                // Visual order: 2nd · 1st · 3rd
+                const podiumOrder = [weeklyTop3[1], weeklyTop3[0], weeklyTop3[2]];
+
+                const podiumMeta = [
+                    { pos: 2, colorClass: 'silver', icon: 'fa-medal',  heightClass: '' },
+                    { pos: 1, colorClass: 'gold',   icon: 'fa-crown',  heightClass: 'md:-mt-6 podium-first' },
+                    { pos: 3, colorClass: 'bronze',  icon: 'fa-medal',  heightClass: '' }
+                ];
+
+                podiumOrder.forEach((user, i) => {
+                    if (!user) {
+                        podiumContainer.innerHTML += `<div class="podium-card p-6 rounded-2xl flex items-center justify-center min-h-[180px]"><span class="text-gray-600 text-sm">—</span></div>`;
+                        return;
+                    }
+
+                    const meta      = podiumMeta[i];
+                    const name      = resolveUsername(user, getLang());
+                    const weekStar  = user.weeklyStars || 0;
+                    const rankName  = getRankName(user.userStars || 0);
+
+                    // Avatar initial
+                    const initial = name.charAt(0).toUpperCase();
+
+                    podiumContainer.innerHTML += `
+                        <div class="podium-card p-6 rounded-2xl text-center flex flex-col items-center gap-2 ${meta.heightClass}">
+
+                            <!-- Position badge -->
+                            <div class="rank-badge ${meta.colorClass} mb-1">
+                                <i class="fas ${meta.icon}"></i>
+                            </div>
+
+                            <!-- Avatar -->
+                            <div class="w-16 h-16 rounded-full bg-slate-700 border-2 border-teal-500/40
+                                        flex items-center justify-center text-2xl font-black text-teal-300 select-none">
+                                ${initial}
+                            </div>
+
+                            <!-- Username (real, from Firestore) -->
+                            <h4 class="font-bold text-base truncate w-full max-w-[160px] text-center"
+                                title="${name}">
+                                ${name}
+                            </h4>
+
+                            <!-- Rank tag -->
+                            <span class="rank-tag">${rankName}</span>
+
+                            <!-- Weekly stars score -->
+                            <div class="mt-1 bg-slate-900/80 px-4 py-1.5 rounded-full border border-teal-900 flex items-center gap-1">
+                                <span class="font-black text-white text-sm">${weekStar.toLocaleString()}</span>
+                                <i class="fas fa-star text-yellow-400 text-xs"></i>
+                                <span class="text-gray-500 text-[10px] ml-1" data-i18n="rankings.semana_label">sem.</span>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            // ────────────────────────────────────────
+            //  RENDER GENERAL TABLE (pos 4–50)
+            // ────────────────────────────────────────
+            rankingBody.innerHTML = '';
+            const restUsers = users.slice(3);
+
+            if (restUsers.length === 0) {
+                rankingBody.innerHTML = `
+                    <tr>
+                        <td colspan="4" class="text-center py-8 text-gray-600 text-sm">—</td>
+                    </tr>`;
+                return;
+            }
+
+            restUsers.forEach((user, index) => {
+                const pos    = index + 4;
+                const isMe   = auth.currentUser && user.id === auth.currentUser.uid;
+                const name   = resolveUsername(user, getLang());
+                const score  = user[currentCriteria] || 0;
+                const icon   = currentCriteria === 'userStars' ? 'fa-star' : 'fa-gem';
+                const color  = currentCriteria === 'userStars' ? 'text-yellow-500/80' : 'text-blue-500/80';
+                const rankN  = getRankName(user.userStars || 0);
+                const initial = name.charAt(0).toUpperCase();
+
+                rankingBody.innerHTML += `
+                    <tr class="user-row ${isMe ? 'bg-teal-900/20' : ''}">
+                        <td class="p-4 text-center font-bold text-gray-500 text-sm">#${pos}</td>
+                        <td class="p-4">
+                            <div class="flex items-center gap-3">
+                                <!-- Mini avatar with initial -->
+                                <div class="w-8 h-8 rounded-full bg-slate-800 border border-slate-600
+                                            flex items-center justify-center text-xs font-black
+                                            text-teal-400 flex-shrink-0 select-none">
+                                    ${initial}
+                                </div>
+                                <span class="font-bold text-sm ${isMe ? 'text-teal-400' : 'text-white'}"
+                                      title="${name}">
+                                    ${name}
+                                </span>
+                                ${isMe ? '<span class="text-[9px] px-1.5 py-0.5 rounded bg-teal-700/40 text-teal-300 font-bold ml-1">TÚ</span>' : ''}
+                            </div>
+                        </td>
+                        <td class="p-4 hidden md:table-cell">
+                            <span class="rank-tag">${rankN}</span>
+                        </td>
+                        <td class="p-4 text-right font-black text-sm ${color}">
+                            ${score.toLocaleString()}
+                            <i class="fas ${icon} ml-1 text-[10px]"></i>
+                        </td>
+                    </tr>
+                `;
+            });
+
+        } catch (error) {
+            console.error("Error cargando rankings:", error);
+            document.getElementById('ranking-body').innerHTML = `
+                <tr>
+                    <td colspan="4" class="text-center py-8 text-red-400 text-sm">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>Error al cargar datos.
+                    </td>
+                </tr>`;
+        }
+    }
+
+
+    // ════════════════════════════════════════════════════════════
+    //  Auth + init
+    // ════════════════════════════════════════════════════════════
+    auth.onAuthStateChanged((user) => {
+        if (!user) {
+            window.location.href = 'index.html';
+            return;
+        }
+        applyTranslations();
+        loadRankings();
+    });
+
+    function logout() {
+        auth.signOut().then(() => window.location.href = 'index.html');
+    }
+
+    </script>
+</body>
+</html>

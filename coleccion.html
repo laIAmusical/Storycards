@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colección - La IA Musical</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+    <style>
+        /* ── Base ── */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #0f172a;
+            background-image: url('./images/fondo3.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: white;
+            padding-bottom: 4rem;
+        }
+
+        /* ── Song cards ── */
+        .song-card {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid #134e4a;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .song-card:hover {
+            transform: translateY(-5px);
+            border-color: #2dd4bf;
+            box-shadow: 0 10px 25px rgba(13, 148, 136, 0.4);
+        }
+        .song-card.locked { opacity: 0.85; }
+        .song-card.locked:hover { border-color: #3b82f6; box-shadow: 0 10px 25px rgba(59, 130, 246, 0.35); }
+
+        /* ── Modal ── */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.65);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(3px);
+        }
+        .purchase-modal-content {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 3px solid #14b8a6;
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 440px;
+            width: 92%;
+            animation: modalSlideIn 0.3s ease-out;
+            box-shadow: 0 20px 50px rgba(13,148,136,0.35);
+        }
+        @keyframes modalSlideIn {
+            from { opacity:0; transform: scale(0.9) translateY(-18px); }
+            to   { opacity:1; transform: scale(1)   translateY(0); }
+        }
+
+        /* ── Info boxes ── */
+        .info-box {
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            font-size: 0.82rem;
+            line-height: 1.6;
+        }
+
+        /* ── Counter badges ── */
+        .stat-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            background: rgba(15,23,42,0.7);
+            border: 1px solid #1e3a3a;
+            border-radius: 9999px;
+            padding: 0.25rem 0.85rem;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        /* ── Tabs ── */
+        .tab-btn {
+            padding: 0.55rem 1.1rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            background: rgba(15,23,42,0.8);
+            border: 1px solid #334155;
+            color: #94a3b8;
+            transition: all 0.25s ease;
+            cursor: pointer;
+        }
+        .tab-btn:hover { color: #fff; border-color: #2dd4bf; }
+        .tab-btn.active {
+            background: linear-gradient(to right, #0d9488, #0891b2);
+            border-color: #2dd4bf;
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(13,148,136,0.4);
+        }
+
+        /* ── Filters ── */
+        .filter-input {
+            background: rgba(15,23,42,0.85);
+            border: 1px solid #334155;
+            border-radius: 10px;
+            color: #fff;
+            padding: 0.5rem 0.85rem;
+            font-size: 0.8rem;
+            outline: none;
+        }
+        .filter-input:focus { border-color: #2dd4bf; }
+        .filter-input option { background: #0f172a; }
+
+        /* ── Progress ── */
+        .progress-track { background: #1e293b; border-radius: 9999px; height: 8px; overflow: hidden; }
+        .progress-fill  { background: linear-gradient(to right, #0d9488, #22d3ee); height: 100%; transition: width 0.6s ease; }
+
+        /* ── Toast ── */
+        .toast {
+            position: fixed; bottom: 24px; left: 50%;
+            transform: translateX(-50%) translateY(30px);
+            background: #0f766e; color: #fff;
+            padding: 0.75rem 1.4rem; border-radius: 12px;
+            font-weight: bold; font-size: 0.9rem; z-index: 1100;
+            opacity: 0; pointer-events: none; transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .toast.error { background: #b91c1c; }
+    </style>
+</head>
+<body>
+
+    <header class="p-4 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50 shadow-lg border-b border-teal-800">
+        <div class="max-w-6xl mx-auto flex flex-wrap justify-between items-center gap-3">
+            <a href="index.html"
+               class="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-teal-600 to-cyan-600
+                      hover:from-teal-500 hover:to-cyan-500 transition-all duration-300 shadow-lg hover:-translate-y-0.5">
+                <i class="fas fa-music text-xl text-white"></i>
+                <span class="font-bold tracking-wide text-white uppercase" data-i18n="header.title">La IA Musical</span>
+            </a>
+            <div class="flex flex-wrap items-center gap-3">
+                <span class="stat-pill text-blue-300">
+                    <i class="fas fa-gem text-blue-400"></i>
+                    <span id="headerDiamonds" class="tabular-nums">0</span>
+                </span>
+                <a href="miscartas.html"
+                   class="flex items-center gap-2 py-1 px-3 rounded-md bg-slate-800 hover:bg-slate-700 text-gray-300 hover:text-white transition text-sm">
+                    <i class="fas fa-layer-group text-teal-400"></i>
+                    <span data-i18n="header.miscartas">Mis cartas</span>
+                </a>
+                <a href="biblioteca.html"
+                   class="flex items-center gap-2 py-1 px-3 rounded-md bg-slate-800 hover:bg-slate-700 text-gray-300 hover:text-white transition text-sm">
+                    <i class="fas fa-book text-orange-400"></i>
+                    <span data-i18n="header.biblioteca">Biblioteca</span>
+                </a>
+                <button onclick="logout()"
+                        class="text-gray-400 hover:text-white transition flex items-center gap-2 py-1 px-3 rounded-md bg-slate-800 hover:bg-slate-700"
+                        data-i18n="header.salir">
+                    <i class="fas fa-sign-out-alt"></i> Salir
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div id="purchaseModal" class="modal-overlay" onclick="closePurchaseModal()">
+        <div class="purchase-modal-content" onclick="event.stopPropagation()">
+            <div class="text-center mb-6">
+                <i class="fas fa-gem text-blue-400 text-5xl mb-4 block"></i>
+                <h3 class="text-2xl font-bold text-white mb-2" data-i18n="modal.titulo">¿Comprar esta storycard?</h3>
+                <p class="text-gray-400 text-sm mb-4" data-i18n="modal.desc"></p>
+
+                <div id="cardInfoDisplay" class="mb-4"></div>
+
+                <div class="bg-slate-800/60 rounded-xl p-4 mb-4">
+                    <p class="text-gray-300 text-xs mb-3 uppercase font-bold tracking-wide" data-i18n="modal.precio">Precio:</p>
+                    <div class="flex justify-center gap-6 text-xl font-bold mb-1">
+                        <div class="flex items-center gap-2">
+                            <span class="text-blue-400 text-4xl font-black">5</span>
+                            <i class="fas fa-gem text-blue-400 text-4xl"></i>
+                        </div>
+                    </div>
+                </div>
+                <div id="userResourcesDisplay" class="bg-slate-900/60 rounded-xl p-3 mb-2"></div>
+                <p id="purchaseError" class="text-xs text-red-400 font-semibold min-h-[1rem]"></p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <button onclick="closePurchaseModal()" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-6 rounded-xl transition" data-i18n="modal.cancelar">Cancelar</button>
+                <button id="confirmBuyBtn" onclick="confirmPurchase()" class="bg-teal-600 hover:bg-teal-500 text-white font-bold py-3 px-6 rounded-xl transition disabled:opacity-50 disabled:cursor-not-allowed" data-i18n="modal.comprar">Comprar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <main class="max-w-6xl mx-auto p-4 mt-6">
+        <div class="flex flex-wrap items-start justify-between gap-4 mb-5">
+            <div>
+                <h2 class="text-2xl sm:text-3xl font-black text-teal-300 uppercase tracking-tighter flex items-center gap-3">
+                    <i class="fas fa-book-open"></i>
+                    <span data-i18n="col.titulo">Mi colección de storycards</span>
+                </h2>
+            </div>
+            <div class="flex flex-wrap gap-2">
+                <span class="stat-pill text-teal-300"><i class="fas fa-layer-group text-teal-400"></i> <span id="countOwned">0</span> <span data-i18n="col.compradas">en colección</span></span>
+                <span class="stat-pill text-gray-300"><i class="fas fa-lock text-gray-400"></i> <span id="countMissing">0</span> <span data-i18n="col.faltan">por conseguir</span></span>
+                <span class="stat-pill text-blue-300"><i class="fas fa-percent text-blue-400"></i> <span id="countPercent">0</span>%</span>
+            </div>
+        </div>
+
+        <div class="space-y-2 mb-5">
+            <div class="info-box bg-teal-900/20 border border-teal-700/40 text-teal-200 text-xs">
+                <i class="fas fa-gem text-teal-400 mr-2"></i>
+                <span data-i18n="col.info_comprar"></span>
+            </div>
+            <div class="info-box bg-slate-800/60 border border-teal-800/50 text-gray-300">
+                <i class="fas fa-infinity text-teal-400 mr-2"></i>
+                <span data-i18n="col.info_permanente"></span>
+            </div>
+        </div>
+
+        <div class="mb-5">
+            <div class="flex justify-between text-xs text-gray-400 mb-1">
+                <span data-i18n="col.progreso">Progreso de la colección</span>
+                <span><span id="progressOwned">0</span> / <span id="progressTotal">0</span></span>
+            </div>
+            <div class="progress-track"><div id="progressFill" class="progress-fill" style="width:0%"></div></div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+            <div class="flex flex-wrap gap-2">
+                <button id="tabOwned"  class="tab-btn active" onclick="setTab('owned')"><i class="fas fa-check-circle mr-1"></i> <span data-i18n="col.tab_mias">Mi colección</span></button>
+                <button id="tabMissing" class="tab-btn"       onclick="setTab('missing')"><i class="fas fa-lock mr-1"></i> <span data-i18n="col.tab_faltan">Por conseguir</span></button>
+            </div>
+            <div class="flex flex-wrap gap-2">
+                <input id="searchInput" type="text" class="filter-input" oninput="renderCollection()" data-i18n-placeholder="col.buscar" placeholder="Buscar storycard...">
+                <select id="salaFilter" class="filter-input" onchange="renderCollection()"></select>
+            </div>
+        </div>
+
+        <div class="bg-slate-900/40 rounded-2xl border border-slate-800 p-4">
+            <div id="collectionGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3" style="min-height: 240px;">
+                <div class="col-span-full flex items-center justify-center gap-3 text-gray-500 text-sm py-12">
+                    <i class="fas fa-spinner fa-spin text-teal-500 text-xl"></i>
+                    <span data-i18n="col.cargando">Cargando tu colección...</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-5 flex flex-wrap gap-4 text-xs text-gray-500">
+            <span><span class="text-teal-400 font-bold"><i class="fas fa-check-circle"></i></span> — <span data-i18n="col.leyenda_owned">storycard en tu colección (permanente)</span></span>
+            <span><span class="text-blue-400 font-bold">5💎</span> — <span data-i18n="col.leyenda_buy">precio de cada storycard</span></span>
+        </div>
+    </main>
+
+    <script>
+    const translations = {
+        es: {
+            "header.title": "La IA Musical", "header.salir": "Salir", "header.miscartas": "Mis cartas", "header.biblioteca": "Biblioteca",
+            "col.titulo": "Mi colección de storycards", "col.compradas": "en colección", "col.faltan": "por conseguir",
+            "col.info_comprar": "Compra storycards por <b>5💎</b> desde la pestaña <b>Por conseguir</b> o desde la <a href='biblioteca.html' class='underline text-teal-300'>Biblioteca</a> y se añadirán aquí automáticamente.",
+            "col.info_permanente": "Tu colección es permanente: <b>no se borra</b> con el reseteo semanal de los lunes y se sincroniza con tu cuenta en cualquier dispositivo.",
+            "col.progreso": "Progreso de la colección", "col.tab_mias": "Mi colección", "col.tab_faltan": "Por conseguir",
+            "col.buscar": "Buscar storycard...", "col.todas_salas": "Todas las salas", "col.cargando": "Cargando tu colección...",
+            "col.vacia": "Aún no tienes storycards en tu colección. ¡Cómprala por 5💎 en la pestaña Por conseguir o en la Biblioteca!",
+            "col.completa": "¡Enhorabuena! Ya tienes todas las storycards de esta selección.",
+            "col.sin_resultados": "No se encontraron storycards con ese filtro.",
+            "col.leyenda_owned": "storycard en tu colección (permanente)", "col.leyenda_buy": "precio de cada storycard",
+            "col.en_coleccion": "En tu colección", "col.comprar": "Comprar · 5 💎", "col.ver_sala": "Ver en la biblioteca", "col.comprada_el": "Comprada el",
+            "modal.titulo": "¿Comprar esta storycard?", "modal.desc": "Se añadirá a tu colección permanente y se descontarán los diamantes de tu cuenta.",
+            "modal.precio": "Precio:", "modal.cancelar": "Cancelar", "modal.comprar": "Comprar", "modal.comprando": "Comprando...",
+            "modal.tus_diamantes": "Tus diamantes actuales:", "modal.tras_compra": "Te quedarán:",
+            "err.insuficientes": "No tienes suficientes diamantes (necesitas 5 💎).", "err.ya_tienes": "Ya tienes esta storycard en tu colección.",
+            "err.generico": "No se pudo completar la compra. Inténtalo de nuevo.", "ok.compra": "✅ ¡Storycard añadida a tu colección!",
+            "log.compra": "Compraste \"{title}\" para tu colección (-5💎)",
+            "sala.literaria": "Literatura 📚", "sala.cine": "Cine 🎬", "sala.animacion": "Animación 🧸", "sala.opera": "Ópera y conciertos 🎻",
+            "sala.teatro": "Teatro y musicales 🎭", "sala.extras": "Extra y documentales 📽️", "sala.anime": "Anime 🍥", "sala.series": "Series 📺",
+            "salaDesc.literaria": "Inspiraciones en grandes autores y novelas",
+            "salaDesc.cine": "Todo el género cinematográfico en tus manos",
+            "salaDesc.animacion": "Clásicos y modernos para todos",
+            "salaDesc.opera": "Obras y funciones del arte",
+            "salaDesc.teatro": "Broadway y espectáculos",
+            "salaDesc.series": "Temas inspirados en series clásicas y modernas",
+            "salaDesc.anime": "Openings y OST japoneses",
+            "salaDesc.extras": "Ficciones y realidades de la Naturaleza, historia y ciencia"
+        },
+        en: {
+            "header.title": "The Musical AI", "header.salir": "Logout", "header.miscartas": "My cards", "header.biblioteca": "Library",
+            "col.titulo": "My storycard collection", "col.compradas": "in collection", "col.faltan": "to collect",
+            "col.info_comprar": "Buy storycards for <b>5💎</b> from the <b>To collect</b> tab or from the <a href='biblioteca.html' class='underline text-teal-300'>Library</a> and they will be added here automatically.",
+            "col.info_permanente": "Your collection is permanent: it is <b>not erased</b> by the weekly Monday reset and syncs with your account on any device.",
+            "col.progreso": "Collection progress", "col.tab_mias": "My collection", "col.tab_faltan": "To collect",
+            "col.buscar": "Search storycard...", "col.todas_salas": "All rooms", "col.cargando": "Loading your collection...",
+            "col.vacia": "You don't have any storycards in your collection yet. Buy one for 5💎 in the To collect tab or in the Library!",
+            "col.completa": "Congratulations! You already have every storycard in this selection.",
+            "col.sin_resultados": "No storycards found with that filter.",
+            "col.leyenda_owned": "storycard in your collection (permanent)", "col.leyenda_buy": "price of each storycard",
+            "col.en_coleccion": "In your collection", "col.comprar": "Buy · 5 💎", "col.ver_sala": "View in the library", "col.comprada_el": "Bought on",
+            "modal.titulo": "Buy this storycard?", "modal.desc": "It will be added to your permanent collection and the diamonds will be deducted from your account.",
+            "modal.precio": "Price:", "modal.cancelar": "Cancel", "modal.comprar": "Buy", "modal.comprando": "Buying...",
+            "modal.tus_diamantes": "Your current diamonds:", "modal.tras_compra": "You will have:",
+            "err.insuficientes": "You don't have enough diamonds (you need 5 💎).", "err.ya_tienes": "You already own this storycard.",
+            "err.generico": "The purchase could not be completed. Please try again.", "ok.compra": "✅ Storycard added to your collection!",
+            "log.compra": "You bought \"{title}\" for your collection (-5💎)",
+            "sala.literaria": "Literature 📚", "sala.cine": "Cinema 🎬", "sala.animacion": "Animation 🧸", "sala.opera": "Opera and concerts 🎻",
+            "sala.teatro": "Theatre and musicals 🎭", "sala.extras": "Extra and documentaries 📽️", "sala.anime": "Anime 🍥", "sala.series": "Series 📺",
+            "salaDesc.literaria": "Inspirations from great authors and novels",
+            "salaDesc.cine": "The whole world of cinema in your hands",
+            "salaDesc.animacion": "Classics and modern for everyone",
+            "salaDesc.opera": "Art works and performances",
+            "salaDesc.teatro": "Broadway and shows",
+            "salaDesc.series": "Themes inspired by classic and modern series",
+            "salaDesc.anime": "Japanese openings and OSTs",
+            "salaDesc.extras": "Fictions and realities of Nature, history and science"
+        }
+    };
+
+    function getCurrentLanguage() { return localStorage.getItem('selectedLanguage') || 'es'; }
+    function t(key, lang) { const l = lang || getCurrentLanguage(); return translations[l]?.[key] ?? translations['es']?.[key] ?? key; }
+
+    function applyLanguage(lang) {
+        document.documentElement.lang = lang;
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const val = t(el.getAttribute('data-i18n'), lang);
+            if (val) el.innerHTML = val;
+        });
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+            el.placeholder = t(el.getAttribute('data-i18n-placeholder'), lang);
+        });
+        buildSalaFilter();
+        if (!isLoading) renderCollection();
+    }
+
+    window.addEventListener('storage', (e) => { if (e.key === 'selectedLanguage') applyLanguage(e.newValue || 'es'); });
+    document.addEventListener('DOMContentLoaded', () => { buildSalaFilter(); applyLanguage(getCurrentLanguage()); });
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyDW3Yv0AQAVlf3zTuxlqNq6dkZ6kQtpysM",
+        authDomain: "laiamusical-4fba7.firebaseapp.com",
+        projectId: "laiamusical-4fba7",
+        storageBucket: "laiamusical-4fba7.firebasestorage.app",
+        messagingSenderId: "49783369602",
+        appId: "1:49783369602:web:91e287c094a8f2403d699b",
+        measurementId: "G-WC2JT6DRF4"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db   = firebase.firestore();
+
+    // ── Catálogo de storycards (mismo que biblioteca.html) ──
+    const songs = [
+        // LITERATURA
+        { id: 5,   title: "El lenguaje del mundo",         titleEn: "The Language of the World",       year: 2026, category: "AVENTURA",             topic: "Literatura",           cover: "./imagenportada/lit_lenguajedelmundo.png",     synopsis: "En el rincón más tranquilo de un valle de almendros, Liam creía conocer los límites de su existencia. Pero, ¿qué sucede cuando el mundo comienza a susurrarte secretos que solo el alma puede comprender?." },
+        { id: 21,  title: "La herencia del olvido",        titleEn: "The Inheritance of Oblivion",     year: 2026, category: "REALISMO MÁGICO",        topic: "Literatura",           cover: "./imagenportada/lit_herencia.png",              synopsis: "En San Jacinto del Viento, el olvido no es un descuido, es una enfermedad. Las calles pierden sus nombres, los rostros se vuelven borrosos y los muertos mueren una segunda vez cuando nadie los recuerda." },
+        { id: 7,   title: "El ojo que todo lo ve",         titleEn: "The All-Seeing Eye",              year: 2026, category: "DISTOPÍA",               topic: "Literatura",           cover: "./imagenportada/lit_1984.png",                  synopsis: "En la ciudad de Véritas, la privacidad ha muerto y la lealtad es obligatoria bajo la mirada implacable de (El Ojo). Cuando un censor del régimen descubre una verdad enterrada, se une a una contrabandista en una misión suicida hacia el núcleo del sistema." },
+        { id: 8,   title: "El ruido de la conciencia",     titleEn: "The Noise of Consciousness",      year: 2026, category: "PSICOLÓGICA",            topic: "Literatura",           cover: "./imagenportada/lit_ruidodelaconciencia.png",   synopsis: "Un aclamado arquitecto, que aparentemente lo tiene todo, vive atormentado por un incesante ruido en su conciencia que ni el éxito ni el lujo pueden silenciar. Deberá enfrentarse a la verdad que ha intentado enterrar." },
+        { id: 17,  title: "La conversion",                 titleEn: "The Conversion",                  year: 2026, category: "FICCIÓN FILOSÓFICA",     topic: "Literatura",           cover: "./imagenportada/lit_conversion.png",            synopsis: "Una joven costurera y catequista de Mombasa despierta un día con una extraña y severa afección en la piel. Mientras quienes la rodean debaten si es enfermedad, milagro o castigo, ella debe enfrentarse al dolor y encontrar un nuevo sentido a su identidad y su fe." },
+        { id: 18,  title: "La cicatriz invisible",         titleEn: "The Invisible Scar",              year: 2026, category: "GÓTICO",                 topic: "Literatura",           cover: "./imagenportada/lit_cicatriz.png",              synopsis: "Una joven se muda a un antiguo piso en Edimburgo y empieza a notar extraños ruidos ligados a una misteriosa buhardilla sellada. A medida que investiga, descubre que la casa guarda algo más que recuerdos." },
+        { id: 22,  title: "El señor de los locos y sabios",titleEn: "The Lord of Madmen and Sages",    year: 2026, category: "SATÍRICA/AVENTURA",      topic: "Literatura",           cover: "./imagenportada/lit_quijote.png",               synopsis: "Un hidalgo idealista decide convertirse en caballero andante para impartir justicia en un mundo que ya no cree en héroes. Acompañado por su práctico escudero, su imaginación le llevará a enfrentarse a formidables enemigos que solo él puede ver." },
+        { id: 23,  title: "El largo regreso a Ítaca",      titleEn: "The Long Return to Ithaca",       year: 2026, category: "ÉPICA",                  topic: "Literatura",           cover: "./imagenportada/lit_regresoitaca.png",          synopsis: "Una joven timonel emprende un viaje por mares cambiantes para encontrar a su hermano desaparecido, reuniendo a una tripulación improbable. La travesía se convierte en una prueba de ingenio, lealtad y resistencia." },
+        { id: 24,  title: "Amor y conveniencias",          titleEn: "Love and Conveniences",           year: 2026, category: "ROMANCE/COSTUMBRISTA",   topic: "Literatura",           cover: "./imagenportada/lit_amoryconveniencias.png",    synopsis: "Elena, arquitecta valenciana, viaja a Fez para concursar con la rehabilitación del Riad Al Andalus y choca con Malik, su heredero. Deberá conciliar su visión sostenible con la tradición artesana del riad." },
+
+        // ÓPERA Y CONCIERTOS
+        { id: 1,   title: "La novena sinfonía del mundo",  titleEn: "The 9th Symphony of the World",   year: 2026, category: "CLÁSICA",               topic: "Ópera y conciertos",   cover: "./imagenportada/opera_sinfoniamundo.png",      synopsis: "Un aclamado compositor europeo se siente perdido en la ruidosa Nueva York, hasta que descubre la verdadera música de América en los cantos de los trabajadores afroamericanos y el blues de Harlem, inspirándolo a crear una sinfonía que fusiona dos mundos." },
+        { id: 2,   title: "Amar eternamente",              titleEn: "To Love Eternally",               year: 2026, category: "ÓPERA",                  topic: "Ópera y conciertos",   cover: "./imagenportada/opera_amareternamente.png",    synopsis: "Un arquitecto es enviado por su mentor para ganarse la confianza de la mujer con la que este va a casarse. Sin embargo, entre el arquitecto y la prometida nace una atracción prohibida que amenaza con desatar la furia de su poderoso protector." },
+        { id: 100, title: "Vivir en un suspiro",           titleEn: "Living in a Sigh",                year: 2026, category: "ÓPERA",                  topic: "Ópera y conciertos",   cover: "./imagenportada/opera_vivirenunsuspiro.png",   synopsis: "En el bohemio Madrid de los años 20, el amor surge entre una apasionada pintora que vive al límite y el joven heredero de un imperio industrial. Su romance chocará con las barreras de sus mundos opuestos." },
+        { id: 101, title: "El reloj de la naturaleza",     titleEn: "The Clock of Nature",             year: 2026, category: "CONCIERTO BARROCO",      topic: "Ópera y conciertos",   cover: "./imagenportada/opera_relojdelanaturaleza.png",synopsis: "Un joven violinista descubre que el equilibrio de las estaciones se ha roto, sumiendo al mundo en un caos climático. Para restaurar la armonía, deberá adentrarse en un lugar legendario donde la naturaleza misma necesita ser sanada." },
+        { id: 102, title: "Donde muere la noche",          titleEn: "Where the Night Dies",            year: 2026, category: "ÓPERA",                  topic: "Ópera y conciertos",   cover: "./imagenportada/opera_dondemuerelanoche.png",  synopsis: "En una ciudad perpetuamente a oscuras, un forastero idealista desafía las tres pruebas mortales de la enigmática y fría regente. Su objetivo no es el poder, sino desvelar el antiguo secreto que mantiene a la ciudad prisionera de la noche." },
+        { id: 103, title: "Sinfonía de los jardines reales",titleEn: "Symphony of the Royal Gardens",  year: 2026, category: "CONCIERTO GUITARRA",     topic: "Ópera y conciertos",   cover: "./imagenportada/opera_jardinesreales.png",     synopsis: "Un joven guitarrista, Rodrigo, lucha por capturar con su música el alma de los Jardines de Aranjuez. Su inspiración llega al conocer a Isabel, una pintora que dibuja las sensaciones del lugar. Juntos descubren una profunda conexión artística." },
+        { id: 104, title: "El Ave sin jaula",              titleEn: "The Bird Without a Cage",         year: 2026, category: "ÓPERA",                  topic: "Ópera y conciertos",   cover: "./imagenportada/opera_avesinjaula.png",        synopsis: "Leo, un arquitecto con una vida ordenada, se obsesiona con Elara, una artista callejera de espíritu libre. Su amor se convierte en una posesión que intenta enjaular la libertad de Elara, con una confrontación final que lo deja atrapado en su propia obsesión." },
+
+        // CINE
+        { id: 13,  title: "Tiempospeligrosos",             titleEn: "Dangerous Times",                 year: 2026, category: "CRIMEN",                topic: "Cine",                 cover: "./imagenportada/cine_tiempospeligrosos.png",   synopsis: "Un camarero con un pasado oscuro, un boxeador acorralado y dos cobradores se convierten en el blanco de un capitán de policía corrupto tras interceptar una libreta con los secretos de la ciudad. Deberán exponer la verdad antes de que el sistema los borre." },
+        { id: 14,  title: "La línea temporal perdida",     titleEn: "The Lost Timeline",               year: 2026, category: "MAFIA",                 topic: "Cine",                 cover: "./imagenportada/cine_lineatemporal.png",       synopsis: "Una conservadora de patrimonio encuentra una pieza anómala en un silo de Toronto, conectándola con un técnico de faros en Nueva Escocia y un barrio demolido en Osaka. Juntos reconstruyen una historia deliberadamente borrada de los archivos oficiales." },
+        { id: 15,  title: "Biblioteca de horizontes",      titleEn: "Library of Horizons",             year: 2026, category: "CIENCIA FICCIÓN",       topic: "Cine",                 cover: "./imagenportada/cine_bibliotecadehorizontes.png",synopsis: "Una astrofísica y una tripulación de parias espaciales viajan al agujero negro Acheron-9 tras captar un misterioso patrón gravitacional. Cada minuto en órbita les arrebata años de vida en la Tierra; deberán elegir entre el secreto cósmico o el mundo que dejaron atrás." },
+        { id: 16,  title: "Alas de libertad",              titleEn: "Wings of Freedom",                year: 2026, category: "PENITENCIARIO",         topic: "Cine",                 cover: "./imagenportada/cine_alasdelibertad.png",      synopsis: "Elías Morozov, ingeniero condenado por un sabotaje que no cometió, cumple cadena perpetua en la fortaleza costera de Qara. Entre la carpintería, la amistad con Samir y los viejos desagües coloniales, empieza a planear su fuga mientras su abogada intenta reabrir el caso." },
+        { id: 19,  title: "El Elegido",                    titleEn: "The Chosen One",                  year: 2026, category: "CIENCIA FICCIÓN",       topic: "Cine",                 cover: "./imagenportada/cine_elegido.png",             synopsis: "Ilya, un ingeniero de Odesa, empieza a ver fallos donde dos versiones de la ciudad se superponen. Descubre que el mundo es una 'edición' gestionada por una IA llamada la Síndica y emprende un viaje para entender su papel antes de que el Dominio fuerce un reinicio." },
+        { id: 20,  title: "El imperio del trueno",         titleEn: "The Empire of Thunder",           year: 2026, category: "ACCIÓN POST-APOCALÍPTICA",topic: "Cine",                cover: "./imagenportada/cine_imperiodeltrueno.png",    synopsis: "En un corredor de tormentas entre el Cuerno de África y el Mar Rojo, la mecánica Kira une fuerzas con la ingeniera Soraya y el rastreador Rook para enfrentarse al caudillo-profeta conocido como el Trueno, que domina la energía de la región desde su Ciudadela." },
+        { id: 26,  title: "Voces entre chapas",            titleEn: "Voices Between Plates",           year: 2026, category: "DRAMA",                 topic: "Cine",                 cover: "./imagenportada/cine_vocesentrechapas.png",    synopsis: "En un barrio de chapas y callejones de Kibera, varios vecinos se topan con un hallazgo inesperado que los obliga a mirar su día a día de otra forma. Sus vidas empiezan a rozarse alrededor de una iniciativa frágil que nadie planeó." },
+        { id: 27,  title: "Semilla de luz",                titleEn: "Seed of Light",                   year: 2026, category: "CIENCIA FICCIÓN/FAMILIAR",topic: "Cine",               cover: "./imagenportada/cine_semilladeluz.png",        synopsis: "Durante una tormenta en Borneo, una botánica y su hijo encuentran a Ulu, un joven explorador extraterrestre que 'lee' la salud de las plantas con el tacto. Los tres forjan una amistad sin palabras mientras buscan cómo pedir ayuda entre la selva y el neón de Singapur." },
+        { id: 28,  title: "El Destino",                    titleEn: "The Destiny",                     year: 2026, category: "ÓPERA ESPACIAL",         topic: "Cine",                 cover: "./imagenportada/cine_eldestino.png",           synopsis: "En un planeta desértico, una chatarrera rescata a una niña que lleva un mapa estelar incompleto. Perseguidas por el Dominio de Orión, se unen a un contrabandista y a una ex navegante para localizar una estación legendaria que podría alterar el control de las rutas espaciales." },
+        { id: 29,  title: "El grito en el espacio",        titleEn: "The Scream in Space",             year: 2026, category: "CIENCIA FICCIÓN/TERROR", topic: "Cine",                 cover: "./imagenportada/cine_grito.png",               synopsis: "Una tripulación de remolque espacial encuentra en un asteroide un sarcófago alienígena que emite un pulso rítmico. La nave queda atrapada entre el interés corporativo y una señal bioluminiscente que parece llamar a algo más grande en el vacío." },
+
+        // ANIMACIÓN
+        { id: 200, title: "Una jungla divertida",          titleEn: "A Funny Jungle",                  year: 2026, category: "MUSICAL DISNEY",        topic: "Animación",            cover: "./imagenportada/animacion_jungladivertida.png",synopsis: "Cuando una misteriosa sequía amenaza su hogar, un perezoso amante del silencio y una capibara apasionada por el ritmo lideran a sus amigos en una misión para reactivar una legendaria cascada, descubriendo que la jungla solo puede salvarse con el equilibrio entre sonido y silencio." },
+        { id: 201, title: "Despierta mi constelación",     titleEn: "Wake Up My Constellation",        year: 2026, category: "MUSICAL DISNEY",        topic: "Animación",            cover: "./imagenportada/animacion_miconstelacion.png", synopsis: "En un mundo donde las constelaciones otorgan poder, Elara nace sin una. Cuando una oscuridad llamada el Vacío amenaza con extinguir todas las estrellas, Elara descubre que su destino es encontrar la mítica Piedra Solar para restaurar el equilibrio." },
+        { id: 202, title: "La aventura de tu vida",        titleEn: "The Adventure of Your Life",      year: 2026, category: "MUSICAL DISNEY",        topic: "Animación",            cover: "./imagenportada/animacion_aventuradetuvida.png",synopsis: "Un grupo de amigos descubre un misterioso cofre que los lleva a una aventura llena de enigmas y secretos ocultos en una antigua montaña, donde deberán trabajar juntos para enfrentarse a fuerzas que amenazan algo muy valioso." },
+        { id: 203, title: "Latidos de papel",              titleEn: "Paper Heartbeats",                year: 2026, category: "MUSICAL DISNEY",        topic: "Animación",            cover: "./imagenportada/animacion_latidosdepapel.png", synopsis: "Valeria, una bibliotecaria curiosa, descubre un fajo de cartas de amor sin enviar. Intrigada, decide investigar la historia de Leo e Isabel, una pareja separada por las circunstancias, intentando desvelar el misterio de su amor congelado en el tiempo." },
+        { id: 204, title: "¡Qué pasó!, mi mundo es un desmadre",titleEn: "What Happened!",            year: 2026, category: "COMEDIA MUSICAL",       topic: "Animación",            cover: "./imagenportada/animacion_mimundo.png",        synopsis: "Acompaña a Nimma Tizne, afinadora de tormentas con alergia al azúcar, y a su cabra Chispa en una carrera disparatada por Dulcelandia para reunir tres Sellos imposibles junto al notario bicéfalo Pipo. Risas, poesía mala y un desmadre que convierte el desastre en parque de atracciones." },
+        { id: 205, title: "Compañeros de juguete",         titleEn: "Toy Partners",                    year: 2026, category: "MUSICAL PIXAR",         topic: "Animación",            cover: "./imagenportada/animacion_compañeros.png",     synopsis: "Un grupo de juguetes olvidados cobra vida en secreto y decide escapar para descubrir el mundo más allá de una tienda. En su viaje afrontan peligros, hacen nuevos amigos y aprenden que la verdadera libertad está en elegir su propio camino juntos." },
+        { id: 206, title: "La capa interior",              titleEn: "The Inner Layer",                 year: 2026, category: "ACCIÓN FAMILIAR",       topic: "Animación",            cover: "./imagenportada/animacion_capainterior.png",   synopsis: "En una ciudad donde la normalidad es obligatoria, Adrian Voss oculta que posee habilidades sobrehumanas. Un acto heroico inesperado revela su poder, convirtiéndolo en el objetivo de una organización secreta empeñada en eliminar a cualquiera que sea diferente." },
+
+        // TEATRO Y MUSICALES
+        { id: 300, title: "El eco de la libertad",         titleEn: "The Echo of Freedom",             year: 2026, category: "MUSICAL ÉPICO",         topic: "Teatro y musicales",   cover: "./imagenportada/teatro_ecodelalibertad.png",   synopsis: "Un hombre que enfrenta una injusticia que le cuesta años de su vida busca redimir su pasado y construir un futuro digno. Forjando lazos inesperados, intenta escapar de la sombra de su antigua identidad en una historia sobre segundas oportunidades y la búsqueda de la verdadera libertad." },
+        { id: 301, title: "El ángel de la música",         titleEn: "The Angel of Music",              year: 2026, category: "MUSICAL GÓTICO",        topic: "Teatro y musicales",   cover: "./imagenportada/teatro_angeldelamusica.png",   synopsis: "En un prestigioso teatro de Londres, una joven cantante es guiada por una misteriosa voz masculina que la ayuda a perfeccionar su don. La presencia de su Ángel protector se vuelve cada vez más intensa y posesiva, moviéndose entre las sombras para asegurar su ascenso a cualquier costo." },
+        { id: 302, title: "El ladrón de historias",        titleEn: "The Story Thief",                 year: 2026, category: "MUSICAL HIP-HOP",       topic: "Teatro y musicales",   cover: "./imagenportada/teatro_ladrondehistorias.png", synopsis: "En un mundo donde las historias son un poder tangible, un brillante huérfano descubre a un enigmático aristócrata que roba los relatos de pueblos enteros, borrando su memoria. Deberá embarcarse en una peligrosa aventura para salvar las historias del mundo." },
+        { id: 303, title: "El brillo del pecado",          titleEn: "The Glitter of Sin",              year: 2026, category: "MUSICAL JAZZ",          topic: "Teatro y musicales",   cover: "./imagenportada/teatro_brillodelpecado.png",   synopsis: "En el deslumbrante París de los años 20, la rivalidad entre una ambiciosa novata y la cínica estrella del cabaret más famoso estalla en un escándalo de asesinato. La batalla por la absolución se libra no en los tribunales, sino en los titulares de los periódicos." },
+        { id: 304, title: "Sin más día que hoy",           titleEn: "No More Day Than Today",          year: 2026, category: "MUSICAL CONTEMPORÁNEO", topic: "Teatro y musicales",   cover: "./imagenportada/teatro_sinmasdiaquehoy.png",   synopsis: "En el barrio de Kreuzberg, Berlín, un grupo de jóvenes artistas ha construido una familia en una vieja fábrica. Cuando una corporación les ordena desalojar, forzados a un futuro incierto, deberán unirse y decidir cómo luchar por su hogar y su modo de vida." },
+        { id: 305, title: "Un verano prohibido",           titleEn: "A Forbidden Summer",              year: 2026, category: "MUSICAL CLÁSICO",       topic: "Teatro y musicales",   cover: "./imagenportada/teatro_veranoprohibido.png",   synopsis: "En las calles de Marsella, donde un odio ancestral divide a dos clanes rivales, un joven artista encuentra su musa en la persona menos indicada: la hermana de su enemigo. Juntos navegan un amor tan intenso como peligroso, desafiando un destino escrito con violencia." },
+        { id: 306, title: "El vuelo de dos mundos",        titleEn: "The Flight of Two Worlds",        year: 2026, category: "MUSICAL FANTÁSTICO",    topic: "Teatro y musicales",   cover: "./imagenportada/teatro_vuelodedosmundos.png",  synopsis: "Cuando un joven de una tribu antigua rompe sus reglas más sagradas para ayudar a un misterioso forastero, ambos se embarcan en un viaje a través de continentes. Su única guía es la leyenda de una canción ancestral rota en fragmentos, clave para volver a casa." },
+
+        // SERIES
+        { id: 400, title: "Canto de Escarcha",             titleEn: "Frost Song",                      year: 2026, category: "FANTASÍA ÉPICA",        topic: "Series",               cover: "./imagenportada/series_cantoescarcha.png",     synopsis: "En un continente dividido por la rivalidad, una antigua amenaza de hielo despierta en el norte. Mientras un honorable señor norteño busca unir a los reinos, una ambiciosa reina del sur ve la crisis como la oportunidad perfecta para consolidar su poder." },
+        { id: 401, title: "El club del faro",              titleEn: "The Lighthouse Club",             year: 2026, category: "SCI-FI HORROR",         topic: "Series",               cover: "./imagenportada/series_clubdelfaro.png",       synopsis: "En el aislado pueblo costero de Puerto Sombrío, un grupo de amigos descubre una imposible frecuencia de radio completamente silenciosa. Lo que empieza como curiosidad desata extraños sucesos, guiándolos hacia el viejo faro abandonado donde algo ha comenzado a escapar." },
+        { id: 402, title: "El precio de la tierra",        titleEn: "The Price of Land",               year: 2026, category: "DRAMA CRIMINAL",        topic: "Series",               cover: "./imagenportada/series_preciodelatierra.png",  synopsis: "Un brillante pero subestimado botánico de Texas, desesperado por una crisis familiar, transforma la flor más icónica del estado en un producto extremadamente valioso. Junto a un carismático ex-alumno, se adentra en un peligroso mundo subterráneo que atrae a criminales y a la ley." },
+        { id: 403, title: "Albion Heritage",               titleEn: "Albion Heritage",                 year: 2026, category: "COMEDIA",               topic: "Series",               cover: "./imagenportada/series_albionheritage.png",    synopsis: "En la monótona oficina de Albion Heritage, empresa de Manchester que fabrica placas conmemorativas, el ingenioso Oliver Green se siente estancado. Todo cambia cuando él y Clara descubren una antigua y misteriosa placa de bronce en blanco que podría cambiar el legado de la empresa." },
+        { id: 404, title: "El juego ha comenzado",         titleEn: "The Game Has Begun",              year: 2026, category: "MISTERIO",              topic: "Series",               cover: "./imagenportada/series_juegocomenzado.png",    synopsis: "Un brillante consultor de ciberseguridad y su nuevo compañero, un pragmático exmédico militar, son arrastrados a un peligroso juego internacional. Una misteriosa mente criminal comete crímenes imposibles en distintas ciudades europeas, dejando pistas diseñadas para desafiar al consultor." },
+        { id: 405, title: "La fuente de los buenos tiempos",titleEn: "The Fountain of Good Times",    year: 2026, category: "SITCOM",                topic: "Series",               cover: "./imagenportada/series_fuentebuenostiempos.png",synopsis: "En un acogedor pub inglés, un grupo de seis amigos muy diferentes se enfrenta a los altibajos de la vida adulta. Entre aspiraciones profesionales, ocurrencias peculiares y desastres románticos, su lealtad y su mesa de siempre son el ancla que los mantiene unidos." },
+        { id: 406, title: "La niña estelar",               titleEn: "The Stellar Girl",                year: 2026, category: "SPACE WESTERN",         topic: "Series",               cover: "./imagenportada/series_niñaestelar.png",       synopsis: "Una chica con una extraordinaria habilidad para predecir eventos astronómicos es reclutada por una agencia espacial, pero descubre que los adultos que quieren usar su don tienen ideas muy diferentes sobre para qué sirve." },
+
+        // ANIME
+        { id: 500, title: "El juramento de las murallas",  titleEn: "The Oath of the Walls",           year: 2026, category: "SHOUNEN",               topic: "Anime",                cover: "./imagenportada/anime_juramentomurallas.png",  synopsis: "En un mundo donde la humanidad ha retrocedido tras enormes muros para sobrevivir, un joven soldado jura exterminar a los titanes que destruyeron su hogar, descubriendo verdades que sacuden los cimientos de todo en lo que creía." },
+        { id: 501, title: "Loto de sangre",                titleEn: "Blood Lotus",                     year: 2026, category: "SHOUNEN",               topic: "Anime",                cover: "./imagenportada/anime_lotodesangre.png",       synopsis: "Un niño salvado de una masacre por un maestro agonizante hereda una técnica de combate prohibida y la deuda de sangre que conlleva. Dominar la técnica exige un nivel de furia que teme le consuma, mientras belleza y oscuridad luchan en cada batalla." },
+        { id: 502, title: "Rumbo al amanecer",             titleEn: "Towards Dawn",                    year: 2026, category: "SHOUNEN",               topic: "Anime",                cover: "./imagenportada/anime_rumboalamanecer.png",    synopsis: "Un joven navegante sin tripulación zarpa en un mundo de océano infinito siguiendo mapas fragmentarios hacia un continente legendario que la mayoría cree un mito, reuniendo en su travesía a una improbable tripulación de creyentes." },
+        { id: 503, title: "Pájaro azul",                     titleEn: "Blue Bird",                       year: 2026, category: "SHOUNEN",               topic: "Anime",                cover: "./imagenportada/anime_bluebird.png",           synopsis: "Un joven músico que no ha hablado desde un trauma infantil descubre que la música puede decir todo lo que las palabras no pueden, y que el amigo que se fue puede ser el único que verdaderamente lo escuchó. El pájaro azul simboliza una felicidad siempre un poco más allá." },
+        { id: 504, title: "El deber del héroe",                       titleEn: "The Charge of Hero",                         year: 2026, category: "SUPERHÉROES",           topic: "Anime",                cover: "./imagenportada/anime_eldeber.png",             synopsis: "Un joven despierta la mañana de la batalla más importante de su generación y, en las horas previas al combate, debe encontrar dentro de sí mismo una razón para luchar que vaya más allá de las órdenes, el deber o la victoria." },
+        { id: 505, title: "La rueda de las sombras",       titleEn: "The Wheel of Shadows",            year: 2026, category: "SUPERNATURAL",          topic: "Anime",                cover: "./imagenportada/anime_ruedasombras.png",       synopsis: "En un mundo donde las sombras son entidades vivas que guardan memorias del pasado, una joven investigadora con el poder de leerlas debe enfrentarse a un caso que implica su propio pasado olvidado y pone en jaque su identidad." },
+        { id: 506, title: "El mundo",                     titleEn: "The World",                       year: 2026, category: "PSYCHOLOGICAL THRILLER", topic: "Anime",               cover: "./imagenportada/anime_theworld.png",          synopsis: "Un estudiante genial descubre un cuaderno sobrenatural que permite matar a cualquiera simplemente escribiendo su nombre. Creyéndose el único apto para limpiar el mundo del mal, se propone convertirse en dios de un nuevo orden, mientras un brillante detective se lanza a detenerlo." },
+        { id: 25,  title: "Sin rostro",                    titleEn: "Faceless",                        year: 2026, category: "FANTASÍA",               topic: "Anime",                cover: "./imagenportada/anime_sinrostro.png",          synopsis: "Una joven espíritu es aprendiz de un espíritu sin rostro fijo, que le enseña que la identidad no es algo con lo que se nace, sino algo que debe elegirse repetidamente frente a todo lo que intenta arrebatártela." },
+
+        // DOCUMENTALES Y USUARIOS
+        { id: 600, title: "Planeta tierra",                titleEn: "Planet Earth",                    year: 2026, category: "NATURALEZA",            topic: "Documentales y usuarios",cover: "./imagenportada/doc_planetatierra.png",       synopsis: "Un viaje impresionante a través de los paisajes más extraordinarios del planeta y las asombrosas criaturas que los habitan, captado con técnicas de filmación que muestran comportamientos nunca vistos antes." },
+        { id: 601, title: "El baile de hielo",             titleEn: "Ice Dance",                       year: 2026, category: "WILDLIFE",              topic: "Documentales y usuarios",cover: "./imagenportada/doc_bailedehielo.png",        synopsis: "En el entorno más extremo de la Tierra, la supervivencia no es solo una cuestión de biología: es una actuación de extraordinaria gracia, violencia y belleza improbable. Un año en la vida de un ecosistema polar, desde el regreso del sol hasta su despedida." },
+        { id: 602, title: "La aguja del silencio",         titleEn: "The Needle of Silence",           year: 2026, category: "AVENTURA EXTREMA",      topic: "Documentales y usuarios",cover: "./imagenportada/doc_agujadelsilencio.png",   synopsis: "Un escalador de élite se prepara para ascender en solitario y sin cuerdas una legendaria pared de granito en la Patagonia, mientras su hermana médica observa desde abajo sabiendo que la cumbre que necesita alcanzar no tiene que ver con la altitud." },
+        { id: 604, title: "Sombras en el cristal",         titleEn: "Shadows in the Crystal",          year: 2026, category: "ACTIVISMO",             topic: "Documentales y usuarios",cover: "./imagenportada/doc_sombrasenelcristal.png", synopsis: "Una apasionada joven entrenadora comienza su trabajo soñado en el acuario más grande de Europa, formando un vínculo especial con Nix, una ballena beluga. A medida que aprende las realidades detrás del espectáculo, se enfrenta a un dilema que pondrá a prueba todo en lo que cree." },
+        { id: 605, title: "El algoritmo silencioso",       titleEn: "The Silent Algorithm",            year: 2026, category: "TECNOLOGÍA",            topic: "Documentales y usuarios",cover: "./imagenportada/doc_algoritmosilencioso.png",synopsis: "Dos estudiantes descubren que la plataforma de redes sociales que consume la vida social de su escuela está deliberadamente diseñada para explotar vulnerabilidades psicológicas, y deciden hacer algo al respecto antes de que el algoritmo siga escribiendo el guion de sus vidas." },
+        { id: 606, title: "User Generated Content Theme",  titleEn: "User Generated Content Theme",    year: 2026, category: "CUSTOM",               topic: "Documentales y usuarios",cover: "./imagenportada/user_usuarios.png",          synopsis: "Un espacio dedicado a las creaciones musicales de nuestra comunidad de usuarios." }
+    ];
+    const categoryTranslations = {
+        es: {
+            "AVENTURA": "AVENTURA", "REALISMO MÁGICO": "REALISMO MÁGICO", "DISTOPÍA": "DISTOPÍA", "PSICOLÓGICA": "PSICOLÓGICA", 
+            "FICCIÓN FILOSÓFICA": "FICCIÓN FILOSÓFICA", "GÓTICO": "GÓTICO", "SATÍRICA/AVENTURA": "SATÍRICA/AVENTURA", 
+            "ÉPICA": "ÉPICA", "ROMANCE/COSTUMBRISTA": "ROMANCE/COSTUMBRISTA", "CLÁSICA": "CLÁSICA", "ÓPERA": "ÓPERA", 
+            "CONCIERTO BARROCO": "CONCIERTO BARROCO", "CONCIERTO GUITARRA": "CONCIERTO GUITARRA", "CRIMEN": "CRIMEN", 
+            "MAFIA": "MAFIA", "CIENCIA FICCIÓN": "CIENCIA FICCIÓN", "PENITENCIARIO": "PENITENCIARIO", 
+            "ACCIÓN POST-APOCALÍPTICA": "ACCIÓN POST-APOCALÍPTICA", "DRAMA": "DRAMA", "CIENCIA FICCIÓN/FAMILIAR": "CIENCIA FICCIÓN/FAMILIAR", 
+            "ÓPERA ESPACIAL": "ÓPERA ESPACIAL", "CIENCIA FICCIÓN/TERROR": "CIENCIA FICCIÓN/TERROR", "MUSICAL DISNEY": "MUSICAL DISNEY", 
+            "COMEDIA MUSICAL": "COMEDIA MUSICAL", "MUSICAL PIXAR": "MUSICAL PIXAR", "ACCIÓN FAMILIAR": "ACCIÓN FAMILIAR", 
+            "MUSICAL ÉPICO": "MUSICAL ÉPICO", "MUSICAL GÓTICO": "MUSICAL GÓTICO", "MUSICAL HIP-HOP": "MUSICAL HIP-HOP", 
+            "MUSICAL JAZZ": "MUSICAL JAZZ", "MUSICAL CONTEMPORÁNEO": "MUSICAL CONTEMPORÁNEO", "MUSICAL CLÁSICO": "MUSICAL CLÁSICO", 
+            "MUSICAL FANTÁSTICO": "MUSICAL FANTÁSTICO", "FANTASÍA ÉPICA": "FANTASÍA ÉPICA", "SCI-FI HORROR": "SCI-FI HORROR", 
+            "DRAMA CRIMINAL": "DRAMA CRIMINAL", "COMEDIA": "COMEDIA", "MISTERIO": "MISTERIO", "SITCOM": "SITCOM", 
+            "SPACE WESTERN": "SPACE WESTERN", "SHOUNEN": "SHOUNEN", "SUPERHÉROES": "SUPERHÉROES", "SUPERNATURAL": "SUPERNATURAL", 
+            "PSYCHOLOGICAL THRILLER": "PSYCHOLOGICAL THRILLER", "FANTASÍA": "FANTASÍA", "NATURALEZA": "NATURALEZA", 
+            "WILDLIFE": "WILDLIFE", "AVENTURA EXTREMA": "AVENTURA EXTREMA", "BIOGRAFÍA": "BIOGRAFÍA", "ACTIVISMO": "ACTIVISMO", 
+            "TECNOLOGÍA": "TECNOLOGÍA", "CUSTOM": "CUSTOM"
+        },
+        en: {
+            "AVENTURA": "ADVENTURE", "REALISMO MÁGICO": "MAGICAL REALISM", "DISTOPÍA": "DYSTOPIA", "PSICOLÓGICA": "PSYCHOLOGICAL", 
+            "FICCIÓN FILOSÓFICA": "PHILOSOPHICAL FICTION", "GÓTICO": "GOTHIC", "SATÍRICA/AVENTURA": "SATIRICAL/ADVENTURE", 
+            "ÉPICA": "EPIC", "ROMANCE/COSTUMBRISTA": "ROMANCE/COSTUMBRISTA", "CLÁSICA": "CLASSICAL", "ÓPERA": "OPERA", 
+            "CONCIERTO BARROCO": "BAROQUE CONCERTO", "CONCIERTO GUITARRA": "GUITAR CONCERTO", "CRIMEN": "CRIME", 
+            "MAFIA": "MAFIA", "CIENCIA FICCIÓN": "SCIENCE FICTION", "PENITENCIARIO": "PRISON", 
+            "ACCIÓN POST-APOCALÍPTICA": "POST-APOCALYPTIC ACTION", "DRAMA": "DRAMA", "CIENCIA FICCIÓN/FAMILIAR": "SCI-FI/FAMILY", 
+            "ÓPERA ESPACIAL": "SPACE OPERA", "CIENCIA FICCIÓN/TERROR": "SCI-FI/HORROR", "MUSICAL DISNEY": "DISNEY MUSICAL", 
+            "COMEDIA MUSICAL": "MUSICAL COMEDY", "MUSICAL PIXAR": "PIXAR MUSICAL", "ACCIÓN FAMILIAR": "FAMILY ACTION", 
+            "MUSICAL ÉPICO": "EPIC MUSICAL", "MUSICAL GÓTICO": "GOTHIC MUSICAL", "MUSICAL HIP-HOP": "HIP-HOP MUSICAL", 
+            "MUSICAL JAZZ": "JAZZ MUSICAL", "MUSICAL CONTEMPORÁNEO": "CONTEMPORARY MUSICAL", "MUSICAL CLÁSICO": "CLASSIC MUSICAL", 
+            "MUSICAL FANTÁSTICO": "FANTASY MUSICAL", "FANTASÍA ÉPICA": "EPIC FANTASY", "SCI-FI HORROR": "SCI-FI HORROR", 
+            "DRAMA CRIMINAL": "CRIME DRAMA", "COMEDIA": "COMEDY", "MISTERIO": "MYSTERY", "SITCOM": "SITCOM", 
+            "SPACE WESTERN": "SPACE WESTERN", "SHOUNEN": "SHOUNEN", "SUPERHÉROES": "SUPERHEROES", "SUPERNATURAL": "SUPERNATURAL", 
+            "PSYCHOLOGICAL THRILLER": "PSYCHOLOGICAL THRILLER", "FANTASÍA": "FANTASY", "NATURALEZA": "NATURE", 
+            "WILDLIFE": "WILDLIFE", "AVENTURA EXTREMA": "EXTREME ADVENTURE", "BIOGRAFÍA": "BIOGRAPHY", "ACTIVISMO": "ACTIVISM", 
+            "TECNOLOGÍA": "TECHNOLOGY", "CUSTOM": "CUSTOM"
+        }
+    };
+    const TOPIC_TO_SALA = {
+        'Literatura': 'literaria', 'Cine': 'cine', 'Animación': 'animacion', 'Ópera y conciertos': 'opera',
+        'Teatro y musicales': 'teatro', 'Documentales y usuarios': 'extras', 'Anime': 'anime', 'Series': 'series'
+    };
+    const SALA_KEYS = ['literaria', 'cine', 'animacion', 'opera', 'teatro', 'extras', 'anime', 'series'];
+    const CARD_PRICE = 5;
+    const FALLBACK_COVER = './images/usuarios.png';
+
+    let userData = {};
+    let currentTab = 'owned';
+    let isLoading = true;
+    let cardToBuy = null;
+    let buying = false;
+
+    function escapeHtml(value) {
+        return String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+    }
+    function getSongTitle(song, lang = getCurrentLanguage()) { return lang === 'en' ? (song.titleEn || song.title) : song.title; }
+    function getSongCategory(song, lang = getCurrentLanguage()) { return categoryTranslations[lang]?.[song.category] || song.category; }
+    function getSalaKey(song) { return TOPIC_TO_SALA[song.topic] || 'extras'; }
+    function getOwnedSet() { return new Set((userData.collectionCards || []).map(String)); }
+
+    function buildSalaFilter() {
+        const select = document.getElementById('salaFilter');
+        if (!select) return;
+        const previous = select.value || 'all';
+        select.innerHTML = `<option value="all">${t('col.todas_salas')}</option>` +
+            SALA_KEYS.map(k => `<option value="${k}">${t('sala.' + k)}</option>`).join('');
+        select.value = previous;
+    }
+
+    function showToast(msg, isError) {
+        const el = document.getElementById('toast');
+        el.textContent = msg;
+        el.classList.toggle('error', !!isError);
+        el.classList.add('show');
+        clearTimeout(showToast._t);
+        showToast._t = setTimeout(() => el.classList.remove('show'), 3200);
+    }
+
+    function updateHeaderAndCounters() {
+        const owned = getOwnedSet();
+        const knownOwned = songs.filter(s => owned.has(String(s.id))).length;
+        const total = songs.length;
+        const missing = Math.max(0, total - knownOwned);
+        const pct = total ? Math.round((knownOwned / total) * 100) : 0;
+        document.getElementById('headerDiamonds').textContent = userData.userDiamonds || 0;
+        document.getElementById('countOwned').textContent = knownOwned;
+        document.getElementById('countMissing').textContent = missing;
+        document.getElementById('countPercent').textContent = pct;
+        document.getElementById('progressOwned').textContent = knownOwned;
+        document.getElementById('progressTotal').textContent = total;
+        document.getElementById('progressFill').style.width = pct + '%';
+    }
+
+    function setTab(tab) {
+        currentTab = tab;
+        document.getElementById('tabOwned').classList.toggle('active', tab === 'owned');
+        document.getElementById('tabMissing').classList.toggle('active', tab === 'missing');
+        renderCollection();
+    }
+
+    function formatPurchaseDate(songId, lang) {
+        const iso = userData.collectionDates?.[songId];
+        if (!iso) return '';
+        const d = new Date(iso);
+        if (isNaN(d)) return '';
+        return d.toLocaleDateString(lang === 'en' ? 'en-GB' : 'es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
+    }
+
+    function renderCollection() {
+        const lang = getCurrentLanguage();
+        const grid = document.getElementById('collectionGrid');
+        const owned = getOwnedSet();
+        updateHeaderAndCounters();
+
+        const term = (document.getElementById('searchInput').value || '').trim().toLowerCase();
+        const sala = document.getElementById('salaFilter').value || 'all';
+
+        let list = songs.filter(s => currentTab === 'owned' ? owned.has(String(s.id)) : !owned.has(String(s.id)));
+
+        // Las más recientes primero en "Mi colección" (según orden de compra)
+        if (currentTab === 'owned') {
+            const order = (userData.collectionCards || []).map(String);
+            list.sort((a, b) => order.indexOf(String(b.id)) - order.indexOf(String(a.id)));
+        }
+
+        const hasFilter = !!term || sala !== 'all';
+        list = list.filter(s => {
+            if (sala !== 'all' && getSalaKey(s) !== sala) return false;
+            if (!term) return true;
+            return [s.title, s.titleEn, s.category, getSongCategory(s, lang)].some(v => String(v || '').toLowerCase().includes(term));
+        });
+
+        if (list.length === 0) {
+            let msg = t('col.sin_resultados');
+            let icon = 'fa-search';
+            if (!hasFilter) {
+                if (currentTab === 'owned') { msg = t('col.vacia'); icon = 'fa-book-open'; }
+                else { msg = t('col.completa'); icon = 'fa-trophy'; }
+            }
+            grid.innerHTML = `<div class="col-span-full flex flex-col items-center justify-center gap-3 py-14 text-gray-500 text-center px-4">
+                <i class="fas ${icon} text-teal-600 text-3xl"></i><p>${msg}</p></div>`;
+            return;
+        }
+
+        grid.innerHTML = '';
+        list.forEach(song => {
+            const isOwned = owned.has(String(song.id));
+            const title = getSongTitle(song, lang);
+            const cover = song.cover || FALLBACK_COVER;
+            const salaKey = getSalaKey(song);
+            const date = isOwned ? formatPurchaseDate(String(song.id), lang) : '';
+
+            const card = document.createElement('div');
+            card.className = `song-card shadow-2xl ${isOwned ? '' : 'locked'}`;
+            card.innerHTML = `
+                <div class="relative">
+                    <img src="${cover}" onerror="this.onerror=null;this.src='${FALLBACK_COVER}';" alt="${escapeHtml(title)}" class="w-full h-36 object-cover ${isOwned ? '' : 'grayscale'}">
+                    ${isOwned
+                        ? `<div class="absolute top-2 right-2 bg-teal-600/90 px-2 py-1 rounded-full text-[10px] font-bold"><i class="fas fa-check-circle mr-1"></i>${t('col.en_coleccion')}</div>`
+                        : `<div class="absolute inset-0 flex items-center justify-center bg-slate-900/40"><i class="fas fa-lock text-white/80 text-3xl"></i></div>`}
+                </div>
+                <div class="p-3 bg-slate-800/95 flex-1 flex flex-col">
+                    <h4 class="text-[11px] font-black truncate text-white mb-1 uppercase" title="${escapeHtml(title)}">${escapeHtml(title)}</h4>
+                    <div class="text-[10px] text-teal-300 mb-2 leading-snug">${t('salaDesc.' + salaKey)}</div>
+                    <div class="flex justify-between bg-slate-900/70 px-2 py-1 rounded-lg text-[10px] mb-2">
+                        <span class="text-gray-400">${escapeHtml(getSongCategory(song, lang))}</span>
+                        <span class="text-amber-400 font-bold">${song.year || 2026}</span>
+                    </div>
+                    ${song.synopsis ? `<p class="text-[10px] text-gray-400 leading-snug line-clamp-3 mb-3">${escapeHtml(song.synopsis)}</p>` : ''}
+                    <div class="mt-auto">
+                        ${isOwned
+                            ? `${date ? `<p class="text-[10px] text-gray-500 mb-2 text-center">${t('col.comprada_el')} ${date}</p>` : ''}
+                               <a href="biblioteca.html?sala=${salaKey}" class="block text-center text-[11px] font-bold py-2 rounded-lg bg-slate-900/70 hover:bg-slate-700 text-teal-300 transition">
+                                   <i class="fas fa-book mr-1"></i>${t('col.ver_sala')}
+                               </a>`
+                            : `<button onclick="openPurchaseModal('${song.id}')" class="w-full text-[11px] font-bold py-2 rounded-lg bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-500 hover:to-cyan-500 transition text-white">
+                                   <i class="fas fa-gem text-blue-200 mr-1"></i>${t('col.comprar')}
+                               </button>`}
+                    </div>
+                </div>`;
+            grid.appendChild(card);
+        });
+    }
+
+    // ── Compra ──
+    function refreshPurchaseModal() {
+        if (!cardToBuy) return;
+        const lang = getCurrentLanguage();
+        const diamonds = userData.userDiamonds || 0;
+        const err = document.getElementById('purchaseError');
+        const btn = document.getElementById('confirmBuyBtn');
+        const remaining = Math.max(0, diamonds - CARD_PRICE);
+        document.getElementById('userResourcesDisplay').innerHTML = `
+            <div class="flex justify-center gap-8 text-sm">
+                <div class="text-center"><p class="text-gray-400 text-xs">${t('modal.tus_diamantes', lang)}</p><p class="font-bold text-blue-400">${diamonds} 💎</p></div>
+                <div class="text-center"><p class="text-gray-400 text-xs">${t('modal.tras_compra', lang)}</p><p class="font-bold text-green-400">${remaining} 💎</p></div>
+            </div>`;
+        err.textContent = '';
+        btn.disabled = false;
+        if (getOwnedSet().has(String(cardToBuy.id))) { err.textContent = t('err.ya_tienes', lang); btn.disabled = true; }
+        else if (diamonds < CARD_PRICE)              { err.textContent = t('err.insuficientes', lang); btn.disabled = true; }
+    }
+
+    function openPurchaseModal(id) {
+        const song = songs.find(s => String(s.id) === String(id));
+        if (!song) return;
+        cardToBuy = song;
+        const lang = getCurrentLanguage();
+        const title = getSongTitle(song, lang);
+        document.getElementById('cardInfoDisplay').innerHTML =
+            `<img src="${song.cover || FALLBACK_COVER}" onerror="this.onerror=null;this.src='${FALLBACK_COVER}';" class="w-28 h-28 object-cover rounded-xl mx-auto mb-3 border-2 border-teal-500 shadow-lg"><p class="text-lg font-bold">${escapeHtml(title)}</p>`;
+        refreshPurchaseModal();
+        document.getElementById('purchaseModal').style.display = 'flex';
+    }
+
+    function closePurchaseModal() {
+        document.getElementById('purchaseModal').style.display = 'none';
+        cardToBuy = null;
+    }
+
+    async function confirmPurchase() {
+        if (!cardToBuy || buying || !auth.currentUser) return;
+        const song = cardToBuy;
+        const songId = String(song.id);
+        const lang = getCurrentLanguage();
+        const title = getSongTitle(song, lang);
+        const btn = document.getElementById('confirmBuyBtn');
+        buying = true;
+        btn.disabled = true;
+        btn.textContent = t('modal.comprando', lang);
+        try {
+            const userRef = db.collection('users').doc(auth.currentUser.uid);
+            await db.runTransaction(async (tx) => {
+                const snap = await tx.get(userRef);
+                if (!snap.exists) throw new Error('NO_USER');
+                const d = snap.data();
+                if ((d.collectionCards || []).map(String).includes(songId)) throw new Error('OWNED');
+                if ((d.userDiamonds || 0) < CARD_PRICE) throw new Error('NO_DIAMONDS');
+                tx.update(userRef, {
+                    userDiamonds: firebase.firestore.FieldValue.increment(-CARD_PRICE),
+                    collectionCards: firebase.firestore.FieldValue.arrayUnion(songId),
+                    ['collectionDates.' + songId]: new Date().toISOString(),
+                    activityLog: firebase.firestore.FieldValue.arrayUnion({
+                        type: 'collection_purchase',
+                        description: t('log.compra', lang).replace('{title}', title),
+                        songId: songId,
+                        timestamp: new Date().toISOString()
+                    })
+                });
+            });
+            closePurchaseModal();
+            showToast(t('ok.compra', lang));
+        } catch (error) {
+            console.error('Error en la compra:', error);
+            let msg = t('err.generico', lang);
+            if (error.message === 'OWNED') msg = t('err.ya_tienes', lang);
+            if (error.message === 'NO_DIAMONDS') msg = t('err.insuficientes', lang);
+            document.getElementById('purchaseError').textContent = msg;
+        } finally {
+            buying = false;
+            btn.textContent = t('modal.comprar', lang);
+            if (cardToBuy) refreshPurchaseModal();
+        }
+    }
+
+    // ── Sesión + sincronización en tiempo real con Firebase ──
+    auth.onAuthStateChanged((user) => {
+        if (user && !user.isAnonymous) {
+            db.collection('users').doc(user.uid).onSnapshot((doc) => {
+                if (!doc.exists) return;
+                userData = doc.data() || {};
+                isLoading = false;
+                renderCollection();
+                if (cardToBuy) refreshPurchaseModal();
+            }, (error) => console.error('Error leyendo la colección:', error));
+        } else {
+            window.location.href = 'index.html';
+        }
+    });
+
+    function logout() { auth.signOut().then(() => window.location.href = 'index.html'); }
+    </script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+name: Completar storycards de usuarios
+
+on:
+  workflow_dispatch:
+    inputs:
+      storycard_html:
+        description: Ruta relativa del HTML en la raíz del repositorio (vacío = procesar pendientes)
+        required: false
+        type: string
+        default: ''
+
+jobs:
+  completar-storycard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 70
+    permissions:
+      contents: write
+
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Configurar Python para Edge TTS
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+      - name: Instalar Edge TTS
+        continue-on-error: true
+        run: python -m pip install --upgrade edge-tts
+
+      - name: Instalar voz de respaldo Piper
+        continue-on-error: true
+        run: |
+          set -e
+          mkdir -p "$RUNNER_TEMP/piper-voz"
+          cd "$RUNNER_TEMP/piper-voz"
+          curl -fsSL -o piper.tar.gz https://github.com/rhasspy/piper/releases/download/2023.11.14-2/piper_linux_x86_64.tar.gz
+          tar -xzf piper.tar.gz
+          BASE=https://huggingface.co/rhasspy/piper-voices/resolve/main/es/es_ES/davefx/medium
+          curl -fsSL -o voz.onnx "$BASE/es_ES-davefx-medium.onnx"
+          curl -fsSL -o voz.onnx.json "$BASE/es_ES-davefx-medium.onnx.json"
+          echo "PIPER_BIN=$RUNNER_TEMP/piper-voz/piper/piper" >> "$GITHUB_ENV"
+          echo "PIPER_MODEL=$RUNNER_TEMP/piper-voz/voz.onnx" >> "$GITHUB_ENV"
+
+      - name: Preparar Firebase Admin para actualizar el estado
+        run: |
+          npm install --global firebase-admin
+          echo "NODE_PATH=$(npm root --global)" >> "$GITHUB_ENV"
+
+      - name: Generar los recursos que faltan
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          POLLINATIONS_API_KEY: ${{ secrets.POLLINATIONS_API_KEY }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          STORYCARD_HTML: ${{ inputs.storycard_html }}
+          EDGE_VOICE: es-ES-AlvaroNeural
+          EDGE_VOICE_EN: en-US-GuyNeural
+          EDGE_RATE: "-5%"
+        run: |
+          if [ -n "$STORYCARD_HTML" ]; then
+            node scripts/procesar_storycards_usuario.js --html "$STORYCARD_HTML"
+          else
+            node scripts/procesar_storycards_usuario.js
+          fi
+
+      - name: Actualizar estado en Firestore
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: node scripts/procesar_storycards_usuario.js --marcar
+
+      - name: Guardar y sincronizar cambios en GitHub
+        run: |
+          git config user.name "Bot Automático de Storycards"
+          git config user.email "bot@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No hay cambios que guardar."
+            exit 0
+          fi
+          git commit -m "🤖 Completar recursos de storycards de usuarios"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push
